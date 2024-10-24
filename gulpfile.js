@@ -32,7 +32,7 @@ gulp.task(
 // 4 generate api docs to /public
 gulp.task('docs', function () {
   var config = require('./jsdoc.json');
-  return gulp.src(['./konva.js', '../konva/README.md']).pipe(jsdoc(config));
+  return gulp.src(['./konva.js', './README.konva.md']).pipe(jsdoc(config));
 });
 
 gulp.task(
