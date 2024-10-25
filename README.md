@@ -1,28 +1,5 @@
-# Konva 网站
+## Konva 中文文档
 
-Konva 的官方网站。使用 Hexo 框架创建。
-你可以在 [konvajs/konvajs.github.io](https://github.com/konvajs/konvajs.github.io) 仓库查看生成的文件。
+本项目由[简中文档](https://www.zhcndoc.com/)社区提供翻译和维护。
 
-
-## 入门
-
-安装依赖：
-
-``` bash
-$ git clone https://github.com/konvajs/site.git
-$ cd site
-$ npm install
-$ npm install gulp -g
-```
-
-生成：
-
-``` bash
-$ gulp generate
-```
-
-运行服务器：
-
-``` bash
-$ gulp server
-```
+上游仓库地址：https://github.com/konvajs/site

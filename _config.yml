@@ -1,15 +1,15 @@
 # Konva Configuration
 
 # Site
-title: Konva.js - JavaScript 2d canvas library
-subtitle: Konva.js is an HTML5 Canvas JavaScript library that extends the 2d context by enabling canvas interactivity for desktop and mobile applications.
-description: Konva.js is an HTML5 Canvas JavaScript library that extends the 2d context by enabling canvas interactivity for desktop and mobile applications.
+title: Konva.js - JavaScript 2D 画布库
+subtitle: Konva.js 是一个 HTML5 Canvas JavaScript 库，通过为桌面和移动应用程序启用画布交互，扩展了 2D 上下文。
+description: Konva.js 是一个 HTML5 Canvas JavaScript 库，通过为桌面和移动应用程序启用画布交互，扩展了 2D 上下文。
 author: Anton Lavrenov
 language: en
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://konvajs.org
+url: https://konva.zhcndoc.com
 root: /
 permalink: news/:year/:month/:day/:title/
 tag_dir: tags
