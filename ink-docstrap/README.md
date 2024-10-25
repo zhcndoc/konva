@@ -1,25 +1,22 @@
-
 [![NPM](https://nodei.co/npm/ink-docstrap.png?downloads=true)](https://nodei.co/npm/ink-docstrap/)
 
 [![Dependency Status](https://david-dm.org/docstrap/docstrap.svg)](https://david-dm.org/docstrap/docstrap) [![devDependency Status](https://david-dm.org/docstrap/docstrap/dev-status.svg)](https://david-dm.org/docstrap/docstrap#info=devDependencies)
 
-# DocStrap [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+# DocStrap [![用 Grunt 构建](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-DocStrap is [Bootstrap](http://twitter.github.io/bootstrap/index.html) based template for [JSDoc3](http://usejsdoc.org/).
-In addition, it includes all of the themes from [Bootswatch](http://bootswatch.com/) giving you a great deal of look
-and feel options for your documentation, along with a simple search. Additionally, it adds some options to the conf.json file that gives
-you even more flexibility to tweak the template to your needs. It will also make your teeth whiter.
+DocStrap 是基于 [Bootstrap](http://twitter.github.io/bootstrap/index.html) 的 [JSDoc3](http://usejsdoc.org/) 模板。
+此外，它还包含了来自 [Bootswatch](http://bootswatch.com/) 的所有主题，为您的文档提供了丰富的外观和感觉选项，配合简单的搜索功能。另外，它在 conf.json 文件中添加了一些选项，提供了更多灵活性，便于根据您的需求调整模板。它还能美白您的牙齿。
 
-## Features ##
+## 特性 ##
 
-* Right side TOC for navigation in pages
-* Integrated offline search
-* Themed
-* Customizable
-* Syntax highlighting
+* 右侧目录（TOC）用于页面导航
+* 集成离线搜索
+* 主题化
+* 可自定义
+* 语法高亮
 
-### What It Looks Like ###
-Here are examples of this template with the different Bootswatch themes:
+### 它的样子 ###
+以下是使用不同 Bootswatch 主题的该模板的示例：
 
 + [Cerulean](http://docstrap.github.io/docstrap/themes/cerulean)
 + [Cosmo](http://docstrap.github.io/docstrap/themes/cosmo)
@@ -37,39 +34,38 @@ Here are examples of this template with the different Bootswatch themes:
 + [United](http://docstrap.github.io/docstrap/themes/united)
 + [Yeti](http://docstrap.github.io/docstrap/themes/yeti)
 
-To change your theme, just change it in the `conf.json` file. See below for details.
+要更改主题，只需在 `conf.json` 文件中进行更改。有关详细信息，请参见下文。
 
-## Ooooh, I want it! How do I get it? ##
+## 哇，我想要这个！我该如何获取？ ##
 
-If you manage your own version of jsdoc:
+如果您管理自己的 jsdoc 版本：
 
 ```bash
 npm install ink-docstrap
 ```
 
-When using [grunt](http://gruntjs.com/), please look at [grunt-jsdoc](https://github.com/krampstudio/grunt-jsdoc) which you can use with
-docstrap.
+使用 [grunt](http://gruntjs.com/) 时，请查看 [grunt-jsdoc](https://github.com/krampstudio/grunt-jsdoc)，您可以与 docstrap 一起使用。
 
-### Command Line Example ###
+### 命令行示例 ###
 
 ```bash
 jsdoc -c path/to/conf.json -t ./node_modules/ink-docstrap/template -R README.md -r .
 ```
 
-The `-c` sets the config, and the docstrap README does talk about the options you can put in templates that docstrap is supposed to look for.
+`-c` 设置配置，并且 docstrap 的 README 讨论了您可以在模板中放置的选项，这些选项是 docstrap 需要查找的。
 
-The `-t` sets the template. This is the option you need to set to get the docstrap template to be used.
+`-t` 设置模板。此选项是您需要设置的，以便使用 docstrap 模板。
 
-The `-R` sets a markdown file to be the front page of the documentation.
+`-R` 设置一个 markdown 文件为文档的首页。
 
-The `-r` tells jsdoc to run recursively.
+`-r` 告诉 jsdoc 递归运行。
 
-The `.` says from current directory.
+`.` 表示从当前目录开始。
 
-## Configuring the template ##
+## 配置模板 ##
 
-DocStrap ships with a `conf.json` file in the template/ directory. It is just a regular old
-[JSDoc configuration file](http://usejsdoc.org/about-configuring-jsdoc.html), but with the following new options:
+DocStrap 在模板/目录中附带一个 `conf.json` 文件。它就是一个普通的
+[JSDoc 配置文件](http://usejsdoc.org/about-configuring-jsdoc.html)，但增加了以下新选项：
 
 ```javascript
 "templates": {
@@ -89,24 +85,21 @@ DocStrap ships with a `conf.json` file in the template/ directory. It is just a 
 	"sort"					: "{boolean|string}",
 	"search"                : "{boolean}" 
 }
-
 ```
-### Options ###
+### 选项 ###
 
 *   __systemName__
-	The name of the system being documented. This will appear in the page title for each page
+	文档系统的名称。此名称将在每个页面的标题中显示。
 *   __footer__
-	Any markup want to appear in the footer of each page. This is not processed at all, just printed exactly as you enter it
+	希望出现在每个页面底部的任何标记。此内容不会被处理，而是将其打印为您输入的内容。
 *   __copyright__
-	You can add a copyright message below the footer and above the JSDoc timestamp at the bottom of the page
+	您可以在页脚下方和页面底部的 JSDoc 时间戳上方添加版权信息。
 *   __includeDate__
-	By default, the current date is always shown in the footer of the generated documentation. You can omit the current date by setting this option to `false`
+	默认情况下，当前日期总是显示在生成的文档的页脚中。您可以通过设置此选项为 `false` 来省略当前日期。
 *   __navType__
-	The template uses top level navigation with dropdowns for the contents of each category. On large systems these dropdowns
-	can get large enough to expand beyond the page. To make the dropdowns render wider and stack the entries vertically, set this
-	option to `"inline"`. Otherwise set it to `"vertical"` to make them regular stacked dropdowns.
+	模板使用顶级导航并带有下拉菜单以显示每个类别的内容。在大型系统中，这些下拉菜单可能变大到超出页面的范围。要宽展下拉菜单并垂直堆叠条目，请将此选项设置为 `"inline"`。否则，将其设置为 `"vertical"` 以使其成为常规的堆叠下拉菜单。
 *   __theme__
-	This is the name of the them you want to use **in all lowercase**. The valid options are
+	这是您希望使用的主题名称**小写**。有效选项有
 	+ `cerulean`
 	+ `cosmo`
 	+ `cyborg`
@@ -123,54 +116,48 @@ DocStrap ships with a `conf.json` file in the template/ directory. It is just a 
 	+ `united`
 	+ `yeti`
 *   __linenums__
-	When true, line numbers will appear in the source code listing. If you have
-	[also turned that on](http://usejsdoc.org/about-configuring-jsdoc.html).
+	当为 true 时，源代码列表中将出现行号。如果您也
+	[开启了这个选项](http://usejsdoc.org/about-configuring-jsdoc.html)。
 *   __collapseSymbols__
-	If your pages have a large number of symbols, it can be easy to get lost in all the text. If you turn this to `true`
-	all of the symbols in the page will roll their contents up so that you just get a list of symbols that can be expanded
-	and collapsed.
-*   __analytics__ Add a [Google Analytics](http://www.google.com/analytics) code to the template output
- _e.g._ `"analytics":{"ua":"UA-XXXXX-XXX", "domain":"XXXX"}`
-    * __ua__ The google agent (see Google Analytics help for details)
-    * __domain__ The domain being served. (see Google Analytics help for details)
+	如果您的页面包含大量符号，可能会很容易在所有文本中迷失。如果将其设置为 `true`，页面中的所有符号将折叠其内容，这样您只会得到一个可以展开和折叠的符号列表。
+*   __analytics__ 将 [Google Analytics](http://www.google.com/analytics) 代码添加到模板输出中， 
+ _例如_ `"analytics":{"ua":"UA-XXXXX-XXX", "domain":"XXXX"}`
+    * __ua__ Google Agent（请参阅 Google Analytics 帮助以了解详细信息）
+    * __domain__ 被提供的域名。（请参阅 Google Analytics 帮助以了解详细信息）
 *   __inverseNav__
-	Bootstrap navbars come in two flavors, regular and inverse where inverse is generally higher contrast. Set this to `true` to
-	use the inverse header.
+	Bootstrap 导航栏有两种风格，常规和反向，反向通常具有更高的对比度。将此设置为 `true` 使用反向头部。
 *   __outputSourceFiles__
-	When true, the system will produce source pretty printed file listings with a link from the documentation.
+	当为 true 时，系统将生成带有来自文档链接的源代码漂亮打印文件列表。
 *	__outputSourcePath__
-	When `outputSourceFiles` is `false`, you may still want to name the file even without a link to the pretty printed output.
-	Set  this to `true` when `outputSourceFiles` is `false`. `outputSourceFiles` when `true` takes precedence over this setting.
-*   __dateFormat__ The date format to use when printing dates. It accepts any format string understood by [moment.js](http://momentjs.com/docs/#/displaying/format/)
-*   __syntaxTheme__ String that determines the theme used for code blocks. Default value is `"default"`. It can be any value supported
-    at [sunlight themes](https://github.com/tmont/sunlight/tree/master/src/themes) which right now consists of...uh...`"default"` and `"dark"`,
-    but at least you have it if you need it.
-*  __sort__ Defaults to true. Specifies whether jsdoc should sort data or use file order. Can also be a string and if so it is passed to jsdoc directly. The default string is `"longname, version, since"`.
-*  __search__ By default, the template includes a quick search box. For large APIs, the search database can be too expensive to load. If needed you can disable this feature setting this option to false. 
+	当 `outputSourceFiles` 为 `false` 时，您仍然可能希望命名文件，即使没有与漂亮打印输出的链接。
+	在 `outputSourceFiles` 为 `false` 时设置为 `true`。当 `outputSourceFiles` 为 `true` 时将优先于此设置。
+*   __dateFormat__ 打印日期时使用的日期格式。它接受任何 [moment.js](http://momentjs.com/docs/#/displaying/format/) 理解的格式字符串。
+*   __syntaxTheme__ 确定代码块使用的主题的字符串。默认值是 `"default"`。它可以是当前在 [sunlight 主题](https://github.com/tmont/sunlight/tree/master/src/themes) 中支持的任何值，目前只包括...嗯...`"default"` 和 `"dark"`，但至少如果您需要它就有了。
+*  __sort__ 默认值为 true。指定 jsdoc 是否应排序数据或使用文件顺序。也可以是一个字符串，如果是，则直接传递给 jsdoc。默认字符串为 `"longname, version, since"`。
+*  __search__ 默认情况下，模板包含一个快速搜索框。对于大型 API，搜索数据库可能负担太重。如果需要，您可以通过设置此选项为 false 来禁用此功能。 
 
-## Syntax Highlighting ##
+## 语法高亮 ##
 
-### Language ###
+### 语言 ###
 
-The default language will be JavaScript, but there are a couple of ways to secify the language.
+默认语言将是 JavaScript，但有几种指定语言的方法。
 
-DocStrap support the language specified in the standard way e.g.
+DocStrap 支持按照标准方式指定语言，例如：
 
 ```
 ```html
 <html></html>
 ```
 
-DocStrap also introduces a new documentation tag which can appear inside any example block in source code,
-or in any fenced code block in markdown: `{@lang languageName}`, where
-_`language`_ can be any of the languages supported by [Sunlight](http://sunlightjs.com/)
+DocStrap 还引入了一种新的文档标签，可以出现在源代码的任何示例块中，或在任何 markdown 的封闭代码块中： `{@lang languageName}`，其中
+_`language`_ 可以是 [Sunlight](http://sunlightjs.com/) 支持的任何语言。
 
-When in a doclet, add the tag just after the `@example` tag like this:
+在 doclet 中，标签添加在 `@example` 标签之后，如下所示：
 
 `@example {@lang xml}`
-`<div>This is the most interesting web site ever</div>`
+`<div>这是有史以来最有趣的网站</div>`
 
-These are the supported languages.
+以下是支持的语言。
 
 * ActionScript
 * bash
@@ -199,60 +186,51 @@ These are the supported languages.
 * VB.NET
 * XML (HTML)
 
-### Example Caption ###
-
-If you want a caption to your example, add it in a HTML caption before your example e.g.
+### 示例标题 ###
+如果您想给示例加上标题，请在示例前添加 HTML 标题，例如：
 
 ```
-@example <caption>my caption</caption>
+@example <caption>我的标题</caption>
 {@lang xml}
 <mycode></mycode>
 ```
 
-## Customizing DocStrap ##
-No template can meet every need and customizing templates is a favorite pastime of....well, no-one, but you may need to anyway.
-First make sure you have [bower](https://github.com/bower/bower) and [grunt-cli](https://github.com/gruntjs/grunt-cli) installed.
-Fetch the source using `git` or grab the [zip file from github.](https://github.com/docstrap/docstrap/archive/master.zip) and unzip
-it somewhere. Everything that follows happens in the unzip directory.
+## 自定义 DocStrap ##
+没有一个模板可以满足所有需求，自定义模板是...好吧，没人喜欢的消遣，但您可能仍然需要这样做。
+首先确保您已安装 [bower](https://github.com/bower/bower) 和 [grunt-cli](https://github.com/gruntjs/grunt-cli)。
+使用 `git` 获取源代码或从 [github 下载 zip 文件。](https://github.com/docstrap/docstrap/archive/master.zip)并将其解压到某个位置。接下来的所有操作都在解压目录中完成。
 
-Next, prepare the environment:
+接下来，准备环境：
 
     bower install
 
-and
+和
 
     npm install
 
-When that is done, you have all of the tools to start modifying the template. The template, like Bootstrap, uses [less](http://lesscss.org/).
-The way it works is that `./styles/main.less` pulls in the bootstrap files uncompiled so that you have access to all of bootstraps mixins, colors,
-etc, that you would want. There are two more files in that directory, `variables.less`, `bootswatch.less`. These are the
-theme files and you can modify them, but keep in mind that if you apply a new theme (see below) those files will be overwritten. It is best
-to keep your changes to the `main.less` file.
+完成后，您就拥有了修改模板所需的所有工具。模板像 Bootstrap 一样使用 [less](http://lesscss.org/)。
+它的工作方式是 `./styles/main.less` 引入未编译的 bootstrap 文件，以便您可以访问所有需要的 bootstrap 混合，颜色等。该目录中还有两个文件，`variables.less`，`bootswatch.less`。这些是主题文件，您可以修改它们，但请记住，如果您应用新主题（见下文），这些文件将被覆盖。最好将更改保留在 `main.less` 文件中。
 
-To compile your changes to `main.less` and any other files it loads up,
+要编译对 `main.less` 及其加载的任何其他文件的更改，
 
 	grunt less
 
-The output is will be put in `./template/static/styles/site.<theme-name>.css`. The next time you create your documentation, it
-will have the new css file included.
+生成的输出将放在 `./template/static/styles/site.<theme-name>.css` 中。下次创建文档时，它将包含新的 css 文件。
 
-To apply a different template to the `styles` directory to modify, open up the `conf.json` in the template directory and
-change the `theme` option to the theme you want. Then
+要将不同的模板应用到 `styles` 目录以进行修改，请打开模板目录中的 `conf.json`，并将 `theme` 选项更改为您希望的主题。然后
 
 	grunt apply
 
-And the new theme will be in `variables.less`, `bootswatch.less`. Don't forget to compile your changes using `grunt apply` to
-get that change into the template.
+新主题将出现在 `variables.less`，`bootswatch.less` 中。不要忘记使用 `grunt apply` 编译您的更改，以将该更改应用于模板。
 
-**NOTE** that these steps are not necessary to just change the theme, this is only to modify the theme. If all you want to do is
-change the theme, just update conf.json with the new theme and build your docs!
+**注意**，这些步骤并不是简单地更改主题所必需的，这只是为了修改主题。如果您只想更改主题，只需在 conf.json 中更新新主题并构建文档即可！
 
-## Contributing ##
-Yes! Contribute! Test! Share your ideas! Report Bugs!
+## 贡献 ##
+是的！贡献！测试！分享您的想法！报告错误！
 
-### Contributers ###
+### 贡献者 ###
 
-*Huge* thanks to all contributors. If your name should be here, but isn't, please let us know
+*非常*感谢所有贡献者。如果您的名字应该在这里，但没有，请告诉我们
 
 * [marklagendijk](https://github.com/marklagendijk)
 * [michaelward82](https://github.com/michaelward82)
@@ -272,203 +250,188 @@ Yes! Contribute! Test! Share your ideas! Report Bugs!
 * [rcosnita](https://github.com/rcosnita)
 
 
-## History ##
+## 历史 ##
 
 ## 1.3.0 ##
 
- * Update dependencies and update CSS
- * Fixed TOC labels for members
- * Apply code highlighting to code blocks in markdown
- * Added an option to disable search
+ * 更新依赖并更新 CSS
+ * 修复成员的 TOC 标签
+ * 在 markdown 的代码块中应用代码高亮
+ * 添加禁用搜索的选项
 
 ## 1.2.1 ##
 
- * Update lunr dependency used for searching
+ * 更新用于搜索的 lunr 依赖
 
 ## 1.2.0 ##
 
- * Add square brackets around optional parameters
- * new option disablePackagePath option which if true makes docstrap not append the package and version to the out path
- * allow version to be missing in package.json
+ * 在可选参数周围添加方括号
+ * 新选项 disablePackagePath，如果为 true，则使 docstrap 不将包和版本附加到输出路径
+ * 允许在 package.json 中缺少版本
 
 ## 1.1.4 ##
 
- * Remove the unreadable orange on pre/code tags and use a dark red. Remove white background as is readable on black or white.
+ * 移除 pre/code 标签上难以阅读的橙色，使用深红色。移除白色背景，因为在黑色或白色上可读。
 
 ## 1.1.3 ##
 
- * Get sort option from navOptions as per docs
- * tweaks from bootswatch
+ * 从 navOptions 获取排序选项，如文档所述
+ * 来自 bootswatch 的调整
 
 ## 1.1.2 ##
 
- * Allow example captions to contain markdown if configured in the markdown config `includeTags` section.
- * Fixes full path used as source URL for projects with one source file
- * Allow users to update the default template layout file
+ * 如果在 markdown 配置 `includeTags` 部分中配置，则允许示例标题包含 markdown。
+ * 修复在只有一个源文件的项目中用作源 URL 的全路径
+ * 允许用户更新默认模板布局文件
 
 ## 1.1.1 ##
 
- * Bootswatch update
- * Add viewport meta tag to html for better mobile experience
+ * Bootswatch 更新
+ * 为了改善移动体验，为 HTML 添加视口 meta 标签
 
 ## 1.1.0 ##
 
- * Added includeDate option
+ * 添加 includeDate 选项
 
 ## 1.0.5 ##
 
- * Navigation to anchor links now works in IE (with some flicker)
- * links to other pages now work (with some flicker in some browsers)
+ * 针对锚链接的导航在 IE 中现在工作（稍有闪烁）
+ * 链接到其他页面现在工作（在某些浏览器中略有闪烁）
 
 ## 1.0.4 ##
 
- * Search results no longer erroneously included in side navbar
- * Tutorials now get page titles consistent with everything else
- * Improvements to the highlighted nav heading
+ * 搜索结果不再错误地包含在侧边导航栏
+ * 教程现在获得与其他内容一致的页面标题
+ * 改进了高亮的导航标题
 
 ## 1.0.3 ##
 
- * Drop-down shows a scrollbar when too big (regression in 1.0.1)
+ * 下拉菜单太大会显示滚动条（1.0.1 的回归）
 
 ## 1.0.2 ##
 
- * Support older jsdoc by not looking in "interfaces"
+ * 通过不查找“接口”来支持较旧的 jsdoc
 
 ## 1.0.1 ##
 
- * Tweak side nav and dropdowns to be the bootswatch style
- * Make the documentation responsive
+ * 调整侧边导航和下拉菜单以符合 bootswatch 风格
+ * 使文档响应式
 
 ## 1.0.0 ##
 
- * Bump to follow semver (initial development is well and truly over)
- * Corrected list of themes
- * Added Search
- * Remove highlightTutorialCode option - it didnt work
+ * 跟随 semver（初始开发已经结束）
+ * 修正主题列表
+ * 添加搜索
+ * 移除 highlightTutorialCode 选项 - 它没有工作
 
 ## 0.5.4 ##
 
- * Fix layout glitch on hte bottom of code samples
- * Support for specifying the language for fenced code blocks in the normal way
- * Fix the active item in some themes, which was missing a background
- * Tables get marked as tables
- * Dependency updates
+ * 修复代码示例底部的布局故障
+ * 支持以正常方式为封闭代码块指定语言
+ * 修复某些主题中的活动项目，缺少背景
+ * 表格标记为表格
+ * 依赖更新
 
 ## 0.5.3 ##
 
- * Removed duplicate headers
- * Remove "Index" header
- * re-fixed navigation
- * removed some dubious features (now pr's that can be re-added with a little polishing)
+ * 移除重复的标题
+ * 移除“索引”标题
+ * 再次修复导航
+ * 移除一些可疑的特性（现在的 pr 可以通过一些润色重新添加）
 
 ## 0.5.2 ##
-Major update__. Amazing help from [tswaters](https://github.com/tswaters) to solve a bunch of little problems and a to bring the codebase up to Bootstrap3.
-Make sure you are running the latest version of JSDoc before using this build.
+重大更新__。 感谢 [tswaters](https://github.com/tswaters) 解决许多小问题并将代码库提升到 Bootstrap3。
+确保在使用此版本之前运行最新版本的 JSDoc。
 
-Again huge, huge thanks to [tswaters](https://github.com/tswaters). Make sure you send him thanks or a tip!!!!!
+再次非常感谢 [tswaters](https://github.com/tswaters)。 确保向他表达感谢或赠送小费!!!!!
 
 ### v0.4.15 ###
-* PR Issue #76
-* PR Issue #77
+* PR 问题 #76
+* PR 问题 #77
 
 ### v0.4.14 ###
-* Issue #69
+* 问题 #69
 
 ### v0.4.13 ###
-* Issue #68
+* 问题 #68
 
 ### v0.4.11 ###
-* Pull Request #59
+* 拉取请求 #59
 
-### v0.4.8 ###
-* Issue #58
+### v0。4.8 ###
+* 问题 #58
 
 ### v0.4.7 ###
-* Issue #57
+* 问题 #57
 
 ### v0.4.5 ###
-* Issue #55
-* Issue #54
-* Issue #52
-* Issue #51
-* Issue #50
-* Issue #45
-* Issue #44
+* 问题 #55
+* 问题 #54
+* 问题 #52
+* 问题 #51
+* 问题 #50
+* 问题 #45
+* 问题 #44
 
 ### v0.4.3 ###
-* Issue #46
-* Issue #46
-* Issue #47
+* 问题 #46
+* 问题 #46
+* 问题 #47
 
 ### v0.4.1-1###
-* Issue #44
-* Update documentation
-* Issue #43
-* Issue #42
-* Issue #34
+* 问题 #44
+* 更新文档
+* 问题 #43
+* 问题 #42
+* 问题 #34
 
 ### v0.4.0 ###
-* Issue #41
-* Issue #40
-* Issue #39
-* Issue #36
-* Issue #32
+* 问题 #41
+* 问题 #40
+* 问题 #39
+* 问题 #36
+* 问题 #32
 
 ### v0.3.0 ###
-* Fixed navigation at page top
-* Adds -d switch to example jsdoc command.
-* Fixed typo in readme
-* Improve search box positioning and styles
-* Add dynamic quick search in TOC
-* Fix for line numbers styling issue
+* 修复页面顶部的导航
+* 为示例 jsdoc 命令添加 -d 开关。
+* 修复 README 中的拼写错误
+* 改进搜索框的位置和样式
+* 在 TOC 中添加动态快速搜索
+* 修复行号样式问题
 
 ### v0.2.0 ###
 
-* Added jump to source linenumers - still a problem scrolling with fixed header
-* changed syntax highlighter to [sunlight](http://sunlightjs.com/)
-* Modify incoming bootswatch files to make font calls without protocol.
+* 添加跳转到源行号 - 固定标题时仍存在滚动问题
+* 将语法高亮工具更改为 [sunlight](http://sunlightjs.com/)
+* 修改输入的 bootswatch 文件以使字体调用没有协议。
 
 ### v0.1.0 ###
-Initial release
+初始版本
 
 
-## Notices ##
-If you like DocStrap, be sure and check out these excellent projects and support them!
+## 声明 ##
+如果您喜欢 DocStrap，请务必查看这些优秀的项目并支持它们！
 
-[JSDoc3 is licensed under the Apache License](https://github.com/jsdoc3/jsdoc/blob/master/LICENSE.md)
+[JSDoc3 受 Apache 许可证保护](https://github.com/jsdoc3/jsdoc/blob/master/LICENSE.md)
 
-[So is Bootstrap](https://github.com/twitter/bootstrap/blob/master/LICENSE)
+[Bootstrap 也是如此](https://github.com/twitter/bootstrap/blob/master/LICENSE)
 
-[And Bootswatch](https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE)
+[Bootswatch 也是如此](https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE)
 
-[TOC is licensed under MIT](https://github.com/jgallen23/toc/blob/master/LICENSE)
+[TOC 受 MIT 许可证保护](https://github.com/jgallen23/toc/blob/master/LICENSE)
 
-[Grunt is also MIT](https://github.com/gruntjs/grunt-cli/blob/master/LICENSE-MIT)
+[Grunt 也是 MIT](https://github.com/gruntjs/grunt-cli/blob/master/LICENSE-MIT)
 
-DocStrap [is licensed under the MIT license.](https://github.com/docstrap/docstrap/blob/master/LICENSE.md)
+DocStrap [受 MIT 许可证保护。](https://github.com/docstrap/docstrap/blob/master/LICENSE.md)
 
-[Sunlight uses the WTFPL](http://sunlightjs.com/)
+[Sunlight 使用 WTFPL](http://sunlightjs.com/)
 
-## License ##
-DocStrap Copyright (c) 2012-2015 Terry Weiss & Contributors. All rights reserved.
+## 许可证 ##
+DocStrap 版权 (c) 2012-2015 Terry Weiss & Contributors。保留所有权利。
 
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
+特此免费授予任何获得本软件及相关文档文件（“软件”）副本的人员，无限制地处理本软件，包括但不限于使用、复制、修改、合并、出版、分发、再许可和/或销售本软件的副本，以及允许向其提供软件的人员这样做，前提是满足以下条件：
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+上述版权声明和本许可声明应包含在软件的所有副本或重要部分中。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+本软件是“按原样”提供的，不附有任何类型的担保，明示或暗示，包括但不限于对适销性、特定用途适用性和非侵权的担保。在任何情况下，作者或版权持有人对因使用软件或其他交易中产生的任何索赔、损害或其他责任不承担责任，无论是在合同诉讼、侵权或其他方面。

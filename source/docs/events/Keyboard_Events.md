@@ -1,19 +1,19 @@
-title: HTML5 Canvas Keyboard events with Konva
+title: HTML5 Canvas 键盘事件与 Konva
 ---
 
-## HTML5 Canvas Keyboard events with Konva
+## HTML5 Canvas 键盘事件与 Konva
 
-There are no build-in keyboards events like `keydown` or `keyup` in Konva.
+在 Konva 中没有内置的键盘事件，比如 `keydown` 或 `keyup`。
 
-### But how to listen keydown or keyup events on canvas?
+### 那么如何在画布上监听 keydown 或 keyup 事件呢？
 
-You can easily add them by two ways:
+你可以通过两种方式轻松添加它们：
 
-1. Listen global events on `window` object
-2. Or make stage container focusable with `tabIndex` property and listen events on it.
+1. 监听 `window` 对象上的全局事件
+2. 或者使舞台容器可聚焦，使用 `tabIndex` 属性并在其上监听事件。
 
-Instructions: click on stage to focus it, move a shape with arrows
+指令：点击舞台以聚焦，使用箭头键移动形状
 
 {% iframe /downloads/code/events/Keyboard_Events.html %}
 
-{% include_code HTML5 Canvas Keyboard events events/Keyboard_Events.html %}
+{% include_code HTML5 Canvas 键盘事件 events/Keyboard_Events.html %}

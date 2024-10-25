@@ -1,13 +1,13 @@
-title: HTML5 canvas Line Tutorial
+title: HTML5 canvas 直线教程
 ---
 
-To create a line with `Konva`, we can instantiate a `Konva.Line()` object.
+要使用 `Konva` 创建一条直线，可以实例化一个 `Konva.Line()` 对象。
 
-To define the path of the line you should use `points` property. If you have three points with `x` and `y` coordinates you should define `points` property as: `[x1, y1, x2, y2, x3, y3]`.
+要定义直线的路径，你应该使用 `points` 属性。如果你有三个点的 `x` 和 `y` 坐标，你应该将 `points` 属性定义为：`[x1, y1, x2, y2, x3, y3]`。
 
-Flat array of numbers should work faster and use less memory than array of objects.
+平坦的数字数组在速度和内存使用上应该比对象数组更快。
 
-For a full list of attributes and methods, check out the [Konva.Line documentation](/api/Konva.Line.html).
+有关属性和方法的完整列表，请查看 [Konva.Line 文档](/api/Konva.Line.html)。
 
 {% iframe /downloads/code/shapes/Line_-_Simple_line.html %}
 

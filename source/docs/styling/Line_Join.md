@@ -1,12 +1,12 @@
-title: HTML5 Canvas Line Join Tutorial
+title: HTML5 Canvas 线连接教程
 ---
 
-To set the line join for a shape with Konva, we can set the `lineJoin` property when we instantiate a shape, or we can use the `lineJoin()` method.
+要设置 Konva 中形状的线连接，我们可以在实例化形状时设置 `lineJoin` 属性，或者使用 `lineJoin()` 方法。
 
-The `lineJoin` property can be set to `miter`, `bevel`, or `round`.  Unless otherwise specified, the default line join is `miter`.
+`lineJoin` 属性可以设置为 `miter`、`bevel` 或 `round`。除非另有说明，默认的线连接为 `miter`。
 
-Instructions: Mouseover the triangle to change the line join style.
+说明：鼠标悬停在三角形上以更改线连接样式。
 
 {% iframe /downloads/code/styling/Line_Join.html %}
 
-{% include_code Konva Line Join Demo styling/Line_Join.html %}
+{% include_code Konva 线连接演示 styling/Line_Join.html %}

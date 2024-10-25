@@ -1,13 +1,9 @@
-title: HTML5 Canvas Event Delegation with Konva
+title: 使用 Konva 的 HTML5 Canvas 事件委托
 ---
 
-To get the event target with Konva, we can access the `target` property
-of the Event object.  This is particularly useful when using event delegation,
-in which we can bind an event handler to a parent node, and listen to events
-that occur on its children.
+要获取 Konva 中的事件目标，我们可以访问事件对象的 `target` 属性。这在使用事件委托时尤其有用，在这种情况下，我们可以将事件处理程序绑定到父节点，并监听其子节点上发生的事件。
 
-Instructions: Click on the star and observe that the layer event binding
-correctly identifies the shape that was clicked on.
+说明：点击星形，并观察层事件绑定是否正确识别被点击的形状。
 
 {% iframe /downloads/code/events/Event_Delegation.html %}
 

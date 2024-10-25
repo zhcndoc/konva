@@ -4,7 +4,6 @@ Mauris sit amet risus non ligula lacinia iaculis. Sed ornare tellus velit, vel e
 
 Quisque elementum sapien id neque volutpat cursus non mattis velit.
 
-
 ```
 $mod       : function ( qu, value ) {
 		var operands = sys.flatten( qu.operands );
@@ -18,19 +17,17 @@ $mod       : function ( qu, value ) {
 
 ```
 
-
 ```
 {@lang bash}
 #!/bin/bash
-echo Please, enter your firstname and lastname
+echo 请您输入您的名字和姓氏
 read FN LN
-echo "Hi! $LN, $FN !"
+echo "嗨！$LN，$FN ！"
 ```
 
 ```bash
 #!/bin/bash
-echo Please, enter your firstname and lastname
+echo 请您输入您的名字和姓氏
 read FN LN
-echo "Hi! $LN, $FN !"
+echo "嗨！$LN，$FN ！"
 ```
-

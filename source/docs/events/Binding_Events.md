@@ -1,22 +1,22 @@
-title: HTML5 Canvas Shape Events
+title: HTML5 Canvas 形状事件
 
 ---
 
-To detect shape events with Konva, we can use the `on()` method to bind event handlers to a node.
+要使用 Konva 检测形状事件，我们可以使用 `on()` 方法将事件处理程序绑定到节点。
 
-The `on()` method requires an event type and a function to be executed when the event occurs.
+`on()` 方法需要事件类型和在事件发生时执行的函数。
 
-Mouse events: `mouseover`, `mouseout`, `mouseenter`, `mouseleave`, `mousemove`, `mousedown`, `mouseup`, `wheel`, `click`, `dblclick`.
+鼠标事件：`mouseover`、`mouseout`、`mouseenter`、`mouseleave`、`mousemove`、`mousedown`、`mouseup`、`wheel`、`click`、`dblclick`。
 
-Touch events: `touchstart`, `touchmove`, `touchend`, `tap`, `dbltap`.
+触摸事件：`touchstart`、`touchmove`、`touchend`、`tap`、`dbltap`。
 
-Pointer events: `pointerdown`, `pointermove`, `pointereup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`,`pointerleave`, `pointerclick`, `pointerdblclick`.
+指针事件：`pointerdown`、`pointermove`、`pointereup`、`pointercancel`、`pointerover`、`pointerenter`、`pointerout`、`pointerleave`、`pointerclick`、`pointerdblclick`。
 
-Drag events: `dragstart`, `dragmove`, and `dragend`.
+拖动事件：`dragstart`、`dragmove` 和 `dragend`。
 
-Transform events: `transformstart`, `transform`, `transformend`.
+变换事件：`transformstart`、`transform`、`transformend`。
 
-Instructions: Mouseover and mouseout of the triangle, and mouseover, mouseout, mousedown, and mouseup over the circle.
+说明：在三角形上触发鼠标悬停和鼠标移出事件，在圆形上触发鼠标悬停、鼠标移出、鼠标按下和鼠标抬起事件。
 
 {% iframe /downloads/code/events/Binding_Events.html %}
 

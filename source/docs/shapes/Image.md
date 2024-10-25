@@ -1,16 +1,16 @@
-title: HTML5 canvas Image Tutorial
+title: HTML5 canvas 图像教程
 ---
 
-To create an image with `Konva`, we can instantiate a `Konva.Image()` object with `image` property.
+要使用 `Konva` 创建图像，我们可以实例化一个 `Konva.Image()` 对象并设置 `image` 属性。
 
-For `image` property you can use:
-1. instance of `window.Image` or `document.createElement('image')`
-2. canvas element
-3. video element
+对于 `image` 属性，您可以使用：
+1. `window.Image` 的实例或 `document.createElement('image')`
+2. 画布元素
+3. 视频元素
 
-For a full list of attributes and methods, check out the [Konva.Image documentation](/api/Konva.Image.html).
+有关属性和方法的完整列表，请查看 [Konva.Image 文档](/api/Konva.Image.html)。
 
-If you want to draw SVG image into the canvas take a look into [How to draw SVG image](/docs/sandbox/SVG_On_Canvas.html) post.
+如果您想将 SVG 图像绘制到画布上，请查看 [如何在画布上绘制 SVG 图像](/docs/sandbox/SVG_On_Canvas.html) 的文章。
 
 {% iframe /downloads/code/shapes/Image.html %}
 

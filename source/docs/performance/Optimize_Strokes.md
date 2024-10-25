@@ -1,21 +1,21 @@
-title: HTML5 Canvas Optimizing Strokes Performance Tip
+title: HTML5 Canvas 优化笔画性能提示
 ---
 
-### Disable shadow for stroke
+### 禁用笔画的阴影
 
-By default `Konva` is making extra internal drawing when a shape has both stroke and shadow. It is doing that to make drawing result look expected. 
+默认情况下，`Konva` 在形状具有笔画和阴影时会进行额外的内部绘制。这样做是为了使绘制结果看起来符合预期。
 
-If you don't really need shadow for stroke you should set `shape.shadowForStrokeEnabled(false)`. Remember that shadow will be disable if you are using `Konva.Line` without fill (because it is just stroked shape). **Disabling shadow for stroke will increase rendering speed A LOT.**
-
-
-### Remove stroke from hit
-
-If you have a shape with fill and very small stroke you can set `shape.hitStrokeWidth(0)` to remove stroke from hit graph.
-Don't use this property if your stroke is critical for hit detection (like non closed lines). By default, `Konva` is using strokes for hit graph - for detecting shapes under pointer for events. In some situations you may not need that.
+如果你并不真的需要笔画的阴影，应该设置 `shape.shadowForStrokeEnabled(false)`。请记住，如果你使用的是没有填充的 `Konva.Line`（因为它只是一个有笔画的形状），阴影将会被禁用。**禁用笔画的阴影将大幅提高渲染速度。**
 
 
-**Instructions: take a look into very slow random movements of circles. Now try to toggle optimized rendering checkbox. Faster?**
+### 从命中区域移除笔画
+
+如果你有一个填充并且笔画非常小的形状，可以设置 `shape.hitStrokeWidth(0)` 来从命中图形中移除笔画。
+如果你的笔画对命中检测至关重要（例如非封闭的线），请不要使用这个属性。默认情况下，`Konva` 使用笔画作为命中图形 - 用于检测指针下的形状以响应事件。在某些情况下，你可能不需要这个功能。
+
+
+**说明：查看圆圈的非常慢的随机移动。现在尝试切换优化渲染复选框。更快了吗？**
 
 {% iframe /downloads/code/performance/Optimize_Strokes.html %}
 
-{% include_code Konva Optimizing Strokes Demo performance/Optimize_Strokes.html %}
+{% include_code Konva 优化笔画演示 performance/Optimize_Strokes.html %}

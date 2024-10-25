@@ -1,13 +1,13 @@
-title: Seats bookings widget for the website with canvas
+title: 网站座位预订小部件与画布
 layout: demo_page
 ---
 
-This is a prototype version of seats reservation system I made for one of my clients.
+这是我为客户制作的座位预订系统的原型版本。
 
-Please read [Full Blog Post](https://lavrton.com/case-study-seat-reservation-widget/) about the process of making the widget.
+请阅读 [完整博客文章](https://lavrton.com/case-study-seat-reservation-widget/) 了解制作该小部件的过程。
 
-The widget is made with `React`, `Konva` and `react-konva` libraries.
+该小部件是使用 `React`、`Konva` 和 `react-konva` 库制作的。
 
-It is not required to use `React` for such widgets. But it was used here because the main application (where the widget was used) is made with `React`.
+虽然这种小部件不需要使用 `React`，但这里使用是因为主应用程序（小部件所用的地方）是用 `React` 制作的。
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/seats-reservation?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

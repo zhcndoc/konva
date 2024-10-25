@@ -1,30 +1,30 @@
-title: Offscreen canvas inside Web Worker
+title: Web Worker 中的离屏画布
 layout: demo_page
 
 ---
 
-## How to run Konva in a Web Worker?
+## 如何在 Web Worker 中运行 Konva？
 
-**Warning! This demo is VERY EXPERIMENTAL! It may not work in many browsers.** Check [Offscreen canvas capability tabletv](https://caniuse.com/#feat=offscreencanvas).
+**警告！这个演示是非常实验性的！可能在许多浏览器中无法工作。** 请查看 [离屏画布能力表](https://caniuse.com/#feat=offscreencanvas)。
 
-With some extra work we can render `Konva` stage inside a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) using [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) for performance reasons or for some crazy ideas.
+通过一些额外的工作，我们可以使用 [离屏画布](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) 在 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) 中渲染 `Konva` 舞台，以提高性能或实现一些疯狂的想法。
 
-You can use a webworker to make some visualizations with `Konva`.
+你可以使用 Web Worker 来进行一些与 `Konva` 相关的可视化。
 
-But one of the main features of `Konva` is its interactivity (full events support for canvas shapes). And there are no DOM events inside a web worker. So we have to write some kind of "proxy" to pass all DOM events inside Konva engine. That way we can have interactive objects inside web worker too.
+但是 `Konva` 的一个主要特点是其交互性（对画布形状完全支持事件）。而在 Web Worker 中没有 DOM 事件。因此，我们必须写一些“代理”代码来传递所有的 DOM 事件到 Konva 引擎。这样我们也可以在 Web Worker 中拥有交互式对象。
 
-This demo is adopted from [Jumping bunnies](/docs/sandbox/Jumping_Bunnies.html) performance stress test.
+这个演示基于 [跳跃的兔子](/docs/sandbox/Jumping_Bunnies.html) 性能压力测试进行了调整。
 
-You may need to write more code to cover more functions and different edge cases (such as HDPI screen support).
+你可能需要编写更多的代码来覆盖更多的功能和不同的边缘情况（例如 HDPI 屏幕支持）。
 
-**Instructions: there are two interactive objects on the stage. "Add buttons" and a draggable red circle. Try to add more bunnies or drag the circle.**
+**说明：舞台上有两个交互对象。“添加按钮”和一个可拖动的红色圆圈。尝试添加更多的兔子或拖动圆圈。**
 
-All you see on that screen is **rendered inside another javascript thread**!. So it should not block main JS thread of the current page.
+你在屏幕上看到的所有内容都是 **在另一个 JavaScript 线程中渲染的**！因此，它不应该阻塞当前页面的主 JS 线程。
 
 {% iframe /downloads/code/sandbox/Web_Worker.html %}
 
 {% include_code sandbox/Web_Worker.html %}
 
-And the code of the worker:
+而工作线程的代码是：
 
 {% include_code Worker Code sandbox/Web_Worker.js %}

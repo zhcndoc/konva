@@ -1,12 +1,12 @@
-title: HTML5 Canvas Complex Tweening Tutorial
+title: HTML5 Canvas 复杂过渡教程
 ---
 
-Also you can use [GreenSock Konva Plugin](https://github.com/konvajs/greensock-plugin) for tweens.
+您也可以使用 [GreenSock Konva 插件](https://github.com/konvajs/greensock-plugin) 来实现过渡效果。
 
-GreenSock tweens are more powerfull than Konva's tween.
+GreenSock 的过渡比 Konva 的过渡功能更强大。
 
-Also demo demonstrate tweening `fillLinearGradientColorStops` property with usual GreenSock usage.
+此外，演示展示了使用常规 GreenSock 用法对 `fillLinearGradientColorStops` 属性进行的过渡效果。
 
 {% iframe /downloads/code/tweens/Complex_Tweening.html %}
 
-{% include_code Konva Complex Tweening Demo tweens/Complex_Tweening.html %}
+{% include_code Konva 复杂过渡演示 tweens/Complex_Tweening.html %}

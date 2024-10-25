@@ -1,10 +1,9 @@
-title: HTML5 Canvas Shadows Tutorial
+title: HTML5 Canvas 阴影教程
 ---
 
-To apply shadows with Konva, we can set the `shadowColor`, `shadowOffset`, `shadowBlur`, and `shadowOpacity` properties when we instantiate a shape.
+要使用 Konva 应用阴影，我们可以在实例化形状时设置 `shadowColor`、`shadowOffset`、`shadowBlur` 和 `shadowOpacity` 属性。
 
-We can adjust the shadow properties after instantiation by using the `shadowColor()`, `shadowOffset()`, `shadowBlur()`, and `shadowOpacity()` methods.
-
+我们可以通过使用 `shadowColor()`、`shadowOffset()`、`shadowBlur()` 和 `shadowOpacity()` 方法在实例化后调整阴影属性。
 
 {% iframe /downloads/code/styling/Shadow.html %}
 

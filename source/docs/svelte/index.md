@@ -1,29 +1,29 @@
-title: Getting started with Svelte and canvas via Konva
+title: 使用 Svelte 和 Konva 开始使用 canvas
 layout: svelte_page
 
 ---
 
-## How to use canvas with Svelte?
+## 如何在 Svelte 中使用 canvas？
 
-`svelte-konva` is a JavaScript library for drawing complex canvas graphics using Svelte.
+`svelte-konva` 是一个用于使用 Svelte 绘制复杂 canvas 图形的 JavaScript 库。
 
 GitHub: https://github.com/konvajs/svelte-konva
 
-It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+它提供了对 [Konva 框架](https://konvajs.org/) 的声明式和响应式绑定。
 
-All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as `config` prop for corresponding `svalte-konva` components.
+所有 `svelte-konva` 组件对应于同名的 `Konva` 组件。所有可用于 `Konva` 对象的参数都可以作为 `config` 属性添加到对应的 `svelte-konva` 组件中。
 
-To get more info about `Konva` you can read [Konva Overview](https://konvajs.org/docs/overview.html).
+要获取有关 `Konva` 的更多信息，您可以阅读 [Konva 概述](https://konvajs.org/docs/overview.html)。
 
-## Quick Start
+## 快速开始
 
-### 1 Install via npm
+### 1 通过 npm 安装
 
 ```npm
 npm i svelte-konva konva
 ```
 
-### 2 Import and use svelte konva components
+### 2 导入并使用 svelte konva 组件
 
 ```js
 <script>

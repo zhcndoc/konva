@@ -1,43 +1,42 @@
-title: Save and Load HTML5 Canvas Stage Best Practices
+title: 保存和加载 HTML5 Canvas 阶段的最佳实践
 ---
 
-## What is the best way to save/load full stage content and how to implement undo/redo?
+## 保存/加载完整阶段内容的最佳方法是什么？如何实现撤销/重做？
 
-If you want to save/load simple canvas content you can use the built-in `Konva` methods: `node.toJSON()` and `Node.create(json)`.
-See [simple](/docs/data_and_serialization/Simple_Load.html) and [complex](/docs/data_and_serialization/Complex_Load.html) demos.
+如果您想保存/加载简单的画布内容，可以使用内置的 `Konva` 方法：`node.toJSON()` 和 `Node.create(json)`。
+请查看 [简单示例](/docs/data_and_serialization/Simple_Load.html) 和 [复杂示例](/docs/data_and_serialization/Complex_Load.html)。
 
-But those methods are useful only in very small apps. In bigger apps it is VERY hard to use those methods. Why? Because the tree structure is usually very complex in larger apps, you may have a lot of event listeners, images, filters, etc. That data is not serializable into JSON (or it is very hard to do that).
+但这些方法在非常小的应用程序中才有用。在较大的应用程序中，使用这些方法是非常困难的。为什么？因为在较大的应用程序中，树结构通常非常复杂，您可能有很多事件监听器、图像、滤镜等。这些数据不能序列化为 JSON（或者这样做非常困难）。
 
-Also it is very common that nodes in a tree have a lot information that is not directly related to the state of your app, but just used to describe visual view of your app.
+此外，树中的节点通常包含很多与应用程序状态无关的信息，而只是用于描述应用程序的视觉视图。
 
-For instance, let's think we have a game, that draws several balls in canvas. The balls are not just circles, but the complex visual groups of objects with shadows and texts inside them (like "Made in China"). Now let's think you want to serialize state of your app and use it somewhere else. Like send to another computer or implement undo/redo. Almost all the visual information (shadows, texts, sizes) is not critical and may be you don't need to save it. Because all balls have the same shadows, sizes, etc. But what is critical? In that case it is just a number of balls and their coordinates. You need to save/load only that information. It will be just a simple array:
+例如，假设我们有一个游戏，它在画布上绘制几个球。那些球不仅仅是圆形，而是包含阴影和内部文本（例如“中国制造”）的复杂视觉对象组合。现在假设你想序列化你应用程序的状态并在其他地方使用它，比如发送到另一台计算机或实现撤销/重做。几乎所有的视觉信息（阴影、文本、大小）都是非关键性的，可能您不需要保存它。因为所有的球都有相同的阴影、大小等。但什么是关键的？在这种情况下，关键就是球的数量和它们的坐标。您只需要保存/加载这些信息。它将只是一个简单的数组：
 
 ```javascript
 var state = [{x: 10, y: 10}, { x: 160, y: 1041}]
 ```
 
-Now when you have that information, you need to have a function, that can create the whole canvas structure.
-If you want to update your canvas, for instance, you want to create a new ball, you don't need to create a new canvas node directly (like creating new instance of `Konva.Circle`), you just need to push a new object into a state and update (or recreate) canvas.
+现在，当您拥有这些信息时，您需要一个函数可以创建整个画布结构。
+如果您想更新画布，例如，您想创建一个新球，您不需要直接创建一个新的画布节点（就像创建新的 `Konva.Circle` 实例一样），您只需要将一个新对象推入状态中并更新（或重建）画布。
 
-In that case you don't need to care about image loading, filters, event listeners, etc in saving/loading phases. Because you do all these actions in your `create` or `update` functions.
+在这种情况下，您不需要在保存/加载阶段关心图像加载、滤镜、事件监听器等。因为您在 `create` 或 `update` 函数中执行所有这些操作。
 
-You would better understand what I am talking about if you know how many modern frameworks work (like `React`, `Vue`, `Angular` and many other).
+如果您知道现代框架如何工作（如 `React`、`Vue`、`Angular` 和许多其他框架），您会更好地理解我在说什么。
 
-Also take a look into these demos to have a better idea:
-1. [Undo/redo with react](/docs/react/Undo-Redo.html)
-1. [Save/load with Vue](/docs/vue/Save-Load.html)
+此外，请查看这些演示以更好地了解：
+1. [使用 react 的撤销/重做](/docs/react/Undo-Redo.html)
+1. [使用 Vue 的保存/加载](/docs/vue/Save-Load.html)
 
-How to implement that `create` and `update` functions? It depends. From my point of view it will be easier to use frameworks that can do that job for you, like [react-konva](/docs/react/).
+如何实现 `create` 和 `update` 函数？这要依赖于情况。以我个人的观点来看，使用可以为您完成这项工作的框架会更简单，比如 [react-konva](/docs/react/)。
 
-If you don't want to use such frameworks you need to think in terms of your own app. Here I will try to make a small demo to give you an idea.
+如果您不想使用这样的框架，您需要从您自己的应用程序的角度来思考。在这里，我将尝试做一个小演示来给您一个概念。
 
-The super naive method is to implement just one function `create(state)` that will do all the complex job of loading.
-If you have some changes in your app you just need to destroy the canvas and create a new one. But the drawback of such approach is possibly a bad performance.
+超级简单的方法是实现一个函数 `create(state)`，它将完成加载的所有复杂工作。
+如果您的应用中有些更改，您只需销毁画布并创建一个新画布。但这种方法的缺点可能是性能不佳。
 
-A bit smarter implementation is to create two functions `create(state)` and `update(state)`. `create` will make instances of all required objects, attach events and load images. `update` will update properties of nodes. If number of objects is changed - destroy all and create from scratch. If only some properties changed - call `update`.
+稍微聪明一点的实现是创建两个函数 `create(state)` 和 `update(state)`。`create` 将实例化所有所需的对象，附加事件并加载图像。`update` 将更新节点的属性。如果对象数量发生变化 - 就销毁所有并从头开始创建。如果只有某些属性改变 - 调用 `update`。
 
-Instructions: In that demo we will have a bunch of images with filters, and you can add more, move them, apply a new filter by clicking on images and use undo/redo.
-
+说明：在这个演示中，我们将拥有一堆带有滤镜的图像，您可以添加更多图像，移动它们，通过点击图像应用新滤镜，并使用撤销/重做功能。
 
 {% iframe /downloads/code/data_and_serialization/Best_Practices.html %}
 

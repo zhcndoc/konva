@@ -1,22 +1,22 @@
-title: Jumping bunnies performance stress test
+title: 跳跃兔子性能压力测试
 layout: demo_page
 ---
 
-The demo shows performance of moving many `Konva.Image`'s at the same time.
+该演示展示了同时移动多个 `Konva.Image` 的性能。
 
-That is adopted [demo](https://www.goodboydigital.com/pixijs/bunnymark/) from the [PixiJS framework](https://www.pixijs.com/).
+这是从 [PixiJS 框架](https://www.pixijs.com/) 中采纳的 [示例](https://www.goodboydigital.com/pixijs/bunnymark/)。
 
-You will notice that `Konva` version is much slower than `PixiJS` version.
+你会注意到 `Konva` 版本的性能比 `PixiJS` 版本要慢得多。
 
-So first of all I am not hiding that other frameworks may work better in some situations. PixiJS is very optimized for such types of graphics and animations (it uses WebGL for rendering).
+所以首先我要说明的是，其他框架在某些情况下可能表现得更好。PixiJS 针对这类图形和动画进行了非常优化（它使用 WebGL 进行渲染）。
 
-There is a work in progress for optimizing some `Konva` internals to make it work faster for that demo too.
+目前正在进行的工作是优化一些 `Konva` 的内部结构，以使其在该演示中也能更快地运行。
 
-But remember that the demo doesn't represent the performance of typical application made with `Konva`. If you are doing a lot of animations like in the demo with tons of objects you may need to use other solutions like [Native Canvas Access](/docs/sandbox/Native_Context_Access.html) or even a different framework.
+但请记住，该演示并不能代表使用 `Konva` 制作的典型应用程序的性能。如果你在执行很多像演示中一样的动画，并且涉及大量对象，可能需要使用其他解决方案，比如 [原生 Canvas 访问](/docs/sandbox/Native_Context_Access.html) 或者甚至是不同的框架。
 
-So choose wisely the tool for your applications.
+因此，为你的应用程序明智地选择工具。
 
-**Instructions: mousedown on the canvas to add more bunnies.**
+**说明：在画布上按下鼠标增加更多兔子。**
 
 {% iframe /downloads/code/sandbox/Jumping_Bunnies.html %}
 

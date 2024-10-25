@@ -1,13 +1,13 @@
-title: HTML5 Canvas Konva Stop Animation Tutorial
+title: HTML5 Canvas Konva 停止动画教程
 ---
 
-To stop an animation with Konva, we can use the `stop()` method.
-To restart the animation, we can again call the `start()`.
+要使用 Konva 停止动画，我们可以使用 `stop()` 方法。
+要重新启动动画，我们可以再次调用 `start()`。
 
-Instructions: Click on "Start" to start the animation and "Stop" to stop the animation.
+说明：点击“开始”以启动动画，点击“停止”以停止动画。
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 {% iframe /downloads/code/animations/Stop_Animation.html %}
 
-{% include_code Konva Stop Animation Demo animations/Stop_Animation.html %}
+{% include_code Konva 停止动画演示 animations/Stop_Animation.html %}

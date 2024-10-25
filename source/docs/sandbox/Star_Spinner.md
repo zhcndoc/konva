@@ -1,9 +1,9 @@
-title: Star Spinner
+title: 星星旋转器
 layout: demo_page
 ---
 
-Instructions: Spin the star with your mouse.
+说明：用鼠标旋转星星。
 
 {% iframe /downloads/code/sandbox/Star_Spinner.html %}
 
-{% include_code Konva Star Spinner sandbox/Star_Spinner.html %}
+{% include_code Konva 星星旋转器 sandbox/Star_Spinner.html %}

@@ -1,25 +1,24 @@
-title: HTML5 Canvas Shape Caching Performance Tip
+title: HTML5 Canvas 形状缓存性能提示
 
 ---
 
-## HTML5 Canvas Shape Caching Performance Tip
+## HTML5 Canvas 形状缓存性能提示
 
-One way to drastically improve drawing performance for complex Konva shapes is to cache them as images.
-This can be achieved by using the `cache()` method to convert a node into an image object.
+一种显著提高复杂 Konva 形状绘制性能的方法是将它们缓存为图像。  
+这可以通过使用 `cache()` 方法将一个节点转换为图像对象来实现。
 
-This particular tutorial of drawing 10 cached stars rather than drawing 10 individual
-stars sees about a 4x drawing performance boost. Caching can be applied to layers, groups, and shapes.
+本教程绘制 10 个缓存的星星，而不是绘制 10 个单独的星星，绘制性能提高了大约 4 倍。缓存可以应用于图层、组和形状。
 
-Note: The `cache()` method requires that the image is hosted on a web server with the same domain as the code executing it.
+注意：`cache()` 方法要求图像托管在与执行代码相同域的 Web 服务器上。
 
-## How caching works?
+## 缓存是如何工作的？
 
-When you call `cache()` method, Konva creates a new canvas element in memory and draws the node on it. Next time, when layer is redrawn, Konva just draws cached canvas element instead of drawing the node itself. You don't need to re-cache the shape if you change its opacity or transform (position, rotation, scale). In other cases you may need to re-cache the shape manually. Based on the logic above, there are several recommendations for caching:
+当你调用 `cache()` 方法时，Konva 在内存中创建一个新的画布元素并在其上绘制节点。下次，当图层被重绘时，Konva 只需绘制缓存的画布元素，而不需要再次绘制节点本身。如果你更改了形状的不透明度或变换（位置、旋转、缩放），则无需重新缓存该形状。在其他情况下，你可能需要手动重新缓存该形状。基于上述逻辑，关于缓存有几条推荐：
 
-1. Try not to cache many shapes individually. It is better to cache a group of shapes.
-2. Try not to cache shapes that are changing frequently. It is better to cache static shapes.
-3. Caching simple shapes, like a rectangle, is not recommended. It is better to cache complex shapes with many styles. Measure the performance before and after caching to see if it is worth it.
-4. You can use `pixelRatio` property to increase or decrease the quality of the cached image. Decreasing the quality will improve performance.
+1. 尽量不要单独缓存很多形状。缓存一组形状更好。
+2. 尽量不要缓存经常变化的形状。缓存静态形状更好。
+3. 不建议缓存简单形状，如矩形。缓存具有多种样式的复杂形状更好。在缓存之前和之后测量性能，以查看是否值得。
+4. 你可以使用 `pixelRatio` 属性来提高或降低缓存图像的质量。降低质量将提高性能。
 
 {% iframe /downloads/code/performance/Shape_Caching.html %}
 

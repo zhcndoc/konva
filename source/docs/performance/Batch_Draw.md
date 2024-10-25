@@ -1,25 +1,16 @@
-title: HTML5 Canvas Batch Draw Tip
+title: HTML5 Canvas 批量绘制技巧
 ---
 
-**Update: this demo is not relevant with the new `konva@8`. In the new version, `Konva` is doing all batching draws automatically on any changes on canvas.**
+**更新：此演示与新的 `konva@8` 无关。在新版本中，`Konva` 在画布上的任何更改时会自动进行所有批量绘制。**
 
-The demo may be still relevant if you use `Konva.autoDrawEnabled = false`.
+如果您使用 `Konva.autoDrawEnabled = false`，该演示可能仍然相关。
 
-In some situations, we may want to update a Konva shape as fast as possible,
-but without causing too many redraws.  For example, if we want to update an
-element on the stage via mousemove, we don't want to redraw the layer with the
-`draw()` method, because the mousemove event could be fired hundreds of times per
-second, which would result in a forced frame rate of over a hundred frames per second.
-Often times this can cause jumpy animations because browsers simply can't handle excessive redraws.
+在某些情况下，我们可能希望尽可能快地更新一个 Konva 形状，但又不想导致太多的重绘。例如，如果我们通过鼠标移动更新舞台上的一个元素，我们不想使用 `draw()` 方法重绘图层，因为鼠标移动事件可能每秒触发数百次，这将导致超过每秒一百帧的强制帧率。通常，这会导致动画跳动，因为浏览器根本无法处理过多的重绘。
 
-For situations like this, it's much better to use the `batchDraw()` method
-which automatically hooks redraws into the Konva animation engine.
-No matter how many times you call `batchDraw()`, Konva will automatically
-limit the number of redraws per second based on the maximum number of frames
-per second that the browser can handle at any given point in time.
+对于这种情况，使用 `batchDraw()` 方法要好得多，它会自动将重绘挂钩到 Konva 动画引擎中。不管你调用多少次 `batchDraw()`，Konva 会根据浏览器在任何时刻能够处理的最大帧数自动限制每秒的重绘次数。
 
-Instructions: Move your mouse over the stage to spin the rectangle
+说明：将鼠标移动到舞台上以旋转矩形
 
 {% iframe /downloads/code/performance/BatchDraw.html %}
 
-{% include_code Konva Batch Draw Demo performance/BatchDraw.html %}
+{% include_code Konva 批量绘制演示 performance/BatchDraw.html %}

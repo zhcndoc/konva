@@ -1,12 +1,9 @@
-title: Load Stage with JSON String
+title: 使用 JSON 字符串加载场景
 ---
 
-To deserialize a JSON string with Konva, we can use the `Konva.Node.create()`
-method which creates a node from a JSON string.  If we want to deserialize
-a stage node, we can also pass in an optional `container` parameter.
+要使用 Konva 反序列化 JSON 字符串，我们可以使用 `Konva.Node.create()` 方法，该方法从 JSON 字符串创建一个节点。如果我们想要反序列化一个舞台节点，我们还可以传入一个可选的 `container` 参数。
 
-
-**That methods works for very small apps. For more complex cases take a look into [Complex Load](/docs/data_and_serialization/Complex_Load.html) or even better to [Best Practices](/docs/data_and_serialization/Best_Practices.html)**
+**该方法适用于非常小的应用程序。对于更复杂的情况，请查看 [复杂加载](/docs/data_and_serialization/Complex_Load.html) 或者更好的是 [最佳实践](/docs/data_and_serialization/Best_Practices.html)**
 
 {% iframe /downloads/code/data_and_serialization/Simple_Load.html %}
 

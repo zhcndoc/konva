@@ -9,17 +9,17 @@
 [![Build Status](https://github.com/konvajs/konva/actions/workflows/test-browser.yml/badge.svg)](https://github.com/konvajs/konva/actions/workflows/test-browser.ym)
 [![Build Status](https://github.com/konvajs/konva/actions/workflows/test-node.yml/badge.svg)](https://github.com/konvajs/konva/actions/workflows/test-node.ym)[![CDNJS version](https://img.shields.io/cdnjs/v/konva.svg)](https://cdnjs.com/libraries/konva)
 
-Konva is an HTML5 Canvas JavaScript framework that enables high performance animations, transitions, node nesting, layering, filtering, caching, event handling for desktop and mobile applications, and much more.
+Konva 是一个 HTML5 Canvas JavaScript 框架，支持高性能的动画、过渡、节点嵌套、分层、滤镜、缓存、事件处理等功能，适用于桌面和移动应用程序，及更多功能。
 
-You can draw things onto the stage, add event listeners to them, move them, scale them, and rotate them independently from other shapes to support high performance animations, even if your application uses thousands of shapes. Served hot with a side of awesomeness.
+你可以在舞台上绘制物体，为它们添加事件监听器，独立于其他形状移动、缩放和旋转它们，以支持高性能的动画，即使你的应用程序使用成千上万个形状。以一种出色的方式提供服务。
 
-This repository began as a GitHub fork of [ericdrowell/KineticJS](https://github.com/ericdrowell/KineticJS).
+本仓库最初是 [ericdrowell/KineticJS](https://github.com/ericdrowell/KineticJS) 的 GitHub 分支。
 
-- **Visit:** The [Home Page](http://konvajs.org/) and follow on [Twitter](https://twitter.com/lavrton)
-- **Discover:** [Tutorials](http://konvajs.org/docs), [API Documentation](http://konvajs.org/api)
-- **Help:** [StackOverflow](http://stackoverflow.com/questions/tagged/konvajs), [Discord Chat](https://discord.gg/8FqZwVT)
+- **访问:** [主页](http://konvajs.org/) 并在 [Twitter](https://twitter.com/lavrton) 上关注
+- **发现:** [教程](http://konvajs.org/docs), [API 文档](http://konvajs.org/api)
+- **帮助:** [StackOverflow](http://stackoverflow.com/questions/tagged/konvajs), [Discord 聊天](https://discord.gg/8FqZwVT)
 
-# Quick Look
+# 快速预览
 
 ```html
 <script src="https://unpkg.com/konva@9/konva.min.js"></script>
@@ -31,11 +31,11 @@ This repository began as a GitHub fork of [ericdrowell/KineticJS](https://github
     height: window.innerHeight,
   });
 
-  // add canvas element
+  // 添加画布元素
   var layer = new Konva.Layer();
   stage.add(layer);
 
-  // create shape
+  // 创建形状
   var box = new Konva.Rect({
     x: 50,
     y: 50,
@@ -48,7 +48,7 @@ This repository began as a GitHub fork of [ericdrowell/KineticJS](https://github
   });
   layer.add(box);
 
-  // add cursor styling
+  // 添加光标样式
   box.on('mouseover', function () {
     document.body.style.cursor = 'pointer';
   });
@@ -58,40 +58,40 @@ This repository began as a GitHub fork of [ericdrowell/KineticJS](https://github
 </script>
 ```
 
-# Browsers support
+# 浏览器支持
 
-Konva works in all modern mobile and desktop browsers. A browser need to be capable to run javascript code from ES2015 spec. For older browsers you may need polyfills for missing functions.
+Konva 在所有现代的移动和桌面浏览器中均可使用。浏览器需要能够运行 ES2015 规范中的 JavaScript 代码。对于较旧的浏览器，你可能需要提供缺失功能的 polyfills。
 
-At the current moment `Konva` doesn't work in IE11 directly. To make it work you just need to provide some polyfills such as `Array.prototype.find`, `String.prototype.trimLeft`, `String.prototype.trimRight`, `Array.from`.
+目前 `Konva` 在 IE11 中无法直接使用。要使其正常工作，你只需要提供一些 polyfills，例如 `Array.prototype.find`、`String.prototype.trimLeft`、`String.prototype.trimRight`、`Array.from`。
 
-# Debugging
+# 调试
 
-The Chrome inspector simply shows the canvas element.  To see the Konva objects and their details, install the konva-dev extension at https://github.com/konvajs/konva-devtool.
+Chrome 检查器简单地显示画布元素。要查看 Konva 对象及其详细信息，请在 https://github.com/konvajs/konva-devtool 安装 konva-dev 扩展。
 
-# Loading and installing Konva
+# 加载和安装 Konva
 
-Konva supports UMD loading. So you can use all possible variants to load the framework into your project:
+Konva 支持 UMD 加载。因此，你可以使用所有可能的方式将该框架加载到你的项目中：
 
-### Load Konva via classical `<script>` tag from CDN:
+### 通过经典的 `<script>` 标签从 CDN 加载 Konva:
 
 ```html
 <script src="https://unpkg.com/konva@9/konva.min.js"></script>
 ```
 
-### Install with npm:
+### 使用 npm 安装:
 
 ```bash
 npm install konva --save
 ```
 
 ```javascript
-// The modern way (e.g. an ES6-style import for webpack, parcel)
+// 现代方式（例如，针对 webpack、parcel 的 ES6 风格导入）
 import Konva from 'konva';
 ```
 
-#### Typescript usage
+#### Typescript 使用
 
-Add DOM definitions into your `tsconfig.json`:
+在你的 `tsconfig.json` 中添加 DOM 定义：
 
 ```
 {
@@ -104,35 +104,35 @@ Add DOM definitions into your `tsconfig.json`:
 }
 ```
 
-### 3 Minimal bundle
+### 3 简约包
 
 ```javascript
 import Konva from 'konva/lib/Core';
-// Now you have a Konva object with Stage, Layer, FastLayer, Group, Shape and some additional utils function.
-// Also core currently already have support for drag&drop and animations.
-// BUT there are no shapes (rect, circle, etc), no filters.
+// 现在你有了一个包含 Stage、Layer、FastLayer、Group、Shape 和一些附加工具函数的 Konva 对象。
+// 此外，core 当前已经支持拖放和动画功能。
+// 但是没有形状（矩形、圆形等），也没有滤镜。
 
-// but you can simply add anything you need:
+// 但你可以简单地添加任何你需要的东西：
 import { Rect } from 'konva/lib/shapes/Rect';
-// importing a shape will automatically inject it into Konva object
+// 导入一个形状将自动将其注入到 Konva 对象中
 
 var rect1 = new Rect();
-// or:
+// 或者：
 var shape = new Konva.Rect();
 
-// for filters you can use this:
+// 对于滤镜，你可以使用这个：
 import { Blur } from 'konva/lib/filters/Blur';
 ```
 
-### 4 NodeJS env
+### 4 NodeJS 环境
 
-In order to run `konva` in nodejs environment you also need to install `canvas` package manually. Konva will use it for 2d canvas API.
+为了在 NodeJS 环境下运行 `konva`，你还需要手动安装 `canvas` 包。Konva 将使用它来支持 2D 画布 API。
 
 ```bash
 npm install konva canvas
 ```
 
-Then you can use the same Konva API and all Konva demos will work just fine. You just don't need to use `container` attribute in your stage.
+然后你可以使用相同的 Konva API，所有 Konva 示例代码也将正常运行。你只需在舞台中不需要使用 `container` 属性。
 
 ```js
 import Konva from 'konva';
@@ -141,10 +141,10 @@ const stage = new Konva.Stage({
   width: 500,
   height: 500,
 });
-// then all regular Konva code will work
+// 接下来，所有常规的 Konva 代码将运行
 ```
 
-# Backers
+# 支持者
 
 ![https://simpleshow.com](https://avatars.githubusercontent.com/u/99720652?s=200&v=4 'https://simpleshow.com')
 ![https://www.notably.ai/](https://avatars.githubusercontent.com/u/80046841?s=200&v=4 'https://www.notably.ai/')
@@ -152,46 +152,45 @@ const stage = new Konva.Stage({
 - [myposter GmbH](https://www.myposter.de/)
 - [queue.gg](https://queue.gg/)
 
-# Change log
+# 更新日志
 
-See [CHANGELOG.md](https://github.com/konvajs/konva/blob/master/CHANGELOG.md).
+请参阅 [CHANGELOG.md](https://github.com/konvajs/konva/blob/master/CHANGELOG.md)。
 
-## Building the Konva Framework
+## 构建 Konva 框架
 
-To make a full build run `npm run build`. The command will compile all typescript files, combine then into one bundle and run minifier.
+要进行完整的构建，请运行 `npm run build`。该命令将编译所有 TypeScript 文件，将其合并为一个包并运行压缩工具。
 
-## Testing
+## 测试
 
-Konva uses Mocha for testing.
+Konva 使用 Mocha 进行测试。
 
-- If you need run test only one time run `npm run test`.
-- While developing it is easy to use `npm start`. Just run it and go to [http://localhost:1234/unit-tests.html](http://localhost:1234/unit-tests.html). The watcher will rebuild the bundle on any change.
+- 如果你只需要运行一次测试，请运行 `npm run test`。
+- 在开发过程中，使用 `npm start` 很简单。只需运行它并转到 [http://localhost:1234/unit-tests.html](http://localhost:1234/unit-tests.html)。监视器将在任何更改时重建包。
 
-Konva is covered with hundreds of tests and well over a thousand assertions.
-Konva uses TDD (test driven development) which means that every new feature or bug fix is accompanied with at least one new test.
+Konva 有数百个测试，且有超过一千个断言。
+Konva 使用 TDD（测试驱动开发），这意味着每个新特性或 bug 修复都伴随着至少一个新测试。
 
-## Generate documentation
+## 生成文档
 
-Run `npx gulp api` which will build the documentation files and place them in the `api` folder.
+运行 `npx gulp api` 将构建文档文件并将其放置在 `api` 文件夹中。
 
-# Pull Requests
+# 拉取请求
 
-I'd be happy to review any pull requests that may better the Konva project,
-in particular if you have a bug fix, enhancement, or a new shape (see `src/shapes` for examples). Before doing so, please first make sure that all of the tests pass (`npm run test`).
+我很乐意审查任何可能改善 Konva 项目的拉取请求，特别是如果你有 bug 修复、增强或新形状（请参见 `src/shapes` 的示例）。在这样做之前，请首先确保所有测试通过（`npm run test`）。
 
-## Contributors
+## 贡献者
 
-### Financial Contributors
+### 财务贡献者
 
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/konva/contribute)]
+成为财务贡献者，帮助我们维持社区。 [[贡献](https://opencollective.com/konva/contribute)]
 
-#### Individuals
+#### 个人
 
 <a href="https://opencollective.com/konva"><img src="https://opencollective.com/konva/individuals.svg?width=890"></a>
 
-#### Organizations
+#### 组织
 
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/konva/contribute)]
+通过您的组织支持该项目。你的徽标将显示在这里，并链接到你的网站。 [[贡献](https://opencollective.com/konva/contribute)]
 
 <a href="https://opencollective.com/konva/organization/0/website"><img src="https://opencollective.com/konva/organization/0/avatar.svg"></a>
 <a href="https://opencollective.com/konva/organization/1/website"><img src="https://opencollective.com/konva/organization/1/avatar.svg"></a>

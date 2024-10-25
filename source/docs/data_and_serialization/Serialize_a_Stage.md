@@ -1,15 +1,12 @@
-title: Save HTML5 Canvas Stage as JSON String
+title: 将 HTML5 Canvas Stage 保存为 JSON 字符串
 ---
 
-## How to export canvas to JSON?
+## 如何将 canvas 导出为 JSON？
 
-To save the stage as a JSON string with Konva, we can use the `toJSON()`
-method which serializes the Konva Node tree into text which can be saved
-in web storage or in an offline database. We can also serialize other nodes,
-including layers, groups, and shapes.
+要使用 Konva 将舞台保存为 JSON 字符串，我们可以使用 `toJSON()` 方法，该方法将 Konva 节点树序列化为可以保存到 Web 存储或离线数据库的文本。我们还可以序列化其他节点，包括图层、组和形状。
 
-**`toJSON()` method can't save filters, images and event listeners. So it works for very small apps. For more complex cases read [Best Practices](/docs/data_and_serialization/Best_Practices.html)**
+**`toJSON()` 方法无法保存滤镜、图像和事件监听器。因此它只适用于非常小的应用。对于更复杂的情况，请阅读 [最佳实践](/docs/data_and_serialization/Best_Practices.html)**
 
 {% iframe /downloads/code/data_and_serialization/Serialize_a_Stage.html %}
 
-{% include_code Konva Save Stage Demo data_and_serialization/Serialize_a_Stage.html %}
+{% include_code Konva 保存舞台演示 data_and_serialization/Serialize_a_Stage.html %}

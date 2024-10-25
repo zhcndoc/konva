@@ -1,10 +1,10 @@
-title: HTML5 canvas Arc Tutorial
+title: HTML5 canvas 圆弧教程
 ---
 
-To create an arc shape with `Konva`, we can instantiate a `Konva.Arc()` object.
+要使用 `Konva` 创建一个圆弧形状，我们可以实例化一个 `Konva.Arc()` 对象。
 
-For a full list of attributes and methods, check out the [Konva.Arc documentation](/api/Konva.Arc.html).
+有关属性和方法的完整列表，请查看 [Konva.Arc 文档](/api/Konva.Arc.html)。
 
 {% iframe /downloads/code/shapes/Arc.html %}
 
-{% include_code Konva Arc Demo shapes/Arc.html %}
+{% include_code Konva 圆弧演示 shapes/Arc.html %}

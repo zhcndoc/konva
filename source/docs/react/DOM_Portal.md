@@ -1,12 +1,12 @@
-title: Render DOM elements inside a canvas stage
+title: 在画布舞台中渲染 DOM 元素
 layout: react_page
 
 ---
 
-## How to put DOM elements (like inputs or divs) inside of a Konva stage?
+## 如何将 DOM 元素（如输入框或 div）放入 Konva 舞台中？
 
-If you want to have some DOM nodes as part of your canvas tree you can use `<Html />` component from [react-konva-utils package](https://github.com/konvajs/react-konva-utils).
+如果您想将一些 DOM 节点作为画布树的一部分，可以使用 [react-konva-utils 包](https://github.com/konvajs/react-konva-utils) 中的 `<Html />` 组件。
 
-Remember that DOM nodes are not direct children of Konva containers. `<Html />` is just a wrapper to work with a Portal-like API. HTML content will be not visible if you try to export canvas as image.
+请记住，DOM 节点不是 Konva 容器的直接子元素。`<Html />` 只是一个用于使用类似 Portal 的 API 的包装器。如果您尝试将画布导出为图像，HTML 内容将不可见。
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/dom_portal?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

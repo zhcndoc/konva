@@ -1,15 +1,15 @@
-title: How to resize shape on canvas without changing its stroke size?
+title: 如何在不改变描边大小的情况下调整画布上的形状大小？
 ---
 
-### Do you want to change size of a shape without changing its stroke size?
+### 你想在不改变形状描边大小的情况下改变形状大小吗？
 
-Remember, that `Konva.Transformer` is changing `scaleX` and `scaleY` properties of a node.
-By default, if you are transforming a shape, its stroke will be scaled too. It some cases that is not a good behavior.
+请记住，`Konva.Transformer` 正在改变节点的 `scaleX` 和 `scaleY` 属性。
+默认情况下，如果您正在变换一个形状，它的描边也会被缩放。在某些情况下，这并不是一个好的行为。
 
-There are two ways to prevent stroke scaling: (1) reset scale of a shape or (2) use combination of `shape.strokeScaleEnabled(false)` and `transformer.ignoreStroke(false)`.
+有两种方法可以防止描边缩放：（1）重置形状的缩放；或（2）使用 `shape.strokeScaleEnabled(false)` 和 `transformer.ignoreStroke(false)` 的组合。
 
-**Instructions: there are two rectangles to resize. The green one will reset it scale. The red one will just disable stroke scaling.**
+**说明：有两个矩形需要调整大小。绿色的矩形将重置其缩放。红色的矩形将仅禁用描边缩放。**
 
 {% iframe /downloads/code/select_and_transform/Ignore_Stroke_On_Transform.html %}
 
-{% include_code Konva ignore stroke  select_and_transform/Ignore_Stroke_On_Transform.html %}
+{% include_code Konva ignore stroke select_and_transform/Ignore_Stroke_On_Transform.html %}

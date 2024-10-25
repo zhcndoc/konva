@@ -1,11 +1,10 @@
-title: HTML5 canvas Ellipse Tutorial
+title: HTML5 canvas 椭圆教程
 ---
 
-To create a ellipse with `Konva`, we can instantiate a `Konva.Ellipse()` object.
+要使用 `Konva` 创建椭圆，我们可以实例化一个 `Konva.Ellipse()` 对象。
 
-For a full list of attributes and methods, check out the [Konva.Ellipse documentation](/api/Konva.Ellipse.html).
+有关属性和方法的完整列表，请查看 [Konva.Ellipse 文档](/api/Konva.Ellipse.html)。
 
 {% iframe /downloads/code/shapes/Ellipse.html %}
 
-{% include_code Konva Ellipse Demo shapes/Ellipse.html %}
-
+{% include_code Konva 椭圆演示 shapes/Ellipse.html %}

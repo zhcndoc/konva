@@ -1,56 +1,53 @@
-title: Resolving "Tainted canvases may not be exported" with Konva
+title: 解决 "污点画布无法导出" 的问题与 Konva
 ---
 
 
-When you are trying to export a canvas you may have an error like:
+当你尝试导出一个画布时，可能会遇到如下错误：
 
-> Unable to get data URL. Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+> 无法获取数据 URL。无法在 'HTMLCanvasElement' 上执行 'toDataURL'：污点画布无法导出。
 
-> Unable to get image data from canvas because the canvas has been tainted by cross-origin data.
+> 无法从画布获取图像数据，因为画布被跨域数据污染。
 
-Or when you apply filters you can have this error:
+或者在应用滤镜时，你可能会遇到以下错误：
 
-> Unable to apply filter. Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data.
+> 无法应用滤镜。无法在 'CanvasRenderingContext2D' 上执行 'getImageData'：画布已被跨域数据污染。
 
-> Unable to apply filter. The operation is insecure.
+> 无法应用滤镜。此操作不安全。
 
 
-## Why do we have that insecure error?
+## 为什么会出现这个不安全的错误？
 
-That is a [CORS error](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image). For security reasons, a browser can mark a canvas as tainted when you load images from another domain. In that case the browser blocks canvas exporting into `dataURL` or `imageData` (that is what we are doing on export or when filters are used).
+这是一个 [CORS 错误](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image)。出于安全原因，当你从另一个域加载图像时，浏览器可能会将画布标记为污点。在这种情况下，浏览器会阻止将画布导出为 `dataURL` 或 `imageData`（这就是我们在导出或使用滤镜时所做的操作）。
 
-## How to fix CORS issue?
+## 如何解决 CORS 问题？
 
-First you may try to set `crossOrigin = Anonymous` attribute of the loading image. This approach will work only if requested domain has an `Access-Control-Allow-Origin` headers that allow shared requests.
+首先，你可以尝试设置加载图像的 `crossOrigin = Anonymous` 属性。这种方法仅在请求的域具有允许共享请求的 `Access-Control-Allow-Origin` 头时有效。
 
 ```javascript
 // 1
-// native image loading:
+// 原生图像加载：
 const img = new Image();
 img.onload = () => {
-   // your code
+   // 你的代码
 };
 img.crossOrigin = 'Anonymous';
 img.src = url;
 
 // 2
-// you don't need to set that attribute if you use Konva.Image.fromURL API
-// it sets Anonymous automatically
+// 如果你使用 Konva.Image.fromURL API，就不需要设置该属性
+// 它会自动设置为 Anonymous
 Konva.Image.fromURL(url, img => {
   layer.add(img);
 });
 
 // 3
-// and if you use use-image hook for react-konva
+// 如果你使用 use-image hook 进行 react-konva
 const MyImage = ({ url }) => {
   const [image] = useImage(url, 'Anonymous');
   return <Image image={image} />;
 }
 ```
 
-### What if it doesn't work?
+### 如果不起作用怎么办？
 
-**It may still not work for all cases. If it doesn't work, then you have to configure your server in a different way (it is out of Konva scope) or you can try to store images somewhere else where CORS requests are supported.**
-
-
-
+**它在所有情况下可能仍然无效。如果不起作用，那么你必须以不同的方式配置你的服务器（这超出了 Konva 的范围），或者你可以尝试将图像存储在其他地方以支持 CORS 请求。**

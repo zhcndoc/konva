@@ -1,16 +1,13 @@
-title: How to listen to an event on a canvas shape with React and Konva?
+title: 如何在 React 和 Konva 中监听画布形状的事件？
 layout: react_page
 ---
 
-With `react-konva` you can attach any events that `Konva` supports to canvas nodes
+使用 `react-konva`，您可以将 Konva 支持的任何事件附加到画布节点上。
 
-To do that you can use the `onEventName` scheme, like `onMouseDown` for `mousedown`, `onDragEnd` for `dragend`, etc.
+为此，您可以使用 `onEventName` 方案，比如对于 `mousedown` 使用 `onMouseDown`，对于 `dragend` 使用 `onDragEnd`，依此类推。
 
-For the full list of events take a look into the [on() method documentation](/api/Konva.Node.html#on).
+有关事件的完整列表，请查看 [on() 方法文档](/api/Konva.Node.html#on)。
 
-In this demo you can see how we are using `dragstart` and `dragend` events.
+在这个示例中，您可以看到我们是如何使用 `dragstart` 和 `dragend` 事件的。
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/basic_demo?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
-
-

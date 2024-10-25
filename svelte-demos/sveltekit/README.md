@@ -1,38 +1,38 @@
 # create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+构建 Svelte 项目所需的一切，使用 [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte) 提供支持。
 
-## Creating a project
+## 创建项目
 
-If you're seeing this, you've probably already done this step. Congrats!
+如果您看到这个，您可能已经完成了这一步。恭喜！
 
 ```bash
-# create a new project in the current directory
+# 在当前目录中创建一个新项目
 npm create svelte@latest
 
-# create a new project in my-app
+# 在 my-app 中创建一个新项目
 npm create svelte@latest my-app
 ```
 
-## Developing
+## 开发
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+一旦您创建了项目并使用 `npm install`（或 `pnpm install` 或 `yarn`）安装了依赖项，启动开发服务器：
 
 ```bash
 npm run dev
 
-# or start the server and open the app in a new browser tab
+# 或启动服务器并在新浏览器标签中打开应用
 npm run dev -- --open
 ```
 
-## Building
+## 构建
 
-To create a production version of your app:
+要创建应用的生产版本：
 
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+您可以通过 `npm run preview` 预览生产构建。
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> 要部署您的应用，您可能需要为目标环境安装一个 [adapter](https://kit.svelte.dev/docs/adapters)。

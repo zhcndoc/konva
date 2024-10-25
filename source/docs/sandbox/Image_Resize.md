@@ -1,11 +1,11 @@
-title: HTML5 Canvas Drag, Drop, and Resize Images Demo
+title: HTML5 Canvas 拖动、放置和调整图像大小演示
 layout: demo_page
 ---
 
-The demo shows how to manually implement resizing of a shape with `Konva` shapes primitives.
+该演示展示了如何手动实现使用 `Konva` 图形原语调整形状大小的功能。
 
-But also we have a built-it methods for such cases with special `Konva.Transformer` node. Take a look into [Select and Transform demo](/docs/select_and_transform/Basic_demo.html).
+此外，我们还为这种情况提供了内置的方法，使用特殊的 `Konva.Transformer` 节点。请查看 [选择和变换演示](/docs/select_and_transform/Basic_demo.html)。
 
 {% iframe /downloads/code/sandbox/Image_Resize.html %}
 
-{% include_code Konva Drag, Drop, and Resize Images Demo sandbox/Image_Resize.html %}
+{% include_code Konva 拖动、放置和调整图像大小演示 sandbox/Image_Resize.html %}

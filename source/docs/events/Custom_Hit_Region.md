@@ -1,32 +1,25 @@
-title: HTML5 Canvas Custom Hit Detection Function Tutorial
+title: HTML5 Canvas 自定义命中检测函数教程
 ---
 
-There are two ways to change hit region of the shape: `hitFunc` and `hitStrokeWidth` properties.
+有两种方式可以改变形状的命中区域：`hitFunc` 和 `hitStrokeWidth` 属性。
 
-## 1. What is `hitFunc`?
+## 1. 什么是 `hitFunc`？
 
-To create a custom hit draw function for a shape with Konva, we can set
-the `hitFunc` property.  A hit draw function is the function that Konva
-will use to draw a region used for hit detection.  Using a custom draw hit
-function can have several benefits, such as making the hit region larger
-so that it's easier for users to interact with a shape, making some portions
-of a shape detectable and others not, or simplifying the hit draw function
-in order to improve rendering performance.
+为了为 Konva 中的形状创建自定义的命中绘制函数，我们可以设置 `hitFunc` 属性。命中绘制函数是 Konva 用于绘制用于命中检测的区域的函数。使用自定义绘制命中函数可以带来几个好处，例如使命中区域更大，以便用户更容易与形状交互，使形状的某些部分可检测而其他部分不可检测，或简化命中绘制函数以提高渲染性能。
 
-Also take a look into some [best practices](/docs/shapes/Custom.html) of writing custom `sceneFunc` that can be used for `hitFunc` too.
+同时，也可以查看一些 [最佳实践](/docs/shapes/Custom.html)，编写可以用于 `hitFunc` 的自定义 `sceneFunc`。
 
-`hitFunc` is a function with two arguments: [Konva.Context](/api/Konva.Context.html) renderer and a shape instance.
+`hitFunc` 是一个具有两个参数的函数：[Konva.Context](/api/Konva.Context.html) 渲染器和形状实例。
 
-With `hitFunc` you have full control over drawing.
+使用 `hitFunc` 您可以完全控制绘制过程。
 
-## 2. What is `hitStrokeWidth`?
+## 2. 什么是 `hitStrokeWidth`？
 
-For some shapes, like `Konva.Line` it is too hard to overwrite `hitFunc`. In some cases you just want to make it thicker for events. In this case it is better to use `hitStrokeWidth` property with a large value.
+对于某些形状，例如 `Konva.Line`，覆盖 `hitFunc` 是非常困难的。在某些情况下，您只是想使其在事件中变得更厚。在这种情况下，最好使用大值的 `hitStrokeWidth` 属性。
 
 
-Instructions: Mouseover, mouseout, mousedown, and mouseup over the star and
-observe that the hit region is an over sized circle encompassing the shape. Also try the same for a a line.
-Also you can toggle hit canvas too see how it looks. It may be useful for debugging.
+说明：将鼠标移到星形上、移出、按下和抬起鼠标，并观察命中区域是一个超大圆形，包围着形状。对于一条线，也尝试同样的操作。
+您还可以切换命中画布，以查看其外观。这可能对调试很有用。
 
 
 

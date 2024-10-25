@@ -1,32 +1,31 @@
-title: How to preview large stage on canvas with Konva?
+title: 如何使用 Konva 在画布上预览大型舞台？
 layout: demo_page
 ---
 
-## Need to generate a small preview of the canvas?
+## 需要生成小型画布预览吗？
 
-There are many ways to generate small preview. `Konva` doesn't provide any methods to do this automatically.
-But we can use `Konva` methods to generate preview area manually.
+生成小型预览的方法有很多。`Konva` 并未提供自动生成预览的方法。但我们可以使用 `Konva` 方法手动生成预览区域。
 
-We will show two options - cloning and using images. In large applications it is better to generate preview from the state of the app.
+我们将展示两种选项 - 克隆和使用图像。在大型应用中，从应用的状态生成预览会更好。
 
-### Clone nodes from the main stage.
+### 从主舞台克隆节点。
 
-So we can just clone the stage or the layer and update its internal nodes from the state of the main canvas area.
+我们可以直接克隆舞台或图层，并根据主画布区域的状态更新其内部节点。
 
-Also it will make sense to simplify shapes on the preview. Like hide texts, remove strokes and shadows, etc.
+同时，简化预览中的形状是有意义的。例如，隐藏文本，移除轮廓和阴影等。
 
-**Instructions: try to drag a circle. See how the preview is updating. Double click to add a new shape.**
+**说明：尝试拖动一个圆形。看看预览是如何更新的。双击以添加新形状。**
 
 {% iframe /downloads/code/sandbox/Stage_Preview_Clone.html %}
 
 {% include_code sandbox/Stage_Preview_Clone.html %}
 
 
-### Use image preview
+### 使用图像预览
 
-Or we can export the stage to an image and use it as a preview.
+或者我们可以将舞台导出为图像并将其用作预览。
 
-For performance reasons we are not updating the preview on every `dragmove` events.
+出于性能原因，我们并不在每个 `dragmove` 事件中更新预览。
 
 {% iframe /downloads/code/sandbox/Stage_Preview_Image.html %}
 

@@ -1,9 +1,9 @@
-title: Physics Simulator with Curve Detection
+title: 带曲线检测的物理模拟器
 layout: demo_page
 ---
 
-Instructions: Throw the ball around with your cursor.
+说明：用你的鼠标扔球。
 
 {% iframe /downloads/code/sandbox/Physics_Simulator.html %}
 
-{% include_code Konva Physics Simulator with Curve Detection sandbox/Physics_Simulator.html %}
+{% include_code Konva 带曲线检测的物理模拟器 sandbox/Physics_Simulator.html %}

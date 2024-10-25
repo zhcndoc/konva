@@ -1,10 +1,10 @@
-## title: Style Konva Transformer
+## 标题: 样式 Konva Transformer
 
-You can adjust styles of `Konva.Transformer` for your web app. You can change stroke, size and fill of all anchors.
-Also you can change stroke color and size of border.
+您可以调整您网页应用中 `Konva.Transformer` 的样式。您可以改变所有锚点的描边、大小和填充。
+同时也可以改变边框的描边颜色和大小。
 
-Also take a look into [Complex Transformer Styling](/docs/select_and_transform/Transformer_Complex_Styling.html) for fine tuning.
+另请查看 [复杂 Transformer 样式](/docs/select_and_transform/Transformer_Complex_Styling.html) 以进行细微调整。
 
 {% iframe /downloads/code/select_and_transform/Transformer_Styling.html %}
 
-{% include_code Konva Shape transform and selection styling Demo select_and_transform/Transformer_Styling.html %}
+{% include_code Konva 形状变换和选择样式演示 select_and_transform/Transformer_Styling.html %}

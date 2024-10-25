@@ -1,15 +1,14 @@
-title: HTML5 Canvas Shape Redraw Performance Tip
+title: HTML5 Canvas 形状重绘性能提示
 ---
 
-**Important note: I think using such tricks is an anti-pattern. You should avoid to use it.**
+**重要说明：我认为使用这样的技巧是一种反模式。你应该避免使用它。**
 
-Usually when you need to update your canvas you should call `layer.draw()`.
+通常，当你需要更新画布时，你应该调用 `layer.draw()`。
 
-But in small set of cases it is possible to update `Konva.Node` without updating whole layer.
-You can call `shape.draw()`, *BUT remember that in this case shape will be drawn OVER existing canvas*.
-So it is not possible to use this tip if your node should be placed under other nodes or if it has an opacity.
+但是在少数情况下，可以更新 `Konva.Node` 而无需更新整个图层。你可以调用 `shape.draw()`，*但请记住，在这种情况下，形状将被绘制在现有画布之上*。
+因此，如果你的节点应该放在其他节点之下或者具有不透明度，则无法使用这个提示。
 
-Instructions: mouseover boxes to highlight.
+说明：将鼠标悬停在框上以进行高亮显示。
 
 {% iframe /downloads/code/performance/Shape_Redraw.html %}
 

@@ -1,15 +1,15 @@
-title: HTML5 Canvas Shape Resize and Transform Limits
+title: HTML5 Canvas 形状调整大小和变换限制
 
 ---
 
-### How to limit size changes of a shape?
+### 如何限制形状的大小变化？
 
-To limit or change resize and transform behavior you can use `boundBoxFunc` property.
-It works a bit similar to [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds.html).
+要限制或更改调整大小和变换的行为，您可以使用 `boundBoxFunc` 属性。
+它的工作方式有点类似于 [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds.html)。
 
-Instructions: Try to resize a shape. You will see that its width is limited to 200.
+说明：尝试调整形状的大小。您将看到它的宽度限制为 200。
 
-Also you can control movement of every anchors individually. See [Resize Snap Demo](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html).
+您还可以单独控制每个锚点的移动。请参见 [调整大小快照演示](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html)。
 
 {% iframe /downloads/code/select_and_transform/Resize_Limits.html %}
 

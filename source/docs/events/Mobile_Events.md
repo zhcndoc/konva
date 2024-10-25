@@ -1,17 +1,17 @@
-title: HTML5 Canvas Mobile Touch Events Tutorial
+title: HTML5 Canvas 移动触摸事件教程
 ---
 
-To bind event handlers to shapes on a mobile device with Konva, we can use the `on()` method.
-The `on()` method requires an event type and a function to be executed when the event occurs.
-Konva supports `touchstart`, `touchmove`, `touchend`, `tap`, `dbltap`, `dragstart`, `dragmove`, and `dragend` mobile events.
+要在移动设备上使用 Konva 绑定事件处理程序到形状，我们可以使用 `on()` 方法。
+`on()` 方法需要一个事件类型和一个在事件发生时执行的函数。
+Konva 支持 `touchstart`、`touchmove`、`touchend`、`tap`、`dbltap`、`dragstart`、`dragmove` 和 `dragend` 移动事件。
 
-For more complex gestures like `rotate` take a look into [Gestures Demo](/docs/sandbox/Gestures.html).
+对于更复杂的手势，如 `rotate`，请查看 [手势演示](/docs/sandbox/Gestures.html)。
 
-If you are looking for pan and zoom logic for the whole stage take a look into [Multi-touch scale Stage demo](/docs/sandbox/Multi-touch_Scale_Stage.html).
+如果您需要整个舞台的平移和缩放逻辑，请查看 [多点触控缩放舞台演示](/docs/sandbox/Multi-touch_Scale_Stage.html)。
 
-*Note: This example only works on mobile devices because it makes use of touch events rather than mouse events.*
+*注意：此示例仅适用于移动设备，因为它使用触摸事件而不是鼠标事件。*
 
-Instructions: move your finger across the triangle to see touch coordinates and touch start and touch end the circle.
+说明：在三角形上滑动您的手指查看触摸坐标，并在圆圈上进行触摸开始和触摸结束。
 
 {% iframe /downloads/code/events/Mobile_Events.html %}
 

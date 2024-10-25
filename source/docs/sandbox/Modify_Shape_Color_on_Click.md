@@ -1,9 +1,9 @@
-title: Modify Shape Color on Click
+title: 点击修改形状颜色
 layout: demo_page
 ---
 
-Instructions: Click on a shape to change its color
+说明：点击形状以更改其颜色
 
 {% iframe /downloads/code/sandbox/Modify_Shape_Color_on_Click.html %}
 
-{% include_code Konva Modify Shape Color on Click sandbox/Modify_Shape_Color_on_Click.html %}
+{% include_code Konva 修改形状颜色 点击/sandbox/Modify_Shape_Color_on_Click.html %}

@@ -1,14 +1,11 @@
-title: How to drop image elements into a canvas with React?
+title: 如何在画布中拖放图像元素与 React?
 layout: react_page
 ---
 
-You can use native html5 drag&drop features to drop images (or other elements) from the page into the canvas area.
+您可以使用原生的 html5 拖放功能将图像（或其他元素）从页面拖放到画布区域。
 
-**Note: this demo may not work well as it is injected into the page as an iframe.**
+**注意：此演示可能无法正常工作，因为它作为 iframe 注入到页面中。**
 
-[Open DEMO in a new tab the test it](https://g4sc2.csb.app/)
+[在新选项卡中打开 DEMO 进行测试](https://g4sc2.csb.app/)
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/drop_image_into_stage?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
-
-

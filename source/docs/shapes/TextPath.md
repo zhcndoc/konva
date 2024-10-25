@@ -1,12 +1,12 @@
-title: HTML5 canvas TextPath Tutorial. Text follows path
+title: HTML5 画布文本路径教程，文本沿路径移动
 ---
 
-## How to draw a Text along path with HTML 5 Canvas?
+## 如何使用 HTML 5 Canvas 绘制沿路径的文本？
 
-To create a text path with `Konva`, we can instantiate a `Konva.TextPath()` object.
+要使用 `Konva` 创建文本路径，我们可以实例化一个 `Konva.TextPath()` 对象。
 
-For a full list of attributes and methods, check out the [Konva.TextPath documentation](/api/Konva.TextPath.html).
+有关属性和方法的完整列表，请查看 [Konva.TextPath 文档](/api/Konva.TextPath.html)。
 
 {% iframe /downloads/code/shapes/TextPath.html %}
 
-{% include_code Konva TextPath Demo shapes/TextPath.html %}
+{% include_code Konva TextPath 演示 shapes/TextPath.html %}

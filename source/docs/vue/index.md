@@ -1,44 +1,44 @@
-title: Getting started with vue and canvas via Konva
+title: 使用 Konva 开始 Vue 和 Canvas 的旅程
 layout: vue_page
 
 ---
 
-## How to use canvas with Vue?
+## 如何在 Vue 中使用 Canvas？
 
 ![VueKonva Logo](https://raw.githubusercontent.com/konvajs/vue-konva/master/vue-konva.png)
 
-Vue Konva is a JavaScript library for drawing complex canvas graphics using Vue.
+Vue Konva 是一个用于使用 Vue 绘制复杂 Canvas 图形的 JavaScript 库。
 
-It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+它提供了与 [Konva 框架](https://konvajs.org/) 的声明性和反应式绑定。
 
-All `vue-konva` components correspond to `Konva` components of the same name with the prefix 'v-'. All the parameters available for `Konva` objects can add as `config` in the prop for corresponding `vue-konva` components.
+所有的 `vue-konva` 组件对应于具有前缀 'v-' 的同名 `Konva` 组件。所有可用于 `Konva` 对象的参数都可以作为 `props` 中的 `config` 添加到相应的 `vue-konva` 组件中。
 
-Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`.
-Also you can create custom shape.
+核心形状包括：`v-rect`、`v-circle`、`v-ellipse`、`v-line`、`v-image`、`v-text`、`v-text-path`、`v-star`、`v-label`、`v-path`、`v-regular-polygon`。
+此外，你还可以创建自定义形状。
 
-To get more info about `Konva` you can read [Konva Overview](https://konvajs.org/docs/overview.html).
+要获取有关 `Konva` 的更多信息，可以阅读 [Konva 概述](https://konvajs.org/docs/overview.html)。
 
-## Quick Start
+## 快速开始
 
-[Vue.js](https://vuejs.org) version 2.4+ is required.
+需要 [Vue.js](https://vuejs.org) 版本 2.4+。
 
-### 1 Install via npm
+### 1 通过 npm 安装
 
-`vue@3`:
+`vue@3`：
 
 ```npm
 npm install vue-konva konva --save
 ```
 
-`vue@2`:
+`vue@2`：
 
 ```npm
 npm install vue-konva@2 konva --save
 ```
 
-### 2 Import and use VueKonva
+### 2 导入并使用 VueKonva
 
-`vue@3`:
+`vue@3`：
 
 ```js
 import { createApp } from 'vue';
@@ -50,7 +50,7 @@ app.use(VueKonva);
 app.mount('#app');
 ```
 
-`vue@2`:
+`vue@2`：
 
 ```javascript
 import Vue from 'vue';
@@ -59,7 +59,7 @@ import VueKonva from 'vue-konva';
 Vue.use(VueKonva);
 ```
 
-### 3 Reference in your component templates
+### 3 在你的组件模板中引用
 
 ```html
 <template>
@@ -91,13 +91,12 @@ export default {
     };
   }
 };
-
 </script>
 ```
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/vue-demos/basic_demo?hidenavigation=1&view=preview&fontsize=10&module=%2Fsrc%2FApp.vue" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-### Or use a CDN
+### 或者使用 CDN
 
 ```html
 <html>
@@ -117,13 +116,13 @@ export default {
         </v-layer>
       </v-stage>
     </div>
-    <!--1. Link Vue Javascript & Konva-->
+    <!--1. 引入 Vue Javascript & Konva-->
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/konva@9/konva.min.js"></script>
-    <!--2. Link VueKonva Javascript (Plugin automatically installed)-->
+    <!--2. 引入 VueKonva Javascript (插件自动安装)-->
     <script src="./lib/vue-konva.min.js"></script>
     <script>
-      // 3. Create the Vue instance
+      // 3. 创建 Vue 实例
       new Vue({
         el: '#app',
         data: {

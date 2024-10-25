@@ -1,15 +1,15 @@
-title: HTML5 Canvas Desktop and Mobile Events Support Tutorial
+# HTML5 Canvas 桌面和移动设备事件支持教程
 
 ---
 
-_Note: this demo may be outdate, because modern browsers support pointer events. And you can use pointer events in Konva too. See [Pointer Events Demo](/docs/events/Pointer_Events.html). But if you prefer not to use pointer events, keep reading..._
+_注意：这个演示可能已经过时，因为现代浏览器支持指针事件。你也可以在 Konva 中使用指针事件。查看 [指针事件演示](/docs/events/Pointer_Events.html)。但如果你不想使用指针事件，请继续阅读..._
 
-To add event handlers to shapes that work for both desktop and mobile applications with Konva, we can use the `on()` method and pass in paired events.
-For example, in order for the `mousedown` event to be triggered on desktop and mobile applications, we can use the `"mousedown touchstart"` event pair to cover both mediums.
-In order for the `mouseup` event to be triggered on both desktop and mobile applications, we can use the `"mouseup touchend"` event pair.
-We can also use the `"dblclick dbltap"` event pair to bind a double click event that works for both desktop and mobile devices.
+为了为使用 Konva 的桌面和移动应用程序的形状添加事件处理程序，我们可以使用 `on()` 方法并传入成对的事件。
+例如，为了在桌面和移动应用程序上触发 `mousedown` 事件，我们可以使用 `"mousedown touchstart"` 事件对来覆盖这两种媒介。
+为了在桌面和移动应用程序上触发 `mouseup` 事件，我们可以使用 `"mouseup touchend"` 事件对。
+我们还可以使用 `"dblclick dbltap"` 事件对来绑定适用于桌面和移动设备的双击事件。
 
-Instructions: Mousedown, mouseup, touchstart, or touchend the circle on either a desktop or mobile device to observe the same functionality.
+说明：在桌面或移动设备上，对圆形进行 mousedown、mouseup、touchstart 或 touchend 操作，以观察相同的功能。
 
 {% iframe /downloads/code/events/Desktop_and_Mobile.html %}
 

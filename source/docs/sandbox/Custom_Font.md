@@ -1,21 +1,21 @@
-title: How to use custom font for HTML5 canvas?
+title: 如何在 HTML5 画布上使用自定义字体？
 layout: demo_page
 ---
 
-## How to draw external font on html5 canvas?
+## 如何在 HTML5 画布上绘制外部字体？
 
-If you want to use custom font for `Konva.Text` you just need to:
-1. Add font style to your page
-2. Set `fontFamily` attribute to required font-face.
+如果你想在 `Konva.Text` 中使用自定义字体，你只需：
+1. 将字体样式添加到你的页面
+2. 将 `fontFamily` 属性设置为所需的字体。
 
-But there is one important thing here. When you set font for DOM elements (like `div` or `span`) browsers will automatically update that elements when font is loaded. But it doesn't work the same for canvas text. You need to redraw canvas again.
+但这里有一个重要的事情。当你为 DOM 元素（如 `div` 或 `span`）设置字体时，浏览器会在字体加载后自动更新那些元素。但对于画布文本，这种方式并不适用。你需要重新绘制画布。
 
-To detect that font is loaded you can use something like [FontObserver](https://fontfaceobserver.com/).
+要检测字体是否已加载，你可以使用类似 [FontObserver](https://fontfaceobserver.com/) 的东西。
 
-But for the demo I will use simpler font loading detection. It work ok for many fonts and much smaller in size.
+但为了演示，我将使用更简单的字体加载检测。这种方法在许多字体上效果很好，而且文件大小要小得多。
 
-Is even simpler solution you can redraw after delay with `setTimeout`, but it doesn't guarantee that font is loaded.
+还有一种更简单的解决方案是使用 `setTimeout` 延迟后重新绘制，但这并不能保证字体已加载。
 
 {% iframe /downloads/code/sandbox/Custom_Font.html %}
 
-{% include_code Konva Custom Font sandbox/Custom_Font.html %}
+{% include_code Konva 自定义字体 sandbox/Custom_Font.html %}

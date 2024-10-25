@@ -1,16 +1,13 @@
-## title: HTML5 Canvas Complex Drag and Drop Bounds
+## 标题: HTML5 Canvas 复杂拖放边界
 
-## How to limit dragging ability with Konva?
+## 如何使用 Konva 限制拖动能力？
 
-To bound the movement of nodes being dragged and dropped inside regions with
-Konva, we can use the `dragmove` event to define boundaries that the node cannot cross.
+要限制在区域内拖动和放置节点的移动，可以使用 `dragmove` 事件来定义节点无法越过的边界。
 
-_Tip: you can use `shape.absolutePosition()` method to get/set absolute position of a node, instead of relative `x` and `y`._
+_提示：您可以使用 `shape.absolutePosition()` 方法获取/设置节点的绝对位置，而不是相对的 `x` 和 `y`。_
 
-Instructions: Drag and drop the the light blue rectangle and observe that it
-is bound below an imaginary boundary at y = 50. Drag and drop the yellow
-rectangle and observe that it is bound inside of an imaginary circle.
+说明：拖动并放置浅蓝色矩形，观察它被限制在 y = 50 的一个虚拟边界下。拖动并放置黄色矩形，观察它被限制在一个虚拟圆形内。
 
 {% iframe /downloads/code/drag_and_drop/Complex_Drag_and_Drop.html %}
 
-{% include_code Konva Complex Drag and Drop Bounds Demo drag_and_drop/Complex_Drag_and_Drop.html %}
+{% include_code Konva 复杂拖放边界演示 drag_and_drop/Complex_Drag_and_Drop.html %}

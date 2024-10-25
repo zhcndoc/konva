@@ -1,14 +1,13 @@
-title: How It Works
+title: 工作原理
 ---
 
-Konva stages are made up of user defined layers.
-Each layer has two canvas renderers, a scene renderer and a hit graph renderer.
-The scene renderer is what you can see, and the hit graph renderer is a special hidden
-canvas that's used for high performance event detection.
+Konva 阶段由用户定义的层组成。
+每个层有两个画布渲染器，一个是场景渲染器，另一个是击中特殊的图形渲染器。
+场景渲染器是你可以看到的，而击中特殊的图形渲染器是一个特殊的隐藏画布，用于高性能事件检测。
 
-Each layer can contain shapes, groups of shapes, or groups of other groups.
-The stage, layers, groups, and shapes are virtual nodes, similar to DOM nodes in an HTML page.
-Here's an example Node hierarchy:
+每个层可以包含形状、形状组或其他组的组。
+阶段、层、组和形状都是虚拟节点，类似于 HTML 页面中的 DOM 节点。
+以下是一个节点层次结构的示例：
 
 ```
                    Stage
@@ -30,10 +29,6 @@ Here's an example Node hierarchy:
               Shape
 ```
 
-All nodes can be styled and transformed.  Although Konva has prebuilt shapes available,
-such as rectangles, circles, images, sprites, text, lines, polygons, regular polygons, paths, stars, etc.,
-you can also create custom shapes by instantiating the Shape class and creating a draw function.
+所有节点都可以被样式化和变换。尽管 Konva 提供了预构建的形状，如矩形、圆形、图像、精灵、文本、线条、多边形、正多边形、路径、星形等，但你也可以通过实例化 Shape 类并创建绘制函数来自定义形状。
 
-Once you have a stage set up with layers and shapes,
-you can bind event listeners, transform nodes, run animations,
-apply filters, and much more.
+一旦你设置了一个包含层和形状的阶段，你可以绑定事件监听器、变换节点、运行动画、应用滤镜等等。

@@ -1,12 +1,12 @@
-# Konva Website
+# Konva 网站
 
-The website for Konva. Created with Hexo framework.
-You can see the generated files at [konvajs/konvajs.github.io](https://github.com/konvajs/konvajs.github.io) repository.
+Konva 的官方网站。使用 Hexo 框架创建。
+你可以在 [konvajs/konvajs.github.io](https://github.com/konvajs/konvajs.github.io) 仓库查看生成的文件。
 
 
-## Getting started
+## 入门
 
-Install dependencies:
+安装依赖：
 
 ``` bash
 $ git clone https://github.com/konvajs/site.git
@@ -15,13 +15,13 @@ $ npm install
 $ npm install gulp -g
 ```
 
-Generate:
+生成：
 
 ``` bash
 $ gulp generate
 ```
 
-Run server:
+运行服务器：
 
 ``` bash
 $ gulp server

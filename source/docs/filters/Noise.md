@@ -1,14 +1,13 @@
-title: HTML5 Canvas Noise filter Image Tutorial
+title: HTML5 Canvas 噪声滤镜图像教程
 ---
 
-To apply filter to an `Konva.Node`, we have to cache it first with `cache()`
-function. Then apply filter with `filters()` function.
+要对 `Konva.Node` 应用滤镜，我们首先需要使用 `cache()` 函数进行缓存。然后使用 `filters()` 函数应用滤镜。
 
-To change noise of an image with Konva, we can use the `Konva.Filters.Noise`.
+要使用 Konva 更改图像的噪声，我们可以使用 `Konva.Filters.Noise`。
 
-Instructions: Slide the control to change noise value.
+说明：滑动控件以更改噪声值。
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用滤镜，请访问 [滤镜文档](/api/Konva.Filters.html)。
 
 {% iframe /downloads/code/filters/Noise.html %}
 

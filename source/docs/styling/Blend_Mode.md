@@ -1,11 +1,11 @@
-title: HTML5 Canvas Blend mode with globalCompositeOperation Tutorial
+title: HTML5 Canvas 混合模式与 globalCompositeOperation 教程
 ---
 
-[globalCompositeOperation Documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation).
+[globalCompositeOperation 文档](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)。
 
-With Konva framework you can set globalCompositeOperation or blending mode operations with `globalCompositeOperation` property.
+使用 Konva 框架，您可以通过 `globalCompositeOperation` 属性设置 globalCompositeOperation 或混合模式操作。
 
-Instructions: drag red rectangle over text and see how they will be drawing together.
+操作说明：将红色矩形拖动到文本上，观察它们如何一起绘制。
 
 {% iframe /downloads/code/styling/Blend_Mode.html %}
 

@@ -1,11 +1,8 @@
-title: HTML5 Canvas Drag and Drop an Image
+title: HTML5 Canvas 拖拽图像
 ---
 
-To drag and drop an image with Konva, we can set the `draggable` property
-to true when we instantiate a shape, or we can use the `draggable()` method.
-The `draggable()` method enables drag and drop for both desktop and mobile
-applications automatically.
+要使用 Konva 拖拽图像，我们可以在实例化形状时将 `draggable` 属性设置为 true，或者可以使用 `draggable()` 方法。`draggable()` 方法自动启用桌面和移动应用程序的拖拽功能。
 
 {% iframe /downloads/code/drag_and_drop/Drag_an_Image.html %}
 
-{% include_code Konva Drag and Drop an Image Demo drag_and_drop/Drag_an_Image.html %}
+{% include_code Konva 拖拽图像演示 drag_and_drop/Drag_an_Image.html %}

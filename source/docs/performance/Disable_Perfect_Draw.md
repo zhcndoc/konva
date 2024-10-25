@@ -1,30 +1,30 @@
-title: HTML5 Canvas Disable Perfect Drawing Tip
+title: HTML5 Canvas 禁用完美绘制提示
 ---
 
 
 
-In some case drawing on canvas has unexpected result.
-For example let's draw shape with fill, stroke and opacity.
-As stroke are drawn on top of fill. There's a line of half the size of the stroke inside the shape which is darker
-because it's the intersection of the fill and the stroke.
+在某些情况下，在画布上绘制的结果可能会出乎意料。
+例如，让我们绘制一个带填充、描边和不透明度的形状。
+由于描边是在填充上绘制的，因此形状内部有一条半宽度的描边线，这条线看起来更暗
+因为它是填充和描边的交集。
 
-Probably that is not expected for you. So `Konva` fixes such behavior with using buffer canvas.
+这可能不是你所期望的结果。因此，`Konva` 使用缓冲画布修复了这种行为。
 
-In this case `Konva` is doing these:
+在这种情况下，`Konva` 是这样做的：
 
-1. Draw shape on buffer canvas
-2. Fill and stroke it WITHOUT opacity
-3. Apply opacity on layer's canvas
-4. Then draw on layer canvas result from buffer
+1. 在缓冲画布上绘制形状
+2. 无视不透明度进行填充和描边
+3. 在层的画布上应用不透明度
+4. 然后将来自缓冲的结果绘制到层的画布上
 
-But using buffer canvas might drop performance. So you can disable such fixing:
+但使用缓冲画布可能会降低性能。因此，您可以禁用这种修复：
 
 ```javascript
 shape.perfectDrawEnabled(false);
 ```
 
-See difference here:
+在这里查看差异：
 
 {% iframe /downloads/code/performance/Disable_Perfect_Draw.html %}
 
-{% include_code Konva Disable Perfect Drawing Demo performance/Disable_Perfect_Draw.html %}
+{% include_code Konva 禁用完美绘制演示 performance/Disable_Perfect_Draw.html %}

@@ -1,33 +1,33 @@
-title: Text editing in HTML5 canvas with Konva
+title: HTML5 画布中的文本编辑与 Konva
 layout: demo_page
 ---
 
-User can't directly edit `Konva.Text` content for [many reasons](https://www.w3.org/TR/2dcontext/#best-practices). In fact canvas API is not designed for such purpose.
-It is possible to emulate text editing on canvas (by drawing blinking cursor, emulate selection, etc).
-Konva has not support for such case. We recommend to edit the user input outside of your canvas with native DOM elements such as `input` or `textarea`.
+用户不能直接编辑 `Konva.Text` 内容，原因有很多 [原因](https://www.w3.org/TR/2dcontext/#best-practices)。实际上，画布 API 并不为此目的而设计。
+可以在画布上模拟文本编辑（通过绘制闪烁的光标、模拟选择等）。
+Konva 并不支持这种情况。我们建议在画布外部使用原生 DOM 元素（如 `input` 或 `textarea`）来编辑用户输入。
 
-Here we will create two demos. Basic demo for general understanding of the technic. And the more complex one, used in real-word app that cover more edge cases.
+在这里，我们将创建两个演示。基本演示用于理解技术的概念。更复杂的演示则用于覆盖更多边缘案例的真实应用。
 
-If you want to enable full rich text editing features see [Rich Text Demo](/docs/sandbox/Rich_Text.html).
+如果您想启用完整的富文本编辑功能，请参见 [富文本演示](/docs/sandbox/Rich_Text.html)。
 
-Instructions: Double click on text to edit it. Type something. Press Enter.
+使用说明：双击文本以进行编辑。输入一些内容。按下回车键。
 
-Simple demo:
+简单演示：
 
 {% iframe /downloads/code/sandbox/Editable_Text.html %}
 
-<details><summary>Show source code of simple demo!</summary>
+<details><summary>显示简单演示的源代码！</summary>
 <p>
-{% include_code Konva Editable text Demo sandbox/Editable_Text.html %}
+{% include_code Konva Editable text Demo sandbox/Editable_Text.html %} 
 </p>
 </details>
 
-Complex demo:
+复杂演示：
 
 {% iframe /downloads/code/sandbox/Complex_Editable_Text.html %}
 
-<details><summary>Show source code of complex demo!</summary>
+<details><summary>显示复杂演示的源代码！</summary>
 <p>
-{% include_code Canvas Complex Text Demo sandbox/Complex_Editable_Text.html %}
+{% include_code Canvas Complex Text Demo sandbox/Complex_Editable_Text.html %} 
 </p>
 </details>

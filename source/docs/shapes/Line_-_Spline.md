@@ -1,14 +1,14 @@
-title: HTML5 canvas Spline Tutorial
+title: HTML5 canvas Spline 教程
 ---
 
-To create a spline with `Konva`, we can instantiate a `Konva.Line()` object with `tension` attribute.
+要使用 `Konva` 创建样条曲线，我们可以实例化一个带有 `tension` 属性的 `Konva.Line()` 对象。
 
-To define the path of the line you should use `points` property. If you have three points with `x` and `y` coordinates you should define `points` property as: `[x1, y1, x2, y2, x3, y3]`.
+要定义线条的路径，应使用 `points` 属性。如果你有三个点的 `x` 和 `y` 坐标，你应该将 `points` 属性定义为：`[x1, y1, x2, y2, x3, y3]`。
 
-Flat array of numbers should work faster and use less memory than array of objects.
+扁平的数字数组的性能应该比对象数组更快，并且占用更少的内存。
 
-For a full list of attributes and methods, check out the [Konva.Line documentation](/api/Konva.Line.html).
+有关属性和方法的完整列表，请查看 [Konva.Line 文档](/api/Konva.Line.html)。
 
 {% iframe /downloads/code/shapes/Line_-_Spline.html %}
 
-{% include_code Konva Spline Demo shapes/Line_-_Spline.html %}
+{% include_code Konva Spline 示例 shapes/Line_-_Spline.html %}

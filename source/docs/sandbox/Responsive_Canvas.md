@@ -1,19 +1,19 @@
-title: Responsive Canvas Stage Demo
+title: 响应式画布舞台演示
 layout: demo_page
 ---
 
-## Do you need responsive/adaptive canvas for you desktop and mobile applications?
+## 你需要响应式/自适应画布来满足你的桌面和移动应用吗？
 
-So first of all, there are many way to make your canvas stage "responsive".
-And you may need a different behavior for different applications.
+首先，有许多方法可以使你的画布舞台“响应式”。  
+而且你可能需要为不同的应用程序设置不同的行为。
 
-This demo will show you the simplest solution. We will fit a canvas stage into user window with scaling.
-In the demo we will care only about stage WIDTH. You may need to add extra logic if you need to fit height too.
+本演示将向你展示最简单的解决方案。我们将通过缩放将画布舞台适应用户窗口。  
+在演示中，我们只关注舞台的宽度。如果你需要高度也适应，你可能需要添加额外的逻辑。
 
-Instructions: open demo on new window with this link:
+使用以下链接在新窗口打开演示：  
 <a onclick="window.open('/downloads/code/sandbox/Responsive_Canvas.html', '_blank', 'location=yes,height=500,width=500,scrollbars=yes,status=yes');">
-  Open Demo!
-</a>
-And try to resize a browser window.
+  打开演示！
+</a>  
+并尝试调整浏览器窗口的大小。
 
-{% include_code Responsive Canvas Stage Demo sandbox/Responsive_Canvas.html %}
+{% include_code 响应式画布舞台演示 sandbox/Responsive_Canvas.html %}

@@ -1,18 +1,18 @@
-title: How to change the zIndex of nodes with Vue?
+title: 如何在 Vue 中更改节点的 zIndex？
 layout: vue_page
 
 ---
 
-## How to change the zIndex and reorder components in `vue-konva`?
+## 如何在 `vue-konva` 中更改 zIndex 和重新排序组件？
 
-When you are working with `Konva` directly you have many methods to change the order of nodes like `node.zIndex(5)`, `node.moveToTop()`, etc. [Tutorial](/docs/groups_and_layers/Layering.html).
+当您直接使用 `Konva` 时，有许多方法可以更改节点的顺序，例如 `node.zIndex(5)`、`node.moveToTop()` 等。 [教程](/docs/groups_and_layers/Layering.html)。
 
-But it is not recommended to use these methods when you are working with the `vue` framework.
+但是，在使用 `vue` 框架时，不建议使用这些方法。
 
-`vue-konva` is trying to follow the order of the nodes exactly as you described them in your `<template>`. So instead of changing the `zIndex` manually, you just need to update the data of the app correctly, so the components inside your `<template>` maintain the correct order.
+`vue-konva` 尝试严格按照您在 `<template>` 中描述的节点顺序。因此，您只需正确更新应用程序的数据，以便 `<template>` 中的组件保持正确的顺序，而不是手动更改 `zIndex`。
 
-Don't use the `zIndex` for your canvas components.
+不要为您的画布组件使用 `zIndex`。
 
-Instructions: Try to drag a circle. See how it goes to the top. We are doing this by manipulating the data of the app so that the circles inside the `<template>` maintain the correct order.
+说明：尝试拖动一个圆形。看看它是如何到达顶部的。我们通过操纵应用程序的数据来完成这项工作，以便 `<template>` 中的圆形保持正确的顺序。
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/vue-demos/zIndex?hidenavigation=1&view=preview&fontsize=10&file=/src/App.vue" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

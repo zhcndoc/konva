@@ -1,20 +1,20 @@
-title: Binding the config prop
+title: 绑定配置属性
 layout: svelte_page
 
 ---
 
-By default svelte-konva keeps the provided config prop object in sync with the internal state of Konva. This means that the supplied config object will be updated to the correct values (position, rotation, scale, ...) after `dragend` and `transformend` events. svelte-konva will only update the keys you provided in your config object and not add any additional keys which might have changed.
+默认情况下，svelte-konva 会将提供的配置属性对象与 Konva 的内部状态保持同步。这意味着在 `dragend` 和 `transformend` 事件后，提供的配置对象会更新为正确的值（位置、旋转、缩放等）。svelte-konva 只会更新您在配置对象中提供的键，而不会添加可能已更改的任何额外键。
 
-### Binding the config prop
-By binding the config prop any reactive statements depending on your config object will be triggered once svelte-konva updates the config values. If not bound the values of the config object will still be updated by svelte-konva but not trigger any reactive blocks depending on it. Generally, you should bind the config prop if possible, not only to keep reactivity but to also make it more explicit that the passed config object can be changed by svelte-konva.
+### 绑定配置属性
+通过绑定配置属性，任何依赖于您的配置对象的反应式语句将在 svelte-konva 更新配置值时被触发。如果没有绑定，配置对象的值仍然会被 svelte-konva 更新，但不会触发任何依赖于它的反应式块。一般来说，如果可能，您应该绑定配置属性，不仅为了保持反应性，还为了更明确地表示传递的配置对象可以被 svelte-konva 更改。
 
-### Disabling automatic syncing
-In most cases this default behavior is what you want as you usually want to keep your Svelte state consistent with the actual state of the canvas. In some cases this might not be beneficial though. In such cases you can opt out of this behavior by passing the `staticConfig` prop to the component:
+### 禁用自动同步
+在大多数情况下，这种默认行为是您希望的，因为您通常希望将 Svelte 状态与画布的实际状态保持一致。不过，在某些情况下，这可能不是有利的。在这种情况下，您可以通过将 `staticConfig` 属性传递给组件来选择不使用这种行为：
 ```
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
 
-  // x and y values will not be synced with actual position after dragend
+  // 在拖动结束后，x 和 y 值将不会与实际位置同步
   const config = { x: 100, y: 100, width: 400, height: 200, fill: 'blue', draggable: true };
 </script>
 
@@ -24,8 +24,8 @@ In most cases this default behavior is what you want as you usually want to keep
   </Layer>
 </Stage>
 ```
-Keep in mind that svelte-konva will evaluate the `staticConfig` prop only once during component mounting. Changing the `staticConfig` prop after the component has mounted will not have any effect.
+请注意，svelte-konva 仅在组件挂载期间评估 `staticConfig` 属性。挂载后更改 `staticConfig` 属性将不会产生任何效果。
 
-Drag the different rings and observe the reactive changes triggered by Svelte. Note how dragging the red ring does not trigger a reactive change but still changes the actual value of the config due to not being bound.
+拖动不同的环，并观察 Svelte 触发的反应式变化。注意，拖动红环不会触发反应式变化，但由于未绑定，实际的配置值仍会改变。
 
 <iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/bindings?file=/src/App.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

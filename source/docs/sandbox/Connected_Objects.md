@@ -1,15 +1,14 @@
-title: Connect objects HTML5 canvas with Konva
+title: 用 Konva 连接对象 HTML5 画布
 layout: demo_page
 ---
 
-## How to connect two objects with a line or arrow?
+## 如何用线或箭头连接两个对象？
 
-`Konva` can't connect two objects with a line and update its position automatically. You have to update a line manually as you need it. Usually we need to update line position when a user drag one of the connected objects. In simple cases in can be that:
-
+`Konva` 不能自动用线连接两个对象并更新其位置。您需要手动更新线的位置。通常，当用户拖动其中一个连接的对象时，我们需要更新线的位置。在简单的情况下，可以这样做：
 
 ```javascript
 const obj1 = new Konva.Circle({ ...obj1Props })
-const obj2= new Konva.Circle({ ...obj2Props });
+const obj2 = new Konva.Circle({ ...obj2Props });
 
 const line = new Konva.Line({ ...lineProps });
 
@@ -22,9 +21,9 @@ function updateLine() {
 }
 ```
 
-But in that demo I will create a more complex case with the state of the app and many connected objects.
+但在这个演示中，我将创建一个更复杂的案例，其中包含应用程序的状态和多个连接的对象。
 
-**Instructions: try to drag a circle**.
+**指令：尝试拖动一个圆**。
 
 {% iframe /downloads/code/sandbox/Connected_Objects.html %}
 

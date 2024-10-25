@@ -1,18 +1,16 @@
-title: HTML5 Canvas to Data URL Tutorial
+title: HTML5 Canvas 到数据 URL 教程
 ---
 
-## How to export canvas content into image?
+## 如何将画布内容导出为图片？
 
-To get the data URL of the stage with `Konva`, we can use the `toDataURL()`
-method which requires a callback function for `Stage` (for other nodes callback is not required).
-In addition, we can also pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
-We can also get the data URLs of specific nodes, including layers, groups, and shapes.
+要获得使用 `Konva` 的舞台数据 URL，我们可以使用 `toDataURL()` 方法，该方法需要 `Stage` 的回调函数（对于其他节点不需要回调）。
+此外，我们还可以传入一个 MIME 类型，例如 image/jpeg，以及一个介于 0 和 1 之间的质量值。
+我们还可以获取特定节点的数据 URL，包括图层、组和形状。
 
-*Note: The `toDataURL()` method requires that any images drawn onto the canvas
-are hosted on a web server with the same domain as the code executing it.
-If this condition is not met, a SECURITY_ERR exception is thrown.*
+*注意：`toDataURL()` 方法要求绘制到画布上的任何图像都托管在与执行代码的同一域的 web 服务器上。
+如果不满足此条件，将抛出 SECURITY_ERR 异常。*
 
-Instructions: Drag and drop the rectangle and then click on the save button to get the composite data url and open the resulting image in a new window
+说明：拖动并放置矩形，然后单击保存按钮以获取复合数据 URL，并在新窗口中打开生成的图像
 
 {% iframe /downloads/code/data_and_serialization/Stage_Data_URL.html %}
 

@@ -1,10 +1,10 @@
-title: HTML5 canvas Ring Tutorial
+title: HTML5 canvas 环形教程
 ---
 
-To create a ring shape with `Konva`, we can instantiate a `Konva.Ring()` object.
+要使用 `Konva` 创建一个环形，我们可以实例化一个 `Konva.Ring()` 对象。
 
-For a full list of attributes and methods, check out the [Konva.Ring documentation](/api/Konva.Ring.html).
+有关属性和方法的完整列表，请查看 [Konva.Ring 文档](/api/Konva.Ring.html)。
 
 {% iframe /downloads/code/shapes/Ring.html %}
 
-{% include_code Konva Ring Demo shapes/Ring.html %}
+{% include_code Konva Ring 演示 shapes/Ring.html %}

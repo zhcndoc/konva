@@ -1,16 +1,16 @@
-title: How to show a context menu for HTML5 canvas shape?
+title: 如何在 HTML5 画布形状上显示上下文菜单?
 layout: demo_page
 ---
 
-## Do you want to show a context menu for a canvas shape?
+## 您想在画布形状上显示上下文菜单吗？
 
-To show a context menu we have to:
+要显示上下文菜单，我们需要：
 
-1. Listen to `contextmenu` event on canvas container (stage)
-2. Prevent default browser behavior, so we don't see native context menu
-3. Create our own context menu with `Konva` tools or regular html
+1. 监听画布容器（舞台）上的 `contextmenu` 事件
+2. 阻止默认的浏览器行为，这样我们就不会看到原生的上下文菜单
+3. 使用 `Konva` 工具或常规 HTML 创建我们自己的上下文菜单
 
-**Instructions: double click on the stage to create a circle. Try right click (context menu) on shapes for a menu.**
+**说明：双击舞台以创建一个圆形。尝试在形状上右击（上下文菜单）以显示菜单。**
 
 {% iframe /downloads/code/sandbox/Canvas_Context_Menu.html %}
 

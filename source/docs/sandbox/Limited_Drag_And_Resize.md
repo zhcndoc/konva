@@ -1,11 +1,11 @@
-title: How to limit dragging and resizing of shapes by canvas stage?
+title: 如何限制画布阶段的形状拖动和调整大小？
 layout: demo_page
 
 ---
 
-We can use a combination of [Drag Limit Demo](https://konvajs.org/docs/drag_and_drop/Simple_Drag_Bounds.html) and [Resize Limit Demo](https://konvajs.org/docs/select_and_transform/Resize_Limits.html) to add some restrictions to shapes changes by the user.
+我们可以使用 [拖动限制演示](https://konvajs.org/docs/drag_and_drop/Simple_Drag_Bounds.html) 和 [调整大小限制演示](https://konvajs.org/docs/select_and_transform/Resize_Limits.html) 的组合，为用户对形状的更改添加一些限制。
 
-_Instructions: try to rotate, drag or resize shapes out of canvas._
+_说明：尝试将形状旋转、拖动或调整大小到画布之外。_
 
 {% iframe /downloads/code/sandbox/Limited_Drag_And_Resize.html %}
 

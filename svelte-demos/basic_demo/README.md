@@ -1,47 +1,47 @@
 # Svelte + Vite
 
-This template should help get you started developing with Svelte in Vite.
+此模板应帮助您开始在 Vite 中使用 Svelte 进行开发。
 
-## Recommended IDE Setup
+## 推荐的 IDE 设置
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)。
 
-## Need an official Svelte framework?
+## 需要官方的 Svelte 框架吗？
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+请查看 [SvelteKit](https://github.com/sveltejs/kit#readme)，它也是由 Vite 提供支持。使用无服务器优先的方法在任何地方进行部署，并适应各种平台，开箱即用支持 TypeScript、SCSS 和 Less，轻松添加对 mdsvex、GraphQL、PostCSS、Tailwind CSS 等的支持。
 
-## Technical considerations
+## 技术考虑
 
-**Why use this over SvelteKit?**
+**为什么选择这个而不是 SvelteKit？**
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+- 它提供了自己的路由解决方案，这对某些用户来说可能并不理想。
+- 它首先是一个框架，恰好在底层使用 Vite，而不是一个 Vite 应用。
 
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+该模板包含尽可能少的内容，便于开始使用 Vite + Svelte，同时考虑到开发者在 HMR 和智能感知方面的体验。它展示了与其他 `create-vite` 模板相当的功能，并且是初学者初步接触 Vite + Svelte 项目的良好起点。
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+如果您后来需要 SvelteKit 提供的扩展功能和可扩展性，该模板的结构与 SvelteKit 相似，因此迁移将非常容易。
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+**为什么使用 `global.d.ts` 而不是在 `jsconfig.json` 或 `tsconfig.json` 中使用 `compilerOptions.types`？**
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+设置 `compilerOptions.types` 会排除配置中未明确定义的所有其他类型。使用三斜杠引用保持了默认 TypeScript 设置，允许从整个工作区接受类型信息，同时还增加了 `svelte` 和 `vite/client` 的类型信息。
 
-**Why include `.vscode/extensions.json`?**
+**为什么要包含 `.vscode/extensions.json`？**
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+其他模板通过 README 间接推荐扩展，但此文件允许 VS Code 在打开项目时提示用户安装推荐的扩展。
 
-**Why enable `checkJs` in the JS template?**
+**为什么在 JS 模板中启用 `checkJs`？**
 
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
+在运行时更改变量类型的大多数情况可能是意外的，而不是故意的。这提供了开箱即用的高级类型检查。如果您想利用 JavaScript 的动态类型特性，修改配置非常简单。
 
-**Why is HMR not preserving my local component state?**
+**为什么 HMR 不保持我的本地组件状态？**
 
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
+HMR 状态保持有许多陷阱！在 `svelte-hmr` 和 `@sveltejs/vite-plugin-svelte` 中默认已禁用，因为它们的行为常常令人惊讶。您可以在 [这里](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state) 阅读详情。
 
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+如果您有重要的状态需要在组件内保留，考虑创建一个外部存储，这样就不会被 HMR 替代。
 
 ```js
 // store.js
-// An extremely simple external store
+// 一个极其简单的外部存储
 import { writable } from 'svelte/store'
 export default writable(0)
 ```

@@ -1,14 +1,14 @@
-title: How to change the zIndex of nodes with svelte-konva?
+title: 如何使用 svelte-konva 修改节点的 zIndex？
 layout: svelte_page
 
 ---
 
-When working with other Konva-Wrappers like `vue-konva` or `react-konva` you might be used to the data order representing the drawing order of the components on the canvas. In svelte-konva such a functionality is currently not implemented as it is not possible to implement in Svelte 3 right now.
+在使用其他 Konva 包装器时，如 `vue-konva` 或 `react-konva`，你可能习惯于数据顺序表示组件在画布上的绘制顺序。而在 svelte-konva 中，目前并未实现此功能，因为在 Svelte 3 中目前无法实现。
 
-Instead you should use the Konva native functions to perform dynamic reordering of components on the canvas like `node.zIndex(5)`, `node.moveToTop()`, etc. [Tutorial](/docs/groups_and_layers/Layering.html).
+相反，你应该使用 Konva 的原生函数来动态重新排序画布上的组件，例如 `node.zIndex(5)`、`node.moveToTop()` 等。[教程](/docs/groups_and_layers/Layering.html)。
 
-### Using if-blocks
-svelte-konva will follow the initial ordering of the components to draw the shapes on the canvas. This works fine in cases where you do not need to change the ordering dynamically during runtime. When using Svelte if-blocks to show/hide certain components you should know the following caveat. Consider the following example:
+### 使用 if-blocks
+svelte-konva 会遵循组件的初始顺序在画布上绘制形状。这在你不需要在运行时动态更改顺序的情况下效果很好。当使用 Svelte 的 if-block 来显示/隐藏某些组件时，你应该注意以下注意事项。考虑以下示例：
 ```
 <Stage bind:config={stageConfig}>
     <Layer>
@@ -20,8 +20,8 @@ svelte-konva will follow the initial ordering of the components to draw the shap
     </Layer>
 </Stage>
 ```
-Based on the ordering one would expect to see the circle drawn on the top of the canvas, followed by the ring and then the rect shapes. However, due to the if-block the ring might end up at the top of the canvas depending on the initial value and changes of `showRing`. This is caused by Svelte mounting/unmounting components inside if-blocks and svelte-konva drawing the shapes during mounting at the top of the canvas. If you want to avoid this behavior you should avoid Svelte if-blocks and use the `visible` config property to control whether a shape is visible or not. This way the component is not mounted/unmounted and maintains its initial drawing order on the canvas.
+基于这个顺序，人们会期望看到圆形绘制在画布的顶部，然后是环形，最后是矩形形状。然而，由于 if-block 的存在，环形可能会根据 `showRing` 的初始值和变化最终位于画布顶部。这是因为 Svelte 在 if-block 内部挂载/卸载组件，而 svelte-konva 在挂载时在画布顶部绘制形状。如果你想避免这种行为，应该避免使用 Svelte 的 if-block，而是使用 `visible` 配置属性来控制形状是否可见。这样组件就不会被挂载/卸载，并保持其在画布上的初始绘制顺序。
 
-Instructions: Try to drag a circle. See how it goes to the top. This is done by calling `moveToTop()` on the dragged shape handle.
+指令：尝试拖动一个圆形。看看它是如何上移的。这是通过在被拖动的形状处理程序上调用 `moveToTop()` 来实现的。
 
 <iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/zIndex?file=/src/App.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

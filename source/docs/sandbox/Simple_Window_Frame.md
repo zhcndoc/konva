@@ -1,13 +1,13 @@
-title: HTML5 Canvas Simple Window Designer
+title: HTML5 Canvas 简单窗户设计器
 layout: demo_page
 ---
 
-## HTML5 Canvas Simple Window Designer
+## HTML5 Canvas 简单窗户设计器
 
-That is a very simple demo that draw window frame.
+这是一个非常简单的演示，绘制窗框。
 
-Instructions: You can change its width and height
+说明：您可以更改其宽度和高度。
 
 {% iframe /downloads/code/sandbox/Simple_Window.html %}
 
-{% include_code Konva Simple Window Designer sandbox/Simple_Window.html %}
+{% include_code Konva 简单窗户设计器 sandbox/Simple_Window.html %}

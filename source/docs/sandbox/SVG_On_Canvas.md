@@ -1,15 +1,15 @@
-title: How to draw SVG image on canvas with Konva
+title: 如何在画布上使用 Konva 绘制 SVG 图像
 layout: demo_page
 
 ---
 
-## How to show SVG image on canvas?
+## 如何在画布上显示 SVG 图像？
 
-It has not always been possible for browsers to draw `*.svg` images onto the canvas. However, the situation has improved and you currently have several options available if you want to render a vector image with `Konva`:
+浏览器并不总是能够将 `*.svg` 图像绘制到画布上。然而，现在的情况有所改善，如果您想要使用 `Konva` 渲染矢量图像，您现在有几种可用的选项：
 
-### Option 1: Use Konva.Image
+### 选项 1：使用 Konva.Image
 
-In most of the cases you can use `*.svg` image the same way as any other image such as `*.png` or `*.jpg`. You can use [Konva.Image](/docs/shapes/Image.html) shape.
+在大多数情况下，您可以像使用其他图像（例如 `*.png` 或 `*.jpg`）一样使用 `*.svg` 图像。您可以使用 [Konva.Image](/docs/shapes/Image.html) 形状。
 
 ```js
 Konva.Image.fromURL('/image.svg', (image) => {
@@ -17,21 +17,21 @@ Konva.Image.fromURL('/image.svg', (image) => {
 });
 ```
 
-This method works well in many cases, but is not fully cross-compatible. For example, some SVG may not be visible in the Firefox browser ([there is a workaround for that case](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)).
+这种方法在许多情况下都能很好地工作，但并不是完全跨浏览器兼容。例如，有些 SVG 在 Firefox 浏览器中可能不可见（[对此情况有解决方法](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)）。
 
-### Option 2: Use Konva.Path
+### 选项 2：使用 Konva.Path
 
-Use [Konva.Path](/docs/shapes/Path.html). This method is good for simple path shapes. If you have a large SVG with many paths you, you may need to split it manually into several `Konva.Path` shapes.
+使用 [Konva.Path](/docs/shapes/Path.html)。这种方法适用于简单的路径形状。如果您有一个包含多个路径的大型 SVG，您可能需要手动将其分割成几个 `Konva.Path` 形状。
 
-### Option 3: Use an external library to render SVG to canvas
+### 选项 3：使用外部库将 SVG 渲染到画布上
 
-Use an external library (for example, [canvg](https://github.com/canvg/canvg)) to draw the SVG into the `<canvas>` element. And then use that canvas for [Konva.Image](/docs/shapes/Image.html).
+使用外部库（例如 [canvg](https://github.com/canvg/canvg)）将 SVG 绘制到 `<canvas>` 元素中。然后使用该画布用于 [Konva.Image](/docs/shapes/Image.html)。
 
-This method has been tested in at least one large production app, with proven reliability and rendering accuracy.
+这种方法已经在至少一个大型生产应用中经过测试，证明了其可靠性和渲染精度。
 
-### Demo
+### 演示
 
-Below is a demo that shows drawing natively and with a library.
+下面是一个演示，展示了原生绘制和使用库的绘制方式。
 
 {% iframe /downloads/code/sandbox/SVG_On_Canvas.html %}
 

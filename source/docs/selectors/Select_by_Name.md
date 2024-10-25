@@ -1,9 +1,9 @@
-title: HTML5 Canvas Select Shape by Name Tutorial
+title: HTML5 Canvas 按名称选择形状教程
 ---
 
-To select shapes by name with Konva, we can use the `find()` method using the `.` selector.
-The `find()` method returns an array of nodes that match the selector string.
+要通过名称选择形状，我们可以使用 Konva 的 `find()` 方法，结合 `.` 选择器。
+`find()` 方法返回一个与选择器字符串匹配的节点数组。
 
 {% iframe /downloads/code/selectors/Select_by_Name.html %}
 
-{% include_code Konva Select Shape by Name Demo selectors/Select_by_Name.html %}
+{% include_code Konva 按名称选择形状演示 selectors/Select_by_Name.html %}

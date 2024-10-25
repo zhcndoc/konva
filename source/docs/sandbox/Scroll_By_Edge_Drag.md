@@ -1,11 +1,11 @@
-title: How to automatically scroll stage by edge drag?
+title: 如何通过边缘拖动自动滚动舞台？
 layout: demo_page
 
 ---
 
-If you're looking to enhance your Konva.js application's user experience, implementing an auto-scroll feature is a great way to go. This functionality is especially useful in interactive UIs where users need to drag items or navigate large canvases. By enabling the scroll to automatically move when a user drags an item to the bottom or right edge of the viewport, you create a smoother and more intuitive interaction.
+如果您希望提升您的 Konva.js 应用程序的用户体验，实现自动滚动功能是一个很好的选择。这个功能在用户需要拖动项目或浏览大型画布的交互式 UI 中尤其有用。通过启用滚动，使用户在将项目拖到视口的底部或右侧边缘时，自动移动画布，您将创建更顺畅、更直观的交互体验。
 
-Instructions: Start dragging of any shape. Drag it near corder of the stage. Stage will start scrolling.
+说明：开始拖动任意形状。将其拖到舞台的角落附近。舞台将开始滚动。
 
 {% iframe /downloads/code/sandbox/Scroll_By_Edge_Drag.html %}
 

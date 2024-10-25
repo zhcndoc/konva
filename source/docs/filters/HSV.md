@@ -1,14 +1,14 @@
-title: HTML5 Canvas Hue, Saturation and Value filter Image Tutorial
+title: HTML5 Canvas 色调、饱和度和亮度滤镜图像教程
 ---
 
-To apply filter to an `Konva.Node`, we have to cache it first with `cache()` function. Then apply filter with `filters()` function.
+要对 `Konva.Node` 应用滤镜，我们首先必须使用 `cache()` 函数进行缓存。然后使用 `filters()` 函数应用滤镜。
 
-To change hue, saturation and value components of an image with Konva, we can use the `Konva.Filters.HSV`.
+要使用 Konva 更改图像的色调、饱和度和亮度组件，我们可以使用 `Konva.Filters.HSV`。
 
-Instructions: Slide the controls to change hsv values.
+操作说明：滑动控件以更改 hsv 值。
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用滤镜，请访问 [滤镜文档](/api/Konva.Filters.html)。
 
 {% iframe /downloads/code/filters/HSV.html %}
 
-{% include_code Konva Hue, Saturation and Value Image Demo filters/HSV.html %}
+{% include_code Konva 色调、饱和度和亮度图像演示 filters/HSV.html %}

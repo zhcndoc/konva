@@ -1,19 +1,19 @@
-title: How to snap shapes positions on dragging with Konva?
+title: 如何在拖动时使形状位置对齐使用 Konva？
 layout: demo_page
 
 ---
 
-## How to snap draggable shapes to each other?
+## 如何使可拖动的形状相互对齐？
 
-This demo will demonstrate how to implement snapping of objects to all edges of the stage on to all edges of other objects.
+此演示将演示如何实现对象在舞台的所有边缘与其他对象的所有边缘对齐的功能。
 
-Also I found another related demos on the internet that may be useful:
+我还在互联网上找到另外一些可能有用的相关演示：
 
-1. Post: https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f
-2. Demo:https://codepen.io/pierrebleroux/pen/gGpvxJ
+1. 帖子: https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f
+2. 演示: https://codepen.io/pierrebleroux/pen/gGpvxJ
 
-_Instruction:_ try to drag and object. See how it snaps to other objects.
+_说明:_ 尝试拖动一个对象。看看它是如何对齐到其他对象的。
 
 {% iframe /downloads/code/sandbox/Objects_Snapping.html %}
 
-{% include_code Konva Custom Font sandbox/Objects_Snapping.html %}
+{% include_code Konva 自定义字体 sandbox/Objects_Snapping.html %}

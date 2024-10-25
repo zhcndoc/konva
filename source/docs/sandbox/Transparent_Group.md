@@ -1,22 +1,22 @@
-title: How to apply transparency for several shapes at once?
+title: 如何同时对多个形状应用透明度？
 layout: demo_page
 ---
 
-## Is it possible to use opacity for several shapes in the same time?
+## 是否可以同时对多个形状使用不透明度？
 
-You can use `opacity` attribute to change alpha channel of any `Konva` node. In the way the canvas works, all shapes have its own independent opacity values.
+你可以使用 `opacity` 属性来改变任何 `Konva` 节点的 alpha 通道。根据画布的工作方式，所有形状都有其独立的不透明度值。
 
-That mean if you have a group with several shapes inside and that group have `group.opacity(0.5)`. It will look exactly the same as if each shape inside the group has `shape.opacity(0.5)` and the group have `group.opacity(1)`. That means you will see overlapping areas of that shapes.
+这意味着如果你有一个包含多个形状的组，并且该组的 `group.opacity(0.5)`，那么它的效果看起来就像每个形状的 `shape.opacity(0.5)`，而该组的 `group.opacity(1)`。这意味着你会看到那些形状的重叠区域。
 
-### What if we don't want to see overlapping areas of transparent shapes?
+### 如果我们不想看到透明形状的重叠区域呢？
 
-There is a way to fix such default behavior. You just need to cache the group with `group.cache()`. Caching the group will convert it into bitmap and draw into external canvas. On the next draw call, `Konva` will use that resulted canvas to draw whole group with opacity applied to whole image.
+有一种方法可以修复这种默认行为。你只需要使用 `group.cache()` 来缓存该组。缓存该组会将其转换为位图并绘制到外部画布中。在下一个绘制调用中，`Konva` 将使用生成的画布绘制整个组，并将不透明度应用到整个图像上。
 
-So while `Konva` is making a bitmap cache for such group it will draw internal shapes ignoring transparency of the group. 
+因此，当 `Konva` 为这样的组创建位图缓存时，它会忽略组的透明度绘制内部形状。
 
-**Remember that if a group is cached, it has some limitations of cached nodes. Like if you are doing any internal changes (like changing shapes attributes) you have to recache the group. And that is expensive operation, so it is not recommended to do it frequently like inside animations or on every mousemove.**
+**请记住，如果一个组被缓存，它有一些缓存节点的限制。例如，如果你进行任何内部更改（如更改形状属性），你必须重新缓存该组。这是一个昂贵的操作，因此不推荐频繁进行，比如在动画中或在每次鼠标移动时。**
 
-Instructions: on the left you see default behavior, on the right you see fixed behavior with cached group.
+说明：左侧是默认行为，右侧是使用缓存组修复后的行为。
 
 {% iframe /downloads/code/sandbox/Transparent_Group.html %}
 

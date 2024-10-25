@@ -1,20 +1,20 @@
-title: How to cache canvas shapes with Vue
+title: 如何在 Vue 中缓存画布形状
 layout: vue_page
 
 ---
 
-If you want to cache a node in `vue` app, you need to have an access to Konva node and use `node.cache()` function.
+如果你想在 `vue` 应用中缓存一个节点，你需要访问 Konva 节点并使用 `node.cache()` 函数。
 
-To get an access to a node you can use references and `component.getNode()` method:
+要访问一个节点，你可以使用引用和 `component.getNode()` 方法：
 
-**Instruction: try to drag whole stage. Then try again with cached group.**
+**说明：尝试拖动整个舞台。然后再尝试使用缓存组。**
 
-You should see much better performance.
+你应该会看到性能有显著改善。
 
 ```javascript
-// in template:
+// 在模板中:
 <v-group ref="group">
-// later in the code:
+// 在代码中的后面部分:
 this.$refs.group.getNode().cache();
 ```
 

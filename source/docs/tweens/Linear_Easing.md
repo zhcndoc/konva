@@ -1,13 +1,10 @@
-title: HTML5 Canvas Tweening Tutorial
+title: HTML5 Canvas 动画教程
 ---
 
-To tween properties with Konva, we can instantiate a `Konva.Tween` object
-and then start the tween by calling `play()`.  Any numeric property of a `Shape`,
-`Group`, `Layer`, or `Stage` can be transitioned, such as `x`, `y`, `rotation`,
-`width`, `height`, `radius`, `strokeWidth`, `opacity`, `scaleX`, `offsetX`, etc.
+要使用 Konva 进行属性动画，我们可以实例化一个 `Konva.Tween` 对象，然后通过调用 `play()` 来开始动画。`Shape`、`Group`、`Layer` 或 `Stage` 的任何数值属性都可以进行过渡，例如 `x`、`y`、`rotation`、`width`、`height`、`radius`、`strokeWidth`、`opacity`、`scaleX`、`offsetX` 等等。
 
-For a full list of attributes and methods, check out the [Konva.Tween documentation](/api/Konva.Tween.html).
+有关属性和方法的完整列表，请查看 [Konva.Tween 文档](/api/Konva.Tween.html)。
 
 {% iframe /downloads/code/tweens/Linear_Easing.html %}
 
-{% include_code Konva Tweening Demo tweens/Linear_Easing.html %}
+{% include_code Konva 动画演示 tweens/Linear_Easing.html %}

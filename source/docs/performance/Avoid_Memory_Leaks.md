@@ -1,14 +1,14 @@
-title: HTML5 Canvas How to avoid Memory leaks Tip
+title: HTML5 Canvas 如何避免内存泄漏的技巧
 ---
 
-### Deleting shapes
+### 删除图形
 
-There are two very close methods `remove()` and `destroy()`. If you need to completely delete a node you should `destroy()` it. The `destroy()` method deletes all references to node from the KonvaJS engine. If you are going to reuse a node you should `remove()` it then later you can add it again to any container.
+有两个非常相似的方法 `remove()` 和 `destroy()`。如果您需要完全删除一个节点，您应该使用 `destroy()`。`destroy()` 方法会删除 KonvaJS 引擎中对节点的所有引用。如果您打算重用一个节点，您应该使用 `remove()`，然后稍后可以将其重新添加到任何容器中。
 
 
-### Tweening
+### 切换动画
 
-When you are using `Konva.Tween` instance you have to destroy it after usage.
+当您使用 `Konva.Tween` 实例时，在使用后必须销毁它。
 
 ```javascript
 var tween = new Konva.Tween({
@@ -16,16 +16,16 @@ var tween = new Konva.Tween({
     x : 0,
     duration : 0.5,
     onFinish : function() {
-        // remove all references from Konva
+        // 从 Konva 中移除所有引用
         tween.destroy();
     }
 });
 tween.play();
 ```
 
-Or if you don't need to reuse the tween you can use the new `to()` method:
+或者，如果您不需要重用该动画，您可以使用新的 `to()` 方法：
 ```javascript
-// the tween will be automatically started and destroyed on finish
+// 动画将在完成时自动启动并销毁
 circle.to({
     x : 0,
     duration : 0.5

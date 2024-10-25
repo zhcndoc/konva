@@ -1,15 +1,15 @@
-title: HTML5 Canvas Mobile Scrolling and Native Events with Konva
+title: HTML5 Canvas 移动滚动和原生事件与 Konva
 ---
 
-By default `Konva` will prevent default behaviour off all pointer interactions with a stage.
-That will prevent unexpected scrolling of a page when you are trying to drag&drop a shape on a mobile device.
+默认情况下，`Konva` 会阻止对舞台的所有指针交互的默认行为。
+这将防止在移动设备上尝试拖放形状时页面意外滚动。
 
-But in some cases you may want to keep default behaviour of browser events. In that case you may set `preventDefault` property of a shape to `false`.
+但在某些情况下，您可能想要保留浏览器事件的默认行为。在这种情况下，您可以将形状的 `preventDefault` 属性设置为 `false`。
 
-Instructions: if you are on mobile device try to scroll a page by each rectangle.
-Green - should prevent default behaviour (no page scrolling).
-Red - will keep default behaviour (scrolling should work).
+说明：如果您在移动设备上，请尝试通过每个矩形滚动页面。
+绿色 - 应该阻止默认行为（无页面滚动）。
+红色 - 将保留默认行为（滚动应有效）。
 
 {% iframe /downloads/code/events/Mobile_Scrolling.html %}
 
-{% include_code Konva Mobile Scrolling Demo events/Mobile_Scrolling.html %}
+{% include_code Konva 移动滚动演示 events/Mobile_Scrolling.html %}

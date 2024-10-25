@@ -1,16 +1,14 @@
-title: HTML5 Canvas Konva Scale Animation Tutorial
+title: HTML5 Canvas Konva 缩放动画教程
 ---
 
-To animate a shape's scale with Konva, we can create a new animation with
-`Konva.Animation`, and define a function which modifies the shape's scale with each animation frame.
+要使用 Konva 为形状的缩放做动画，我们可以创建一个新的动画 `Konva.Animation`，并定义一个函数，在每一帧动画中修改形状的缩放。
 
-In this tutorial, we'll scale the x and y component of a blue hexagon, the y component
-of a yellow hexagon, and the x component of a red hexagon about an axis positioned on the right side of the shape.
+在本教程中，我们将对一个蓝色六边形的 x 和 y 分量，黄色六边形的 y 分量，以及红色六边形的 x 分量进行缩放，缩放围绕位于形状右侧的一个轴心进行。
 
-Instructions: drag and drop the hexagons as they animate
+说明：在动画过程中拖动并放置六边形
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+欲查看完整的属性和方法列表，请访问 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 {% iframe /downloads/code/animations/Scaling.html %}
 
-{% include_code Konva Scale Animation Demo animations/Scaling.html %}
+{% include_code Konva 缩放动画演示 animations/Scaling.html %}

@@ -1,8 +1,8 @@
-title:  Oscillating Blobs
+title:  振荡的斑点
 layout: demo_page
 ---
 
-Instructions: Refresh the page to generate new blobs.  You can also drag and drop the blobs as they animate.
+说明：刷新页面以生成新的斑点。您也可以在动画过程中拖放斑点。
 
 {% iframe /downloads/code/sandbox/Quantum_Squiggle.html %}
 

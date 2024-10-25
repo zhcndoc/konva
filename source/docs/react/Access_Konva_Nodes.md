@@ -1,36 +1,36 @@
-title: How to access Konva nodes from react-konva?
+title: 如何从 react-konva 访问 Konva 节点？
 layout: react_page
 ---
 
-In some cases you may need to use the `Konva` API directly. For example for exporting canvases or animations.
+在某些情况下，您可能需要直接使用 `Konva` API。例如，用于导出画布或动画。
 
-There are two ways to access Konva nodes/shapes from `react-konva`. 
+有两种方法可以从 `react-konva` 访问 Konva 节点/形状。
 
-## Using the `refs` API.
+## 使用 `refs` API
 
-You can use the [refs API](https://reactjs.org/docs/refs-and-the-dom.html) to get access to a Konva node.
+您可以使用 [refs API](https://reactjs.org/docs/refs-and-the-dom.html) 来访问 Konva 节点。
 
 ```js
 import { Circle } from 'react-konva';
 const App = () => {
   const shapeRef = React.useRef(null);
   React.useEffect(() => {
-    // it will log `Konva.Circle` instance
+    // 它将记录 `Konva.Circle` 实例
     console.log(shapeRef.current);
   });
   return <Circle ref={shapeRef} />;
 }
 ```
 
-## Using an event object inside of the event callback
+## 在事件回调中使用事件对象
 
-Another common way to access a Konva node is to just use an event object that you have as an argument in any event:
+访问 Konva 节点的另一种常见方法是直接使用您在任何事件中作为参数的事件对象：
 
 ```js
 import { Circle } from 'react-konva';
 const App = () => {
   const handleClick = (e) => {
-    // logs clicked Konva.Circle instance
+    // 记录被点击的 Konva.Circle 实例
     console.log(e.target);
   }
   return <Circle onClick={handleClick} />;
@@ -38,6 +38,3 @@ const App = () => {
 ```
 
 <iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/refs?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
-
-

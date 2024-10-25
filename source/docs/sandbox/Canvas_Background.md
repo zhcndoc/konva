@@ -1,24 +1,24 @@
-title: How to add background to canvas?
+title: 如何为画布添加背景？
 layout: demo_page
 ---
 
-## How add background to Konva stage?
+## 如何为 Konva 阶段添加背景？
 
-There are two ways to add a background.
+有两种方法可以为背景添加背景。
 
-### 1. Adding background with `Konva.Rect` shape.
+### 1. 使用 `Konva.Rect` 形状添加背景。
 
-The Konva-way to add a background to your canvas is just by drawing `Konva.Rect` shape with the size of a stage on the bottom of your scene. You can style that rectangle as you want with [solid color, gradient or pattern image](/docs/styling/Fill.html).
+在画布上添加背景的 Konva 方法就是在场景底部绘制一个大小与舞台相同的 `Konva.Rect` 形状。您可以根据需要对该矩形进行样式设置，使用 [实心颜色、渐变或图案图像](/docs/styling/Fill.html)。
 
-*The only thing that you should be careful about here is the rectangle's position and size. If you are transforming any parent of background shape (such as stage or layer) by moving it, or applying scale you should "reset" background shape position/size to fill whole Stage area.*
+*您需要特别注意的是矩形的位置和大小。如果您通过移动或应用缩放变换任何背景形状的父级（例如舞台或图层），则应该“重置”背景形状的位置/大小以填满整个舞台区域。*
 
-### 2. Adding background with CSS
+### 2. 使用 CSS 添加背景
 
-The other solution to add background to your canvas is just use CSS styles to stage container DOM element. That solution is simpler than the first approach, because you don't need to track position, size changes. It also has **a bit** better performance, because you don't need to draw any additional shapes.
+为画布添加背景的另一个解决方案是直接使用 CSS 样式应用于舞台容器的 DOM 元素。该解决方案比第一种方法更简单，因为您不需要跟踪位置和大小的变化。它的性能也**略微**更好，因为您不需要绘制任何额外的形状。
 
-**But it has one drawback. The CSS background will be not visible on export when you use methods like `stage.toImage()` and `stage.toDataURL()`.**
+**但它有一个缺点。使用 `stage.toImage()` 和 `stage.toDataURL()` 等方法导出时，CSS 背景将不可见。**
 
-Instructions: On the demo I will show two approaches. The green solid background is made with CSS. Yellow-orange gradient will be done with `Konva.Rect` instance. Try to drag a stage. You will see that gradient stay on place.
+说明：在演示中，我将展示两种方法。绿色的实心背景是使用 CSS 创建的。黄橙色渐变将使用 `Konva.Rect` 实例完成。尝试拖动舞台。您会发现渐变保持在原地。
 
 {% iframe /downloads/code/sandbox/Canvas_Background.html %}
 

@@ -1,12 +1,12 @@
-title: HTML5 canvas Text Tutorial
+title: HTML5 画布文本教程
 ---
 
-To create text with `Konva`, we can instantiate a `Konva.Text()` object.
+要使用 `Konva` 创建文本，我们可以实例化一个 `Konva.Text()` 对象。
 
-For a full list of attributes and methods, check out the [Konva.Text documentation](/api/Konva.Text.html).
+有关属性和方法的完整列表，请查看 [Konva.Text 文档](/api/Konva.Text.html)。
 
-If you want to enable full rich text rendering features see [Rich Text Demo](/docs/sandbox/Rich_Text.html).
+如果您想启用完整的富文本渲染功能，请参见 [富文本演示](/docs/sandbox/Rich_Text.html)。
 
 {% iframe /downloads/code/shapes/Text.html %}
 
-{% include_code Konva Text Demo shapes/Text.html %}
+{% include_code Konva 文本演示 shapes/Text.html %}
