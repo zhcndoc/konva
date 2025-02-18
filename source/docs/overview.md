@@ -150,12 +150,13 @@ circle.on('dragend', function() {
 
 ## 拖放
 
-`Konva` 具有内置的拖动支持。目前还没有 `drop` 事件（`drop`，`dragenter`，`dragleave`，`dragover`），
-但通过框架非常容易实现这些事件 [通过框架](/docs/drag_and_drop/Drop_Events.html)。
+`Konva` 具有内置的拖动支持。没有 `drop` 事件，使用 `dragenter`、`dragleave` 和 `dragover`。
+
+通过框架实现 `drop` 事件非常简单 [查看文档](/docs/drag_and_drop/Drop_Events.html)。
 
 要启用拖放，只需设置属性 draggable = true。
 
-```
+```js
 shape.draggable('true');
 ```
 
