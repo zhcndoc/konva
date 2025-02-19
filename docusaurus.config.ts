@@ -1,10 +1,11 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Konva - JavaScript Canvas 2d Library',
-  tagline: 'The ultimate bridge between your Vanilla/React/Vue/Svelte/Angular app and canvas graphics',
+  tagline:
+    'The ultimate bridge between your Vanilla/React/Vue/Svelte/Angular app and canvas graphics',
   favicon: 'img/favicon.ico',
   themes: ['./src/theme-live-codeblock'],
 
@@ -50,8 +51,7 @@ const config: Config = {
           routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/konvajs/site/tree/new/',
+          editUrl: 'https://github.com/konvajs/site/tree/new/',
         },
         blog: {
           showReadingTime: true,
@@ -61,8 +61,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/konvajs/site/tree/new/',
+          editUrl: 'https://github.com/konvajs/site/tree/new/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -125,7 +124,11 @@ const config: Config = {
           label: 'Kai',
           to: '/kai',
         },
-        {to: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', label: 'Price', position: 'left'},
+        {
+          to: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          label: 'Price',
+          position: 'left',
+        },
         {
           href: 'https://github.com/konvajs/konva',
           className: 'header-github-link',
@@ -191,6 +194,15 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+    },
+    algolia: {
+      // The application ID provided by Algolia
+      appId: 'GGPOY1E1YM',
+
+      // Public API key: it is safe to commit it
+      apiKey: '85c8716bb7c8a1b811b0217c46e2b4e2',
+
+      indexName: 'new-konvajs',
     },
   } satisfies Preset.ThemeConfig,
 };
