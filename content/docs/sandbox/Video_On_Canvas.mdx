@@ -1,7 +1,12 @@
 ---
 title: How to display video on Canvas
 sidebar_label: Video On Canvas
+hide_table_of_contents: true
+slug: Video_On_Canvas.html
 ---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # How to display video on Canvas
 
@@ -11,93 +16,83 @@ To draw a video on a canvas, we can use a `<video>` DOM element similar to an `<
 
 The demo below shows how to display a video on canvas with play/pause controls. You can also drag and drop the video around the canvas.
 
-## Vanilla
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
-    <meta charset="utf-8" />
-    <title>Konva Video Demo</title>
-    <style>
-      #container {
-        width: 100%;
-        height: 400px;
-        background-color: #f0f0f0;
-      }
-    </style>
-  </head>
-  <body>
-    <button id="play">Play</button>
-    <button id="pause">Pause</button>
-    <div id="container"></div>
-    <script>
-      const width = window.innerWidth;
-      const height = 400;
+// create buttons
+const playButton = document.createElement('button');
+playButton.textContent = 'Play';
+playButton.id = 'play';
+document.body.appendChild(playButton);
 
-      const stage = new Konva.Stage({
-        container: 'container',
-        width: width,
-        height: height,
-      });
+const pauseButton = document.createElement('button');
+pauseButton.textContent = 'Pause';
+pauseButton.id = 'pause';
+document.body.appendChild(pauseButton);
 
-      const layer = new Konva.Layer();
-      stage.add(layer);
+const width = window.innerWidth;
+const height = 300;
 
-      const video = document.createElement('video');
-      video.src =
-        'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
 
-      const image = new Konva.Image({
-        image: video,
-        draggable: true,
-        x: 50,
-        y: 20,
-      });
-      layer.add(image);
+const layer = new Konva.Layer();
+stage.add(layer);
 
-      const text = new Konva.Text({
-        text: 'Loading video...',
-        width: stage.width(),
-        height: stage.height(),
-        align: 'center',
-        verticalAlign: 'middle',
-      });
-      layer.add(text);
+const video = document.createElement('video');
+video.src =
+  'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
 
-      const anim = new Konva.Animation(function () {
-        // do nothing, animation just needs to update the layer
-      }, layer);
+const image = new Konva.Image({
+  image: video,
+  draggable: true,
+  x: 50,
+  y: 20,
+});
+layer.add(image);
 
-      // update Konva.Image size when meta is loaded
-      video.addEventListener('loadedmetadata', function () {
-        text.text('Press PLAY...');
-        image.width(video.videoWidth);
-        image.height(video.videoHeight);
-      });
+const text = new Konva.Text({
+  text: 'Loading video...',
+  width: stage.width(),
+  height: stage.height(),
+  align: 'center',
+  verticalAlign: 'middle',
+});
+layer.add(text);
 
-      document.getElementById('play').addEventListener('click', function () {
-        text.destroy();
-        video.play();
-        anim.start();
-      });
-      document.getElementById('pause').addEventListener('click', function () {
-        video.pause();
-        anim.stop();
-      });
-    </script>
-  </body>
-</html>
+const anim = new Konva.Animation(function () {
+  // do nothing, animation just needs to update the layer
+}, layer);
+
+// update Konva.Image size when meta is loaded
+video.addEventListener('loadedmetadata', function () {
+  text.text('Press PLAY...');
+  image.width(video.videoWidth);
+  image.height(video.videoHeight);
+});
+
+document.getElementById('play').addEventListener('click', function () {
+  text.destroy();
+  video.play();
+  anim.start();
+});
+document.getElementById('pause').addEventListener('click', function () {
+  video.pause();
+  anim.stop();
+});
 ```
-
-## React
-
-```jsx
+  </TabItem>
+  <TabItem value="React">
+```js live react
 import { Stage, Layer, Image, Text } from 'react-konva';
 import { useEffect, useRef, useState } from 'react';
 
-const VideoCanvas = () => {
+const App = () => {
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
     height: 400,
@@ -184,12 +179,11 @@ const VideoCanvas = () => {
   );
 };
 
-export default VideoCanvas;
+export default App;
 ```
-
-## Vue
-
-```vue
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
 <template>
   <div>
     <button @click="handlePlay">Play</button>
@@ -297,6 +291,8 @@ export default {
 };
 </script>
 ```
+  </TabItem>
+</Tabs>
 
 The demo shows how to:
 1. Create a video element and use it as the source for a Konva.Image

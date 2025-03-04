@@ -5,13 +5,13 @@ hide_table_of_contents: true
 slug: Responsive_Canvas.html
 ---
 
-## Do you need responsive/adaptive canvas for you desktop and mobile applications?
+## Do you need responsive/adaptive canvas for your desktop and mobile applications?
 
-So first of all, there are many ways to make your canvas stage "responsive".
-And you may need a different behavior for different applications.
+There are many ways to make your canvas stage "responsive", and you may need different behavior for different applications.
 
-This demo will show you the simplest solution. We will fit a canvas stage into user window with scaling.
-In the demo we will care only about stage WIDTH. You may need to add extra logic if you need to fit height too.
+This demo shows the simplest solution: fitting a canvas stage into the user's window with scaling. In this example, we'll focus on adjusting the stage WIDTH. You can add extra logic if you need to fit height too.
+
+**Instructions:** Try resizing your browser window and see how the canvas adapts.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -21,24 +21,14 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// create container div
-const stageParent = document.createElement('div');
-stageParent.id = 'stage-parent';
-stageParent.style.width = '100%';
-document.body.appendChild(stageParent);
-
-const container = document.createElement('div');
-container.id = 'container';
-stageParent.appendChild(container);
-
-// let's think our scene virtual size will be 1000x1000px
-// but the real size will be different to fit user's page
+// Define virtual size for our scene
+// The real size will be different to fit user's page
 const sceneWidth = 1000;
 const sceneHeight = 1000;
 
+// Create stage with initial size
 const stage = new Konva.Stage({
   container: 'container',
-  // first just set set as is
   width: sceneWidth,
   height: sceneHeight,
 });
@@ -46,7 +36,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// add circle into center
+// Add circle in the center
 const circle = new Konva.Circle({
   radius: 50,
   fill: 'red',
@@ -55,7 +45,7 @@ const circle = new Konva.Circle({
 });
 layer.add(circle);
 
-// rectangle in bottom right of the stage
+// Add rectangle in bottom right of the stage
 const rect = new Konva.Rect({
   fill: 'green',
   x: stage.width() - 100,
@@ -65,80 +55,127 @@ const rect = new Konva.Rect({
 });
 layer.add(rect);
 
+// Add some text
+const text = new Konva.Text({
+  x: 20,
+  y: 20,
+  text: 'Try resizing your browser window',
+  fontSize: 20,
+  fontFamily: 'Arial',
+  fill: 'black',
+});
+layer.add(text);
+
+// Function to make the stage responsive
 function fitStageIntoParentContainer() {
-  const container = document.querySelector('#stage-parent');
-
-  // now we need to fit stage into parent container
+  // Get the container element
+  const container = document.getElementById('container');
+  
+  // Make the container take up the full width
+  container.style.width = '100%';
+  
+  // Get current container width
   const containerWidth = container.offsetWidth;
-
-  // but we also make the full scene visible
-  // so we need to scale all objects on canvas
+  
+  // Calculate scale based on virtual width vs actual width
   const scale = containerWidth / sceneWidth;
-
+  
+  // Set stage dimensions and scale
   stage.width(sceneWidth * scale);
   stage.height(sceneHeight * scale);
   stage.scale({ x: scale, y: scale });
+  
+  // Draw the layer to apply changes
+  layer.draw();
 }
 
+// Initial fit
 fitStageIntoParentContainer();
-// adapt the stage on any window resize
+
+// Adapt the stage on window resize
 window.addEventListener('resize', fitStageIntoParentContainer);
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import React from 'react';
-import { Stage, Layer, Circle, Rect } from 'react-konva';
-
-const SCENE_WIDTH = 1000;
-const SCENE_HEIGHT = 1000;
+import { useState, useEffect, useRef } from 'react';
+import { Stage, Layer, Circle, Rect, Text } from 'react-konva';
 
 const App = () => {
-  const [scale, setScale] = React.useState(1);
-  const [stageSize, setStageSize] = React.useState({
-    width: SCENE_WIDTH,
-    height: SCENE_HEIGHT,
+  // Define virtual size for our scene
+  const sceneWidth = 1000;
+  const sceneHeight = 1000;
+  
+  // State to track current scale and dimensions
+  const [stageSize, setStageSize] = useState({
+    width: sceneWidth,
+    height: sceneHeight,
+    scale: 1
   });
-  const containerRef = React.useRef(null);
-
-  const checkSize = React.useCallback(() => {
+  
+  // Reference to parent container
+  const containerRef = useRef(null);
+  
+  // Function to handle resize
+  const updateSize = () => {
+    if (!containerRef.current) return;
+    
+    // Get container width
     const containerWidth = containerRef.current.offsetWidth;
-    const newScale = containerWidth / SCENE_WIDTH;
-
-    setScale(newScale);
+    
+    // Calculate scale
+    const scale = containerWidth / sceneWidth;
+    
+    // Update state with new dimensions
     setStageSize({
-      width: SCENE_WIDTH * newScale,
-      height: SCENE_HEIGHT * newScale,
+      width: sceneWidth * scale,
+      height: sceneHeight * scale,
+      scale: scale
     });
+  };
+  
+  // Update on mount and when window resizes
+  useEffect(() => {
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    
+    return () => {
+      window.removeEventListener('resize', updateSize);
+    };
   }, []);
-
-  React.useEffect(() => {
-    checkSize();
-    window.addEventListener('resize', checkSize);
-    return () => window.removeEventListener('resize', checkSize);
-  }, [checkSize]);
-
+  
   return (
-    <div ref={containerRef} style={{ width: '100%' }}>
-      <Stage
-        width={stageSize.width}
+    <div 
+      ref={containerRef} 
+      style={{ width: '100%', height: '100%' }}
+    >
+      <Stage 
+        width={stageSize.width} 
         height={stageSize.height}
-        scaleX={scale}
-        scaleY={scale}
+        scaleX={stageSize.scale}
+        scaleY={stageSize.scale}
       >
         <Layer>
           <Circle
             radius={50}
             fill="red"
-            x={SCENE_WIDTH / 2}
-            y={SCENE_HEIGHT / 2}
+            x={sceneWidth / 2}
+            y={sceneHeight / 2}
           />
           <Rect
             fill="green"
-            x={SCENE_WIDTH - 100}
-            y={SCENE_HEIGHT - 100}
+            x={sceneWidth - 100}
+            y={sceneHeight - 100}
             width={100}
             height={100}
+          />
+          <Text
+            x={20}
+            y={20}
+            text="Try resizing your browser window"
+            fontSize={20}
+            fontFamily="Arial"
+            fill="black"
           />
         </Layer>
       </Stage>
@@ -152,13 +189,43 @@ export default App;
   <TabItem value="Vue">
 ```js live vue
 <template>
-  <div ref="containerRef" style="width: 100%">
+  <div ref="containerRef" style="width: 100%; height: 100%;">
     <v-stage
-      :config="stageConfig"
+      :config="{
+        width: stageWidth,
+        height: stageHeight,
+        scaleX: scale,
+        scaleY: scale
+      }"
     >
       <v-layer>
-        <v-circle :config="circleConfig" />
-        <v-rect :config="rectConfig" />
+        <v-circle
+          :config="{
+            radius: 50,
+            fill: 'red',
+            x: sceneWidth / 2,
+            y: sceneHeight / 2
+          }"
+        />
+        <v-rect
+          :config="{
+            fill: 'green',
+            x: sceneWidth - 100,
+            y: sceneHeight - 100,
+            width: 100,
+            height: 100
+          }"
+        />
+        <v-text
+          :config="{
+            x: 20,
+            y: 20,
+            text: 'Try resizing your browser window',
+            fontSize: 20,
+            fontFamily: 'Arial',
+            fill: 'black'
+          }"
+        />
       </v-layer>
     </v-stage>
   </div>
@@ -167,61 +234,40 @@ export default App;
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
-const SCENE_WIDTH = 1000;
-const SCENE_HEIGHT = 1000;
+// Define virtual size for our scene
+const sceneWidth = 1000;
+const sceneHeight = 1000;
 
-const scale = ref(1);
-const stageSize = ref({
-  width: SCENE_WIDTH,
-  height: SCENE_HEIGHT,
-});
-
+// Reactive references
 const containerRef = ref(null);
+const scale = ref(1);
 
-const checkSize = () => {
+// Computed properties for stage dimensions
+const stageWidth = computed(() => sceneWidth * scale.value);
+const stageHeight = computed(() => sceneHeight * scale.value);
+
+// Function to handle resize
+const updateSize = () => {
+  if (!containerRef.value) return;
+  
+  // Get container width
   const containerWidth = containerRef.value.offsetWidth;
-  const newScale = containerWidth / SCENE_WIDTH;
-
-  scale.value = newScale;
-  stageSize.value = {
-    width: SCENE_WIDTH * newScale,
-    height: SCENE_HEIGHT * newScale,
-  };
+  
+  // Calculate scale
+  scale.value = containerWidth / sceneWidth;
 };
 
+// Add event listeners
 onMounted(() => {
-  checkSize();
-  window.addEventListener('resize', checkSize);
+  updateSize();
+  window.addEventListener('resize', updateSize);
 });
 
+// Clean up
 onUnmounted(() => {
-  window.removeEventListener('resize', checkSize);
+  window.removeEventListener('resize', updateSize);
 });
-
-const stageConfig = computed(() => ({
-  width: stageSize.value.width,
-  height: stageSize.value.height,
-  scaleX: scale.value,
-  scaleY: scale.value,
-}));
-
-const circleConfig = {
-  radius: 50,
-  fill: 'red',
-  x: SCENE_WIDTH / 2,
-  y: SCENE_HEIGHT / 2,
-};
-
-const rectConfig = {
-  fill: 'green',
-  x: SCENE_WIDTH - 100,
-  y: SCENE_HEIGHT - 100,
-  width: 100,
-  height: 100,
-};
 </script>
 ```
   </TabItem>
-</Tabs>
-
-Instructions: Try to resize your browser window to see how the stage adapts to the container size. 
+</Tabs> 

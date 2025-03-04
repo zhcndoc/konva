@@ -1,6 +1,8 @@
 ---
 title: How to apply transparency for several shapes at once?
 sidebar_label: Transparent Group
+hide_table_of_contents: true
+slug: Transparent_Group.html
 ---
 
 # How to apply transparency for several shapes at once?
@@ -21,94 +23,66 @@ So while `Konva` is making a bitmap cache for such group, it will draw internal 
 
 In the demo below, on the left you see the default behavior, on the right you see the fixed behavior with a cached group.
 
-## Vanilla
+Try dragging both groups to see the difference in how transparency is applied. The left group shows the default behavior with visible overlapping areas, while the right group shows the cached behavior where the entire group is treated as a single transparent unit. 
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
-    <meta charset="utf-8" />
-    <title>Konva Transparency for several Shapes Demo</title>
-    <style>
-      #container {
-        width: 100%;
-        height: 400px;
-        background: #f0f0f0;
-        background: linear-gradient(
-              115deg,
-              transparent 75%,
-              rgba(255, 255, 255, 0.8) 75%
-            )
-            0 0,
-          linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%)
-            0 0,
-          linear-gradient(115deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%)
-            7px -15px,
-          linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%)
-            7px -15px,
-          #f0f0f0;
-        background-size: 15px 30px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container"></div>
-    <script>
-      const width = window.innerWidth;
-      const height = 400;
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-      const stage = new Konva.Stage({
-        container: 'container',
-        width: width,
-        height: height,
-      });
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+// Stage setup
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-      const layer = new Konva.Layer();
-      stage.add(layer);
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
 
-      // lets create default group with two overlapping shapes
-      const group1 = new Konva.Group({
-        opacity: 0.5,
-        x: 50,
-        y: 50,
-        draggable: true,
-      });
-      group1.add(
-        new Konva.Rect({
-          width: 100,
-          height: 100,
-          fill: 'red',
-        })
-      );
-      group1.add(
-        new Konva.Circle({
-          x: 100,
-          y: 100,
-          radius: 70,
-          fill: 'green',
-        })
-      );
-      layer.add(group1);
+const layer = new Konva.Layer();
+stage.add(layer);
 
-      // lets create the second group
-      const group2 = group1.clone({ x: 250 });
-      layer.add(group2);
+// lets create default group with two overlapping shapes
+const group1 = new Konva.Group({
+  opacity: 0.5,
+  x: 50,
+  y: 50,
+  draggable: true,
+});
+group1.add(
+  new Konva.Rect({
+    width: 100,
+    height: 100,
+    fill: 'red',
+  })
+);
+group1.add(
+  new Konva.Circle({
+    x: 100,
+    y: 100,
+    radius: 70,
+    fill: 'green',
+  })
+);
+layer.add(group1);
 
-      // to change opacity behavior we have to cache whole group
-      group2.cache();
-    </script>
-  </body>
-</html>
+// lets create the second group
+const group2 = group1.clone({ x: 250 });
+layer.add(group2);
+
+// to change opacity behavior we have to cache whole group
+group2.cache();
 ```
-
-## React
-
-```jsx
+  </TabItem>
+  <TabItem value="React">
+```js live react
 import { Stage, Layer, Group, Rect, Circle } from 'react-konva';
 import { useEffect, useRef } from 'react';
 
-const TransparentGroup = () => {
+const App = () => {
   const group2Ref = useRef(null);
 
   useEffect(() => {
@@ -142,12 +116,11 @@ const TransparentGroup = () => {
   );
 };
 
-export default TransparentGroup;
+export default App;
 ```
-
-## Vue
-
-```vue
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
 <template>
   <v-stage :config="stageConfig">
     <v-layer>
@@ -165,60 +138,42 @@ export default TransparentGroup;
   </v-stage>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 
-export default {
-  setup() {
-    const group2 = ref(null);
+const group2 = ref(null);
 
-    const stageConfig = {
-      width: window.innerWidth,
-      height: 400,
-    };
-
-    const groupConfig = {
-      opacity: 0.5,
-      y: 50,
-      draggable: true,
-    };
-
-    const rectConfig = {
-      width: 100,
-      height: 100,
-      fill: 'red',
-    };
-
-    const circleConfig = {
-      x: 100,
-      y: 100,
-      radius: 70,
-      fill: 'green',
-    };
-
-    onMounted(() => {
-      if (group2.value) {
-        // Cache the second group to change opacity behavior
-        group2.value.getNode().cache();
-      }
-    });
-
-    return {
-      stageConfig,
-      groupConfig,
-      rectConfig,
-      circleConfig,
-      group2,
-    };
-  },
+const stageConfig = {
+  width: window.innerWidth,
+  height: 400,
 };
+
+const groupConfig = {
+  opacity: 0.5,
+  y: 50,
+  draggable: true,
+};
+
+const rectConfig = {
+  width: 100,
+  height: 100,
+  fill: 'red',
+};
+
+const circleConfig = {
+  x: 100,
+  y: 100,
+  radius: 70,
+  fill: 'green',
+};
+
+onMounted(() => {
+  if (group2.value) {
+    // Cache the second group to change opacity behavior
+    group2.value.getNode().cache();
+  }
+});
 </script>
 ```
-
-The demo shows how to:
-1. Create groups with overlapping shapes
-2. Apply opacity to the entire group
-3. Fix overlapping transparency issues using group caching
-4. Make groups draggable for interaction
-
-Try dragging both groups to see the difference in how transparency is applied. The left group shows the default behavior with visible overlapping areas, while the right group shows the cached behavior where the entire group is treated as a single transparent unit. 
+  </TabItem>
+</Tabs>

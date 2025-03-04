@@ -1,0 +1,206 @@
+---
+title: How to find relative mouse position?
+sidebar_label: Relative Mouse Position
+hide_table_of_contents: true
+slug: Relative_Pointer_Position.html
+---
+
+In some cases you may need to find position of a point relative to a node. For purpose we can use mathematical `Konva.Transform` methods.
+
+In this demo we have deep nesting transformed nodes: moved stage, scaled layer, rotated group.
+Now we want to add circles into the group on click. But how to find position of that circles?
+We can't use `stage.getPointerPosition()` directly because that is position relative to top-left corner of the stage.
+
+The idea is simple. We just need to use inverted absolute transform.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  x: 20,
+  y: 50,
+});
+
+var layer = new Konva.Layer({
+  scaleX: 1.2,
+  scaleY: 0.8,
+  rotation: 5,
+});
+stage.add(layer);
+
+var group = new Konva.Group({
+  x: 30,
+  rotation: 10,
+  scaleX: 1.5,
+});
+layer.add(group);
+
+var text = new Konva.Text({
+  text: 'Click on the canvas to draw a circle',
+  fontSize: 20,
+});
+group.add(text);
+
+stage.on('click', function () {
+  var pos = group.getRelativePointerPosition();
+  var shape = new Konva.Circle({
+    x: pos.x,
+    y: pos.y,
+    fill: 'red',
+    radius: 20,
+  });
+
+  group.add(shape);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState } from 'react';
+import { Stage, Layer, Group, Text, Circle } from 'react-konva';
+
+const App = () => {
+  const [circles, setCircles] = useState([]);
+  
+  const handleStageClick = (e) => {
+    // Get the group reference from konva tree
+    const group = e.target.getStage().findOne('Group');
+    if (!group) return;
+    
+    // Get position relative to the group
+    const pos = group.getRelativePointerPosition();
+    
+    // Add new circle
+    setCircles([
+      ...circles,
+      {
+        x: pos.x,
+        y: pos.y,
+        radius: 20,
+        fill: 'red',
+        id: Date.now().toString()
+      }
+    ]);
+  };
+
+  return (
+    <Stage 
+      width={window.innerWidth} 
+      height={window.innerHeight}
+      x={20}
+      y={50}
+      onClick={handleStageClick}
+    >
+      <Layer
+        scaleX={1.2}
+        scaleY={0.8}
+        rotation={5}
+      >
+        <Group
+          x={30}
+          rotation={10}
+          scaleX={1.5}
+        >
+          <Text 
+            text="Click on the canvas to draw a circle" 
+            fontSize={20}
+          />
+          {circles.map((circle) => (
+            <Circle
+              key={circle.id}
+              x={circle.x}
+              y={circle.y}
+              radius={circle.radius}
+              fill={circle.fill}
+            />
+          ))}
+        </Group>
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage 
+    :config="stageConfig"
+    @click="handleStageClick"
+  >
+    <v-layer :config="layerConfig">
+      <v-group :config="groupConfig">
+        <v-text :config="textConfig" />
+        <v-circle 
+          v-for="circle in circles"
+          :key="circle.id"
+          :config="circle"
+        />
+      </v-group>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  x: 20,
+  y: 50
+};
+
+const layerConfig = {
+  scaleX: 1.2,
+  scaleY: 0.8,
+  rotation: 5
+};
+
+const groupConfig = {
+  x: 30,
+  rotation: 10,
+  scaleX: 1.5
+};
+
+const textConfig = {
+  text: 'Click on the canvas to draw a circle',
+  fontSize: 20
+};
+
+const circles = ref([]);
+
+const handleStageClick = (e) => {
+  // Get the group reference from konva tree
+  const group = e.target.getStage().findOne('Group');
+  if (!group) return;
+  
+  // Get position relative to the group
+  const pos = group.getRelativePointerPosition();
+  
+  // Add new circle
+  circles.value.push({
+    x: pos.x,
+    y: pos.y,
+    radius: 20,
+    fill: 'red',
+    id: Date.now().toString()
+  });
+};
+</script>
+```
+  </TabItem>
+</Tabs>

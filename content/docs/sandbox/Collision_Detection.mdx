@@ -1,0 +1,369 @@
+---
+title: Drag and Drop Collision Detection Demo
+sidebar_label: Collision Detection
+hide_table_of_contents: true
+slug: Collision_Detection.html
+---
+
+## How to find overlapping objects on the canvas?
+
+In this demo we will use simple collision detection to highlight intersected objects.
+For simplicity we will use just bounding boxes to detect collision.
+
+Red borders are used to show bounding boxes.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+**Instructions: Drag and drop a shape to see collision detection in action.**
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// first we need to create a stage
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+// then create layer
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create shapes
+const shapes = [];
+
+// create circles
+for (let i = 0; i < 10; i++) {
+  const shape = new Konva.Circle({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    radius: 20 + Math.random() * 20,
+    fill: getRandomColor(),
+    opacity: 0.8,
+    draggable: true,
+    name: 'shape',
+  });
+  
+  // add the shape to the layer
+  layer.add(shape);
+  shapes.push(shape);
+  
+  // add border to shape
+  const border = new Konva.Circle({
+    x: 0,
+    y: 0,
+    radius: shape.radius(),
+    stroke: 'red',
+    strokeWidth: 2,
+  });
+  shape.add(border);
+  
+  // update shape
+  shape.on('dragmove', updateCollisions);
+}
+
+// update collision detection on drag
+function updateCollisions() {
+  const targetShape = this;
+  
+  // reset all color borders
+  shapes.forEach((shape) => {
+    shape.children[0].stroke('red');
+  });
+  
+  // detect collisions
+  shapes.forEach((shape) => {
+    if (shape === targetShape) {
+      return;
+    }
+    
+    // check intersection using bounding rects
+    const targetRect = targetShape.getClientRect();
+    const shapeRect = shape.getClientRect();
+    
+    if (haveIntersection(targetRect, shapeRect)) {
+      targetShape.children[0].stroke('green');
+      shape.children[0].stroke('green');
+    }
+  });
+  
+  layer.batchDraw();
+}
+
+// helper function to check if two rectangles intersect
+function haveIntersection(r1, r2) {
+  return !(
+    r2.x > r1.x + r1.width ||
+    r2.x + r2.width < r1.x ||
+    r2.y > r1.y + r1.height ||
+    r2.y + r2.height < r1.y
+  );
+}
+
+// generate random color
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+layer.draw();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect } from 'react';
+import { Stage, Layer, Circle, Group } from 'react-konva';
+
+const App = () => {
+  const [shapes, setShapes] = useState([]);
+  
+  // Initialize shapes
+  useEffect(() => {
+    const newShapes = [];
+    for (let i = 0; i < 10; i++) {
+      newShapes.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: 20 + Math.random() * 20,
+        fill: getRandomColor(),
+        borderColor: 'red',
+      });
+    }
+    setShapes(newShapes);
+  }, []);
+  
+  // Helper function to check collision between rectangles
+  const haveIntersection = (r1, r2) => {
+    return !(
+      r2.x > r1.x + r1.width ||
+      r2.x + r2.width < r1.x ||
+      r2.y > r1.y + r1.height ||
+      r2.y + r2.height < r1.y
+    );
+  };
+  
+  // Generate random color
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  
+  // Handle drag move and check collisions
+  const handleDragMove = (e) => {
+    const target = e.target;
+    const targetId = parseInt(target.id());
+    
+    // Update position in state
+    const updatedShapes = shapes.map(shape => {
+      if (shape.id === targetId) {
+        return {
+          ...shape,
+          x: target.x(),
+          y: target.y(),
+        };
+      }
+      return shape;
+    });
+    
+    // Reset all border colors
+    updatedShapes.forEach(shape => {
+      shape.borderColor = 'red';
+    });
+    
+    // Get the target shape client rect
+    const targetNode = target;
+    const targetRect = targetNode.getClientRect();
+    
+    // Check for collisions
+    shapes.forEach((shape, index) => {
+      if (shape.id === targetId) {
+        return;
+      }
+      
+      // Get the other shape's DOM node
+      const otherNode = target.getStage().findOne('#' + shape.id);
+      const otherRect = otherNode.getClientRect();
+      
+      // Check for intersection
+      if (haveIntersection(targetRect, otherRect)) {
+        updatedShapes[targetId].borderColor = 'green';
+        updatedShapes[shape.id].borderColor = 'green';
+      }
+    });
+    
+    setShapes(updatedShapes);
+  };
+  
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {shapes.map((shape) => (
+          <Group key={shape.id}>
+            <Circle
+              id={shape.id.toString()}
+              x={shape.x}
+              y={shape.y}
+              radius={shape.radius}
+              fill={shape.fill}
+              opacity={0.8}
+              draggable
+              onDragMove={handleDragMove}
+            />
+            <Circle
+              x={shape.x}
+              y={shape.y}
+              radius={shape.radius}
+              stroke={shape.borderColor}
+              strokeWidth={2}
+            />
+          </Group>
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-group v-for="shape in shapes" :key="shape.id">
+        <v-circle
+          :config="{
+            id: shape.id.toString(),
+            x: shape.x,
+            y: shape.y,
+            radius: shape.radius,
+            fill: shape.fill,
+            opacity: 0.8,
+            draggable: true
+          }"
+          @dragmove="handleDragMove"
+        />
+        <v-circle
+          :config="{
+            x: shape.x,
+            y: shape.y,
+            radius: shape.radius,
+            stroke: shape.borderColor,
+            strokeWidth: 2
+          }"
+        />
+      </v-group>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const shapes = ref([]);
+
+// Initialize shapes
+onMounted(() => {
+  const newShapes = [];
+  for (let i = 0; i < 10; i++) {
+    newShapes.push({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: 20 + Math.random() * 20,
+      fill: getRandomColor(),
+      borderColor: 'red',
+    });
+  }
+  shapes.value = newShapes;
+});
+
+// Helper function to check collision between rectangles
+const haveIntersection = (r1, r2) => {
+  return !(
+    r2.x > r1.x + r1.width ||
+    r2.x + r2.width < r1.x ||
+    r2.y > r1.y + r1.height ||
+    r2.y + r2.height < r1.y
+  );
+};
+
+// Generate random color
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+// Handle drag move and check collisions
+const handleDragMove = (e) => {
+  const target = e.target;
+  const targetId = parseInt(target.id());
+  
+  // Update position in state
+  shapes.value = shapes.value.map(shape => {
+    if (shape.id === targetId) {
+      return {
+        ...shape,
+        x: target.x(),
+        y: target.y(),
+      };
+    }
+    return shape;
+  });
+  
+  // Reset all border colors
+  shapes.value.forEach(shape => {
+    shape.borderColor = 'red';
+  });
+  
+  // Get the target shape client rect
+  const targetNode = target;
+  const targetRect = targetNode.getClientRect();
+  
+  // Check for collisions
+  shapes.value.forEach((shape) => {
+    if (shape.id === targetId) {
+      return;
+    }
+    
+    // Get the other shape's DOM node
+    const otherNode = target.getStage().findOne('#' + shape.id);
+    const otherRect = otherNode.getClientRect();
+    
+    // Check for intersection
+    if (haveIntersection(targetRect, otherRect)) {
+      shapes.value[targetId].borderColor = 'green';
+      shapes.value[shape.id].borderColor = 'green';
+    }
+  });
+};
+</script>
+```
+</TabItem>
+</Tabs>

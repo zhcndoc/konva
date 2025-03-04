@@ -1,0 +1,349 @@
+---
+title: Drag and Drop Stress Test with 10,000 Shapes
+sidebar_label: Drag and Drop Stress Test
+hide_table_of_contents: true
+slug: Drag_and_Drop_Stress_Test.html
+---
+
+This example demonstrates a stress test with 10,000 shapes. The key performance optimization is to split shapes into multiple layers - this can greatly improve rendering performance. When we drag a shape, it's moved to a separate drag layer to ensure smooth movement.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// Create stage
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+// Create a dedicated layer for dragging
+const dragLayer = new Konva.Layer();
+
+// Define colors for random shapes
+const colors = [
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'blue',
+  'cyan',
+  'purple',
+];
+let colorIndex = 0;
+
+// Helper function to add a circle to a layer
+function addCircle(layer) {
+  const color = colors[colorIndex++];
+  if (colorIndex >= colors.length) {
+    colorIndex = 0;
+  }
+
+  const randX = Math.random() * stage.width();
+  const randY = Math.random() * stage.height();
+  const circle = new Konva.Circle({
+    x: randX,
+    y: randY,
+    radius: 6,
+    fill: color,
+  });
+
+  layer.add(circle);
+}
+
+const layersArr = [];
+
+/*
+ * Create 10 layers each containing 1000 shapes to create
+ * 10,000 shapes. This greatly improves performance because
+ * only 1,000 shapes will have to be drawn at a time when a
+ * circle is removed from a layer rather than all 10,000 shapes.
+ * 
+ * Having too many layers can also slow down performance.
+ * Using 10 layers each made up of 1,000 shapes performs better
+ * than 20 layers with 500 shapes or 5 layers with 2,000 shapes
+ */
+for (let i = 0; i < 10; i++) {
+  const layer = new Konva.Layer();
+  layersArr.push(layer);
+
+  for (let n = 0; n < 1000; n++) {
+    addCircle(layer);
+  }
+
+  stage.add(layer);
+}
+
+// Add the drag layer last
+stage.add(dragLayer);
+
+// Setup drag and drop behavior
+stage.on('mousedown', function (evt) {
+  const circle = evt.target;
+  
+  // Only handle circle shapes (ignore clicks on empty space)
+  if (!circle || circle.getClassName() !== 'Circle') {
+    return;
+  }
+  
+  // Move the circle to the drag layer
+  const layer = circle.getLayer();
+  circle.moveTo(dragLayer);
+  circle.startDrag();
+});
+
+// When dragging stops, move the circle back to one of the regular layers
+stage.on('mouseup', function (evt) {
+  const circle = evt.target;
+  
+  // Only handle circle shapes
+  if (!circle || circle.getClassName() !== 'Circle') {
+    return;
+  }
+  
+  // Choose a random layer to add it to
+  const randomLayerIndex = Math.floor(Math.random() * layersArr.length);
+  circle.moveTo(layersArr[randomLayerIndex]);
+  layersArr[randomLayerIndex].draw();
+  dragLayer.draw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect, useRef } from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
+const SHAPE_COUNT = 10000;
+const LAYERS_COUNT = 10;
+
+const App = () => {
+  // State to hold all the circles data
+  const [circles, setCircles] = useState([]);
+  // State to store which circle is being dragged
+  const [draggingId, setDraggingId] = useState(null);
+  
+  // Initialize circles data
+  useEffect(() => {
+    const circlesData = [];
+    
+    // Create 10,000 circles and distribute them across 10 layers
+    for (let i = 0; i < SHAPE_COUNT; i++) {
+      circlesData.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: 6,
+        fill: COLORS[i % COLORS.length],
+        layerId: Math.floor(i / (SHAPE_COUNT / LAYERS_COUNT))
+      });
+    }
+    
+    setCircles(circlesData);
+  }, []);
+  
+  // Group circles by their layerId
+  const layers = {};
+  for (let i = 0; i < LAYERS_COUNT; i++) {
+    layers[i] = circles.filter(c => c.layerId === i && c.id !== draggingId);
+  }
+  
+  // Get the dragging circle
+  const draggingCircle = circles.find(c => c.id === draggingId);
+  
+  const handleDragStart = (e) => {
+    const id = e.target.id();
+    setDraggingId(id);
+  };
+  
+  const handleDragEnd = (e) => {
+    const pos = e.target.position();
+    
+    // Update circle position
+    setCircles(circles.map(c => {
+      if (c.id === draggingId) {
+        // Assign to a random layer when drag ends
+        return {
+          ...c,
+          x: pos.x,
+          y: pos.y,
+          layerId: Math.floor(Math.random() * LAYERS_COUNT)
+        };
+      }
+      return c;
+    }));
+    
+    setDraggingId(null);
+  };
+  
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      {/* Render each layer separately */}
+      {Object.keys(layers).map(layerId => (
+        <Layer key={layerId}>
+          {layers[layerId].map(circle => (
+            <Circle
+              key={circle.id}
+              id={circle.id}
+              x={circle.x}
+              y={circle.y}
+              radius={circle.radius}
+              fill={circle.fill}
+              draggable
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            />
+          ))}
+        </Layer>
+      ))}
+      
+      {/* Special layer for the dragging circle */}
+      {draggingCircle && (
+        <Layer>
+          <Circle
+            key={draggingCircle.id}
+            id={draggingCircle.id}
+            x={draggingCircle.x}
+            y={draggingCircle.y}
+            radius={draggingCircle.radius}
+            fill={draggingCircle.fill}
+            draggable
+            onDragEnd={handleDragEnd}
+          />
+        </Layer>
+      )}
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <!-- Regular layers for non-dragged shapes -->
+    <v-layer v-for="layerId in Object.keys(layers)" :key="layerId">
+      <v-circle
+        v-for="circle in layers[layerId]"
+        :key="circle.id"
+        :config="{
+          id: circle.id,
+          x: circle.x,
+          y: circle.y,
+          radius: 6,
+          fill: circle.fill,
+          draggable: true
+        }"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+    
+    <!-- Special layer for dragging -->
+    <v-layer v-if="draggingCircle">
+      <v-circle
+        :config="{
+          id: draggingCircle.id,
+          x: draggingCircle.x,
+          y: draggingCircle.y,
+          radius: 6,
+          fill: draggingCircle.fill,
+          draggable: true
+        }"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
+const SHAPE_COUNT = 10000;
+const LAYERS_COUNT = 10;
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+// State for circles and dragging
+const circles = ref([]);
+const draggingId = ref(null);
+
+// Initialize circles data
+onMounted(() => {
+  const circlesData = [];
+  
+  // Create 10,000 circles and distribute them across 10 layers
+  for (let i = 0; i < SHAPE_COUNT; i++) {
+    circlesData.push({
+      id: i,
+      x: Math.random() * stageConfig.width,
+      y: Math.random() * stageConfig.height,
+      radius: 6,
+      fill: COLORS[i % COLORS.length],
+      layerId: Math.floor(i / (SHAPE_COUNT / LAYERS_COUNT))
+    });
+  }
+  
+  circles.value = circlesData;
+});
+
+// Computed property to group circles by layer
+const layers = computed(() => {
+  const result = {};
+  
+  for (let i = 0; i < LAYERS_COUNT; i++) {
+    result[i] = circles.value.filter(c => 
+      c.layerId === i && c.id !== draggingId.value
+    );
+  }
+  
+  return result;
+});
+
+// Get the dragging circle
+const draggingCircle = computed(() => 
+  circles.value.find(c => c.id === draggingId.value)
+);
+
+const handleDragStart = (e) => {
+  draggingId.value = e.target.id();
+};
+
+const handleDragEnd = (e) => {
+  const id = e.target.id();
+  const pos = e.target.position();
+  
+  // Update circle position and assign to a random layer
+  circles.value = circles.value.map(c => {
+    if (c.id === id) {
+      return {
+        ...c,
+        x: pos.x,
+        y: pos.y,
+        layerId: Math.floor(Math.random() * LAYERS_COUNT)
+      };
+    }
+    return c;
+  });
+  
+  draggingId.value = null;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

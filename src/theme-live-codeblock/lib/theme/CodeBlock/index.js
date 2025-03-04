@@ -11,6 +11,9 @@ import { Sandpack } from '@codesandbox/sandpack-react';
 export const Vanilla = ({ code }) => {
   return (
     <Sandpack
+      options={{
+        editorHeight: 400, // default - 300
+      }}
       template="vanilla"
       customSetup={{
         dependencies: {
@@ -37,6 +40,9 @@ export const ReactKonva = ({ code, metastring }) => {
   return (
     <Sandpack
       template="react"
+      options={{
+        editorHeight: 400, // default - 300
+      }}
       customSetup={{
         dependencies: {
           react: '^18',
@@ -61,6 +67,9 @@ export const VueKonva = ({ code }) => {
   return (
     <Sandpack
       template="vue"
+      options={{
+        editorHeight: 400, // default - 300
+      }}
       customSetup={{
         dependencies: {
           'vue-konva': '3.2.0',
@@ -89,6 +98,9 @@ const SvelteKonva = ({ code }) => {
   return (
     <Sandpack
       template="svelte"
+      options={{
+        editorHeight: 400, // default - 300
+      }}
       customSetup={{
         dependencies: {
           'svelte-konva': 'latest',

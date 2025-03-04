@@ -1,0 +1,348 @@
+---
+title: Connect objects HTML5 canvas with Konva
+sidebar_label: Connected Objects
+hide_table_of_contents: true
+slug: Connected_Objects.html
+---
+
+## How to connect two objects with a line or arrow?
+
+`Konva` can't connect two objects with a line and update its position automatically. You have to update a line manually as you need it. Usually we need to update line position when a user drag one of the connected objects. In simple cases it can be done like this:
+
+```javascript
+const obj1 = new Konva.Circle({ ...obj1Props })
+const obj2= new Konva.Circle({ ...obj2Props });
+
+const line = new Konva.Line({ ...lineProps });
+
+obj1.on('dragmove', updateLine);
+obj2.on('dragmove', updateLine);
+
+function updateLine() {
+  line.points([obj1.x(), obj1.y(), obj2.x(), obj2.y]);
+  layer.batchDraw();
+}
+```
+
+But in this demo we will create a more complex case with the state of the app and many connected objects.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+**Instructions: try to drag a circle to see how the connections update.**
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// first we need to create a stage
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+// then create layer
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create our graph objects
+const connections = [
+  { from: 0, to: 1 },
+  { from: 1, to: 2 },
+  { from: 2, to: 3 },
+  { from: 3, to: 0 },
+  { from: 0, to: 2 },
+  { from: 1, to: 3 },
+];
+
+const circles = [];
+const lines = [];
+
+// create circles
+for (let i = 0; i < 4; i++) {
+  const circle = new Konva.Circle({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    radius: 20,
+    fill: 'red',
+    draggable: true,
+    id: i.toString(),
+  });
+  
+  layer.add(circle);
+  circles.push(circle);
+  
+  // add hover styling
+  circle.on('mouseover', function () {
+    document.body.style.cursor = 'pointer';
+    this.fill('darkred');
+    layer.draw();
+  });
+  
+  circle.on('mouseout', function () {
+    document.body.style.cursor = 'default';
+    this.fill('red');
+    layer.draw();
+  });
+  
+  // update lines on drag
+  circle.on('dragmove', function () {
+    updateLines();
+  });
+}
+
+// create lines
+connections.forEach(function (connection) {
+  const line = new Konva.Line({
+    stroke: 'black',
+    strokeWidth: 2,
+  });
+  layer.add(line);
+  lines.push(line);
+});
+
+// update lines position
+function updateLines() {
+  let i = 0;
+  connections.forEach(function (connection) {
+    const fromNode = circles[connection.from];
+    const toNode = circles[connection.to];
+    
+    lines[i].points([fromNode.x(), fromNode.y(), toNode.x(), toNode.y()]);
+    i++;
+  });
+  layer.batchDraw();
+}
+
+// first draw
+updateLines();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect } from 'react';
+import { Stage, Layer, Circle, Line } from 'react-konva';
+
+const App = () => {
+  // Define connections between nodes
+  const connections = [
+    { from: 0, to: 1 },
+    { from: 1, to: 2 },
+    { from: 2, to: 3 },
+    { from: 3, to: 0 },
+    { from: 0, to: 2 },
+    { from: 1, to: 3 },
+  ];
+  
+  // State for nodes
+  const [circles, setCircles] = useState([]);
+  
+  // Initialize circles
+  useEffect(() => {
+    const initialCircles = [];
+    for (let i = 0; i < 4; i++) {
+      initialCircles.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: 20,
+        fill: 'red',
+      });
+    }
+    setCircles(initialCircles);
+  }, []);
+  
+  // Handle drag move
+  const handleDragMove = (e) => {
+    const id = parseInt(e.target.id());
+    
+    // Update the dragged circle position
+    setCircles(
+      circles.map((circle) => {
+        if (circle.id === id) {
+          return {
+            ...circle,
+            x: e.target.x(),
+            y: e.target.y(),
+          };
+        }
+        return circle;
+      })
+    );
+  };
+  
+  // Handle mouse over
+  const handleMouseOver = (e) => {
+    document.body.style.cursor = 'pointer';
+    e.target.fill('darkred');
+  };
+  
+  // Handle mouse out
+  const handleMouseOut = (e) => {
+    document.body.style.cursor = 'default';
+    e.target.fill('red');
+  };
+  
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {/* Render lines */}
+        {connections.map((connection, i) => {
+          // Only draw lines if we have the circles
+          if (circles.length === 0) return null;
+          
+          const fromNode = circles[connection.from];
+          const toNode = circles[connection.to];
+          
+          return (
+            <Line
+              key={i}
+              points={[fromNode.x, fromNode.y, toNode.x, toNode.y]}
+              stroke="black"
+              strokeWidth={2}
+            />
+          );
+        })}
+        
+        {/* Render circles */}
+        {circles.map((circle) => (
+          <Circle
+            key={circle.id}
+            id={circle.id.toString()}
+            x={circle.x}
+            y={circle.y}
+            radius={circle.radius}
+            fill={circle.fill}
+            draggable
+            onDragMove={handleDragMove}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <!-- Render lines -->
+      <v-line
+        v-for="(connection, i) in connections"
+        :key="'line-' + i"
+        :config="{
+          points: getLinePoints(connection),
+          stroke: 'black',
+          strokeWidth: 2,
+        }"
+      />
+      
+      <!-- Render circles -->
+      <v-circle
+        v-for="circle in circles"
+        :key="'circle-' + circle.id"
+        :config="{
+          id: circle.id.toString(),
+          x: circle.x,
+          y: circle.y,
+          radius: circle.radius,
+          fill: circle.fill,
+          draggable: true,
+        }"
+        @dragmove="handleDragMove"
+        @mouseover="handleMouseOver"
+        @mouseout="handleMouseOut"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+// Define connections between nodes
+const connections = [
+  { from: 0, to: 1 },
+  { from: 1, to: 2 },
+  { from: 2, to: 3 },
+  { from: 3, to: 0 },
+  { from: 0, to: 2 },
+  { from: 1, to: 3 },
+];
+
+// State for circles
+const circles = ref([]);
+
+// Initialize circles
+onMounted(() => {
+  const initialCircles = [];
+  for (let i = 0; i < 4; i++) {
+    initialCircles.push({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: 20,
+      fill: 'red',
+    });
+  }
+  circles.value = initialCircles;
+});
+
+// Helper to get line points from connection
+const getLinePoints = (connection) => {
+  if (circles.value.length === 0) return [0, 0, 0, 0];
+  
+  const fromNode = circles.value[connection.from];
+  const toNode = circles.value[connection.to];
+  
+  return [fromNode.x, fromNode.y, toNode.x, toNode.y];
+};
+
+// Handle drag move
+const handleDragMove = (e) => {
+  const id = parseInt(e.target.id());
+  
+  // Update the dragged circle position
+  circles.value = circles.value.map((circle) => {
+    if (circle.id === id) {
+      return {
+        ...circle,
+        x: e.target.x(),
+        y: e.target.y(),
+      };
+    }
+    return circle;
+  });
+};
+
+// Handle mouse over
+const handleMouseOver = (e) => {
+  document.body.style.cursor = 'pointer';
+  e.target.fill('darkred');
+};
+
+// Handle mouse out
+const handleMouseOut = (e) => {
+  document.body.style.cursor = 'default';
+  e.target.fill('red');
+};
+</script> 
+```
+</TabItem>
+</Tabs>

@@ -1,0 +1,222 @@
+---
+title: How to use custom font for HTML5 canvas?
+sidebar_label: Custom Font
+hide_table_of_contents: true
+slug: Custom_Font.html
+---
+
+## How to draw external font on html5 canvas?
+
+If you want to use custom font for `Konva.Text` you just need to:
+1. Add font style to your page
+2. Set `fontFamily` attribute to required font-face.
+
+But there is one important thing here. When you set font for DOM elements (like `div` or `span`) browsers will automatically update that elements when font is loaded. But it doesn't work the same for canvas text. You need to redraw canvas again.
+
+### Modern approach: CSS Font Loading API
+
+The most modern way to detect when a font is loaded is to use the [CSS Font Loading API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API), which is supported in all modern browsers.
+
+This API provides a clean, Promise-based way to load and detect fonts without any hacks or workarounds.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Build our stage
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Add a text node with default font
+const text = new Konva.Text({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: 'A text with custom font.',
+  width: 250,
+  // Start with default font
+  fontFamily: 'Arial'
+});
+
+// Add another text to help debug font loading
+const debugText = new Konva.Text({
+  x: 50,
+  y: 0,
+  fontSize: 16,
+  text: 'Loading font...',
+  fill: 'green'
+});
+
+layer.add(text);
+layer.add(debugText);
+layer.draw();
+
+// First, load the font using a stylesheet link (more reliable)
+const fontLink = document.createElement('link');
+fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+fontLink.rel = 'stylesheet';
+document.head.appendChild(fontLink);
+
+// Use the browser's font loading mechanism to detect when it's ready
+document.fonts.ready.then(() => {
+  // Check if our font is loaded
+  if (document.fonts.check('1em Kavivanar')) {
+    text.fontFamily('Kavivanar');
+    debugText.text('Font loaded successfully!');
+    // setTimeout(() => {
+    //   layer.draw();
+    // }, 100);
+  } else {
+    // Fallback - try with a small delay (common issue with some browsers)
+    setTimeout(() => {
+      debugText.text('Using fallback timer - attempting to set font now');
+      text.fontFamily('Kavivanar');
+    }, 500);
+  }
+}).catch(err => {
+  debugText.text('Error loading font: ' + err.message);
+  debugText.fill('red');
+  console.error('Font loading failed:', err);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const App = () => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const [fontStatus, setFontStatus] = useState('Loading font...');
+  
+  useEffect(() => {
+    // Load font using a regular stylesheet link (more reliable)
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+    
+    // Use the document.fonts.ready promise to detect when fonts are loaded
+    document.fonts.ready.then(() => {
+      // Check if our font is loaded
+      if (document.fonts.check('1em Kavivanar')) {
+        setFontStatus('Font loaded successfully!');
+        setFontLoaded(true);
+      } else {
+        // Fallback - try with a small delay
+        setTimeout(() => {
+          setFontStatus('Using fallback timer - attempting to set font now');
+          setFontLoaded(true);
+        }, 500);
+      }
+    }).catch(err => {
+      setFontStatus('Error loading font: ' + err.message);
+      console.error('Font loading failed:', err);
+    });
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={50}
+          y={50}
+          fontSize={40}
+          text="A text with custom font."
+          width={250}
+          fontFamily={fontLoaded ? 'Kavivanar' : 'Arial'}
+        />
+        <Text
+          x={50}
+          y={0}
+          fontSize={16}
+          text={fontStatus}
+          fill={fontStatus.includes('Error') ? 'red' : 'green'}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-text :config="debugTextConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = ref({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: 'A text with custom font.',
+  width: 250,
+  fontFamily: 'Arial'
+});
+
+const debugTextConfig = ref({
+  x: 50,
+  y: 0,
+  fontSize: 16,
+  text: 'Loading font...',
+  fill: 'green'
+});
+
+onMounted(() => {
+  // Load font using a regular stylesheet link (more reliable)
+  const fontLink = document.createElement('link');
+  fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+  fontLink.rel = 'stylesheet';
+  document.head.appendChild(fontLink);
+  
+  // Use the document.fonts.ready promise to detect when fonts are loaded
+  document.fonts.ready.then(() => {
+    // Check if our font is loaded
+    if (document.fonts.check('1em Kavivanar')) {
+      debugTextConfig.value.text = 'Font loaded successfully!';
+      textConfig.value.fontFamily = 'Kavivanar';
+    } else {
+      // Fallback - try with a small delay
+      setTimeout(() => {
+        debugTextConfig.value.text = 'Using fallback timer - attempting to set font now';
+        textConfig.value.fontFamily = 'Kavivanar';
+      }, 500);
+    }
+  }).catch(err => {
+    debugTextConfig.value.text = 'Error loading font: ' + err.message;
+    debugTextConfig.value.fill = 'red';
+    console.error('Font loading failed:', err);
+  });
+});
+</script>
+```
+  </TabItem>
+</Tabs>

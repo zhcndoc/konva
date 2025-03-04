@@ -1,0 +1,456 @@
+---
+title: Interactive Scatter Plot with 20,000 Nodes
+sidebar_label: 20000 Nodes
+hide_table_of_contents: true
+slug: 20000_Nodes.html
+---
+
+The purpose of this lab is to demonstrate the sheer number of nodes that Konva can handle by rendering 20,000 circles. Each circle is sensitive to mouseover events, and can be drag and dropped. This lab is also a great demonstration of event delegation, in which a single event handler attached to the stage handles the circle events.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// create stage
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+// function to add a node to layer
+function addNode(obj, layer) {
+  const node = new Konva.Circle({
+    x: obj.x,
+    y: obj.y,
+    radius: 4,
+    fill: obj.color,
+    id: obj.id,
+  });
+
+  layer.add(node);
+}
+
+const tooltipLayer = new Konva.Layer();
+const dragLayer = new Konva.Layer();
+
+// create tooltip
+const tooltip = new Konva.Label({
+  opacity: 0.75,
+  visible: false,
+  listening: false,
+});
+
+tooltip.add(
+  new Konva.Tag({
+    fill: 'black',
+    pointerDirection: 'down',
+    pointerWidth: 10,
+    pointerHeight: 10,
+    lineJoin: 'round',
+    shadowColor: 'black',
+    shadowBlur: 10,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowOpacity: 0.2,
+  })
+);
+
+tooltip.add(
+  new Konva.Text({
+    text: '',
+    fontFamily: 'Calibri',
+    fontSize: 18,
+    padding: 5,
+    fill: 'white',
+  })
+);
+
+tooltipLayer.add(tooltip);
+
+// build data
+const data = [];
+const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
+
+for (let n = 0; n < 20000; n++) {
+  const x = Math.random() * width;
+  const y = height + Math.random() * 200 - 100 + (height / width) * -1 * x;
+  data.push({
+    x: x,
+    y: y,
+    id: n,
+    color: colors[Math.round(Math.random() * 5)],
+  });
+}
+
+// render data
+let nodeCount = 0;
+let layer = new Konva.Layer();
+
+for (let n = 0; n < data.length; n++) {
+  addNode(data[n], layer);
+  nodeCount++;
+  if (nodeCount >= 1000) {
+    nodeCount = 0;
+    stage.add(layer);
+    layer = new Konva.Layer();
+  }
+}
+
+stage.add(dragLayer);
+stage.add(tooltipLayer);
+
+// handle events
+let startLayer;
+
+stage.on('mouseover mousemove dragmove', function (evt) {
+  const node = evt.target;
+  if (node) {
+    // update tooltip
+    const mousePos = node.getStage().getPointerPosition();
+    tooltip.position({
+      x: mousePos.x,
+      y: mousePos.y - 5,
+    });
+    tooltip
+      .getText()
+      .text('node: ' + node.id() + ', color: ' + node.fill());
+    tooltip.show();
+  }
+});
+
+stage.on('mouseout', function (evt) {
+  tooltip.hide();
+});
+
+stage.on('mousedown', function (evt) {
+  const shape = evt.target;
+  if (shape) {
+    startLayer = shape.getLayer();
+    shape.moveTo(dragLayer);
+    // manually trigger drag and drop
+    shape.startDrag();
+  }
+});
+
+stage.on('mouseup', function (evt) {
+  const shape = evt.target;
+  if (shape) {
+    shape.moveTo(startLayer);
+  }
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect, useRef } from 'react';
+import { Stage, Layer, Circle, Label, Tag, Text } from 'react-konva';
+
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  // Create refs for the layers
+  const tooltipLayerRef = useRef(null);
+  const dragLayerRef = useRef(null);
+  
+  // State for tooltip
+  const [tooltip, setTooltip] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    text: ''
+  });
+  
+  // State for nodes data
+  const [nodes, setNodes] = useState([]);
+  const [startLayerIndex, setStartLayerIndex] = useState(null);
+  
+  // Generate data - similar to vanilla implementation
+  useEffect(() => {
+    const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
+    const data = [];
+    
+    for (let n = 0; n < 20000; n++) {
+      const x = Math.random() * width;
+      const y = height + Math.random() * 200 - 100 + (height / width) * -1 * x;
+      data.push({
+        x,
+        y,
+        id: n,
+        color: colors[Math.round(Math.random() * 5)],
+        layerIndex: Math.floor(n / 1000) // Assign a layer index
+      });
+    }
+    
+    setNodes(data);
+  }, [width, height]);
+  
+  // Event handlers
+  const handleMouseOver = (e, node) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    setTooltip({
+      visible: true,
+      x: pos.x,
+      y: pos.y - 5,
+      text: `node: ${node.id}, color: ${node.color}`
+    });
+  };
+  
+  const handleMouseMove = (e) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    setTooltip(prev => ({
+      ...prev,
+      x: pos.x,
+      y: pos.y - 5
+    }));
+  };
+  
+  const handleMouseOut = () => {
+    setTooltip(prev => ({
+      ...prev,
+      visible: false
+    }));
+  };
+  
+  const handleMouseDown = (e, node) => {
+    // Record the original layer index
+    setStartLayerIndex(node.layerIndex);
+    
+    // Move to drag layer (handled by Konva automatically with draggable)
+    e.target.moveToTop();
+  };
+  
+  const handleMouseUp = (e, node) => {
+    if (startLayerIndex !== null) {
+      // In a real app, you would move back to original layer
+      // For simplicity, we'll just reset the startLayerIndex
+      setStartLayerIndex(null);
+    }
+  };
+
+  // Create layers - one for each 1000 nodes for better performance
+  const renderLayers = () => {
+    const layerCount = Math.ceil(nodes.length / 1000);
+    const layers = [];
+    
+    for (let i = 0; i < layerCount; i++) {
+      const layerNodes = nodes.filter(node => node.layerIndex === i);
+      layers.push(
+        <Layer key={i}>
+          {layerNodes.map(node => (
+            <Circle
+              key={node.id}
+              x={node.x}
+              y={node.y}
+              radius={4}
+              fill={node.color}
+              draggable
+              onMouseOver={e => handleMouseOver(e, node)}
+              onMouseMove={handleMouseMove}
+              onMouseOut={handleMouseOut}
+              onDragMove={handleMouseMove}
+              onMouseDown={e => handleMouseDown(e, node)}
+              onMouseUp={e => handleMouseUp(e, node)}
+            />
+          ))}
+        </Layer>
+      );
+    }
+    
+    return layers;
+  };
+  
+  return (
+    <Stage width={width} height={height}>
+      {/* Render node layers */}
+      {renderLayers()}
+      
+      {/* Drag layer */}
+      <Layer ref={dragLayerRef} />
+      
+      {/* Tooltip layer */}
+      <Layer ref={tooltipLayerRef}>
+        <Label
+          x={tooltip.x}
+          y={tooltip.y}
+          opacity={0.75}
+          visible={tooltip.visible}
+        >
+          <Tag
+            fill="black"
+            pointerDirection="down"
+            pointerWidth={10}
+            pointerHeight={10}
+            lineJoin="round"
+            shadowColor="black"
+            shadowBlur={10}
+            shadowOffsetX={10}
+            shadowOffsetY={10}
+            shadowOpacity={0.2}
+          />
+          <Text
+            text={tooltip.text}
+            fontFamily="Calibri"
+            fontSize={18}
+            padding={5}
+            fill="white"
+          />
+        </Label>
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer v-for="(layer, layerIndex) in layers" :key="layerIndex">
+      <v-circle
+        v-for="node in layer"
+        :key="node.id"
+        :config="{
+          x: node.x,
+          y: node.y,
+          radius: 4,
+          fill: node.color,
+          id: node.id,
+          draggable: true
+        }"
+        @mouseover="handleMouseOver($event, node)"
+        @mousemove="handleMouseMove"
+        @mouseout="handleMouseOut"
+        @dragmove="handleMouseMove"
+      />
+    </v-layer>
+    <v-layer>
+      <v-label
+        :config="{
+          x: tooltip.x,
+          y: tooltip.y,
+          opacity: 0.75,
+          visible: tooltip.visible
+        }"
+      >
+        <v-tag
+          :config="{
+            fill: 'black',
+            pointerDirection: 'down',
+            pointerWidth: 10,
+            pointerHeight: 10,
+            lineJoin: 'round',
+            shadowColor: 'black',
+            shadowBlur: 10,
+            shadowOffsetX: 10,
+            shadowOffsetY: 10,
+            shadowOpacity: 0.2
+          }"
+        />
+        <v-text
+          :config="{
+            text: tooltip.text,
+            fontFamily: 'Calibri',
+            fontSize: 18,
+            padding: 5,
+            fill: 'white'
+          }"
+        />
+      </v-label>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stageConfig = {
+  width: width,
+  height: height
+};
+
+const tooltip = ref({
+  visible: false,
+  x: 0,
+  y: 0,
+  text: ''
+});
+
+const nodes = ref([]);
+const layers = computed(() => {
+  const result = [];
+  for (let i = 0; i < nodes.value.length; i += 1000) {
+    result.push(nodes.value.slice(i, i + 1000));
+  }
+  return result;
+});
+
+onMounted(() => {
+  const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
+  const data = [];
+  
+  for (let n = 0; n < 20000; n++) {
+    const x = Math.random() * width;
+    const y = height + Math.random() * 200 - 100 + (height / width) * -1 * x;
+    data.push({
+      x: x,
+      y: y,
+      id: n,
+      color: colors[Math.round(Math.random() * 5)],
+    });
+  }
+  
+  nodes.value = data;
+});
+
+function handleMouseOver(e, node) {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  
+  tooltip.value = {
+    visible: true,
+    x: pos.x,
+    y: pos.y - 5,
+    text: `node: ${node.id}, color: ${node.color}`
+  };
+}
+
+function handleMouseMove(e) {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  
+  tooltip.value = {
+    ...tooltip.value,
+    visible: true,
+    x: pos.x,
+    y: pos.y - 5
+  };
+}
+
+function handleMouseOut() {
+  tooltip.value = {
+    ...tooltip.value,
+    visible: false
+  };
+}
+</script>
+```
+  </TabItem>
+</Tabs>
+
+**Instructions:** Mouse over the nodes to see more information, and then drag and drop them around the stage. 

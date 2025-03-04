@@ -1,0 +1,238 @@
+---
+title: How to add background to canvas?
+sidebar_label: Canvas Background
+hide_table_of_contents: true
+slug: Canvas_Background.html
+---
+
+## How add background to Konva stage?
+
+There are two ways to add a background.
+
+### 1. Adding background with `Konva.Rect` shape.
+
+The Konva-way to add a background to your canvas is just by drawing `Konva.Rect` shape with the size of a stage on the bottom of your scene. You can style that rectangle as you want with [solid color, gradient or pattern image](/docs/styling/Fill.html).
+
+*The only thing that you should be careful about here is the rectangle's position and size. If you are transforming any parent of background shape (such as stage or layer) by moving it, or applying scale you should "reset" background shape position/size to fill whole Stage area.*
+
+### 2. Adding background with CSS
+
+The other solution to add background to your canvas is just use CSS styles to stage container DOM element. That solution is simpler than the first approach, because you don't need to track position, size changes. It also has **a bit** better performance, because you don't need to draw any additional shapes.
+
+**But it has one drawback. The CSS background will be not visible on export when you use methods like `stage.toImage()` and `stage.toDataURL()`.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+**Instructions:** On the demo below, the green solid background is made with CSS. Yellow-blue gradient will be done with `Konva.Rect` instance. Try to drag the stage. You will see that gradient stays in place.
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  draggable: true,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// there are two ways to add background to the stage.
+// the simplest solution is to just using CSS
+stage.container().style.backgroundColor = 'green';
+
+// another solution is to use rectangle shape
+const background = new Konva.Rect({
+  x: 0,
+  y: 0,
+  width: stage.width(),
+  height: stage.height(),
+  fillLinearGradientStartPoint: { x: 0, y: 0 },
+  fillLinearGradientEndPoint: { x: stage.width(), y: stage.height() },
+  // gradient into transparent color, so we can see CSS styles
+  fillLinearGradientColorStops: [
+    0,
+    'yellow',
+    0.5,
+    'blue',
+    0.6,
+    'rgba(0, 0, 0, 0)',
+  ],
+  // remove background from hit graph for better perf
+  // because we don't need any events on the background
+  listening: false,
+});
+layer.add(background);
+
+// the stage is draggable
+// that means absolute position of background may change
+// so we need to reset it back to {0, 0}
+stage.on('dragmove', () => {
+  background.absolutePosition({ x: 0, y: 0 });
+});
+
+// add demo shape
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 100,
+  fill: 'red',
+});
+layer.add(circle);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useRef, useEffect } from 'react';
+import { Stage, Layer, Rect, Circle } from 'react-konva';
+
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  const stageRef = useRef(null);
+  const backgroundRef = useRef(null);
+  
+  // Set CSS background when component mounts
+  useEffect(() => {
+    if (stageRef.current) {
+      // Apply CSS background to stage container
+      const container = stageRef.current.container();
+      container.style.backgroundColor = 'green';
+    }
+  }, []);
+  
+  // Handler to reset background position on stage drag
+  const handleDragMove = () => {
+    if (backgroundRef.current) {
+      backgroundRef.current.absolutePosition({ x: 0, y: 0 });
+    }
+  };
+  
+  return (
+    <Stage 
+      width={width} 
+      height={height}
+      draggable
+      ref={stageRef}
+      onDragMove={handleDragMove}
+    >
+      <Layer>
+        {/* Gradient background */}
+        <Rect
+          ref={backgroundRef}
+          x={0}
+          y={0}
+          width={width}
+          height={height}
+          fillLinearGradientStartPoint={{ x: 0, y: 0 }}
+          fillLinearGradientEndPoint={{ x: width, y: height }}
+          fillLinearGradientColorStops={[
+            0, 'yellow',
+            0.5, 'blue', 
+            0.6, 'rgba(0, 0, 0, 0)'
+          ]}
+          listening={false}
+        />
+        
+        {/* Demo shape */}
+        <Circle
+          x={width / 2}
+          y={height / 2}
+          radius={100}
+          fill="red"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage 
+    ref="stageRef" 
+    :config="stageConfig"
+    @dragmove="handleDragMove"
+  >
+    <v-layer>
+      <!-- Gradient background -->
+      <v-rect
+        ref="backgroundRef"
+        :config="backgroundConfig"
+      />
+      
+      <!-- Demo shape -->
+      <v-circle
+        :config="circleConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stageRef = ref(null);
+const backgroundRef = ref(null);
+
+const stageConfig = {
+  width,
+  height,
+  draggable: true
+};
+
+const backgroundConfig = {
+  x: 0,
+  y: 0,
+  width: width,
+  height: height,
+  fillLinearGradientStartPoint: { x: 0, y: 0 },
+  fillLinearGradientEndPoint: { x: width, y: height },
+  fillLinearGradientColorStops: [
+    0, 'yellow',
+    0.5, 'blue',
+    0.6, 'rgba(0, 0, 0, 0)'
+  ],
+  listening: false
+};
+
+const circleConfig = {
+  x: width / 2,
+  y: height / 2,
+  radius: 100,
+  fill: 'red'
+};
+
+// Set CSS background when component mounts
+onMounted(() => {
+  if (stageRef.value) {
+    // Apply CSS background to stage container
+    const container = stageRef.value.getNode().container();
+    container.style.backgroundColor = 'green';
+  }
+});
+
+// Handler to reset background position on stage drag
+const handleDragMove = () => {
+  if (backgroundRef.value) {
+    backgroundRef.value.getNode().absolutePosition({ x: 0, y: 0 });
+  }
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

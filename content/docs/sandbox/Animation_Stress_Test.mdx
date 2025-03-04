@@ -1,0 +1,315 @@
+---
+title: Animation Stress Test
+sidebar_label: Animation Stress Test
+hide_table_of_contents: true
+slug: Animation_Stress_Test.html
+---
+
+This demo creates 300 rectangles with random sizes, positions, and colors, then animates them by rotating each rectangle. The animation performance is optimized by setting the `listening` property of the layer to `false`, which improves drawing performance as the rectangles won't be drawn onto the hit graph.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+function update(layer, frame) {
+  const angularSpeed = 100;
+  const angularDiff = (angularSpeed * frame.timeDiff) / 1000;
+  const shapes = layer.getChildren();
+
+  for (let n = 0; n < shapes.length; n++) {
+    const shape = shapes[n];
+    shape.rotate(angularDiff);
+  }
+}
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+/*
+ * setting the listening property to false will improve
+ * drawing performance because the rectangles won't have to be
+ * drawn onto the hit graph
+ */
+const layer = new Konva.Layer({
+  listening: false,
+});
+
+const colors = [
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'blue',
+  'cyan',
+  'purple',
+];
+let colorIndex = 0;
+
+for (let i = 0; i < 300; i++) {
+  const color = colors[colorIndex++];
+  if (colorIndex >= colors.length) {
+    colorIndex = 0;
+  }
+
+  const randWidth = Math.random() * 100 + 20;
+  const randHeight = Math.random() * 100 + 20;
+  const randX = Math.random() * stage.width() - 20;
+  const randY = Math.random() * stage.height() - 20;
+
+  const box = new Konva.Rect({
+    x: randX,
+    y: randY,
+    offset: {
+      x: randWidth / 2,
+      y: randHeight / 2,
+    },
+    width: randWidth,
+    height: randHeight,
+    fill: color,
+    stroke: 'black',
+    strokeWidth: 4,
+  });
+
+  layer.add(box);
+}
+
+stage.add(layer);
+
+const anim = new Konva.Animation(function (frame) {
+  update(layer, frame);
+}, layer);
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect, useRef } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
+import Konva from 'konva';
+
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  // State for rectangles
+  const [boxes, setBoxes] = useState([]);
+  
+  // Animation ref to keep track of the animation
+  const animRef = useRef(null);
+  const layerRef = useRef(null);
+  
+  // Generate random boxes
+  useEffect(() => {
+    const colors = [
+      'red',
+      'orange',
+      'yellow',
+      'green',
+      'blue',
+      'cyan',
+      'purple',
+    ];
+    
+    const newBoxes = [];
+    let colorIndex = 0;
+    
+    for (let i = 0; i < 300; i++) {
+      const color = colors[colorIndex++];
+      if (colorIndex >= colors.length) {
+        colorIndex = 0;
+      }
+      
+      const randWidth = Math.random() * 100 + 20;
+      const randHeight = Math.random() * 100 + 20;
+      const randX = Math.random() * width - 20;
+      const randY = Math.random() * height - 20;
+      
+      newBoxes.push({
+        id: i,
+        x: randX,
+        y: randY,
+        width: randWidth,
+        height: randHeight,
+        offsetX: randWidth / 2,
+        offsetY: randHeight / 2,
+        fill: color,
+        stroke: 'black',
+        strokeWidth: 4,
+        rotation: 0, // Initial rotation
+      });
+    }
+    
+    setBoxes(newBoxes);
+  }, [width, height]);
+  
+  // Setup animation on mount
+  useEffect(() => {
+    if (layerRef.current && boxes.length > 0) {
+      // Create animation
+      const angularSpeed = 100;
+      
+      animRef.current = new Konva.Animation((frame) => {
+        const angularDiff = (angularSpeed * frame.timeDiff) / 1000;
+        
+        setBoxes(prevBoxes => 
+          prevBoxes.map(box => ({
+            ...box,
+            rotation: box.rotation + angularDiff
+          }))
+        );
+      }, layerRef.current.getLayer());
+      
+      // Start animation
+      animRef.current.start();
+      
+      // Cleanup on unmount
+      return () => {
+        if (animRef.current) {
+          animRef.current.stop();
+        }
+      };
+    }
+  }, [boxes.length]);
+  
+  return (
+    <Stage width={width} height={height}>
+      <Layer ref={layerRef} listening={false}>
+        {boxes.map((box) => (
+          <Rect
+            key={box.id}
+            x={box.x}
+            y={box.y}
+            width={box.width}
+            height={box.height}
+            offsetX={box.offsetX}
+            offsetY={box.offsetY}
+            fill={box.fill}
+            stroke={box.stroke}
+            strokeWidth={box.strokeWidth}
+            rotation={box.rotation}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer ref="layer" :config="{ listening: false }">
+      <v-rect
+        v-for="box in boxes"
+        :key="box.id"
+        :config="box"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stageConfig = {
+  width,
+  height
+};
+
+const layer = ref(null);
+const boxes = ref([]);
+let animation = null;
+
+// Generate boxes with random properties
+onMounted(() => {
+  const colors = [
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'blue',
+    'cyan',
+    'purple',
+  ];
+  
+  let colorIndex = 0;
+  const newBoxes = [];
+  
+  for (let i = 0; i < 300; i++) {
+    const color = colors[colorIndex++];
+    if (colorIndex >= colors.length) {
+      colorIndex = 0;
+    }
+    
+    const randWidth = Math.random() * 100 + 20;
+    const randHeight = Math.random() * 100 + 20;
+    const randX = Math.random() * width - 20;
+    const randY = Math.random() * height - 20;
+    
+    newBoxes.push({
+      id: i,
+      x: randX,
+      y: randY,
+      width: randWidth,
+      height: randHeight,
+      offset: {
+        x: randWidth / 2,
+        y: randHeight / 2,
+      },
+      fill: color,
+      stroke: 'black',
+      strokeWidth: 4,
+      rotation: 0,
+    });
+  }
+  
+  boxes.value = newBoxes;
+  
+  // Start animation after boxes are created
+  nextTick(() => {
+    if (layer.value) {
+      const angularSpeed = 100;
+      
+      animation = new Konva.Animation((frame) => {
+        const angularDiff = (angularSpeed * frame.timeDiff) / 1000;
+        
+        boxes.value.forEach(box => {
+          box.rotation += angularDiff;
+        });
+      }, layer.value.getNode());
+      
+      animation.start();
+    }
+  });
+});
+
+// Cleanup animation on unmount
+onUnmounted(() => {
+  if (animation) {
+    animation.stop();
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+**Instructions:** This demo shows the animation capability of Konva by rotating 300 rectangles simultaneously. Watch as the shapes rotate smoothly across the screen. 
