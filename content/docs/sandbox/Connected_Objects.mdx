@@ -29,7 +29,7 @@ But in this demo we will create a more complex case with the state of the app an
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**Instructions: try to drag a circle to see how the connections update.**
+**Instructions: try to drag circles to see how the connections update.**
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -39,189 +39,227 @@ import Konva from 'konva';
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// first we need to create a stage
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
   height: height,
 });
 
-// then create layer
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create our graph objects
-const connections = [
-  { from: 0, to: 1 },
-  { from: 1, to: 2 },
-  { from: 2, to: 3 },
-  { from: 3, to: 0 },
-  { from: 0, to: 2 },
-  { from: 1, to: 3 },
-];
+// function to generate a list of "targets" (circles)
+function generateTargets() {
+  const number = 10;
+  const result = [];
+  while (result.length < number) {
+    result.push({
+      id: 'target-' + result.length,
+      x: stage.width() * Math.random(),
+      y: stage.height() * Math.random(),
+    });
+  }
+  return result;
+}
 
-const circles = [];
-const lines = [];
+const targets = generateTargets();
 
-// create circles
-for (let i = 0; i < 4; i++) {
-  const circle = new Konva.Circle({
-    x: Math.random() * stage.width(),
-    y: Math.random() * stage.height(),
-    radius: 20,
-    fill: 'red',
-    draggable: true,
-    id: i.toString(),
+// function to generate arrows between targets
+function generateConnectors() {
+  const number = 10;
+  const result = [];
+  while (result.length < number) {
+    const from = 'target-' + Math.floor(Math.random() * targets.length);
+    const to = 'target-' + Math.floor(Math.random() * targets.length);
+    if (from === to) {
+      continue;
+    }
+    result.push({
+      id: 'connector-' + result.length,
+      from: from,
+      to: to,
+    });
+  }
+  return result;
+}
+
+function getConnectorPoints(from, to) {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  let angle = Math.atan2(-dy, dx);
+
+  const radius = 50;
+
+  return [
+    from.x + -radius * Math.cos(angle + Math.PI),
+    from.y + radius * Math.sin(angle + Math.PI),
+    to.x + -radius * Math.cos(angle),
+    to.y + radius * Math.sin(angle),
+  ];
+}
+
+const connectors = generateConnectors();
+
+// update all objects on the canvas from the state of the app
+function updateObjects() {
+  targets.forEach((target) => {
+    const node = layer.findOne('#' + target.id);
+    node.x(target.x);
+    node.y(target.y);
   });
-  
-  layer.add(circle);
-  circles.push(circle);
-  
-  // add hover styling
-  circle.on('mouseover', function () {
-    document.body.style.cursor = 'pointer';
-    this.fill('darkred');
-    layer.draw();
-  });
-  
-  circle.on('mouseout', function () {
-    document.body.style.cursor = 'default';
-    this.fill('red');
-    layer.draw();
-  });
-  
-  // update lines on drag
-  circle.on('dragmove', function () {
-    updateLines();
+  connectors.forEach((connect) => {
+    const line = layer.findOne('#' + connect.id);
+    const fromNode = layer.findOne('#' + connect.from);
+    const toNode = layer.findOne('#' + connect.to);
+
+    const points = getConnectorPoints(
+      fromNode.position(),
+      toNode.position()
+    );
+    line.points(points);
   });
 }
 
-// create lines
-connections.forEach(function (connection) {
-  const line = new Konva.Line({
+// generate nodes for the app
+connectors.forEach((connect) => {
+  const line = new Konva.Arrow({
     stroke: 'black',
-    strokeWidth: 2,
+    id: connect.id,
+    fill: 'black',
   });
   layer.add(line);
-  lines.push(line);
 });
 
-// update lines position
-function updateLines() {
-  let i = 0;
-  connections.forEach(function (connection) {
-    const fromNode = circles[connection.from];
-    const toNode = circles[connection.to];
-    
-    lines[i].points([fromNode.x(), fromNode.y(), toNode.x(), toNode.y()]);
-    i++;
+targets.forEach((target) => {
+  const node = new Konva.Circle({
+    id: target.id,
+    fill: Konva.Util.getRandomColor(),
+    radius: 20 + Math.random() * 20,
+    shadowBlur: 10,
+    draggable: true,
   });
-  layer.batchDraw();
-}
+  layer.add(node);
 
-// first draw
-updateLines();
+  node.on('dragmove', () => {
+    // mutate the state
+    target.x = node.x();
+    target.y = node.y();
+
+    // update nodes from the new state
+    updateObjects();
+  });
+});
+
+updateObjects();
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { useState, useEffect } from 'react';
-import { Stage, Layer, Circle, Line } from 'react-konva';
+import { Stage, Layer, Circle, Arrow } from 'react-konva';
 
 const App = () => {
-  // Define connections between nodes
-  const connections = [
-    { from: 0, to: 1 },
-    { from: 1, to: 2 },
-    { from: 2, to: 3 },
-    { from: 3, to: 0 },
-    { from: 0, to: 2 },
-    { from: 1, to: 3 },
-  ];
-  
-  // State for nodes
-  const [circles, setCircles] = useState([]);
-  
-  // Initialize circles
-  useEffect(() => {
-    const initialCircles = [];
-    for (let i = 0; i < 4; i++) {
-      initialCircles.push({
-        id: i,
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        radius: 20,
-        fill: 'red',
+  // Generate initial targets
+  const generateTargets = () => {
+    const number = 10;
+    const result = [];
+    while (result.length < number) {
+      result.push({
+        id: 'target-' + result.length,
+        x: window.innerWidth * Math.random(),
+        y: window.innerHeight * Math.random(),
+        radius: 20 + Math.random() * 20,
+        fill: '#' + Math.floor(Math.random()*16777215).toString(16),
       });
     }
-    setCircles(initialCircles);
+    return result;
+  };
+
+  // Generate connectors between targets
+  const generateConnectors = (targets) => {
+    const number = 10;
+    const result = [];
+    while (result.length < number) {
+      const from = 'target-' + Math.floor(Math.random() * targets.length);
+      const to = 'target-' + Math.floor(Math.random() * targets.length);
+      if (from === to) {
+        continue;
+      }
+      result.push({
+        id: 'connector-' + result.length,
+        from,
+        to,
+      });
+    }
+    return result;
+  };
+
+  const [targets, setTargets] = useState([]);
+  const [connectors, setConnectors] = useState([]);
+
+  useEffect(() => {
+    const initialTargets = generateTargets();
+    setTargets(initialTargets);
+    setConnectors(generateConnectors(initialTargets));
   }, []);
-  
-  // Handle drag move
+
+  const getConnectorPoints = (from, to) => {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    let angle = Math.atan2(-dy, dx);
+
+    const radius = 50;
+
+    return [
+      from.x + -radius * Math.cos(angle + Math.PI),
+      from.y + radius * Math.sin(angle + Math.PI),
+      to.x + -radius * Math.cos(angle),
+      to.y + radius * Math.sin(angle),
+    ];
+  };
+
   const handleDragMove = (e) => {
-    const id = parseInt(e.target.id());
-    
-    // Update the dragged circle position
-    setCircles(
-      circles.map((circle) => {
-        if (circle.id === id) {
-          return {
-            ...circle,
-            x: e.target.x(),
-            y: e.target.y(),
-          };
-        }
-        return circle;
-      })
+    const id = e.target.id();
+    setTargets(
+      targets.map((target) =>
+        target.id === id
+          ? { ...target, x: e.target.x(), y: e.target.y() }
+          : target
+      )
     );
   };
-  
-  // Handle mouse over
-  const handleMouseOver = (e) => {
-    document.body.style.cursor = 'pointer';
-    e.target.fill('darkred');
-  };
-  
-  // Handle mouse out
-  const handleMouseOut = (e) => {
-    document.body.style.cursor = 'default';
-    e.target.fill('red');
-  };
-  
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        {/* Render lines */}
-        {connections.map((connection, i) => {
-          // Only draw lines if we have the circles
-          if (circles.length === 0) return null;
-          
-          const fromNode = circles[connection.from];
-          const toNode = circles[connection.to];
+        {connectors.map((connector) => {
+          const fromNode = targets.find((t) => t.id === connector.from);
+          const toNode = targets.find((t) => t.id === connector.to);
+          if (!fromNode || !toNode) return null;
+
+          const points = getConnectorPoints(fromNode, toNode);
           
           return (
-            <Line
-              key={i}
-              points={[fromNode.x, fromNode.y, toNode.x, toNode.y]}
+            <Arrow
+              key={connector.id}
+              id={connector.id}
+              points={points}
+              fill="black"
               stroke="black"
-              strokeWidth={2}
             />
           );
         })}
-        
-        {/* Render circles */}
-        {circles.map((circle) => (
+        {targets.map((target) => (
           <Circle
-            key={circle.id}
-            id={circle.id.toString()}
-            x={circle.x}
-            y={circle.y}
-            radius={circle.radius}
-            fill={circle.fill}
+            key={target.id}
+            id={target.id}
+            x={target.x}
+            y={target.y}
+            radius={target.radius}
+            fill={target.fill}
+            shadowBlur={10}
             draggable
             onDragMove={handleDragMove}
-            onMouseOver={handleMouseOver}
-            onMouseOut={handleMouseOut}
           />
         ))}
       </Layer>
@@ -237,32 +275,16 @@ export default App;
 <template>
   <v-stage :config="stageConfig">
     <v-layer>
-      <!-- Render lines -->
-      <v-line
-        v-for="(connection, i) in connections"
-        :key="'line-' + i"
-        :config="{
-          points: getLinePoints(connection),
-          stroke: 'black',
-          strokeWidth: 2,
-        }"
+      <v-arrow
+        v-for="connector in connectors"
+        :key="connector.id"
+        :config="getArrowConfig(connector)"
       />
-      
-      <!-- Render circles -->
       <v-circle
-        v-for="circle in circles"
-        :key="'circle-' + circle.id"
-        :config="{
-          id: circle.id.toString(),
-          x: circle.x,
-          y: circle.y,
-          radius: circle.radius,
-          fill: circle.fill,
-          draggable: true,
-        }"
+        v-for="target in targets"
+        :key="target.id"
+        :config="getCircleConfig(target)"
         @dragmove="handleDragMove"
-        @mouseover="handleMouseOver"
-        @mouseout="handleMouseOut"
       />
     </v-layer>
   </v-stage>
@@ -276,71 +298,95 @@ const stageConfig = {
   height: window.innerHeight
 };
 
-// Define connections between nodes
-const connections = [
-  { from: 0, to: 1 },
-  { from: 1, to: 2 },
-  { from: 2, to: 3 },
-  { from: 3, to: 0 },
-  { from: 0, to: 2 },
-  { from: 1, to: 3 },
-];
-
-// State for circles
-const circles = ref([]);
-
-// Initialize circles
-onMounted(() => {
-  const initialCircles = [];
-  for (let i = 0; i < 4; i++) {
-    initialCircles.push({
-      id: i,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      radius: 20,
-      fill: 'red',
+// Generate initial targets
+const generateTargets = () => {
+  const number = 10;
+  const result = [];
+  while (result.length < number) {
+    result.push({
+      id: 'target-' + result.length,
+      x: window.innerWidth * Math.random(),
+      y: window.innerHeight * Math.random(),
+      radius: 20 + Math.random() * 20,
+      fill: '#' + Math.floor(Math.random()*16777215).toString(16),
     });
   }
-  circles.value = initialCircles;
+  return result;
+};
+
+// Generate connectors between targets
+const generateConnectors = (targets) => {
+  const number = 10;
+  const result = [];
+  while (result.length < number) {
+    const from = 'target-' + Math.floor(Math.random() * targets.length);
+    const to = 'target-' + Math.floor(Math.random() * targets.length);
+    if (from === to) {
+      continue;
+    }
+    result.push({
+      id: 'connector-' + result.length,
+      from,
+      to,
+    });
+  }
+  return result;
+};
+
+const targets = ref([]);
+const connectors = ref([]);
+
+onMounted(() => {
+  const initialTargets = generateTargets();
+  targets.value = initialTargets;
+  connectors.value = generateConnectors(initialTargets);
 });
 
-// Helper to get line points from connection
-const getLinePoints = (connection) => {
-  if (circles.value.length === 0) return [0, 0, 0, 0];
-  
-  const fromNode = circles.value[connection.from];
-  const toNode = circles.value[connection.to];
-  
-  return [fromNode.x, fromNode.y, toNode.x, toNode.y];
+const getConnectorPoints = (from, to) => {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  let angle = Math.atan2(-dy, dx);
+
+  const radius = 50;
+
+  return [
+    from.x + -radius * Math.cos(angle + Math.PI),
+    from.y + radius * Math.sin(angle + Math.PI),
+    to.x + -radius * Math.cos(angle),
+    to.y + radius * Math.sin(angle),
+  ];
 };
 
-// Handle drag move
+const getArrowConfig = (connector) => {
+  const fromNode = targets.value.find((t) => t.id === connector.from);
+  const toNode = targets.value.find((t) => t.id === connector.to);
+  if (!fromNode || !toNode) return { points: [0, 0, 0, 0] };
+
+  return {
+    id: connector.id,
+    points: getConnectorPoints(fromNode, toNode),
+    fill: 'black',
+    stroke: 'black',
+  };
+};
+
+const getCircleConfig = (target) => ({
+  id: target.id,
+  x: target.x,
+  y: target.y,
+  radius: target.radius,
+  fill: target.fill,
+  shadowBlur: 10,
+  draggable: true,
+});
+
 const handleDragMove = (e) => {
-  const id = parseInt(e.target.id());
-  
-  // Update the dragged circle position
-  circles.value = circles.value.map((circle) => {
-    if (circle.id === id) {
-      return {
-        ...circle,
-        x: e.target.x(),
-        y: e.target.y(),
-      };
-    }
-    return circle;
-  });
-};
-
-// Handle mouse over
-const handleMouseOver = (e) => {
-  document.body.style.cursor = 'pointer';
-  e.target.fill('darkred');
-};
-
-// Handle mouse out
-const handleMouseOut = (e) => {
-  document.body.style.cursor = 'default';
-  e.target.fill('red');
+  const id = e.target.id();
+  targets.value = targets.value.map((target) =>
+    target.id === id
+      ? { ...target, x: e.target.x(), y: e.target.y() }
+      : target
+  );
 };
 </script> 
 ```

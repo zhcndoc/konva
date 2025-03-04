@@ -223,7 +223,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue';
 import Konva from 'konva';
 
 const width = window.innerWidth;

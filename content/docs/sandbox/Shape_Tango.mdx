@@ -13,6 +13,8 @@ This demo shows how to create animated shapes that dance around the canvas when 
 3. Handling user interactions (drag and drop, button clicks)
 4. Managing multiple animations simultaneously
 
+**Instructions:** Drag and drop the shapes to position them, then click the "Tango!" button to make them dance around the canvas. Each shape will move to a random position, rotate, change size, and color. Refresh the page to generate new random shapes. 
+
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -104,37 +106,34 @@ const getRandomShapeProps = (width, height) => {
   };
 };
 
-const Shape = ({ shapeRef, ...props }) => {
-  return (
-    <RegularPolygon
-      {...props}
-      ref={shapeRef}
-      draggable
-    />
-  );
-};
-
 const App = () => {
   const [shapes, setShapes] = React.useState([]);
-  const shapeRefs = React.useRef([]);
+  const stageRef = React.useRef();
 
   React.useEffect(() => {
     const initialShapes = Array.from({ length: NUM_SHAPES }, () =>
       getRandomShapeProps(window.innerWidth, window.innerHeight)
     );
     setShapes(initialShapes);
-    shapeRefs.current = initialShapes.map(() => React.createRef());
   }, []);
 
+  const handleDragEnd = (e, index) => {
+    const newShapes = [...shapes];
+    newShapes[index] = {
+      ...newShapes[index],
+      x: e.target.x(),
+      y: e.target.y(),
+    };
+    setShapes(newShapes);
+  };
+
   const handleTango = () => {
-    shapes.forEach((_, index) => {
-      const shape = shapeRefs.current[index].current;
-      if (!shape) return;
+    const layer = stageRef.current.findOne('Layer');
+    const shapeNodes = layer.find('RegularPolygon');
 
+    shapeNodes.forEach((node, i) => {
       const radius = Math.random() * 100 + 20;
-      const node = shape.getNode();
-
-      node.to({
+      const newProps = {
         duration: 1,
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -143,12 +142,39 @@ const App = () => {
         opacity: (radius - 20) / 100,
         easing: Konva.Easings.EaseInOut,
         fill: getRandomColor(),
-      });
+      };
+
+      node.to(newProps);
+
+      // Update state after animation
+      setTimeout(() => {
+        setShapes(prev => {
+          const newShapes = [...prev];
+          newShapes[i] = { ...newShapes[i], ...newProps };
+          return newShapes;
+        });
+      }, 1000);
     });
   };
 
   return (
     <>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        ref={stageRef}
+      >
+        <Layer>
+          {shapes.map((shape, i) => (
+            <RegularPolygon
+              key={i}
+              {...shape}
+              draggable
+              onDragEnd={(e) => handleDragEnd(e, i)}
+            />
+          ))}
+        </Layer>
+      </Stage>
       <button
         onClick={handleTango}
         style={{
@@ -160,17 +186,6 @@ const App = () => {
       >
         Tango!
       </button>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          {shapes.map((shape, i) => (
-            <Shape
-              key={i}
-              shapeRef={shapeRefs.current[i]}
-              {...shape}
-            />
-          ))}
-        </Layer>
-      </Stage>
     </>
   );
 };
@@ -182,22 +197,25 @@ export default App;
 ```js live vue
 <template>
   <div>
+    <v-stage
+      :config="stageConfig"
+      ref="stageRef"
+    >
+      <v-layer>
+        <v-regular-polygon
+          v-for="(shape, i) in shapes"
+          :key="i"
+          :config="{ ...shape, draggable: true }"
+          @dragend="(e) => handleDragEnd(e, i)"
+        />
+      </v-layer>
+    </v-stage>
     <button
       @click="handleTango"
       style="position: absolute; top: 10px; left: 10px; padding: 10px"
     >
       Tango!
     </button>
-    <v-stage :config="stageConfig">
-      <v-layer ref="layerRef">
-        <v-regular-polygon
-          v-for="(shape, i) in shapes"
-          :key="i"
-          :config="{ ...shape, draggable: true }"
-          :ref="(el) => (shapeRefs[i] = el)"
-        />
-      </v-layer>
-    </v-stage>
   </div>
 </template>
 
@@ -208,8 +226,7 @@ const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 const NUM_SHAPES = 10;
 
 const shapes = ref([]);
-const shapeRefs = ref([]);
-const layerRef = ref(null);
+const stageRef = ref(null);
 
 const stageConfig = {
   width: window.innerWidth,
@@ -230,14 +247,24 @@ const getRandomShapeProps = () => {
   };
 };
 
+const handleDragEnd = (e, index) => {
+  const newShapes = [...shapes.value];
+  newShapes[index] = {
+    ...newShapes[index],
+    x: e.target.x(),
+    y: e.target.y(),
+  };
+  shapes.value = newShapes;
+};
+
 const handleTango = () => {
-  shapeRefs.value.forEach((shapeRef) => {
-    if (!shapeRef) return;
+  const stage = stageRef.value.getStage();
+  const layer = stage.findOne('Layer');
+  const shapeNodes = layer.find('RegularPolygon');
 
+  shapeNodes.forEach((node, i) => {
     const radius = Math.random() * 100 + 20;
-    const node = shapeRef.getNode();
-
-    node.to({
+    const newProps = {
       duration: 1,
       x: Math.random() * stageConfig.width,
       y: Math.random() * stageConfig.height,
@@ -246,17 +273,24 @@ const handleTango = () => {
       opacity: (radius - 20) / 100,
       easing: Konva.Easings.EaseInOut,
       fill: getRandomColor(),
-    });
+    };
+
+    node.to(newProps);
+
+    // Update state after animation
+    setTimeout(() => {
+      const newShapes = [...shapes.value];
+      newShapes[i] = { ...newShapes[i], ...newProps };
+      shapes.value = newShapes;
+    }, 1000);
   });
 };
 
 onMounted(() => {
   shapes.value = Array.from({ length: NUM_SHAPES }, getRandomShapeProps);
-  shapeRefs.value = new Array(NUM_SHAPES);
 });
 </script>
 ```
   </TabItem>
 </Tabs>
 
-Instructions: Drag and drop the shapes to position them, then click the "Tango!" button to make them dance around the canvas. Each shape will move to a random position, rotate, change size, and color. Refresh the page to generate new random shapes. 

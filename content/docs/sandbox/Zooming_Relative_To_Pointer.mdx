@@ -1,113 +1,87 @@
 ---
 title: Zooming stage relative to pointer position
 sidebar_label: Zooming Relative To Pointer
+hide_table_of_contents: true
+slug: Zooming_Relative_To_Pointer.html
 ---
 
 # Zooming stage relative to pointer position
 
 This demo shows how to implement zooming that is relative to the mouse pointer position. This creates a more natural zooming experience where the content scales around the mouse cursor.
 
-## Vanilla
+**Instructions:** Use your mouse wheel or trackpad to zoom in and out. Notice how the content scales around the position of your cursor, rather than the center of the stage.
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
-    <meta charset="utf-8" />
-    <title>Konva Zoom Relative to Stage Demo</title>
-    <style>
-      #container {
-        width: 100%;
-        height: 400px;
-        background-color: #f0f0f0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container"></div>
-    <script>
-      const width = window.innerWidth;
-      const height = 400;
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-      const stage = new Konva.Stage({
-        container: 'container',
-        width: width,
-        height: height,
-      });
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
 
-      const layer = new Konva.Layer();
-      stage.add(layer);
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-      const circle = new Konva.Circle({
-        x: stage.width() / 2,
-        y: stage.height() / 2,
-        radius: 50,
-        fill: 'green',
-      });
-      layer.add(circle);
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
 
-      const scaleBy = 1.01;
-      stage.on('wheel', (e) => {
-        // stop default scrolling
-        e.evt.preventDefault();
+const layer = new Konva.Layer();
+stage.add(layer);
 
-        const oldScale = stage.scaleX();
-        const pointer = stage.getPointerPosition();
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 50,
+  fill: 'green',
+});
+layer.add(circle);
 
-        const mousePointTo = {
-          x: (pointer.x - stage.x()) / oldScale,
-          y: (pointer.y - stage.y()) / oldScale,
-        };
+const scaleBy = 1.01;
+stage.on('wheel', (e) => {
+  // stop default scrolling
+  e.evt.preventDefault();
 
-        // how to scale? Zoom in? Or zoom out?
-        let direction = e.evt.deltaY > 0 ? 1 : -1;
+  const oldScale = stage.scaleX();
+  const pointer = stage.getPointerPosition();
 
-        // when we zoom on trackpad, e.evt.ctrlKey is true
-        // in that case lets revert direction
-        if (e.evt.ctrlKey) {
-          direction = -direction;
-        }
+  const mousePointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
 
-        const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  // how to scale? Zoom in? Or zoom out?
+  let direction = e.evt.deltaY > 0 ? 1 : -1;
 
-        stage.scale({ x: newScale, y: newScale });
+  // when we zoom on trackpad, e.evt.ctrlKey is true
+  // in that case lets revert direction
+  if (e.evt.ctrlKey) {
+    direction = -direction;
+  }
 
-        const newPos = {
-          x: pointer.x - mousePointTo.x * newScale,
-          y: pointer.y - mousePointTo.y * newScale,
-        };
-        stage.position(newPos);
-      });
-    </script>
-  </body>
-</html>
+  const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+  stage.scale({ x: newScale, y: newScale });
+
+  const newPos = {
+    x: pointer.x - mousePointTo.x * newScale,
+    y: pointer.y - mousePointTo.y * newScale,
+  };
+  stage.position(newPos);
+});
 ```
-
-## React
-
-```jsx
+  </TabItem>
+  <TabItem value="React">
+```js live react
 import { Stage, Layer, Circle } from 'react-konva';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
-const ZoomingStage = () => {
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: 400,
-  });
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
   const stageRef = useRef(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: 400,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleWheel = (e) => {
     e.evt.preventDefault();
@@ -144,15 +118,15 @@ const ZoomingStage = () => {
 
   return (
     <Stage
-      width={dimensions.width}
-      height={dimensions.height}
+      width={width}
+      height={height}
       ref={stageRef}
       onWheel={handleWheel}
     >
       <Layer>
         <Circle
-          x={dimensions.width / 2}
-          y={dimensions.height / 2}
+          x={width / 2}
+          y={height / 2}
           radius={50}
           fill="green"
         />
@@ -161,12 +135,11 @@ const ZoomingStage = () => {
   );
 };
 
-export default ZoomingStage;
+export default App;
 ```
-
-## Vue
-
-```vue
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
 <template>
   <v-stage
     ref="stageRef"
@@ -179,87 +152,58 @@ export default ZoomingStage;
   </v-stage>
 </template>
 
-<script>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+<script setup>
+import { ref, computed } from 'vue';
 
-export default {
-  setup() {
-    const width = ref(window.innerWidth);
-    const height = ref(400);
-    const stageRef = ref(null);
+const width = window.innerWidth;
+const height = window.innerHeight;
+const stageRef = ref(null);
 
-    const stageConfig = computed(() => ({
-      width: width.value,
-      height: height.value,
-    }));
+const stageConfig = computed(() => ({
+  width,
+  height,
+}));
 
-    const circleConfig = computed(() => ({
-      x: width.value / 2,
-      y: height.value / 2,
-      radius: 50,
-      fill: 'green',
-    }));
+const circleConfig = computed(() => ({
+  x: width / 2,
+  y: height / 2,
+  radius: 50,
+  fill: 'green',
+}));
 
-    const handleWheel = (e) => {
-      e.evt.preventDefault();
+const handleWheel = (e) => {
+  e.evt.preventDefault();
 
-      const stage = stageRef.value.getNode();
-      const oldScale = stage.scaleX();
-      const pointer = stage.getPointerPosition();
+  const stage = stageRef.value.getNode();
+  const oldScale = stage.scaleX();
+  const pointer = stage.getPointerPosition();
 
-      const mousePointTo = {
-        x: (pointer.x - stage.x()) / oldScale,
-        y: (pointer.y - stage.y()) / oldScale,
-      };
+  const mousePointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
 
-      // how to scale? Zoom in? Or zoom out?
-      let direction = e.evt.deltaY > 0 ? 1 : -1;
+  // how to scale? Zoom in? Or zoom out?
+  let direction = e.evt.deltaY > 0 ? 1 : -1;
 
-      // when we zoom on trackpad, e.evt.ctrlKey is true
-      // in that case lets revert direction
-      if (e.evt.ctrlKey) {
-        direction = -direction;
-      }
+  // when we zoom on trackpad, e.evt.ctrlKey is true
+  // in that case lets revert direction
+  if (e.evt.ctrlKey) {
+    direction = -direction;
+  }
 
-      const scaleBy = 1.01;
-      const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  const scaleBy = 1.01;
+  const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
 
-      stage.scale({ x: newScale, y: newScale });
+  stage.scale({ x: newScale, y: newScale });
 
-      const newPos = {
-        x: pointer.x - mousePointTo.x * newScale,
-        y: pointer.y - mousePointTo.y * newScale,
-      };
-      stage.position(newPos);
-    };
-
-    onMounted(() => {
-      const handleResize = () => {
-        width.value = window.innerWidth;
-      };
-      window.addEventListener('resize', handleResize);
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('resize', handleResize);
-    });
-
-    return {
-      stageConfig,
-      circleConfig,
-      stageRef,
-      handleWheel,
-    };
-  },
+  const newPos = {
+    x: pointer.x - mousePointTo.x * newScale,
+    y: pointer.y - mousePointTo.y * newScale,
+  };
+  stage.position(newPos);
 };
 </script>
 ```
-
-The demo shows how to:
-1. Implement zooming relative to mouse pointer position
-2. Handle mouse wheel events for zooming
-3. Calculate correct scaling and positioning
-4. Support both mouse wheel and trackpad zooming
-5. Prevent default scrolling behavior
-
-Try using your mouse wheel or trackpad to zoom in and out. Notice how the content scales relative to your mouse pointer position, creating a more intuitive zooming experience. The green circle will stay under your cursor as you zoom. 
+  </TabItem>
+</Tabs>

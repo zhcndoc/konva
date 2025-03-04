@@ -11,6 +11,8 @@ The demo demonstrates how to use [crop](/api/Konva.Image.html#crop) property of 
 
 The [crop](https://konvajs.org/api/Konva.Image.html#crop) property allows you to use only specified area of source image to draw into the canvas. If you do the correct calculations, then the resulting image can be drawn without any stretching.
 
+**Instructions: Try to resize the image or change the crop strategy using the dropdown menu at the top. The image will maintain its aspect ratio while fitting into the specified dimensions.** 
+
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -168,6 +170,7 @@ select.addEventListener('change', (e) => {
 ```js live react
 import React from 'react';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
+import { useImage } from 'react-konva-utils';
 
 const positions = [
   'left-top', 'center-top', 'right-top', '--',
@@ -233,18 +236,12 @@ function getCrop(image, size, clipPosition = 'center-middle') {
 }
 
 const App = () => {
-  const [image] = React.useState(new window.Image());
   const [position, setPosition] = React.useState('center-middle');
   const [size, setSize] = React.useState({ width: 300, height: 100 });
   const imageRef = React.useRef(null);
   const trRef = React.useRef(null);
-
-  React.useEffect(() => {
-    image.src = '/assets/darth-vader.jpg';
-    image.onload = () => {
-      imageRef.current.getLayer().batchDraw();
-    };
-  }, [image]);
+  
+  const [image] = useImage('https://new.konvajs.org/assets/darth-vader.jpg');
 
   const handleTransform = () => {
     const node = imageRef.current;
@@ -264,32 +261,30 @@ const App = () => {
     return getCrop(image, size, position);
   }, [image, size, position]);
 
+  React.useEffect(() => {
+    if (image && imageRef.current && trRef.current) {
+      trRef.current.nodes([imageRef.current]);
+      imageRef.current.getLayer().batchDraw();
+    }
+  }, [image]);
+
   return (
     <>
-      <select
-        style={{ position: 'absolute', top: '4px', left: '4px' }}
-        value={position}
-        onChange={(e) => setPosition(e.target.value)}
-      >
-        {positions.map((pos) => (
-          <option key={pos} value={pos}>
-            {pos}
-          </option>
-        ))}
-      </select>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Image
-            ref={imageRef}
-            image={image}
-            x={80}
-            y={100}
-            width={size.width}
-            height={size.height}
-            {...crop}
-            draggable
-            onTransform={handleTransform}
-          />
+          {image && (
+            <Image
+              ref={imageRef}
+              image={image}
+              x={80}
+              y={100}
+              width={size.width}
+              height={size.height}
+              {...crop}
+              draggable
+              onTransform={handleTransform}
+            />
+          )}
           <Transformer
             ref={trRef}
             boundBoxFunc={(oldBox, newBox) => {
@@ -301,6 +296,17 @@ const App = () => {
           />
         </Layer>
       </Stage>
+      <select
+        style={{ position: 'absolute', top: '4px', left: '4px' }}
+        value={position}
+        onChange={(e) => setPosition(e.target.value)}
+      >
+        {positions.map((pos) => (
+          <option key={pos} value={pos}>
+            {pos}
+          </option>
+        ))}
+      </select>
     </>
   );
 };
@@ -312,21 +318,10 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <select
-      style="position: absolute; top: 4px; left: 4px"
-      v-model="position"
-    >
-      <option
-        v-for="pos in positions"
-        :key="pos"
-        :value="pos"
-      >
-        {{ pos }}
-      </option>
-    </select>
     <v-stage :config="stageConfig">
       <v-layer>
         <v-image
+          v-if="image"
           ref="imageRef"
           :config="{
             image: image,
@@ -347,11 +342,24 @@ export default App;
         />
       </v-layer>
     </v-stage>
+    <select
+      style="position: absolute; top: 4px; left: 4px"
+      v-model="position"
+    >
+      <option
+        v-for="pos in positions"
+        :key="pos"
+        :value="pos"
+      >
+        {{ pos }}
+      </option>
+    </select>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
+import { useImage } from 'vue-konva';
 
 const positions = [
   'left-top', 'center-top', 'right-top', '--',
@@ -361,7 +369,6 @@ const positions = [
 
 const position = ref('center-middle');
 const size = ref({ width: 300, height: 100 });
-const image = ref(new window.Image());
 const imageRef = ref(null);
 const transformerRef = ref(null);
 
@@ -427,6 +434,8 @@ function getCrop(image, size, clipPosition = 'center-middle') {
   };
 }
 
+const { image } = useImage('https://new.konvajs.org/assets/darth-vader.jpg');
+
 const crop = computed(() => {
   if (!image.value) return {};
   return getCrop(image.value, size.value, position.value);
@@ -452,18 +461,15 @@ const handleTransform = () => {
   };
 };
 
-onMounted(() => {
-  image.value.src = '/assets/darth-vader.jpg';
-  image.value.onload = () => {
+watch(image, () => {
+  if (image.value && imageRef.value && transformerRef.value) {
     const transformer = transformerRef.value.getNode();
     const imageNode = imageRef.value.getNode();
     transformer.nodes([imageNode]);
     imageNode.getLayer().batchDraw();
-  };
+  }
 });
 </script>
 ```
   </TabItem>
 </Tabs>
-
-Instructions: Try to resize the image or change the crop strategy using the dropdown menu at the top. The image will maintain its aspect ratio while fitting into the specified dimensions. 

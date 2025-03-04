@@ -1,13 +1,13 @@
 ---
-title: Expand Image on Hover
-sidebar_label: Expand Images on Hover
+title: Drag and Drop Multiple Images with Border Highlighting
+sidebar_label: Image Border Highlighting
 hide_table_of_contents: true
-slug: Expand_Images_on_Hover.html
+slug: Image_Border_Highlighting.html
 ---
 
-This demo shows how to create an effect where images expand when the mouse hovers over them. The images are also draggable.
+This demo shows how to implement highlighting effects with images. When hovering over an image, the border disappears, and it reappears when you move the mouse away.
 
-**Instructions:** Hover your mouse over the images to see them expand.
+**Instructions:** Hover over the images to hide their borders and drag them around the stage.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -17,13 +17,10 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-const width = window.innerWidth;
-const height = window.innerHeight;
-
 const stage = new Konva.Stage({
   container: 'container',
-  width: width,
-  height: height,
+  width: window.innerWidth,
+  height: window.innerHeight,
 });
 
 const layer = new Konva.Layer();
@@ -31,29 +28,25 @@ stage.add(layer);
 
 // Create Darth Vader image
 const darthVaderImg = new Konva.Image({
-  x: 110,
-  y: 88,
+  x: 20,
+  y: 20,
   width: 200,
   height: 137,
-  offset: {
-    x: 100,
-    y: 68,
-  },
+  stroke: 'red',
+  strokeWidth: 10,
   draggable: true,
 });
 layer.add(darthVaderImg);
 
 // Create Yoda image
 const yodaImg = new Konva.Image({
-  x: 290,
-  y: 70,
+  x: 240,
+  y: 20,
   width: 93,
   height: 104,
-  offset: {
-    x: 46,
-    y: 52,
-  },
   draggable: true,
+  stroke: 'red',
+  strokeWidth: 10,
 });
 layer.add(yodaImg);
 
@@ -73,43 +66,31 @@ imageObj2.onload = function () {
 };
 imageObj2.src = 'https://new.konvajs.org/assets/yoda.jpg';
 
-// Use event delegation to update pointer style and apply scaling
+// Use event delegation to update pointer style and borders
 layer.on('mouseover', function (evt) {
   const shape = evt.target;
   document.body.style.cursor = 'pointer';
-  
-  // Scale up the image on hover
-  shape.to({
-    scaleX: 1.2,
-    scaleY: 1.2,
-    duration: 0.2,
-  });
+  shape.strokeEnabled(false);
+  layer.draw();
 });
 
 layer.on('mouseout', function (evt) {
   const shape = evt.target;
   document.body.style.cursor = 'default';
-  
-  // Scale back to normal when mouse leaves
-  shape.to({
-    scaleX: 1,
-    scaleY: 1,
-    duration: 0.2,
-  });
+  shape.strokeEnabled(true);
+  layer.draw();
 });
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 import { useImage } from 'react-konva-utils';
 
-const ImageWithHover = ({ src, x, y, width, height, offsetX, offsetY }) => {
+const DraggableImage = ({ src, x, y, width, height }) => {
   const [image] = useImage(src);
   const [isHovered, setIsHovered] = useState(false);
-  
-  const scale = isHovered ? 1.2 : 1;
   
   return (
     <Image
@@ -118,13 +99,18 @@ const ImageWithHover = ({ src, x, y, width, height, offsetX, offsetY }) => {
       y={y}
       width={width}
       height={height}
-      offsetX={offsetX}
-      offsetY={offsetY}
-      scaleX={scale}
-      scaleY={scale}
+      stroke="red"
+      strokeWidth={10}
+      strokeEnabled={!isHovered}
       draggable
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        document.body.style.cursor = 'pointer';
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        document.body.style.cursor = 'default';
+      }}
     />
   );
 };
@@ -133,23 +119,19 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <ImageWithHover
+        <DraggableImage
           src="https://new.konvajs.org/assets/darth-vader.jpg"
-          x={110}
-          y={88}
+          x={20}
+          y={20}
           width={200}
           height={137}
-          offsetX={100}
-          offsetY={68}
         />
-        <ImageWithHover
+        <DraggableImage
           src="https://new.konvajs.org/assets/yoda.jpg"
-          x={290}
-          y={70}
+          x={240}
+          y={20}
           width={93}
           height={104}
-          offsetX={46}
-          offsetY={52}
         />
       </Layer>
     </Stage>
@@ -191,23 +173,17 @@ const loadedImages = ref({});
 const images = ref([
   {
     src: 'https://new.konvajs.org/assets/darth-vader.jpg',
-    x: 110,
-    y: 88,
+    x: 20,
+    y: 20,
     width: 200,
-    height: 137,
-    offsetX: 100,
-    offsetY: 68,
-    loaded: false
+    height: 137
   },
   {
     src: 'https://new.konvajs.org/assets/yoda.jpg',
-    x: 290,
-    y: 70,
+    x: 240,
+    y: 20,
     width: 93,
-    height: 104,
-    offsetX: 46,
-    offsetY: 52,
-    loaded: false
+    height: 104
   }
 ]);
 
@@ -228,7 +204,6 @@ onMounted(() => {
 // Get configuration for each image
 const getImageConfig = (img, index) => {
   const isHovered = hoveredIndex.value === index;
-  const scale = isHovered ? 1.2 : 1;
   
   return {
     image: loadedImages.value[index],
@@ -236,10 +211,9 @@ const getImageConfig = (img, index) => {
     y: img.y,
     width: img.width,
     height: img.height,
-    offsetX: img.offsetX,
-    offsetY: img.offsetY,
-    scaleX: scale,
-    scaleY: scale,
+    stroke: 'red',
+    strokeWidth: 10,
+    strokeEnabled: !isHovered,
     draggable: true
   };
 };

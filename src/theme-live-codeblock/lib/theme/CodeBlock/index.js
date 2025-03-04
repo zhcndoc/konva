@@ -22,7 +22,8 @@ export const Vanilla = ({ code }) => {
       }}
       files={{
         'index.html': {
-          code: "<div id='container'></div>",
+          code: `<style>body, html { margin: 0; padding: 0; }</style>
+<div id='container'></div>`,
         },
         '/index.js': {
           code,
@@ -58,6 +59,20 @@ export const ReactKonva = ({ code, metastring }) => {
         '/App.js': {
           code,
         },
+        '/styles.css': {
+          code: `body, html { margin: 0; padding: 0; }`,
+          hidden: true,
+        },
+        '/index.js': {
+          code: `import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './styles.css';
+
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);`,
+          hidden: true,
+        },
       }}
     />
   );
@@ -80,11 +95,16 @@ export const VueKonva = ({ code }) => {
         'src/App.vue': {
           code,
         },
+        'src/styles.css': {
+          code: `body, html { margin: 0; padding: 0; }`,
+          hidden: true,
+        },
         'src/main.js': {
           code: `
       import { createApp } from 'vue'
 import App from './App.vue'
 import VueKonva from 'vue-konva';
+import './styles.css';
 
 createApp(App).use(VueKonva).mount('#app')
       `,
@@ -111,6 +131,23 @@ const SvelteKonva = ({ code }) => {
       files={{
         'App.svelte': {
           code,
+        },
+        'styles.css': {
+          code: `body, html { margin: 0; padding: 0; }`,
+          hidden: true,
+        },
+        'main.js': {
+          code: `
+import App from './App.svelte';
+import './styles.css';
+
+const app = new App({
+  target: document.getElementById('app')
+});
+
+export default app;
+          `,
+          hidden: true,
         },
       }}
     />

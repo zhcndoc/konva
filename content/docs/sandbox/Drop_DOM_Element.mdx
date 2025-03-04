@@ -30,8 +30,8 @@ document.getElementById('container').insertAdjacentHTML(
   `
   <p>Drag&drop yoda into the grey area.</p>
   <div id="drag-items">
-    <img src="/assets/yoda.jpg" draggable="true" style="height: 100px; margin: 5px;" />
-    <img src="/assets/darth-vader.jpg" draggable="true" style="height: 100px; margin: 5px;" />
+    <img src="https://new.konvajs.org/assets/yoda.jpg" draggable="true" style="height: 100px; margin: 5px;" />
+    <img src="https://new.konvajs.org/assets/darth-vader.jpg" draggable="true" style="height: 100px; margin: 5px;" />
   </div>
 `
 );
@@ -158,11 +158,11 @@ const App = () => {
       <p>Drag&drop yoda into the grey area.</p>
       <div style={{ marginBottom: '10px' }}>
         <DragItem 
-          src="/assets/yoda.jpg" 
+          src="https://new.konvajs.org/assets/yoda.jpg" 
           onDragStart={handleDragStart} 
         />
         <DragItem 
-          src="/assets/darth-vader.jpg" 
+          src="https://new.konvajs.org/assets/darth-vader.jpg" 
           onDragStart={handleDragStart} 
         />
       </div>
@@ -235,16 +235,16 @@ export default App;
     <p>Drag&drop yoda into the grey area.</p>
     <div style="margin-bottom: 10px;">
       <img 
-        src="/assets/yoda.jpg" 
+        src="https://new.konvajs.org/assets/yoda.jpg" 
         draggable="true" 
         style="height: 100px; margin: 5px;"
-        @dragstart="handleDragStart('/assets/yoda.jpg')" 
+        @dragstart="handleDragStart('https://new.konvajs.org/assets/yoda.jpg')" 
       />
       <img 
-        src="/assets/darth-vader.jpg" 
+        src="https://new.konvajs.org/assets/darth-vader.jpg" 
         draggable="true" 
         style="height: 100px; margin: 5px;"
-        @dragstart="handleDragStart('/assets/darth-vader.jpg')" 
+        @dragstart="handleDragStart('https://new.konvajs.org/assets/darth-vader.jpg')" 
       />
     </div>
     

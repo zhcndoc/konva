@@ -57,27 +57,12 @@ const stage = new Konva.Stage({
 });
 
 const layer = new Konva.Layer();
-const dragLayer = new Konva.Layer();
 
 for (let n = 0; n < 10; n++) {
   addStar(layer, stage);
 }
 
 stage.add(layer);
-stage.add(dragLayer);
-
-// bind stage handlers
-stage.on('mousedown', function (evt) {
-  const shape = evt.target;
-  shape.moveTo(dragLayer);
-  // restart drag and drop in the new layer
-  shape.startDrag();
-});
-
-stage.on('mouseup', function (evt) {
-  const shape = evt.target;
-  shape.moveTo(layer);
-});
 
 stage.on('dragstart', function (evt) {
   const shape = evt.target;
@@ -115,14 +100,11 @@ stage.on('dragend', function (evt) {
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Stage, Layer, Star } from 'react-konva';
 
 const App = () => {
   const [stars, setStars] = useState([]);
-  const [activeStar, setActiveStar] = useState(null);
-  const [dragLayer, setDragLayer] = useState([]);
-  const [mainLayer, setMainLayer] = useState([]);
   
   // Generate initial stars
   useEffect(() => {
@@ -150,91 +132,63 @@ const App = () => {
           x: scale,
           y: scale,
         },
-        startScale: scale,
-        isDragging: false
+        startScale: scale
       });
     }
     setStars(initialStars);
-    setMainLayer(initialStars.map(star => star.id));
   }, []);
   
   const handleDragStart = (e) => {
-    const id = e.target.id();
-    const starIndex = stars.findIndex(star => star.id === id);
+    // Get index directly from the target
+    const index = stars.findIndex(star => star.id === e.target.attrs.id);
     
-    if (starIndex === -1) return;
+    if (index === -1) return;
     
-    // Update the star's properties
-    const updatedStars = [...stars];
-    updatedStars[starIndex] = {
-      ...updatedStars[starIndex],
-      isDragging: true,
+    // Create a new array with the updated star
+    const newStars = [...stars];
+    newStars[index] = {
+      ...newStars[index],
       shadowOffset: {
         x: 15,
         y: 15,
       },
       scale: {
-        x: updatedStars[starIndex].startScale * 1.2,
-        y: updatedStars[starIndex].startScale * 1.2,
+        x: newStars[index].startScale * 1.2,
+        y: newStars[index].startScale * 1.2,
       }
     };
     
-    // Move to drag layer
-    setMainLayer(mainLayer.filter(starId => starId !== id));
-    setDragLayer([...dragLayer, id]);
-    setStars(updatedStars);
-    setActiveStar(id);
+    setStars(newStars);
   };
   
   const handleDragEnd = (e) => {
-    const id = e.target.id();
-    const starIndex = stars.findIndex(star => star.id === id);
+    // Get index directly from the target
+    const index = stars.findIndex(star => star.id === e.target.attrs.id);
     
-    if (starIndex === -1) return;
+    if (index === -1) return;
     
-    // Update the star's properties to animate back
-    const updatedStars = [...stars];
-    updatedStars[starIndex] = {
-      ...updatedStars[starIndex],
-      isDragging: false,
+    // Create a new array with the updated star
+    const newStars = [...stars];
+    newStars[index] = {
+      ...newStars[index],
       shadowOffset: {
         x: 5,
         y: 5,
       },
       scale: {
-        x: updatedStars[starIndex].startScale,
-        y: updatedStars[starIndex].startScale,
+        x: newStars[index].startScale,
+        y: newStars[index].startScale,
       }
     };
     
-    // Move back to main layer
-    setDragLayer(dragLayer.filter(starId => starId !== id));
-    setMainLayer([...mainLayer, id]);
-    setStars(updatedStars);
-    setActiveStar(null);
+    setStars(newStars);
   };
   
-  const handleDragMove = (e) => {
-    const id = e.target.id();
-    const starIndex = stars.findIndex(star => star.id === id);
-    
-    if (starIndex === -1) return;
-    
-    // Update the star's position
-    const updatedStars = [...stars];
-    updatedStars[starIndex] = {
-      ...updatedStars[starIndex],
-      x: e.target.x(),
-      y: e.target.y()
-    };
-    
-    setStars(updatedStars);
-  };
-  
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        {stars.filter(star => mainLayer.includes(star.id)).map(star => (
+        {stars.map(star => (
           <Star
             key={star.id}
             id={star.id}
@@ -254,32 +208,6 @@ const App = () => {
             draggable
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
-            onDragMove={handleDragMove}
-          />
-        ))}
-      </Layer>
-      <Layer>
-        {stars.filter(star => dragLayer.includes(star.id)).map(star => (
-          <Star
-            key={star.id}
-            id={star.id}
-            x={star.x}
-            y={star.y}
-            numPoints={star.numPoints}
-            innerRadius={star.innerRadius}
-            outerRadius={star.outerRadius}
-            fill={star.fill}
-            opacity={star.opacity}
-            rotation={star.rotation}
-            shadowColor={star.shadowColor}
-            shadowBlur={star.shadowBlur}
-            shadowOffset={star.shadowOffset}
-            shadowOpacity={star.shadowOpacity}
-            scale={star.scale}
-            draggable
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-            onDragMove={handleDragMove}
           />
         ))}
       </Layer>
@@ -296,17 +224,7 @@ export default App;
   <v-stage :config="stageConfig">
     <v-layer>
       <v-star
-        v-for="star in mainLayerStars"
-        :key="star.id"
-        :config="star"
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-        @dragmove="handleDragMove"
-      />
-    </v-layer>
-    <v-layer>
-      <v-star
-        v-for="star in dragLayerStars"
+        v-for="star in stars"
         :key="star.id"
         :config="star"
         @dragstart="handleDragStart"
@@ -318,7 +236,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const stageConfig = {
   width: window.innerWidth,
@@ -326,22 +244,10 @@ const stageConfig = {
 };
 
 const stars = ref([]);
-const mainLayer = ref([]);
-const dragLayer = ref([]);
-
-// Computed properties to get stars for each layer
-const mainLayerStars = computed(() => {
-  return stars.value.filter(star => mainLayer.value.includes(star.id));
-});
-
-const dragLayerStars = computed(() => {
-  return stars.value.filter(star => dragLayer.value.includes(star.id));
-});
 
 // Generate initial stars
 onMounted(() => {
   const initialStars = [];
-  const initialMainLayer = [];
   
   for (let n = 0; n < 10; n++) {
     const scale = Math.random();
@@ -371,12 +277,9 @@ onMounted(() => {
       startScale: scale,
       draggable: true
     });
-    
-    initialMainLayer.push(id);
   }
   
   stars.value = initialStars;
-  mainLayer.value = initialMainLayer;
 });
 
 const handleDragStart = (e) => {
@@ -395,10 +298,6 @@ const handleDragStart = (e) => {
     x: star.startScale * 1.2,
     y: star.startScale * 1.2
   };
-  
-  // Move to drag layer
-  mainLayer.value = mainLayer.value.filter(starId => starId !== id);
-  dragLayer.value = [...dragLayer.value, id];
   
   // Update star in the array
   stars.value[starIndex] = star;
@@ -420,10 +319,6 @@ const handleDragEnd = (e) => {
     x: star.startScale,
     y: star.startScale
   };
-  
-  // Move back to main layer
-  dragLayer.value = dragLayer.value.filter(starId => starId !== id);
-  mainLayer.value = [...mainLayer.value, id];
   
   // Update star in the array
   stars.value[starIndex] = star;

@@ -1,103 +1,36 @@
 ---
 title: Offscreen canvas inside Web Worker
 sidebar_label: Web Worker
+hide_table_of_contents: true
+slug: Web_Worker.html
 ---
-
-# Offscreen canvas inside Web Worker
 
 ## How to run Konva in a Web Worker?
 
-**Warning! This demo is VERY EXPERIMENTAL! It may not work in many browsers.** Check [Offscreen canvas capability](https://caniuse.com/#feat=offscreencanvas).
+**Warning! This demo is VERY EXPERIMENTAL! It may not work in many browsers.** Check [Offscreen canvas capability tabletv](https://caniuse.com/#feat=offscreencanvas).
 
-With some extra work, we can render `Konva` stage inside a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) using [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) for performance reasons or for some crazy ideas.
+With some extra work we can render `Konva` stage inside a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) using [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) for performance reasons or for some crazy ideas.
 
-You can use a web worker to make some visualizations with `Konva`. But one of the main features of `Konva` is its interactivity (full events support for canvas shapes). And there are no DOM events inside a web worker. So we have to write some kind of "proxy" to pass all DOM events inside the Konva engine. That way, we can have interactive objects inside the web worker too.
+You can use a webworker to make some visualizations with `Konva`.
 
-This demo is adapted from [Jumping bunnies](/docs/sandbox/Jumping_Bunnies.html) performance stress test.
+But one of the main features of `Konva` is its interactivity (full events support for canvas shapes). And there are no DOM events inside a web worker. So we have to write some kind of "proxy" to pass all DOM events inside Konva engine. That way we can have interactive objects inside web worker too.
+
+This demo is adopted from [Jumping bunnies](/docs/sandbox/Jumping_Bunnies.html) performance stress test.
 
 You may need to write more code to cover more functions and different edge cases (such as HDPI screen support).
 
 **Instructions: there are two interactive objects on the stage. "Add buttons" and a draggable red circle. Try to add more bunnies or drag the circle.**
 
-All you see on that screen is **rendered inside another javascript thread**! So it should not block the main JS thread of the current page.
+All you see on that screen is **rendered inside another javascript thread**!. So it should not block main JS thread of the current page.
 
-## Vanilla
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-First, create the main HTML file:
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Konva Offscreen Canvas Demo</title>
-    <style>
-      #container {
-        width: 100%;
-        height: 400px;
-        background-color: #f0f0f0;
-      }
-    </style>
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <script>
-      const htmlCanvas = document.getElementById('canvas');
-      htmlCanvas.width = window.innerWidth;
-      htmlCanvas.height = 400;
-
-      const hasOffscreenSupport = !!htmlCanvas.transferControlToOffscreen;
-      if (hasOffscreenSupport) {
-        const offscreen = htmlCanvas.transferControlToOffscreen();
-
-        const w = new Worker('./web-worker.js');
-        // pass canvas into webworker, so we can do all rendering inside it
-        w.postMessage({ canvas: offscreen }, [offscreen]);
-
-        // "proxy" all DOM events from canvas into Konva engine
-        const EVENTS = [
-          'mouseenter',
-          'mousedown',
-          'mousemove',
-          'mouseup',
-          'mouseout',
-          'wheel',
-          'contextmenu',
-          'pointerdown',
-          'pointermove',
-          'pointerup',
-          'pointercancel',
-          'lostpointercapture',
-        ];
-        EVENTS.forEach((eventName) => {
-          htmlCanvas.addEventListener(eventName, (e) => {
-            w.postMessage({
-              eventName,
-              event: {
-                clientX: e.clientX,
-                clientY: e.clientY,
-                type: e.type,
-              },
-            });
-          });
-        });
-      } else {
-        htmlCanvas
-          .getContext('2d')
-          .fillText(
-            '🛑 Sorry, your browser does not support Offscreen rendering...',
-            20,
-            20
-          );
-      }
-    </script>
-  </body>
-</html>
-```
-
-Then create the web worker file (`web-worker.js`):
-
-```javascript
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+// main.js
+const workerCode = `
 // load konva framework
 importScripts('https://unpkg.com/konva@9/konva.min.js');
 
@@ -109,26 +42,26 @@ Konva.Util.createCanvasElement = () => {
 };
 
 // now we can create our canvas content
-const stage = new Konva.Stage({
+var stage = new Konva.Stage({
   width: 200,
   height: 200,
 });
 
-const layer = new Konva.Layer();
+var layer = new Konva.Layer();
 stage.add(layer);
 
-const topGroup = new Konva.Group();
+var topGroup = new Konva.Group();
 layer.add(topGroup);
 
 // counter will show number of bunnies
-const counter = new Konva.Text({
+var counter = new Konva.Text({
   x: 5,
   y: 35,
 });
 topGroup.add(counter);
 
 // "add more bunnies" button
-const button = new Konva.Label({
+var button = new Konva.Label({
   x: 5,
   y: 5,
   opacity: 0.75,
@@ -152,7 +85,7 @@ button.add(
 );
 
 // draggable circle to show interactivity
-const circle = new Konva.Circle({
+var circle = new Konva.Circle({
   x: stage.width() / 2,
   y: stage.height() / 2,
   radius: 20,
@@ -162,10 +95,9 @@ const circle = new Konva.Circle({
 topGroup.add(circle);
 
 self.onmessage = function (evt) {
-  // when canvas is passed we can start our worker
+  // when canvas is passes we can start our worker
   if (evt.data.canvas) {
-    const canvas = evt.data.canvas;
-    // adapt stage size
+    var canvas = evt.data.canvas;
     stage.setSize({
       width: canvas.width,
       height: canvas.height,
@@ -173,12 +105,8 @@ self.onmessage = function (evt) {
 
     const ctx = canvas.getContext('2d');
 
-    // Konva.Layer has support for "draw" event
-    // so every time the layer is re-rendered we need to update the canvas
     layer.on('draw', () => {
-      // clear content
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // draw layer content
       ctx.drawImage(layer.getCanvas()._canvas, 0, 0);
     });
   }
@@ -213,21 +141,19 @@ function requestAnimationFrame(cb) {
   setTimeout(cb, 16);
 }
 
-// that function is large and adapted from bunnies demo
 async function runBunnies() {
   const imgBlob = await fetch('https://konvajs.org/assets/bunny.png').then(
     (r) => r.blob()
   );
-  // use "createImageBitmap" instead of "new window.Image()"
   const img = await createImageBitmap(imgBlob);
 
-  const bunnys = [];
-  const gravity = 0.75;
+  var bunnys = [];
+  var gravity = 0.75;
 
-  const startBunnyCount = 100;
-  let isAdding = false;
-  let count = 0;
-  const amount = 10;
+  var startBunnyCount = 100;
+  var isAdding = false;
+  var count = 0;
+  var amount = 10;
 
   button.on('mousedown', function () {
     isAdding = true;
@@ -237,8 +163,8 @@ async function runBunnies() {
     isAdding = false;
   });
 
-  for (let i = 0; i < startBunnyCount; i++) {
-    const bunny = new Konva.Image({
+  for (var i = 0; i < startBunnyCount; i++) {
+    var bunny = new Konva.Image({
       image: img,
       transformsEnabled: 'position',
       x: 10,
@@ -256,13 +182,13 @@ async function runBunnies() {
   topGroup.moveToTop();
 
   function update() {
-    const maxX = stage.width() - 10;
-    const minX = 0;
-    const maxY = stage.height() - 10;
-    const minY = 0;
+    var maxX = stage.width() - 10;
+    var minX = 0;
+    var maxY = stage.height() - 10;
+    var minY = 0;
     if (isAdding) {
-      for (let i = 0; i < amount; i++) {
-        const bunny = new Konva.Image({
+      for (var i = 0; i < amount; i++) {
+        var bunny = new Konva.Image({
           image: img,
           transformsEnabled: 'position',
           x: 0,
@@ -279,8 +205,8 @@ async function runBunnies() {
       topGroup.moveToTop();
     }
 
-    for (let i = 0; i < bunnys.length; i++) {
-      const bunny = bunnys[i];
+    for (var i = 0; i < bunnys.length; i++) {
+      var bunny = bunnys[i];
       bunny.setX(bunny.getX() + bunny.speedX);
       bunny.setY(bunny.getY() + bunny.speedY);
       bunny.speedY += gravity;
@@ -310,25 +236,49 @@ async function runBunnies() {
 }
 
 runBunnies();
+`;
+
+// Create a blob from the worker code
+const blob = new Blob([workerCode], { type: 'application/javascript' });
+const worker = new Worker(URL.createObjectURL(blob));
+
+const canvas = document.createElement('canvas');
+document.body.appendChild(canvas);
+canvas.style.border = '1px solid black';
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// transfer control of the canvas to the worker
+const offscreen = canvas.transferControlToOffscreen();
+worker.postMessage({ canvas: offscreen }, [offscreen]);
+
+// proxy all events
+const events = [
+  'mousedown',
+  'mouseup',
+  'mousemove',
+  'mouseenter',
+  'mouseleave',
+  // 'click',
+  // 'dblclick',
+  'touchstart',
+  'touchend',
+  'touchmove',
+];
+
+events.forEach((eventName) => {
+  canvas.addEventListener(eventName, (event) => {
+    worker.postMessage({
+      eventName,
+      event: {
+        clientX: event.clientX,
+        clientY: event.clientY,
+        type: event.type,
+        button: event.button,
+      },
+    });
+  });
+});
 ```
-
-## React and Vue
-
-Due to the experimental nature of Web Workers and Offscreen Canvas, and the complexity of integrating them with React and Vue's component lifecycle, we recommend using the Vanilla JS implementation and wrapping it in a component if needed.
-
-The main challenges with React and Vue implementations would be:
-1. Managing the Web Worker lifecycle
-2. Handling component unmounting and cleanup
-3. Synchronizing state between the main thread and worker thread
-4. Dealing with framework-specific event handling
-
-If you need to use Web Workers with React or Vue, consider creating a wrapper component that initializes the Vanilla JS implementation and handles the necessary lifecycle events.
-
-The demo shows how to:
-1. Use Web Workers with Konva for better performance
-2. Implement event proxying between the main thread and worker thread
-3. Handle interactive elements in a Web Worker context
-4. Create animations that don't block the main thread
-5. Load and use images in a Web Worker
-
-Try clicking the "Add bunnies" button to add more bunnies to the scene, and drag the red circle around. Notice how smooth the animation remains even with many objects, as the rendering is happening in a separate thread. 
+  </TabItem>
+</Tabs>

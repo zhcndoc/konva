@@ -1,149 +1,106 @@
 ---
 title: Zoom Image on Hover
-sidebar_label: Zoom Layer On Hover
+sidebar_label: Zoom Image on Hover
+hide_table_of_contents: true
+slug: Zoom_Layer_On_hover.html
 ---
 
-# Zoom Image on Hover
+**Instructions: Hover over an Image.**
 
-This demo shows how to create a zoom effect when hovering over an image. The image will zoom in at the mouse position, creating a magnifying glass effect.
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-## Vanilla
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
-    <meta charset="utf-8" />
-    <title>Konva Zoom Image on Hover Demo</title>
-    <style>
-      #container {
-        width: 100%;
-        height: 400px;
-        background-color: #f0f0f0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container"></div>
-    <script>
-      const width = window.innerWidth;
-      const height = 400;
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-      const stage = new Konva.Stage({
-        container: 'container',
-        width: width,
-        height: height,
-      });
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
 
-      const layer = new Konva.Layer();
-      stage.add(layer);
+const layer = new Konva.Layer();
+stage.add(layer);
 
-      const imageObj = new Image();
-      imageObj.onload = function () {
-        const backgroundImage = new Konva.Image({
-          x: 0,
-          y: 0,
-          width: width,
-          height: height,
-          image: imageObj,
-        });
-        layer.add(backgroundImage);
-      };
-
-      imageObj.src = '/assets/space.jpg';
-
-      const zoomLevel = 2;
-      layer.on('mouseenter', function () {
-        layer.scale({
-          x: zoomLevel,
-          y: zoomLevel,
-        });
-      });
-
-      layer.on('mousemove', function () {
-        const pos = stage.getPointerPosition();
-        layer.x(-pos.x);
-        layer.y(-pos.y);
-      });
-
-      layer.on('mouseleave', function () {
-        layer.x(0);
-        layer.y(0);
-        layer.scale({
-          x: 1,
-          y: 1,
-        });
-      });
-    </script>
-  </body>
-</html>
-```
-
-## React
-
-```jsx
-import { Stage, Layer, Image } from 'react-konva';
-import { useEffect, useRef, useState } from 'react';
-
-const ZoomImage = () => {
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: 400,
+const imageObj = new Image();
+imageObj.onload = function () {
+  const backgroundImage = new Konva.Image({
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    image: imageObj,
   });
-  const [image, setImage] = useState(null);
-  const layerRef = useRef(null);
+  layer.add(backgroundImage);
+};
 
-  useEffect(() => {
-    const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: 400,
-      });
-    };
+imageObj.src = 'https://new.konvajs.org/assets/space.jpg';
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+const zoomLevel = 2;
+layer.on('mouseenter', function () {
+  layer.scale({
+    x: zoomLevel,
+    y: zoomLevel,
+  });
+});
 
-  useEffect(() => {
-    const imageObj = new Image();
-    imageObj.onload = () => {
-      setImage(imageObj);
-    };
-    imageObj.src = '/assets/space.jpg';
-  }, []);
+layer.on('mousemove', function (e) {
+  const pos = stage.getPointerPosition();
+  layer.x(-pos.x);
+  layer.y(-pos.y);
+});
+
+layer.on('mouseleave', function () {
+  layer.x(0);
+  layer.y(0);
+  layer.scale({
+    x: 1,
+    y: 1,
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useEffect, useState } from 'react';
+import useImage from 'use-image';
+
+const App = () => {
+  const [image] = useImage('https://new.konvajs.org/assets/space.jpg');
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseEnter = () => {
-    const layer = layerRef.current;
-    if (!layer) return;
-
-    layer.scale({ x: 2, y: 2 });
+    setScale(2);
   };
 
   const handleMouseMove = (e) => {
-    const layer = layerRef.current;
-    if (!layer) return;
-
     const stage = e.target.getStage();
     const pos = stage.getPointerPosition();
-    layer.x(-pos.x);
-    layer.y(-pos.y);
+    setPosition({
+      x: -pos.x,
+      y: -pos.y,
+    });
   };
 
   const handleMouseLeave = () => {
-    const layer = layerRef.current;
-    if (!layer) return;
-
-    layer.x(0);
-    layer.y(0);
-    layer.scale({ x: 1, y: 1 });
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
   };
 
   return (
-    <Stage width={dimensions.width} height={dimensions.height}>
+    <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer
-        ref={layerRef}
+        scaleX={scale}
+        scaleY={scale}
+        x={position.x}
+        y={position.y}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -151,8 +108,8 @@ const ZoomImage = () => {
         {image && (
           <Image
             image={image}
-            width={dimensions.width}
-            height={dimensions.height}
+            width={window.innerWidth}
+            height={window.innerHeight}
           />
         )}
       </Layer>
@@ -160,16 +117,20 @@ const ZoomImage = () => {
   );
 };
 
-export default ZoomImage;
+export default App;
 ```
-
-## Vue
-
-```vue
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
 <template>
-  <v-stage :config="stageConfig">
+  <v-stage :config="stageSize">
     <v-layer
-      ref="layerRef"
+      :config="{
+        scaleX: scale,
+        scaleY: scale,
+        x: position.x,
+        y: position.y
+      }"
       @mouseenter="handleMouseEnter"
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"
@@ -178,84 +139,45 @@ export default ZoomImage;
         v-if="image"
         :config="{
           image: image,
-          width: stageConfig.width,
-          height: stageConfig.height,
+          width: stageSize.width,
+          height: stageSize.height
         }"
       />
     </v-layer>
   </v-stage>
 </template>
 
-<script>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useImage } from 'vue-konva';
 
-export default {
-  setup() {
-    const width = ref(window.innerWidth);
-    const height = ref(400);
-    const layerRef = ref(null);
-    const image = ref(null);
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
 
-    const stageConfig = computed(() => ({
-      width: width.value,
-      height: height.value,
-    }));
+const scale = ref(1);
+const position = ref({ x: 0, y: 0 });
+const [image] = useImage('https://new.konvajs.org/assets/space.jpg');
 
-    const handleMouseEnter = () => {
-      const layer = layerRef.value.getNode();
-      layer.scale({ x: 2, y: 2 });
-    };
+const handleMouseEnter = () => {
+  scale.value = 2;
+};
 
-    const handleMouseMove = (e) => {
-      const layer = layerRef.value.getNode();
-      const stage = e.target.getStage();
-      const pos = stage.getPointerPosition();
-      layer.x(-pos.x);
-      layer.y(-pos.y);
-    };
+const handleMouseMove = (e) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  position.value = {
+    x: -pos.x,
+    y: -pos.y
+  };
+};
 
-    const handleMouseLeave = () => {
-      const layer = layerRef.value.getNode();
-      layer.x(0);
-      layer.y(0);
-      layer.scale({ x: 1, y: 1 });
-    };
-
-    onMounted(() => {
-      const handleResize = () => {
-        width.value = window.innerWidth;
-      };
-      window.addEventListener('resize', handleResize);
-
-      const imageObj = new Image();
-      imageObj.onload = () => {
-        image.value = imageObj;
-      };
-      imageObj.src = '/assets/space.jpg';
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('resize', handleResize);
-    });
-
-    return {
-      stageConfig,
-      layerRef,
-      image,
-      handleMouseEnter,
-      handleMouseMove,
-      handleMouseLeave,
-    };
-  },
+const handleMouseLeave = () => {
+  scale.value = 1;
+  position.value = { x: 0, y: 0 };
 };
 </script>
 ```
-
-The demo shows how to:
-1. Load and display an image on the canvas
-2. Implement zoom functionality on mouse hover
-3. Track mouse position for centered zooming
-4. Handle mouse events for smooth transitions
-5. Reset the view when the mouse leaves
-
-Try hovering over the image to see the zoom effect. The image will zoom in centered on your mouse position, creating a magnifying glass effect. Move your mouse around to explore different parts of the image in detail. 
+  </TabItem>
+</Tabs>

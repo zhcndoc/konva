@@ -57,7 +57,6 @@ const tooltip = new Konva.Text({
   visible: false,
   fill: 'black',
   opacity: 0.75,
-  textFill: 'white',
 });
 
 tooltipLayer.add(tooltip);
@@ -151,12 +150,13 @@ const App = () => {
           padding={5}
           fill="black"
           opacity={0.75}
-          textFill="white"
         />
       </Layer>
     </Stage>
   );
 };
+
+export default App;
 ```
 
 </TabItem>

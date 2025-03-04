@@ -7,6 +7,8 @@ slug: 20000_Nodes.html
 
 The purpose of this lab is to demonstrate the sheer number of nodes that Konva can handle by rendering 20,000 circles. Each circle is sensitive to mouseover events, and can be drag and dropped. This lab is also a great demonstration of event delegation, in which a single event handler attached to the stage handles the circle events.
 
+**Instructions:** Mouse over the nodes to see more information, and then drag and drop them around the stage. 
+
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -38,6 +40,8 @@ function addNode(obj, layer) {
   layer.add(node);
 }
 
+// Create a single layer for all circles
+const circlesLayer = new Konva.Layer();
 const tooltipLayer = new Konva.Layer();
 const dragLayer = new Konva.Layer();
 
@@ -85,33 +89,29 @@ for (let n = 0; n < 20000; n++) {
   data.push({
     x: x,
     y: y,
-    id: n,
+    id: n.toString(),
     color: colors[Math.round(Math.random() * 5)],
   });
 }
 
-// render data
-let nodeCount = 0;
-let layer = new Konva.Layer();
-
+// Add all nodes to a single layer
 for (let n = 0; n < data.length; n++) {
-  addNode(data[n], layer);
-  nodeCount++;
-  if (nodeCount >= 1000) {
-    nodeCount = 0;
-    stage.add(layer);
-    layer = new Konva.Layer();
-  }
+  addNode(data[n], circlesLayer);
 }
 
+// Add all layers to stage
+stage.add(circlesLayer);
 stage.add(dragLayer);
 stage.add(tooltipLayer);
 
 // handle events
-let startLayer;
+let originalLayer;
 
 stage.on('mouseover mousemove dragmove', function (evt) {
   const node = evt.target;
+  if (node === stage) {
+    return;
+  }
   if (node) {
     // update tooltip
     const mousePos = node.getStage().getPointerPosition();
@@ -133,7 +133,7 @@ stage.on('mouseout', function (evt) {
 stage.on('mousedown', function (evt) {
   const shape = evt.target;
   if (shape) {
-    startLayer = shape.getLayer();
+    originalLayer = shape.getLayer();
     shape.moveTo(dragLayer);
     // manually trigger drag and drop
     shape.startDrag();
@@ -143,22 +143,82 @@ stage.on('mousedown', function (evt) {
 stage.on('mouseup', function (evt) {
   const shape = evt.target;
   if (shape) {
-    shape.moveTo(startLayer);
+    shape.moveTo(originalLayer);
   }
 });
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { Stage, Layer, Circle, Label, Tag, Text } from 'react-konva';
+
+const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown, onMouseUp }) => {
+  // Only re-render when the nodes array reference changes
+  return (
+    <Layer>
+      {nodes.map(node => (
+        <Circle
+          key={node.id}
+          x={node.x}
+          y={node.y}
+          radius={4}
+          fill={node.color}
+          onMouseOver={e => onMouseOver(e, node)}
+          onMouseMove={onMouseMove}
+          onMouseOut={onMouseOut}
+          onDragMove={onMouseMove}
+          onMouseDown={e => onMouseDown(e, node)}
+          onMouseUp={e => onMouseUp(e, node)}
+          draggable
+        />
+      ))}
+    </Layer>
+  );
+};
+
+// Memoize the CirclesLayer component to prevent unnecessary re-renders
+const MemoizedCirclesLayer = memo(CirclesLayer);
+
+const TooltipLayer = ({ tooltip }) => (
+  <Layer>
+    <Label
+      x={tooltip.x}
+      y={tooltip.y}
+      opacity={0.75}
+      visible={tooltip.visible}
+    >
+      <Tag
+        fill="black"
+        pointerDirection="down"
+        pointerWidth={10}
+        pointerHeight={10}
+        lineJoin="round"
+        shadowColor="black"
+        shadowBlur={10}
+        shadowOffsetX={10}
+        shadowOffsetY={10}
+        shadowOpacity={0.2}
+      />
+      <Text
+        text={tooltip.text}
+        fontFamily="Calibri"
+        fontSize={18}
+        padding={5}
+        fill="white"
+      />
+    </Label>
+  </Layer>
+);
+
+// Memoize the TooltipLayer to only re-render when tooltip props change
+const MemoizedTooltipLayer = memo(TooltipLayer);
 
 const App = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
   
   // Create refs for the layers
-  const tooltipLayerRef = useRef(null);
   const dragLayerRef = useRef(null);
   
   // State for tooltip
@@ -169,12 +229,8 @@ const App = () => {
     text: ''
   });
   
-  // State for nodes data
-  const [nodes, setNodes] = useState([]);
-  const [startLayerIndex, setStartLayerIndex] = useState(null);
-  
-  // Generate data - similar to vanilla implementation
-  useEffect(() => {
+  // State for nodes data - using useMemo to ensure it doesn't regenerate on re-renders
+  const nodes = useMemo(() => {
     const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
     const data = [];
     
@@ -186,15 +242,14 @@ const App = () => {
         y,
         id: n,
         color: colors[Math.round(Math.random() * 5)],
-        layerIndex: Math.floor(n / 1000) // Assign a layer index
       });
     }
     
-    setNodes(data);
+    return data;
   }, [width, height]);
   
-  // Event handlers
-  const handleMouseOver = (e, node) => {
+  // Event handlers - wrap in useCallback to prevent recreating functions on each render
+  const handleMouseOver = useCallback((e, node) => {
     const stage = e.target.getStage();
     const pos = stage.getPointerPosition();
     setTooltip({
@@ -203,9 +258,9 @@ const App = () => {
       y: pos.y - 5,
       text: `node: ${node.id}, color: ${node.color}`
     });
-  };
+  }, []);
   
-  const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback((e) => {
     const stage = e.target.getStage();
     const pos = stage.getPointerPosition();
     setTooltip(prev => ({
@@ -213,100 +268,40 @@ const App = () => {
       x: pos.x,
       y: pos.y - 5
     }));
-  };
+  }, []);
   
-  const handleMouseOut = () => {
+  const handleMouseOut = useCallback(() => {
     setTooltip(prev => ({
       ...prev,
       visible: false
     }));
-  };
+  }, []);
   
-  const handleMouseDown = (e, node) => {
-    // Record the original layer index
-    setStartLayerIndex(node.layerIndex);
-    
-    // Move to drag layer (handled by Konva automatically with draggable)
-    e.target.moveToTop();
-  };
+  const handleMouseDown = useCallback((e, node) => {
+    // For drag handling if needed
+  }, []);
   
-  const handleMouseUp = (e, node) => {
-    if (startLayerIndex !== null) {
-      // In a real app, you would move back to original layer
-      // For simplicity, we'll just reset the startLayerIndex
-      setStartLayerIndex(null);
-    }
-  };
-
-  // Create layers - one for each 1000 nodes for better performance
-  const renderLayers = () => {
-    const layerCount = Math.ceil(nodes.length / 1000);
-    const layers = [];
-    
-    for (let i = 0; i < layerCount; i++) {
-      const layerNodes = nodes.filter(node => node.layerIndex === i);
-      layers.push(
-        <Layer key={i}>
-          {layerNodes.map(node => (
-            <Circle
-              key={node.id}
-              x={node.x}
-              y={node.y}
-              radius={4}
-              fill={node.color}
-              draggable
-              onMouseOver={e => handleMouseOver(e, node)}
-              onMouseMove={handleMouseMove}
-              onMouseOut={handleMouseOut}
-              onDragMove={handleMouseMove}
-              onMouseDown={e => handleMouseDown(e, node)}
-              onMouseUp={e => handleMouseUp(e, node)}
-            />
-          ))}
-        </Layer>
-      );
-    }
-    
-    return layers;
-  };
+  const handleMouseUp = useCallback((e, node) => {
+    // For drag handling if needed
+  }, []);
   
   return (
     <Stage width={width} height={height}>
-      {/* Render node layers */}
-      {renderLayers()}
+      {/* Render single layer for all circles */}
+      <MemoizedCirclesLayer 
+        nodes={nodes}
+        onMouseOver={handleMouseOver}
+        onMouseMove={handleMouseMove}
+        onMouseOut={handleMouseOut}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+      />
       
-      {/* Drag layer */}
+      {/* Drag layer - if needed */}
       <Layer ref={dragLayerRef} />
       
       {/* Tooltip layer */}
-      <Layer ref={tooltipLayerRef}>
-        <Label
-          x={tooltip.x}
-          y={tooltip.y}
-          opacity={0.75}
-          visible={tooltip.visible}
-        >
-          <Tag
-            fill="black"
-            pointerDirection="down"
-            pointerWidth={10}
-            pointerHeight={10}
-            lineJoin="round"
-            shadowColor="black"
-            shadowBlur={10}
-            shadowOffsetX={10}
-            shadowOffsetY={10}
-            shadowOpacity={0.2}
-          />
-          <Text
-            text={tooltip.text}
-            fontFamily="Calibri"
-            fontSize={18}
-            padding={5}
-            fill="white"
-          />
-        </Label>
-      </Layer>
+      <MemoizedTooltipLayer tooltip={tooltip} />
     </Stage>
   );
 };
@@ -317,18 +312,17 @@ export default App;
   <TabItem value="Vue">
 ```js live vue
 <template>
-  <v-stage :config="stageConfig">
-    <v-layer v-for="(layer, layerIndex) in layers" :key="layerIndex">
+  <v-stage :config="stageConfig" @mousedown="handleStageMouseDown" @mouseup="handleStageMouseUp">
+    <v-layer ref="circlesLayerRef">
       <v-circle
-        v-for="node in layer"
+        v-for="node in nodes"
         :key="node.id"
         :config="{
           x: node.x,
           y: node.y,
           radius: 4,
           fill: node.color,
-          id: node.id,
-          draggable: true
+          id: node.id
         }"
         @mouseover="handleMouseOver($event, node)"
         @mousemove="handleMouseMove"
@@ -336,6 +330,7 @@ export default App;
         @dragmove="handleMouseMove"
       />
     </v-layer>
+    <v-layer ref="dragLayerRef"></v-layer>
     <v-layer>
       <v-label
         :config="{
@@ -374,7 +369,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -384,21 +379,21 @@ const stageConfig = {
   height: height
 };
 
-const tooltip = ref({
+// For tooltip handling
+const tooltip = reactive({
   visible: false,
   x: 0,
   y: 0,
   text: ''
 });
 
+// Store all nodes in a single array - not reactive after initial setup
 const nodes = ref([]);
-const layers = computed(() => {
-  const result = [];
-  for (let i = 0; i < nodes.value.length; i += 1000) {
-    result.push(nodes.value.slice(i, i + 1000));
-  }
-  return result;
-});
+const circlesLayerRef = ref(null);
+const dragLayerRef = ref(null);
+
+// This key only changes when the nodes data changes, preventing unnecessary re-renders
+const circlesKey = ref(0);
 
 onMounted(() => {
   const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
@@ -410,47 +405,74 @@ onMounted(() => {
     data.push({
       x: x,
       y: y,
-      id: n,
+      id: n.toString(),
       color: colors[Math.round(Math.random() * 5)],
     });
   }
   
+  // Set the nodes once and increment the key to trigger a single render
   nodes.value = data;
+  circlesKey.value++;
 });
 
 function handleMouseOver(e, node) {
   const stage = e.target.getStage();
   const pos = stage.getPointerPosition();
   
-  tooltip.value = {
-    visible: true,
-    x: pos.x,
-    y: pos.y - 5,
-    text: `node: ${node.id}, color: ${node.color}`
-  };
+  tooltip.visible = true;
+  tooltip.x = pos.x;
+  tooltip.y = pos.y - 5;
+  tooltip.text = `node: ${node.id}, color: ${node.color}`;
 }
 
 function handleMouseMove(e) {
   const stage = e.target.getStage();
   const pos = stage.getPointerPosition();
   
-  tooltip.value = {
-    ...tooltip.value,
-    visible: true,
-    x: pos.x,
-    y: pos.y - 5
-  };
+  if (tooltip.visible) {
+    tooltip.x = pos.x;
+    tooltip.y = pos.y - 5;
+  }
 }
 
 function handleMouseOut() {
-  tooltip.value = {
-    ...tooltip.value,
-    visible: false
-  };
+  tooltip.visible = false;
+}
+
+// Drag and drop handlers that use the native Konva API
+function handleStageMouseDown(e) {
+  // Get the target shape
+  const shape = e.target;
+  // Only process if it's not the stage itself
+  if (shape && shape !== e.target.getStage()) {
+    // Store reference to the original layer for later
+    shape._originalLayer = shape.getParent();
+    
+    // Move the shape to the drag layer manually using Konva's API
+    // This avoids Vue's reactivity system during the drag
+    if (dragLayerRef.value && dragLayerRef.value.getNode()) {
+      shape.moveTo(dragLayerRef.value.getNode());
+      // Start the drag operation
+      shape.startDrag();
+    }
+  }
+}
+
+function handleStageMouseUp(e) {
+  // Get the target shape
+  const shape = e.target;
+  // Only process if it's not the stage itself
+  if (shape && shape !== e.target.getStage()) {
+    // Move back to original layer if we have that reference
+    if (shape._originalLayer) {
+      shape.moveTo(shape._originalLayer);
+      // Clear the reference
+      shape._originalLayer = null;
+    }
+  }
 }
 </script>
 ```
   </TabItem>
 </Tabs>
 
-**Instructions:** Mouse over the nodes to see more information, and then drag and drop them around the stage. 
