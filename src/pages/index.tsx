@@ -74,7 +74,17 @@ export const companyList = [
   // },
   {
     name: 'Polotno',
-    logo: 'img/companies/polotno.svg',
+    logo: 'img/companies/polotno.png',
+    width: 140,
+  },
+  {
+    name: 'Labelbox',
+    logo: 'img/companies/labelbox.png',
+    width: 140,
+  },
+  {
+    name: 'Zazzle',
+    logo: 'img/companies/zazzle.png',
     width: 140,
   },
 ];
@@ -426,7 +436,8 @@ function CompaniesSection() {
       <div className="container">
         <div className={styles.companiesHeader}>
           <h2>Trusted by teams worldwide</h2>
-          <p>Join thousands of developers and companies already using Konva</p>
+          {/* <p>Join thousands of developers and companies already using Konva</p> */}
+          <p>The most popular 2D canvas framework based on npm downloads</p>
         </div>
         <div className={styles.companiesGrid}>
           {companyList.map((company) => (

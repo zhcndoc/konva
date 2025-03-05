@@ -1,11 +1,13 @@
+---
 title: Accessing the Konva node
-layout: svelte_page
-
+sidebar_label: Konva Node
+hide_table_of_contents: true
+slug: Konva_Node.html
 ---
 
 In some cases you might need to access the underlying Konva node of the svelte-konva component directly. You can do this by binding the `handle` prop of the component or by accessing it in the payload of a Konva event.
 
-**Caution:** The node is initially undefined and becomes defined one tick after the component has been mounted. If you want to access the node directly after component mounting you need to await a Svelte `tick()` before the handle prop becomes defined. 
+**Caution:** The node is initially undefined and becomes defined one tick after the component has been mounted. If you want to access the node directly after component mounting you need to await a Svelte `tick()` before the handle prop becomes defined.
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/konva_node?file=/src/App.svelte" 

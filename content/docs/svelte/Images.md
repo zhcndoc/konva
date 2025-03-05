@@ -1,6 +1,8 @@
+---
 title: How to draw image on canvas with Svelte?
-layout: svelte_page
-
+sidebar_label: Images
+hide_table_of_contents: true
+slug: Images.html
 ---
 
 For images you need to manually create a native window.Image instance or `canvas` element and use it as image attribute of `Image` component.

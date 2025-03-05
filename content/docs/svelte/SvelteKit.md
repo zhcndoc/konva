@@ -1,6 +1,8 @@
+---
 title: How to use svelte-konva with SvelteKit?
-layout: svelte_page
-
+sidebar_label: SvelteKit
+hide_table_of_contents: true
+slug: SvelteKit.html
 ---
 
 Generally, svelte-konva is a client-side only library. When using SvelteKit, special care needs to be taken if svelte-konva/Konva functionality is used on prerendered and server side rendered (SSR) components. Prerendering and SSR happens in a Node.js environment which causes Konva to require the [canvas](https://www.npmjs.com/package/canvas) library as Konva can also be used in Node.js environments. When you use svelte-konva in such conditions you'll likely run into the following error:
@@ -25,7 +27,7 @@ A better approach is to dynamically import your svelte-konva canvas on the clien
 
 _MyCanvas.svelte_
 
-```html
+```js
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
   import OtherComponentUsingSvelteKonva from './OtherComponentUsingSvelteKonva.svelte';
@@ -48,7 +50,7 @@ To use this component inside a SvelteKit prerendered/SSR page you can dynamicall
 
 _+page.svelte_
 
-```html
+```js
 <script>
   import { onMount } from 'svelte';
   // typescript:
@@ -78,7 +80,7 @@ The [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-impor
 
 _+page.svelte_
 
-```html
+```js
 <script>
   import MyCanvasComponent from '$lib/MyCanvas.svelte?client'; // Client-side only import
 
@@ -96,8 +98,7 @@ _+page.svelte_
 
 Currently vite-plugin-iso-import cannot automatically fix intellisense inside .svelte files with TypeScript. Consult the [README](https://www.npmjs.com/package/vite-plugin-iso-import) for a workaround to this problem. Or have a look at the demo below.
 
-
-Instructions: Each page available in this SvelteKit App is rendered differently containing a `svelte-konva` canvas. Both dynamic import approaches are shown. Dynamic loading using `onMount()` on the prerendered page and dynamic loading with [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) on the SSR page. Try to inspect the network requests made on each navigation to understand the different approaches of rendering in SvelteKit.
+**Instructions:** Each page available in this SvelteKit App is rendered differently containing a `svelte-konva` canvas. Both dynamic import approaches are shown. Dynamic loading using `onMount()` on the prerendered page and dynamic loading with [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) on the SSR page. Try to inspect the network requests made on each navigation to understand the different approaches of rendering in SvelteKit.
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" 

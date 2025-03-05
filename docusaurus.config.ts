@@ -21,8 +21,8 @@ const config: Config = {
   projectName: 'konva', // Usually your repo name.
 
   // TODO: change to 'throw'
-  onBrokenLinks: 'ignore',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -160,7 +160,15 @@ const config: Config = {
           items: [
             {
               label: 'Tutorial',
-              to: '/docs/intro',
+              to: '/docs/index.html',
+            },
+            {
+              label: 'Demos',
+              to: '/docs/sandbox.html',
+            },
+            {
+              label: 'API Reference',
+              to: '/api/Konva.html',
             },
           ],
         },
@@ -179,23 +187,35 @@ const config: Config = {
               label: 'Twitter',
               href: 'https://twitter.com/lavrton',
             },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
             {
               label: 'GitHub',
               href: 'https://github.com/konvajs/konva',
             },
           ],
         },
+        {
+          title: 'Integrations',
+          items: [
+            {
+              label: 'React',
+              href: '/docs/react/index.html',
+            },
+            {
+              label: 'Vue',
+              href: '/docs/vue/index.html',
+            },
+            {
+              label: 'Svelte',
+              href: '/docs/svelte/index.html',
+            },
+            // {
+            //   label: 'Blog',
+            //   to: '/blog',
+            // },
+          ],
+        },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Konva. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

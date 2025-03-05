@@ -1,13 +1,15 @@
+---
 title: How to cache canvas shapes with Svelte
-layout: svelte_page
-
+sidebar_label: Cache
+hide_table_of_contents: true
+slug: Cache.html
 ---
 
 If you want to cache a node in a Svelte app, you need to have an access to Konva node and use `node.cache()` function.
 
 To get access to a node you can use the `handle` prop. See [Konva Node](/docs/svelte/Konva_Node.html) for more information.
 
-**Instruction: try to drag whole stage. Then try again with cached group.**
+**Instructions:** try to drag whole stage. Then try again with cached group.
 
 You should see much better performance.
 

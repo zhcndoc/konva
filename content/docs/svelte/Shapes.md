@@ -1,6 +1,8 @@
+---
 title: Drawing canvas shapes with Svelte
-layout: svelte_page
-
+sidebar_label: Shapes
+hide_table_of_contents: true
+slug: Shapes.html
 ---
 
 All `svelte-konva` components correspond to `Konva` components of the same name.

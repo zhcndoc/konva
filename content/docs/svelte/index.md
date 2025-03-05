@@ -1,6 +1,8 @@
+---
 title: Getting started with Svelte and canvas via Konva
-layout: svelte_page
-
+sidebar_label: Getting Started
+hide_table_of_contents: true
+slug: index.html
 ---
 
 ## How to use canvas with Svelte?

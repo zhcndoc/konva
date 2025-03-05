@@ -1,6 +1,8 @@
+---
 title: Drag and drop canvas shapes with Svelte
-layout: svelte_page
-
+sidebar_label: Drag and Drop
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
 ---
 
 To enable drag&drop for any node on canvas you just need to pass `draggable: true` property into the component's config prop.
