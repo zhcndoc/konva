@@ -6,27 +6,37 @@ async function checkSitemap() {
 
     // 2. Parse URLs using regex
     const urlRegex = /<loc>(.*?)<\/loc>/g;
-    const urls = [...xml.matchAll(urlRegex)].map((match) => match[1]);
+    const urls = [...xml.matchAll(urlRegex)]
+      .map((match) => match[1])
+      // Filter out unwanted URLs
+      .filter((url) => !url.includes('downloads/code'));
 
-    // 3. Check each URL
-    for (const url of urls) {
-      const newUrl = url.replace(
-        'https://konvajs.org',
-        'https://new.konvajs.org'
-      );
+    // 3. Process URLs in batches
+    const batchSize = 20;
+    for (let i = 0; i < urls.length; i += batchSize) {
+      const batch = urls.slice(i, i + batchSize);
+      const promises = batch.map(async (url) => {
+        const newUrl = url.replace(
+          'https://konvajs.org',
+          'https://new.konvajs.org'
+        );
 
-      try {
-        const checkResponse = await fetch(newUrl, { method: 'HEAD' });
-        if (checkResponse.ok) {
-          console.log(`✅ Exists: ${newUrl}`);
-        } else {
-          console.log(`❌ Missing (${checkResponse.status}): ${newUrl}`);
+        try {
+          const checkResponse = await fetch(newUrl, { method: 'HEAD' });
+          if (checkResponse.ok) {
+            console.log(`✅ Exists: ${newUrl}`);
+          } else {
+            console.log(`❌ Missing (${checkResponse.status}): ${newUrl}`);
+          }
+        } catch (error) {
+          console.log(`❌ Error checking: ${newUrl}`);
         }
-      } catch (error) {
-        console.log(`❌ Error checking: ${newUrl}`);
-      }
+      });
 
-      // Add a small delay to avoid overwhelming the server
+      // Run batch in parallel
+      await Promise.all(promises);
+
+      // Add a small delay between batches
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
   } catch (error) {
