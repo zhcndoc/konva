@@ -79,6 +79,161 @@ export const companyList = [
   },
 ];
 
+export const konvaUsers = [
+  {
+    name: 'Polotno',
+    description: 'SDK for making design editors for the web',
+    image: '/assets/users/polotno.jpg',
+    url: 'https://polotno.dev/?utm_source=konvajs',
+  },
+  {
+    name: 'SMMplanner',
+    description:
+      'Constructor for creating Instagram Stories as part of the scheduled posting',
+    image: '/assets/users/smmplanner.jpg',
+    url: 'https://smmplanner.com/home/sc',
+  },
+  {
+    name: 'SpreadSheet Grid',
+    description: 'Excel-like DataGrid component for React JS',
+    image: '/assets/users/grid.jpg',
+    url: 'https://rowsncolumns.app/',
+  },
+  {
+    name: 'Windoor craft',
+    description: 'Tool for designing window and door with drag and drop',
+    image: '/assets/users/windoor.jpg',
+    url: 'http://windowcc.com/',
+  },
+  {
+    name: 'Pixteller',
+    description: 'A design tool to create or customize any image in seconds',
+    image: '/assets/users/pixteller.jpg',
+    url: 'https://pixteller.com',
+    small: true,
+  },
+  {
+    name: 'Paddee',
+    description: 'Marketplace and online editor for photo booth templates',
+    image: '/assets/users/paddee.jpg',
+    url: 'https://getpaddee.com',
+    small: true,
+  },
+  {
+    name: 'Some-charts',
+    description: 'JS charting library',
+    image: '/assets/users/some-charts.png',
+    url: 'https://github.com/Lastik/some-charts',
+    small: true,
+  },
+  {
+    name: 'Shelly',
+    description: 'A programming language for drawing',
+    image: '/assets/users/shelly.jpg',
+    url: 'https://shelly.dev/',
+    small: true,
+  },
+  {
+    name: 'Taggle.so',
+    description:
+      'A modern project management whiteboard that inspires flow and communication',
+    image: '/assets/users/yokanban.jpg',
+    url: 'https://taggle.so.io/',
+    small: true,
+  },
+  {
+    name: 'BoardOS',
+    description: 'Online whiteboard collaboration system',
+    image: '/assets/users/boardos.jpg',
+    url: 'https://boardos.online',
+    small: true,
+  },
+  {
+    name: 'Vokal',
+    description: 'Create podcast video snippets for social media',
+    image: '/assets/users/vokal.jpg',
+    url: 'https://app.vokal.co/editor',
+    small: true,
+  },
+  {
+    name: 'facetache',
+    description: 'Add moustaches to photos!',
+    image: '/assets/users/moustache.jpg',
+    url: 'https://www.facetache.com/',
+    small: true,
+  },
+  {
+    name: 'ScriptureMark',
+    description: 'Interact with Bible text on a canvas',
+    image: '/assets/users/scripture-mark.jpg',
+    url: 'https://www.blueletterbible.org/smark/index.cfm',
+    small: true,
+  },
+  {
+    name: "Let's Role",
+    description: 'Play TableTop RPG in a virtual environment',
+    image: '/assets/users/lets-role.jpg',
+    url: 'https://lets-role.com/',
+    small: true,
+  },
+  {
+    name: 'csgoboard',
+    description: "Interactive board for Valve's game Counter-Strike",
+    image: '/assets/users/csgoboard.jpg',
+    url: 'http://www.csgoboard.com/board',
+    small: true,
+  },
+  {
+    name: 'brainzilla',
+    description: 'Online jigsaw puzzle',
+    image: '/assets/users/puzzle.jpg',
+    url: 'https://www.brainzilla.com/puzzles/jigsaw/',
+    small: true,
+  },
+  {
+    name: 'react-avatar',
+    description: 'Load, crop & preview avatar with React',
+    image: '/assets/users/avatar.jpg',
+    url: 'https://github.com/kirill3333/react-avatar',
+    small: true,
+  },
+  {
+    name: 'Color wars game',
+    description: 'Hot-seat multiplayer, arcade, with focus on competition',
+    image: '/assets/users/colors-wars.jpg',
+    url: 'https://mcalus3.github.io/color-wars-web/',
+    small: true,
+  },
+  {
+    name: 'Kuruko',
+    description: 'Create Custom Wall Art',
+    image: '/assets/users/kuruko.jpg',
+    url: 'https://www.kuruko.com/design',
+    small: true,
+  },
+  {
+    name: 'Opdome',
+    description: 'Online Picture Dictionary',
+    image: '/assets/users/opdome.jpg',
+    url: 'https://www.opdome.com/',
+    small: true,
+  },
+  {
+    name: 'E-cards',
+    description: 'Online shop for business ecards',
+    image: '/assets/users/e-cards.jpg',
+    url: 'https://e-cards.shop/de/cards/create/2/1',
+    small: true,
+  },
+  {
+    name: 'Mystikaze',
+    description: 'An online turn-based hex battle strategy game',
+    image: '/assets/users/mystikaze.jpg',
+    url: 'https://mystikaze.com/',
+    small: true,
+  },
+];
+
 function AnimatedSubtitle() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -116,6 +271,45 @@ function AnimatedSubtitle() {
         app and canvas graphics
       </p>
     </div>
+  );
+}
+
+function KonvaUsersSection() {
+  return (
+    <section className={styles.usersSection}>
+      <div className="container">
+        <div className={styles.usersHeader}>
+          <h2>Show case</h2>
+        </div>
+        <div className={styles.usersGrid}>
+          {konvaUsers.map((user) => (
+            <div
+              key={user.name}
+              className={clsx(styles.gridItem, user.small && styles.small)}
+            >
+              <a href={user.url} target="_blank" rel="noopener noreferrer">
+                <div
+                  className={styles.preview}
+                  style={{ backgroundImage: `url(${user.image})` }}
+                />
+                <div className={styles.description}>
+                  <h5 className={styles.name}>{user.name}</h5>
+                  <p>{user.description}</p>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+        <div className={styles.addAppWrapper}>
+          <a
+            href="https://github.com/konvajs/konva/discussions/1169"
+            className={styles.addApp}
+          >
+            Do you want to add your app here?
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -265,6 +459,7 @@ export default function Home(): JSX.Element {
       <main>
         <CompaniesSection />
         <HomepageFeatures />
+        <KonvaUsersSection />
       </main>
     </Layout>
   );
