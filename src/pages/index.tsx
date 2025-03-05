@@ -144,14 +144,6 @@ export const konvaUsers = [
     small: true,
   },
   {
-    name: 'Taggle.so',
-    description:
-      'A modern project management whiteboard that inspires flow and communication',
-    image: '/assets/users/yokanban.jpg',
-    url: 'https://taggle.so.io/',
-    small: true,
-  },
-  {
     name: 'BoardOS',
     description: 'Online whiteboard collaboration system',
     image: '/assets/users/boardos.jpg',
@@ -212,13 +204,6 @@ export const konvaUsers = [
     description: 'Hot-seat multiplayer, arcade, with focus on competition',
     image: '/assets/users/colors-wars.jpg',
     url: 'https://mcalus3.github.io/color-wars-web/',
-    small: true,
-  },
-  {
-    name: 'Kuruko',
-    description: 'Create Custom Wall Art',
-    image: '/assets/users/kuruko.jpg',
-    url: 'https://www.kuruko.com/design',
     small: true,
   },
   {
