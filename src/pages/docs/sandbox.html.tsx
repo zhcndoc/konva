@@ -272,7 +272,7 @@ const DemoGrid = ({
 
 export default function Demos() {
   return (
-    <Layout title="Konva Demos" description="Interactive Konva Demos">
+    <Layout title="Demos" description="Interactive Konva Demos">
       <div className="container">
         <h1>Konva Demos</h1>
         {Object.entries(demoSidebar).map(([section, items]) => (

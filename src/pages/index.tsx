@@ -446,11 +446,9 @@ function CompaniesSection() {
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
+  console.log(siteConfig);
   return (
-    <Layout
-      title={`${siteConfig.title}`}
-      description="Konva is 2d Canvas JavaScript framework for drawings shapes, animations, node nesting, layering, filtering, event handling, drag and drop and much more."
-    >
+    <Layout description="Konva is 2d Canvas JavaScript framework for drawings shapes, animations, node nesting, layering, filtering, event handling, drag and drop and much more.">
       <HomepageHeader />
       <main>
         <CompaniesSection />
