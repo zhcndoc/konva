@@ -39,6 +39,12 @@ const config: Config = {
       defer: true,
       'data-domain': 'new.konvajs.org',
     },
+    {
+      src: 'https://cdn.convertbox.com/convertbox/js/embed.js',
+      id: 'app-convertbox-script',
+      async: true,
+      'data-uuid': 'db9e320b-6d6c-49c4-ba5c-b29e6d5fc91c',
+    },
   ],
 
   presets: [
