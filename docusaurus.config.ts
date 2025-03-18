@@ -142,12 +142,14 @@ const config: Config = {
         },
         {
           href: 'https://discord.gg/8FqZwVT',
-          label: 'Discord',
+          className: 'header-discord-link',
+          // label: 'Discord',
           position: 'right',
         },
         {
           href: 'https://twitter.com/lavrton',
-          label: 'Twitter',
+          className: 'header-x-link',
+          // label: 'Twitter',
           position: 'right',
         },
       ],
