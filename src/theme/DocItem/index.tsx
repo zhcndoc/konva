@@ -7,7 +7,6 @@ import { DiscussionEmbed } from 'disqus-react';
 type Props = WrapperProps<typeof DocItemType>;
 
 export default function DocItemWrapper(props: Props): JSX.Element {
-  console.log(props);
   return (
     <>
       <DocItem {...props} />
@@ -17,7 +16,6 @@ export default function DocItemWrapper(props: Props): JSX.Element {
           url: props.content.metadata.permalink,
           identifier: props.content.metadata.permalink,
           title: props.content.metadata.title,
-          language: 'en_US',
         }}
       />
     </>
