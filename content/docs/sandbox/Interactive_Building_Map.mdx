@@ -55,7 +55,7 @@ const stage = new Konva.Stage({
 const imageLayer = new Konva.Layer();
 stage.add(imageLayer);
 
-Konva.Image.fromURL('https://new.konvajs.org/assets/line-building.png', function (bgImage) {
+Konva.Image.fromURL('https://konvajs.org/assets/line-building.png', function (bgImage) {
   bgImage.setAttrs({
     x: 1,
     y: 0,
@@ -183,7 +183,7 @@ const App = () => {
     text: '',
   });
   const [hoveredArea, setHoveredArea] = useState(null);
-  const [backgroundImage] = useImage('https://new.konvajs.org/assets/line-building.png');
+  const [backgroundImage] = useImage('https://konvajs.org/assets/line-building.png');
 
   const areas = getData();
 
@@ -340,7 +340,7 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const [backgroundImage] = useImage('https://new.konvajs.org/assets/line-building.png');
+const [backgroundImage] = useImage('https://konvajs.org/assets/line-building.png');
 
 const getData = () => ({
   '1st Floor': {

@@ -68,7 +68,7 @@ imageObj.onload = () => {
   document.body.appendChild(slider);
 };
 
-imageObj.src = 'https://new.konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/lion.png';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -80,7 +80,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const [contrast, setContrast] = useState(30);
-  const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -159,7 +159,7 @@ const stageSize = {
 
 const contrast = ref(30);
 const imageNode = ref(null);
-const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

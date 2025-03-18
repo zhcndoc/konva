@@ -18,7 +18,7 @@ async function checkSitemap() {
       const promises = batch.map(async (url) => {
         const newUrl = url.replace(
           'https://konvajs.org',
-          'https://new.konvajs.org'
+          'https://konvajs.org'
         );
 
         try {

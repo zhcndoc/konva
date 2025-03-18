@@ -10,7 +10,7 @@ const config: Config = {
   themes: ['./src/theme-live-codeblock'],
 
   // Set the production url of your site here
-  url: 'https://new.konvajs.org',
+  url: 'https://konvajs.org',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -37,7 +37,7 @@ const config: Config = {
       src: 'https://plausible.io/js/plausible.js',
       async: true,
       defer: true,
-      'data-domain': 'new.konvajs.org',
+      'data-domain': 'konvajs.org',
     },
     {
       src: 'https://cdn.convertbox.com/convertbox/js/embed.js',

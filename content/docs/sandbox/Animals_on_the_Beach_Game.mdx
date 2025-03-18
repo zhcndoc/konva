@@ -38,7 +38,7 @@ backgroundImage.onload = function() {
   background.add(backgroundKonvaImage);
   backgroundKonvaImage.moveToBottom();
 };
-backgroundImage.src = 'https://new.konvajs.org/assets/beach.png';
+backgroundImage.src = 'https://konvajs.org/assets/beach.png';
 
 // image positions
 const animals = {
@@ -112,7 +112,7 @@ function updateMessage(text) {
 }
 
 function loadImages(sources, callback) {
-  const assetDir = 'https://new.konvajs.org/assets/';
+  const assetDir = 'https://konvajs.org/assets/';
   const images = {};
   let loadedImages = 0;
   let numImages = 0;
@@ -253,8 +253,8 @@ const Animal = ({ name, startX, startY, outline, onScore }) => {
   const [isDraggable, setIsDraggable] = useState(true);
   const [inRightPlace, setInRightPlace] = useState(false);
   
-  const [image] = useImage(`https://new.konvajs.org/assets/${name}.png`);
-  const [glowImage] = useImage(`https://new.konvajs.org/assets/${name}-glow.png`);
+  const [image] = useImage(`https://konvajs.org/assets/${name}.png`);
+  const [glowImage] = useImage(`https://konvajs.org/assets/${name}-glow.png`);
 
   const isNearOutline = (pos, outline) => {
     const { x, y } = pos;
@@ -305,12 +305,12 @@ const Animal = ({ name, startX, startY, outline, onScore }) => {
 };
 
 const AnimalOutline = ({ name, x, y }) => {
-  const [image] = useImage(`https://new.konvajs.org/assets/${name}-black.png`);
+  const [image] = useImage(`https://konvajs.org/assets/${name}-black.png`);
   return image ? <Image image={image} x={x} y={y} /> : null;
 };
 
 const Background = () => {
-  const [image] = useImage('https://new.konvajs.org/assets/beach.png');
+  const [image] = useImage('https://konvajs.org/assets/beach.png');
   return image ? <Image image={image} width={578} height={530} /> : null;
 };
 
@@ -386,8 +386,8 @@ const Animal = {
     const isDraggable = ref(true);
     const inRightPlace = ref(false);
     
-    const [image] = useImage(`https://new.konvajs.org/assets/${props.name}.png`);
-    const [glowImage] = useImage(`https://new.konvajs.org/assets/${props.name}-glow.png`);
+    const [image] = useImage(`https://konvajs.org/assets/${props.name}.png`);
+    const [glowImage] = useImage(`https://konvajs.org/assets/${props.name}-glow.png`);
     
     const imageConfig = computed(() => ({
       image: image.value,
@@ -453,7 +453,7 @@ const AnimalOutline = {
   template: `<v-image v-if="image" :config="imageConfig" />`,
   props: ['name', 'x', 'y'],
   setup(props) {
-    const [image] = useImage(`https://new.konvajs.org/assets/${props.name}-black.png`);
+    const [image] = useImage(`https://konvajs.org/assets/${props.name}-black.png`);
     
     const imageConfig = computed(() => ({
       image: image.value,
@@ -469,7 +469,7 @@ const AnimalOutline = {
 const Background = {
   template: `<v-image v-if="image" :config="imageConfig" />`,
   setup() {
-    const [image] = useImage('https://new.konvajs.org/assets/beach.png');
+    const [image] = useImage('https://konvajs.org/assets/beach.png');
     
     const imageConfig = computed(() => ({
       image: image.value,

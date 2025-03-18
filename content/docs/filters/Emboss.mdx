@@ -121,7 +121,7 @@ imageObj.onload = () => {
   document.body.appendChild(whiteLevelLabel);
   document.body.appendChild(blendLabel);
 };
-imageObj.src = 'https://new.konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/lion.png';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -135,7 +135,7 @@ const App = () => {
   const [strength, setStrength] = useState(0.5);
   const [whiteLevel, setWhiteLevel] = useState(0.5);
   const [blend, setBlend] = useState(0.5);
-  const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -252,7 +252,7 @@ const stageSize = {
 };
 
 const imageNode = ref(null);
-const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 const embossValues = ref({
   strength: 0.5,

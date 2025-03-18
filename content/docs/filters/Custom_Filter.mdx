@@ -64,7 +64,7 @@ imageObj.onload = () => {
   image.filters([Konva.Filters.RemoveAlpha]);
   layer.draw();
 };
-imageObj.src = 'https://new.konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/lion.png';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -83,7 +83,7 @@ Konva.Filters.RemoveAlpha = function (imageData) {
 };
 
 const App = () => {
-  const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -149,7 +149,7 @@ const stageSize = {
 };
 
 const imageNode = ref(null);
-const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

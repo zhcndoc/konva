@@ -84,7 +84,7 @@ const arrow = new Konva.Arrow({
 layer.add(arrow);
 
 // Add image
-const imageUrl = 'https://new.konvajs.org/assets/darth-vader.jpg';
+const imageUrl = 'https://konvajs.org/assets/darth-vader.jpg';
 Konva.Image.fromURL(
   imageUrl,
   function (darthNode) {
@@ -150,7 +150,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const stageRef = useRef(null);
-  const [darthVaderImage] = useImage('https://new.konvajs.org/assets/darth-vader.jpg', 'anonymous');
+  const [darthVaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const width = window.innerWidth;
   const height = window.innerHeight;
   
@@ -287,7 +287,7 @@ import { useImage } from 'vue-konva';
 
 const stageRef = ref(null);
 const textRef = ref(null);
-const [darthVaderImage] = useImage('https://new.konvajs.org/assets/darth-vader.jpg', 'anonymous');
+const [darthVaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 const width = window.innerWidth;
 const height = window.innerHeight;
 

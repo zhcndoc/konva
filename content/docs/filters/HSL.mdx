@@ -84,7 +84,7 @@ imageObj.onload = () => {
   luminanceSlider.style.top = '70px';
   document.body.appendChild(luminanceSlider);
 };
-imageObj.src = 'https://new.konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/lion.png';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -98,7 +98,7 @@ const App = () => {
   const [hue, setHue] = useState(0);
   const [saturation, setSaturation] = useState(0);
   const [luminance, setLuminance] = useState(0);
-  const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -218,7 +218,7 @@ const stageSize = {
 };
 
 const imageNode = ref(null);
-const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 const hslValues = ref({
   hue: 0,

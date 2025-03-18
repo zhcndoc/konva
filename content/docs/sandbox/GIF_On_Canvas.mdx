@@ -47,7 +47,7 @@ function onDrawFrame(ctx, frame) {
 }
 
 script.onload = () => {
-  gifler('https://new.konvajs.org/assets/yoda.gif').frames(canvas, onDrawFrame);
+  gifler('https://konvajs.org/assets/yoda.gif').frames(canvas, onDrawFrame);
 };
 
 // draw resulted canvas into the stage as Konva.Image
@@ -83,7 +83,7 @@ const GifImage = () => {
         imageRef.current?.getLayer()?.batchDraw();
       }
 
-      gifler('https://new.konvajs.org/assets/yoda.gif').frames(canvasRef.current, onDrawFrame);
+      gifler('https://konvajs.org/assets/yoda.gif').frames(canvasRef.current, onDrawFrame);
     };
 
     document.head.appendChild(script);
@@ -152,7 +152,7 @@ onMounted(() => {
       imageRef.value.getNode().getLayer().batchDraw();
     }
 
-    gifler('https://new.konvajs.org/assets/yoda.gif').frames(canvas, onDrawFrame);
+    gifler('https://konvajs.org/assets/yoda.gif').frames(canvas, onDrawFrame);
   };
 
   document.head.appendChild(script);

@@ -56,7 +56,7 @@ imageObj1.onload = function () {
   darthVaderImg.image(imageObj1);
   layer.draw();
 };
-imageObj1.src = 'https://new.konvajs.org/assets/darth-vader.jpg';
+imageObj1.src = 'https://konvajs.org/assets/darth-vader.jpg';
 
 // Load Yoda image
 const imageObj2 = new Image();
@@ -64,7 +64,7 @@ imageObj2.onload = function () {
   yodaImg.image(imageObj2);
   layer.draw();
 };
-imageObj2.src = 'https://new.konvajs.org/assets/yoda.jpg';
+imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
 
 // Use event delegation to update pointer style and borders
 layer.on('mouseover', function (evt) {
@@ -120,14 +120,14 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <DraggableImage
-          src="https://new.konvajs.org/assets/darth-vader.jpg"
+          src="https://konvajs.org/assets/darth-vader.jpg"
           x={20}
           y={20}
           width={200}
           height={137}
         />
         <DraggableImage
-          src="https://new.konvajs.org/assets/yoda.jpg"
+          src="https://konvajs.org/assets/yoda.jpg"
           x={240}
           y={20}
           width={93}
@@ -172,14 +172,14 @@ const loadedImages = ref({});
 // Define image data
 const images = ref([
   {
-    src: 'https://new.konvajs.org/assets/darth-vader.jpg',
+    src: 'https://konvajs.org/assets/darth-vader.jpg',
     x: 20,
     y: 20,
     width: 200,
     height: 137
   },
   {
-    src: 'https://new.konvajs.org/assets/yoda.jpg',
+    src: 'https://konvajs.org/assets/yoda.jpg',
     x: 240,
     y: 20,
     width: 93,

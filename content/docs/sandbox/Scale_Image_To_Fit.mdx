@@ -121,7 +121,7 @@ function applyCrop(img, pos) {
   img.setAttrs(crop);
 }
 
-Konva.Image.fromURL('https://new.konvajs.org/assets/darth-vader.jpg', (img) => {
+Konva.Image.fromURL('https://konvajs.org/assets/darth-vader.jpg', (img) => {
   img.setAttrs({
     width: 300,
     height: 100,
@@ -241,7 +241,7 @@ const App = () => {
   const imageRef = React.useRef(null);
   const trRef = React.useRef(null);
   
-  const [image] = useImage('https://new.konvajs.org/assets/darth-vader.jpg');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg');
 
   const handleTransform = () => {
     const node = imageRef.current;
@@ -434,7 +434,7 @@ function getCrop(image, size, clipPosition = 'center-middle') {
   };
 }
 
-const { image } = useImage('https://new.konvajs.org/assets/darth-vader.jpg');
+const { image } = useImage('https://konvajs.org/assets/darth-vader.jpg');
 
 const crop = computed(() => {
   if (!image.value) return {};
