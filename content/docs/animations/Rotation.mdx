@@ -81,7 +81,7 @@ layer.add(redRect);
 
 const angularSpeed = 90;
 const anim = new Konva.Animation(function(frame) {
-const angleDiff = (frame.timeDiff \* angularSpeed) / 1000;
+const angleDiff = (frame.timeDiff * angularSpeed) / 1000;
 blueRect.rotate(angleDiff);
 yellowRect.rotate(angleDiff);
 redRect.rotate(angleDiff);

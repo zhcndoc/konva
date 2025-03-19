@@ -75,7 +75,7 @@ layer.add(redHex);
 const period = 2000;
 
 const anim = new Konva.Animation(function(frame) {
-const scale = Math.sin(frame.time _ 2 _ Math.PI / period) + 2;
+const scale = Math.sin(frame.time * 2 * Math.PI / period) + 2;
 
 // blue hex - scale x and y
 blueHex.scale({ x: scale, y: scale });

@@ -40,17 +40,23 @@ strokeWidth: 4,
 layer.add(circle);
 
 // add buttons
+const container = document.createElement('div');
+document.body.appendChild(container);
+container.style.position = 'absolute';
+container.style.top = '0px';
+container.style.left = '0px';
+
 const startBtn = document.createElement('button');
 startBtn.textContent = 'Start Animation';
-document.body.appendChild(startBtn);
+container.appendChild(startBtn);
 
 const stopBtn = document.createElement('button');
 stopBtn.textContent = 'Stop Animation';
-document.body.appendChild(stopBtn);
+container.appendChild(stopBtn);
 
 const anim = new Konva.Animation(function(frame) {
 circle.x(
-amplitude _ Math.sin((frame.time _ 2 \* Math.PI) / period) +
+amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
 stage.width() / 2
 );
 }, layer);

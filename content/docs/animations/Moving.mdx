@@ -42,7 +42,7 @@ const period = 2000; // in milliseconds
 
 const anim = new Konva.Animation(function(frame) {
 circle.x(
-amplitude _ Math.sin((frame.time _ 2 \* Math.PI) / period) +
+amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
 window.innerWidth / 2
 );
 }, layer);
