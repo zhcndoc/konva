@@ -61,7 +61,7 @@ const tweens = [];
 easings.forEach((easing, i) => {
 const text = new Konva.Text({
 x: 50,
-y: 30 + i \* 25,
+y: 30 + i * 25,
 text: easing,
 fontSize: 16,
 fontFamily: 'Calibri',
@@ -84,6 +84,9 @@ stage.add(layer);
 // create button
 const button = document.createElement('button');
 button.textContent = 'Play';
+button.style.position = 'absolute';
+button.style.top = '0px';
+button.style.left = '0px';
 button.addEventListener('click', () => {
 tweens.forEach((tween) => {
 tween.reset();
