@@ -125,12 +125,7 @@ const App = () => {
 
   return (
     <>
-      <button 
-        onClick={handlePunch}
-        style={{ position: 'absolute', top: 0, left: 0 }}
-      >
-        Punch
-      </button>
+     
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Sprite
@@ -145,6 +140,12 @@ const App = () => {
           />
         </Layer>
       </Stage>
+      <button 
+        onClick={handlePunch}
+        style={{ position: 'absolute', top: 0, left: 0 }}
+      >
+        Punch
+      </button>
     </>
   );
 };
@@ -156,12 +157,6 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <button
-      @click="handlePunch"
-      style="position: absolute; top: 0; left: 0"
-    >
-      Punch
-    </button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-sprite
@@ -170,6 +165,12 @@ export default App;
         />
       </v-layer>
     </v-stage>
+    <button
+      @click="handlePunch"
+      style="position: absolute; top: 0; left: 0"
+    >
+      Punch
+    </button>
   </div>
 </template>
 
