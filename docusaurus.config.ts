@@ -45,6 +45,12 @@ const config: Config = {
       async: true,
       'data-uuid': 'db9e320b-6d6c-49c4-ba5c-b29e6d5fc91c',
     },
+    {
+      src: '/js/ask-ai.js',
+      id: 'ask-ai-script',
+      async: true,
+      defer: true,
+    },
   ],
 
   presets: [
@@ -82,6 +88,11 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
     image: 'img/social.jpeg',
     navbar: {
       title: 'Konva',
@@ -126,10 +137,10 @@ const config: Config = {
             },
           ],
         },
-        {
-          label: 'Kai',
-          to: '/kai',
-        },
+        // {
+        //   label: 'Kai',
+        //   to: '/kai',
+        // },
         {
           to: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           label: 'Price',
@@ -150,6 +161,12 @@ const config: Config = {
           href: 'https://twitter.com/lavrton',
           className: 'header-x-link',
           // label: 'Twitter',
+          position: 'right',
+        },
+        {
+          href: '#',
+          className: 'ai-chat',
+          label: 'Ask AI',
           position: 'right',
         },
       ],
