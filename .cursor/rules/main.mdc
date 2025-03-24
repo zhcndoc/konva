@@ -1,3 +1,8 @@
+---
+description: 
+globs: *.mdx
+alwaysApply: false
+---
 First let's define a template, I will use Arc.mdx as an example.
 
 <template start>

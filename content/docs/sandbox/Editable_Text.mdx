@@ -308,6 +308,7 @@ const EditableText = () => {
           onDblClick={handleTextDblClick}
           onDblTap={handleTextDblClick}
           onTransform={handleTransform}
+          visible={!isEditing}
         />
         {isEditing && (
           <TextEditor
@@ -349,6 +350,7 @@ export default EditableText;
           fontSize: 20,
           draggable: true,
           width: textWidth,
+          visible: !isEditing,
         }"
         @dblclick="handleTextDblClick"
         @dbltap="handleTextDblClick"
