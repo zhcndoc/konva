@@ -89,7 +89,6 @@ function addAnchor(group, x, y, name) {
   // Add event listeners for resize behavior
   anchor.on('dragmove', function () {
     update(this);
-    layer.draw();
   });
   
   anchor.on('mousedown touchstart', function () {
@@ -99,20 +98,17 @@ function addAnchor(group, x, y, name) {
   
   anchor.on('dragend', function () {
     group.draggable(true);
-    layer.draw();
   });
   
   // Add hover styling
   anchor.on('mouseover', function () {
     document.body.style.cursor = 'pointer';
     this.strokeWidth(4);
-    layer.draw();
   });
   
   anchor.on('mouseout', function () {
     document.body.style.cursor = 'default';
     this.strokeWidth(2);
-    layer.draw();
   });
 
   group.add(anchor);
@@ -164,14 +160,12 @@ addAnchor(yodaGroup, 0, 104, 'bottomLeft');
 const imageObj1 = new Image();
 imageObj1.onload = function () {
   darthVaderImg.image(imageObj1);
-  layer.draw();
 };
 imageObj1.src = 'https://konvajs.org/assets/darth-vader.jpg';
 
 const imageObj2 = new Image();
 imageObj2.onload = function () {
   yodaImg.image(imageObj2);
-  layer.draw();
 };
 imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
 ```

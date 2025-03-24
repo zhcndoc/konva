@@ -10,7 +10,6 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
     if (isSelected) {
       // we need to attach transformer manually
       trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
 

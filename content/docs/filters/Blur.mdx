@@ -63,7 +63,6 @@ imageObj.onload = () => {
   slider.addEventListener('input', (e) => {
     const value = parseInt(e.target.value);
     image.blurRadius(value);
-    layer.batchDraw();
   });
 
   document.body.appendChild(slider);

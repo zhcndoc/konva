@@ -46,7 +46,6 @@ triangle.on('mouseenter', function() {
   const index = lineJoins.indexOf(triangle.lineJoin());
   const nextIndex = (index + 1) % lineJoins.length;
   triangle.lineJoin(lineJoins[nextIndex]);
-  layer.draw();
 });
 ```
   </TabItem>

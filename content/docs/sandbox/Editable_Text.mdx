@@ -272,7 +272,6 @@ const EditableText = () => {
   useEffect(() => {
     if (trRef.current && textRef.current) {
       trRef.current.nodes([textRef.current]);
-      trRef.current.getLayer().batchDraw();
     }
   }, [isEditing]);
 
@@ -388,7 +387,6 @@ const transformerNode = ref(null);
 
 onMounted(() => {
   transformerNode.value.getNode().nodes([textNode.value.getNode()]);
-  transformerNode.value.getNode().getLayer().batchDraw();
 });
 
 const handleTextDblClick = () => {

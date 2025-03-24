@@ -47,17 +47,14 @@ layer.add(status);
 
 text.on('dragstart', () => {
   status.text('drag started');
-  layer.draw();
 });
 
 text.on('dragend', () => {
   status.text('drag ended');
-  layer.draw();
 });
 
 text.on('dragmove', () => {
   status.text('dragging');
-  layer.draw();
 });
 ```
   </TabItem>

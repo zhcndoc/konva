@@ -58,13 +58,11 @@ document.body.appendChild(animateButton);
 // Handle adding/removing
 addButton.addEventListener('click', () => {
   layer.add(circle);
-  layer.draw();
 });
 
 removeButton.addEventListener('click', () => {
   // Just remove from layer, can be added back
   circle.remove();
-  layer.draw();
 });
 
 animateButton.addEventListener('click', () => {

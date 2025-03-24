@@ -42,9 +42,6 @@ class URLImage extends React.Component {
     this.setState({
       image: this.image,
     });
-    // if you keep same image object during source updates
-    // you will have to update layer manually:
-    // this.imageNode.getLayer().batchDraw();
   };
   render() {
     return (

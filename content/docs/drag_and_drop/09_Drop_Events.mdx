@@ -60,16 +60,12 @@ draggable.on('dragstart', (e) => {
   isDragging = true;
   dragShape = e.target;
   dragShape.moveTo(dragLayer);
-  shapesLayer.draw();
-  dragLayer.draw();
 });
 
 draggable.on('dragend', (e) => {
   isDragging = false;
   dragShape.moveTo(shapesLayer);
   dragShape = null;
-  shapesLayer.draw();
-  dragLayer.draw();
 
   if (isTargetHovered) {
     console.log('drop!');
@@ -84,7 +80,6 @@ draggable.on('dragmove', () => {
     if (!isTargetHovered) {
       isTargetHovered = true;
       target.fill('green');
-      shapesLayer.draw();
       console.log('dragenter');
     }
     console.log('dragover');
@@ -92,7 +87,6 @@ draggable.on('dragmove', () => {
     if (isTargetHovered) {
       isTargetHovered = false;
       target.fill('red');
-      shapesLayer.draw();
       console.log('dragleave');
     }
   }

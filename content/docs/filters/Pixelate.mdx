@@ -67,7 +67,6 @@ imageObj.onload = () => {
   slider.addEventListener('input', (e) => {
     const value = parseInt(e.target.value);
     image.pixelSize(value);
-    layer.batchDraw();
   });
   
   container.appendChild(slider);

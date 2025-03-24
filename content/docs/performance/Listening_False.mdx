@@ -45,12 +45,10 @@ for (let i = 0; i < 100; i++) {
   // Add hover effect
   circle.on('mouseover', function() {
     this.fill('red');
-    layer.draw();
   });
   
   circle.on('mouseout', function() {
     this.fill('blue');
-    layer.draw();
   });
   
   layer.add(circle);
@@ -79,8 +77,6 @@ const text = new Konva.Text({
   fill: 'black',
 });
 layer.add(text);
-
-layer.draw();
 ```
   </TabItem>
   <TabItem value="React">

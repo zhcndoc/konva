@@ -61,10 +61,6 @@ const circle = new Konva.Circle({
 });
 animLayer.add(circle);
 
-// Draw both layers initially
-textLayer.draw();
-animLayer.draw();
-
 // Create animation
 const anim = new Konva.Animation((frame) => {
   // Move circle in a figure-8 pattern

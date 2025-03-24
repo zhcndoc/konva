@@ -92,7 +92,6 @@ const App = () => {
   useEffect(() => {
     if (trRef.current) {
       trRef.current.nodes([groupRef.current]);
-      trRef.current.getLayer().batchDraw();
     }
   }, []);
 
@@ -190,7 +189,6 @@ const changeText = () => {
 onMounted(() => {
   if (transformerRef.value && groupRef.value) {
     transformerRef.value.getNode().nodes([groupRef.value.getNode()]);
-    transformerRef.value.getNode().getLayer().batchDraw();
   }
 });
 </script>

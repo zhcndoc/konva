@@ -80,14 +80,12 @@ const moveToGroup1Btn = document.createElement('button');
 moveToGroup1Btn.textContent = 'Move to yellow group';
 moveToGroup1Btn.addEventListener('click', () => {
 redBox.moveTo(group1);
-layer.draw();
 });
 
 const moveToGroup2Btn = document.createElement('button');
 moveToGroup2Btn.textContent = 'Move to blue group';
 moveToGroup2Btn.addEventListener('click', () => {
 redBox.moveTo(group2);
-layer.draw();
 });
 
 document.body.appendChild(moveToGroup1Btn);

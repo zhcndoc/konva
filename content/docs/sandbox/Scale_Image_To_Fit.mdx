@@ -264,7 +264,6 @@ const App = () => {
   React.useEffect(() => {
     if (image && imageRef.current && trRef.current) {
       trRef.current.nodes([imageRef.current]);
-      imageRef.current.getLayer().batchDraw();
     }
   }, [image]);
 
@@ -466,7 +465,6 @@ watch(image, () => {
     const transformer = transformerRef.value.getNode();
     const imageNode = imageRef.value.getNode();
     transformer.nodes([imageNode]);
-    imageNode.getLayer().batchDraw();
   }
 });
 </script>

@@ -100,17 +100,14 @@ imageObj.onload = () => {
   // add event listeners
   strengthSlider.addEventListener('input', (e) => {
     image.embossStrength(parseFloat(e.target.value));
-    layer.batchDraw();
   });
 
   whiteLevelSlider.addEventListener('input', (e) => {
     image.embossWhiteLevel(parseFloat(e.target.value));
-    layer.batchDraw();
   });
 
   blendSlider.addEventListener('input', (e) => {
     image.embossBlend(parseFloat(e.target.value));
-    layer.batchDraw();
   });
 
   // add elements to the page

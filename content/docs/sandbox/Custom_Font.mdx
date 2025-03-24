@@ -62,7 +62,6 @@ const debugText = new Konva.Text({
 
 layer.add(text);
 layer.add(debugText);
-layer.draw();
 
 // First, load the font using a stylesheet link (more reliable)
 const fontLink = document.createElement('link');
@@ -76,9 +75,6 @@ document.fonts.ready.then(() => {
   if (document.fonts.check('1em Kavivanar')) {
     text.fontFamily('Kavivanar');
     debugText.text('Font loaded successfully!');
-    // setTimeout(() => {
-    //   layer.draw();
-    // }, 100);
   } else {
     // Fallback - try with a small delay (common issue with some browsers)
     setTimeout(() => {

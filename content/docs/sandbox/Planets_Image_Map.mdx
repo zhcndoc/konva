@@ -104,13 +104,11 @@ shapes.forEach(shape => {
 const f = shape.fill();
 shape.fill(f === 'red' ? null : 'red');
 });
-circlesLayer.batchDraw();
 });
 
 // load the image
 Konva.Image.fromURL('https://konvajs.org/assets/planets.png', (planetsImage) => {
 planetsLayer.add(planetsImage);
-planetsLayer.batchDraw();
 });
 
 ````

@@ -26,7 +26,6 @@ const stage = Konva.Node.create(json, 'container');
 const circle = stage.findOne('Circle');
 circle.on('click', () => {
   circle.fill(Konva.Util.getRandomColor());
-  stage.find('Layer').first().draw();
 });
 ```
   </TabItem>

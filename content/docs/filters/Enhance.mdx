@@ -61,7 +61,6 @@ imageObj.onload = () => {
   slider.addEventListener('input', (e) => {
     const value = parseFloat(e.target.value);
     image.enhance(value);
-    layer.batchDraw();
   });
 
   document.body.appendChild(slider);

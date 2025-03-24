@@ -102,14 +102,12 @@ const btn1 = document.createElement('button');
 btn1.textContent = 'Move red circle to group2';
 btn1.addEventListener('click', () => {
 redCircle.moveTo(group2);
-layer.draw();
 });
 
 const btn2 = document.createElement('button');
 btn2.textContent = 'Move red circle to group1';
 btn2.addEventListener('click', () => {
 redCircle.moveTo(group1);
-layer.draw();
 });
 
 document.body.appendChild(btn1);

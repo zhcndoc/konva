@@ -260,7 +260,6 @@ const LimitedDragAndResize = () => {
     if (trRef.current) {
       const nodes = shapes.map(shape => shapeRefs.current.get(shape.id));
       trRef.current.nodes(nodes);
-      trRef.current.getLayer().batchDraw();
     }
   }, [shapes]);
   

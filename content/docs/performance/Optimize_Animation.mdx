@@ -10,9 +10,8 @@ Here are some key tips:
 
 1. Use `Konva.Animation` instead of `requestAnimationFrame` directly
 2. Only animate properties that need to change
-3. Use `batchDraw()` for multiple shape updates
-4. Consider using shape caching for complex shapes
-5. Minimize the number of nodes being animated
+3. Consider using shape caching for complex shapes
+4. Minimize the number of nodes being animated
 
 Below is a demo showing optimized animation techniques:
 
@@ -57,9 +56,6 @@ const circle = new Konva.Circle({
   fill: 'red',
 });
 layer.add(circle);
-
-// Draw initial state
-layer.draw();
 
 // Create optimized animation
 const anim = new Konva.Animation((frame) => {
