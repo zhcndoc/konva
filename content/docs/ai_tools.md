@@ -14,7 +14,7 @@ AI agent will use Konva docs exensevly to answer your questions. Please remember
 
 ## AI chat bot
 
-Click "Ask AI" button somwhere on the page to ask a question to AI.
+Click "Ask AI" button somewhere on the page to ask a question to AI.
 
 You can also join your [Discord community](https://remotion.dev/discord) and ask `@AiBot-CrawlChat` there.
 
