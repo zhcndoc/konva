@@ -101,6 +101,7 @@ export default App;
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useImage } from 'vue-konva';
 
 const stageSize = {
@@ -110,14 +111,14 @@ const stageSize = {
 
 const [yodaImage] = useImage('https://konvajs.org/assets/yoda.jpg');
 
-const imageConfig = {
+const imageConfig = ref({
   x: 50,
   y: 50,
   image: yodaImage,
   width: 106,
   height: 118,
   draggable: true
-};
+});
 
 const handleMouseEnter = () => {
   document.body.style.cursor = 'pointer';
