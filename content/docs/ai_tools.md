@@ -24,7 +24,7 @@ MCP (Model Context Protocol) is a standard protocol to connect with LLM applicat
 
 ### Cursor MCP Command
 
-For clear video instuctions [take a look into this guide](https://guides.crawlchat.app/walkthrough/67db0080600010f091e529b7).
+For clear video instructions [take a look into this guide](https://guides.crawlchat.app/walkthrough/67db0080600010f091e529b7).
 Cursor needs a JSON snippet to be added to the Cursor settings. Copy and paste the following snippet.
 
 **Important: as of March 2025, cursor will use MCP only in "Agent" mode. "Ask" and others will not use it.**
