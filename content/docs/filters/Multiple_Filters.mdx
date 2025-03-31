@@ -126,64 +126,68 @@ imageObj.onload = () => {
     image.filters(activeFilters);
   }
 };
-imageObj.src = '/images/lion.png';
+imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Image } from 'react-konva';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import useImage from 'use-image';
+
+const FilterControl = ({ name, min, max, step, filters, setFilters }) => {
+  const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+  return (
+    <div style={{ marginBottom: '10px' }}>
+      <input
+        type="checkbox"
+        id={name}
+        checked={filters[name].active}
+        onChange={(e) => {
+          setFilters({
+            ...filters,
+            [name]: { ...filters[name], active: e.target.checked },
+          });
+        }}
+      />
+      <label htmlFor={name}> {capitalizedName}: </label>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={filters[name].value}
+        disabled={!filters[name].active}
+        onChange={(e) => {
+          setFilters({
+            ...filters,
+            [name]: { ...filters[name], value: parseFloat(e.target.value) },
+          });
+        }}
+        style={{ width: '200px' }}
+      />
+    </div>
+  );
+};
 
 const App = () => {
-  const [image, setImage] = useState(null);
   const [filters, setFilters] = useState({
     blur: { active: false, value: 10 },
     brightness: { active: false, value: 0.3 },
     contrast: { active: false, value: 50 },
   });
 
-  useEffect(() => {
-    const imageObj = new Image();
-    imageObj.onload = () => {
-      setImage(imageObj);
-    };
-    imageObj.src = '/images/lion.png';
-  }, []);
+  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const imageRef = useRef(null);
 
-  const FilterControl = ({ name, min, max, step }) => {
-    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
-    return (
-      <div style={{ marginBottom: '10px' }}>
-        <input
-          type="checkbox"
-          id={name}
-          checked={filters[name].active}
-          onChange={(e) => {
-            setFilters({
-              ...filters,
-              [name]: { ...filters[name], active: e.target.checked },
-            });
-          }}
-        />
-        <label htmlFor={name}> {capitalizedName}: </label>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={filters[name].value}
-          disabled={!filters[name].active}
-          onChange={(e) => {
-            setFilters({
-              ...filters,
-              [name]: { ...filters[name], value: parseFloat(e.target.value) },
-            });
-          }}
-          style={{ width: '200px' }}
-        />
-      </div>
-    );
-  };
+  useEffect(() => {
+    if (image && imageRef.current) {
+      imageRef.current.cache();
+    }
+  }, [image]);
+
+
 
   const activeFilters = [];
   if (filters.blur.active) activeFilters.push(Konva.Filters.Blur);
@@ -192,15 +196,12 @@ const App = () => {
 
   return (
     <>
-      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-        <FilterControl name="blur" min={0} max={40} step={1} />
-        <FilterControl name="brightness" min={-1} max={1} step={0.1} />
-        <FilterControl name="contrast" min={-100} max={100} step={1} />
-      </div>
+      
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           {image && (
             <Image
+              ref={imageRef}
               x={50}
               y={50}
               image={image}
@@ -213,6 +214,11 @@ const App = () => {
           )}
         </Layer>
       </Stage>
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <FilterControl name="blur" min={0} max={40} step={1} filters={filters} setFilters={setFilters} />
+        <FilterControl name="brightness" min={-1} max={1} step={0.1} filters={filters} setFilters={setFilters} />
+        <FilterControl name="contrast" min={-100} max={100} step={1} filters={filters} setFilters={setFilters} />
+      </div>
     </>
   );
 };
@@ -224,6 +230,25 @@ export default App;
 ```js live vue
 <template>
   <div>
+    
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          v-if="image"
+          ref="imageNode"
+          :config="{
+            x: 50,
+            y: 50,
+            image: image,
+            draggable: true,
+            filters: activeFilters,
+            blurRadius: filters.blur.value,
+            brightness: filters.brightness.value,
+            contrast: filters.contrast.value,
+          }"
+        />
+      </v-layer>
+    </v-stage>
     <div style="position: absolute; top: 20px; left: 20px">
       <div v-for="(filter, name) in filters" :key="name" style="marginBottom: 10px">
         <input
@@ -243,35 +268,21 @@ export default App;
         />
       </div>
     </div>
-    <v-stage :config="stageSize">
-      <v-layer>
-        <v-image
-          v-if="image"
-          :config="{
-            x: 50,
-            y: 50,
-            image: image,
-            draggable: true,
-            filters: activeFilters,
-            blurRadius: filters.blur.value,
-            brightness: filters.brightness.value,
-            contrast: filters.contrast.value,
-          }"
-        />
-      </v-layer>
-    </v-stage>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
+import { useImage } from 'vue-konva';
 
 const stageSize = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 
-const image = ref(null);
+const imageNode = ref(null);
+const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+
 const filters = ref({
   blur: { active: false, value: 10 },
   brightness: { active: false, value: 0.3 },
@@ -294,12 +305,11 @@ const activeFilters = computed(() => {
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-onMounted(() => {
-  const imageObj = new Image();
-  imageObj.onload = () => {
-    image.value = imageObj;
-  };
-  imageObj.src = '/images/lion.png';
+watch(image, async (newImage) => {
+  if (newImage) {
+    await nextTick();
+    imageNode.value.getNode().cache();
+  }
 });
 </script>
 ```

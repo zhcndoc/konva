@@ -101,25 +101,10 @@ const App = () => {
   const imageRef = useRef(null);
 
   useEffect(() => {
-    if (image) {
+    if (image && imageRef.current) {
       imageRef.current.cache();
     }
   }, [image]);
-
-  const SliderControl = ({ label, value, onChange, min, max }) => (
-    <div style={{ margin: '10px' }}>
-      <label>{label}: </label>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step="0.1"
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        style={{ width: '200px' }}
-      />
-    </div>
-  );
 
   return (
     <>
@@ -139,27 +124,38 @@ const App = () => {
         </Layer>
       </Stage>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-        <SliderControl
-          label="Hue"
-          value={hue}
-          onChange={setHue}
-          min={-180}
-          max={180}
-        />
-        <SliderControl
-          label="Saturation"
-          value={saturation}
-          onChange={setSaturation}
-          min={-2}
-          max={10}
-        />
-        <SliderControl
-          label="Value"
-          value={value}
-          onChange={setValue}
-          min={-2}
-          max={2}
-        />
+        <div>
+          Hue
+          <input
+            type="range"
+            min="-259"
+            max="259"
+            value={hue}
+            onChange={(e) => setHue(parseInt(e.target.value))}
+          />
+        </div>
+        <div>
+          Saturation
+          <input
+            type="range"
+            min="-2"
+            max="10"
+            step="0.1"
+            value={saturation}
+            onChange={(e) => setSaturation(parseFloat(e.target.value))}
+          />
+        </div>
+        <div>
+          Value
+          <input
+            type="range"
+            min="-2"
+            max="2"
+            step="0.1"
+            value={value}
+            onChange={(e) => setValue(parseFloat(e.target.value))}
+          />
+        </div>
       </div>
     </>
   );
@@ -182,24 +178,44 @@ export default App;
             image: image,
             draggable: true,
             filters: [Konva.Filters.HSV],
-            hue: hsvValues.hue,
-            saturation: hsvValues.saturation,
-            value: hsvValues.value,
+            hue: hue,
+            saturation: saturation,
+            value: value,
           }"
         />
       </v-layer>
     </v-stage>
     <div style="position: absolute; top: 20px; left: 20px">
-      <div v-for="control in controls" :key="control.label" style="margin: 10px">
-        <label>{{ control.label }}: </label>
+      <div>
+        Hue
         <input
           type="range"
-          :min="control.min"
-          :max="control.max"
+          min="-259"
+          max="259"
+          :value="hue"
+          @input="(e) => hue = parseInt(e.target.value)"
+        />
+      </div>
+      <div>
+        Saturation
+        <input
+          type="range"
+          min="-2"
+          max="10"
           step="0.1"
-          :value="control.value"
-          @input="(e) => updateValue(control.prop, parseFloat(e.target.value))"
-          style="width: 200px"
+          :value="saturation"
+          @input="(e) => saturation = parseFloat(e.target.value)"
+        />
+      </div>
+      <div>
+        Value
+        <input
+          type="range"
+          min="-2"
+          max="2"
+          step="0.1"
+          :value="value"
+          @input="(e) => value = parseFloat(e.target.value)"
         />
       </div>
     </div>
@@ -207,7 +223,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useImage } from 'vue-konva';
 import Konva from 'konva';
 
@@ -216,24 +232,11 @@ const stageSize = {
   height: window.innerHeight,
 };
 
+const hue = ref(0);
+const saturation = ref(0);
+const value = ref(0);
 const imageNode = ref(null);
 const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
-
-const hsvValues = ref({
-  hue: 0,
-  saturation: 0,
-  value: 0,
-});
-
-const controls = computed(() => [
-  { label: 'Hue', prop: 'hue', min: -180, max: 180, value: hsvValues.value.hue },
-  { label: 'Saturation', prop: 'saturation', min: -2, max: 10, value: hsvValues.value.saturation },
-  { label: 'Value', prop: 'value', min: -2, max: 2, value: hsvValues.value.value },
-]);
-
-const updateValue = (prop, value) => {
-  hsvValues.value[prop] = value;
-};
 
 watch(image, async (newImage) => {
   if (newImage) {
@@ -243,5 +246,6 @@ watch(image, async (newImage) => {
 });
 </script>
 ```
-  </TabItem>
+
+</TabItem>
 </Tabs>

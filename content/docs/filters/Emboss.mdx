@@ -143,6 +143,23 @@ const App = () => {
 
   return (
     <>
+      
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Image
+            ref={imageRef}
+            x={50}
+            y={50}
+            image={image}
+            draggable
+            filters={[Konva.Filters.Emboss]}
+            embossStrength={strength}
+            embossWhiteLevel={whiteLevel}
+            embossDirection="top-left"
+            embossBlend={blend}
+          />
+        </Layer>
+      </Stage>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
         <div>
           <label>Strength: </label>
@@ -178,45 +195,18 @@ const App = () => {
           />
         </div>
       </div>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Image
-            ref={imageRef}
-            x={50}
-            y={50}
-            image={image}
-            draggable
-            filters={[Konva.Filters.Emboss]}
-            embossStrength={strength}
-            embossWhiteLevel={whiteLevel}
-            embossDirection="top-left"
-            embossBlend={blend}
-          />
-        </Layer>
-      </Stage>
     </>
   );
 };
+
+export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-      <div v-for="control in controls" :key="control.label" style="margin: 10px">
-        <label>{{ control.label }}: </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          :value="control.value"
-          @input="(e) => updateValue(control.prop, parseFloat(e.target.value))"
-          style="width: 200px"
-        />
-      </div>
-    </div>
+    
     <v-stage :config="stageSize">
       <v-layer>
         <v-image
@@ -235,6 +225,20 @@ const App = () => {
         />
       </v-layer>
     </v-stage>
+    <div :style="{ position: 'absolute', top: '20px', left: '20px' }">
+      <div v-for="control in controls" :key="control.label" :style="{ margin: '10px' }">
+        <label>{{ control.label }}: </label>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          :value="control.value"
+          @input="(e) => updateValue(control.prop, parseFloat(e.target.value))"
+          :style="{ width: '200px' }"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

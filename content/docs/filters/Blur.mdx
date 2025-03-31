@@ -86,7 +86,7 @@ const App = () => {
   const imageRef = useRef(null);
 
   useEffect(() => {
-    if (image) {
+    if (image && imageRef.current) {
       imageRef.current.cache();
     }
   }, [image]);
@@ -95,7 +95,15 @@ const App = () => {
     <>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Image ref={imageRef} image={image} filters={[Konva.Filters.Blur]} blurRadius={blurRadius} draggable />
+          <Image
+            ref={imageRef}
+            x={50}
+            y={50}
+            image={image}
+            draggable
+            filters={[Konva.Filters.Blur]}
+            blurRadius={blurRadius}
+          />
         </Layer>
       </Stage>
       <input
@@ -159,9 +167,7 @@ const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {
-    // wait for the next DOM update
     await nextTick();
-    // now the image component is fully updated
     imageNode.value.getNode().cache();
   }
 });
@@ -171,5 +177,5 @@ const handleSlider = (e) => {
 };
 </script>
 ```
-  </TabItem>
+</TabItem>
 </Tabs>

@@ -87,7 +87,7 @@ const App = () => {
   const imageRef = useRef(null);
 
   useEffect(() => {
-    if (image) {
+    if (image && imageRef.current) {
       imageRef.current.cache();
     }
   }, [image]);
@@ -170,9 +170,7 @@ const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {
-    // wait for the next DOM update
     await nextTick();
-    // now the image component is fully updated
     imageNode.value.getNode().cache();
   }
 });
@@ -182,5 +180,5 @@ const handleSlider = (e) => {
 };
 </script>
 ```
-  </TabItem>
+</TabItem>
 </Tabs>
