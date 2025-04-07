@@ -62,6 +62,7 @@ imageObj1.onload = () => {
 
   layer.add(monkey);
 };
+imageObj1.crossOrigin = 'Anonymous';
 imageObj1.src = 'https://konvajs.org/assets/monkey.png';
 
 const imageObj2 = new Image();
@@ -86,20 +87,21 @@ imageObj2.onload = () => {
   lion.cache();
   lion.drawHitFromCache();
 };
+imageObj2.crossOrigin = 'Anonymous';
 imageObj2.src = 'https://konvajs.org/assets/lion.png';
 ```
   </TabItem>
   <TabItem value="React">
 ```jsx live react
 import { Stage, Layer, Image, Text } from 'react-konva';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import useImage from 'use-image';
 
 const App = () => {
   const [message, setMessage] = useState('');
-  const monkeyRef = useRef();
   const lionRef = useRef();
-  const [monkeyImage] = useImage('https://konvajs.org/assets/monkey.png');
-  const [lionImage] = useImage('https://konvajs.org/assets/lion.png');
+  const [monkeyImage] = useImage('https://konvajs.org/assets/monkey.png', 'anonymous');
+  const [lionImage] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
   useEffect(() => {
     if (lionImage) {
@@ -107,13 +109,6 @@ const App = () => {
       lionRef.current.drawHitFromCache();
     }
   }, [lionImage]);
-
-  useEffect(() => {
-    if (monkeyImage) {
-      monkeyRef.current.cache();
-      monkeyRef.current.drawHitFromCache();
-    }
-  }, [monkeyImage]);
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -131,7 +126,6 @@ const App = () => {
             x={120}
             y={50}
             image={monkeyImage}
-            ref={monkeyRef}
             width={200}
             height={200}
             onMouseover={() => setMessage('mouseover monkey (regular image)')}
@@ -171,6 +165,7 @@ export default App;
         :config="monkeyConfig"
         @mouseover="handleMonkeyOver"
         @mouseout="handleMouseOut"
+        ref="monkeyRef"
       />
       <v-image
         v-if="lionImage"
@@ -184,12 +179,15 @@ export default App;
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, nextTick, watch } from 'vue';
+import { useImage } from 'vue-konva';
 
 const message = ref('');
-const monkeyImage = ref(null);
-const lionImage = ref(null);
 const lionRef = ref(null);
+const monkeyRef = ref(null);
+
+const [monkeyImage] = useImage('https://konvajs.org/assets/monkey.png', 'anonymous');
+const [lionImage] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 const stageSize = {
   width: window.innerWidth,
@@ -221,26 +219,14 @@ const lionConfig = computed(() => ({
   height: 200
 }));
 
-const loadImage = (src) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.src = src;
-  });
-};
-
-onMounted(async () => {
-  const [monkey, lion] = await Promise.all([
-    loadImage('/images/monkey.png'),
-    loadImage('/images/lion.png'),
-  ]);
-  monkeyImage.value = monkey;
-  lionImage.value = lion;
-  
-  // Wait for the next tick to ensure the image is rendered
+// watch for image loads to setup hit regions
+watch([lionImage, monkeyImage], () => {
+  console.log('watch', lionImage, monkeyImage);
   nextTick(() => {
     if (lionRef.value) {
-      lionRef.value.getNode().drawHitFromCache();
+      const node = lionRef.value.getNode();
+      node.cache();
+      node.drawHitFromCache();
     }
   });
 });
