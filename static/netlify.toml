@@ -6,3 +6,4 @@
   from = "/docs/svelte"
   to = "/docs/svelte/index.html"
   status = 301
+  force = true
