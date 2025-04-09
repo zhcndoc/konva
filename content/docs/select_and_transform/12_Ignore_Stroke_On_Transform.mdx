@@ -58,8 +58,8 @@ rect1.on('transformend', () => {
 rect1.scaleX(1);
 rect1.scaleY(1);
 // and increase width and height manually
-rect1.width(rect1.width() _ rect1.scaleX());
-rect1.height(rect1.height() _ rect1.scaleY());
+rect1.width(rect1.width() - rect1.scaleX());
+rect1.height(rect1.height() - rect1.scaleY());
 });
 
 // second way - disable stroke scaling
