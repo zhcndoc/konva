@@ -178,7 +178,7 @@ ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
       markdown += `| ---- | ---- | ----------- |\n`;
       docItem.params.forEach((param) => {
         const name = param.name.replace('config.', '');
-        const type = param.type ? param.type.names.join('|') : 'any';
+        const type = param.type ? param.type.names.join('\\|') : 'any';
         const description = param.description
           ? processDescription(param.description)
           : '';
