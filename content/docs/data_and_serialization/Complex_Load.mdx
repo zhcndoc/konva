@@ -36,28 +36,54 @@ hexagon.on('click', () => {
 ```
   </TabItem>
   <TabItem value="React">
+**Note:** Using `Konva.Node.create()` directly in React is an anti-pattern. In React applications, we should manage state separately from the view. Instead of deserializing entire node structures, we should load the data that defines our shapes and let React components handle the rendering. The example below demonstrates how to load shape data as state in React:
+
 ```js live react
 import { Stage, Layer, RegularPolygon } from 'react-konva';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Konva from 'konva';
 
 const App = () => {
-  const [color, setColor] = useState('red');
-
+  const [shapeData, setShapeData] = useState(null);
+  
+  useEffect(() => {
+    // Simulating loading JSON data from storage or API
+    const loadData = () => {
+      // This would typically come from localStorage, API, etc.
+      const jsonString = '{"hexagon":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4}}';
+      
+      try {
+        // Parse the JSON into a JavaScript object
+        const data = JSON.parse(jsonString);
+        setShapeData(data);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
+    };
+    
+    loadData();
+  }, []);
+  
   const handleClick = () => {
-    setColor(Konva.Util.getRandomColor());
+    if (shapeData) {
+      setShapeData({
+        ...shapeData,
+        hexagon: {
+          ...shapeData.hexagon,
+          fill: Konva.Util.getRandomColor()
+        }
+      });
+    }
   };
-
+  
+  // Don't render until we have data
+  if (!shapeData) return <div>Loading...</div>;
+  
   return (
     <Stage width={578} height={200}>
       <Layer>
         <RegularPolygon
-          x={100}
-          y={100}
-          sides={6}
-          radius={70}
-          fill={color}
-          stroke="black"
-          strokeWidth={4}
+          {...shapeData.hexagon}
           onClick={handleClick}
         />
       </Layer>
@@ -69,20 +95,25 @@ export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
+**Note:** Using `Konva.Node.create()` directly in Vue is an anti-pattern. In Vue applications, we should manage state with reactive data separately from the view. Instead of deserializing entire node structures, we should load the data that defines our shapes and let Vue components handle the rendering. The example below demonstrates how to load shape data as reactive state in Vue:
+
 ```js live vue
 <template>
-  <v-stage :config="stageSize">
-    <v-layer>
-      <v-regular-polygon
-        :config="hexagonConfig"
-        @click="handleClick"
-      />
-    </v-layer>
-  </v-stage>
+  <div>
+    <v-stage :config="stageSize" v-if="shapeData">
+      <v-layer>
+        <v-regular-polygon
+          :config="shapeData.hexagon"
+          @click="handleClick"
+        />
+      </v-layer>
+    </v-stage>
+    <div v-else>Loading...</div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Konva from 'konva';
 
 const stageSize = {
@@ -90,21 +121,36 @@ const stageSize = {
   height: 200
 };
 
-const hexagonConfig = ref({
-  x: 100,
-  y: 100,
-  sides: 6,
-  radius: 70,
-  fill: 'red',
-  stroke: 'black',
-  strokeWidth: 4
+const shapeData = ref(null);
+
+onMounted(() => {
+  // Simulating loading JSON data from storage or API
+  const loadData = () => {
+    // This would typically come from localStorage, API, etc.
+    const jsonString = '{"hexagon":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4}}';
+    
+    try {
+      // Parse the JSON into a JavaScript object
+      const data = JSON.parse(jsonString);
+      shapeData.value = data;
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+    }
+  };
+  
+  loadData();
 });
 
 const handleClick = () => {
-  hexagonConfig.value = {
-    ...hexagonConfig.value,
-    fill: Konva.Util.getRandomColor()
-  };
+  if (shapeData.value) {
+    shapeData.value = {
+      ...shapeData.value,
+      hexagon: {
+        ...shapeData.value.hexagon,
+        fill: Konva.Util.getRandomColor()
+      }
+    };
+  }
 };
 </script>
 ```

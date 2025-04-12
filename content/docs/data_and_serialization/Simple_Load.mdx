@@ -30,28 +30,55 @@ circle.on('click', () => {
 ```
   </TabItem>
   <TabItem value="React">
+**Note:** Using `Konva.Node.create()` directly in React or Vue is an anti-pattern. In these frameworks, we should manage state (data) separately from the view (components). Instead of serializing and loading entire node structures, we should save and load the data that defines our shapes, then let the framework components handle rendering. This approach is more aligned with React and Vue's declarative, state-driven patterns and provides better control over component lifecycle and events.
+
 ```js live react
 import { Stage, Layer, Circle } from 'react-konva';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Konva from 'konva';
 
 const App = () => {
-  const [color, setColor] = useState('red');
-
-  const handleClick = () => {
-    setColor(Konva.Util.getRandomColor());
+  // In React, we store shape data as state instead of using Konva.Node.create()
+  const [shapeData, setShapeData] = useState(null);
+  
+  useEffect(() => {
+    // Simulating loading JSON data from storage or API
+    const savedShapeData = {
+      circle: {
+        x: 100,
+        y: 100,
+        radius: 50,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 3
+      },
+      // We could have more shapes here
+    };
+    
+    // In a real app, this might be:
+    // fetch('/api/shapes').then(response => response.json()).then(setShapeData)
+    setShapeData(savedShapeData);
+  }, []);
+  
+  const handleCircleClick = () => {
+    setShapeData({
+      ...shapeData,
+      circle: {
+        ...shapeData.circle,
+        fill: Konva.Util.getRandomColor()
+      }
+    });
   };
-
+  
+  // Don't render until we have data
+  if (!shapeData) return <div>Loading...</div>;
+  
   return (
     <Stage width={400} height={400}>
       <Layer>
         <Circle
-          x={100}
-          y={100}
-          radius={50}
-          fill={color}
-          stroke="black"
-          strokeWidth={3}
-          onClick={handleClick}
+          {...shapeData.circle}
+          onClick={handleCircleClick}
         />
       </Layer>
     </Stage>
@@ -62,20 +89,23 @@ export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
+**Note:** Using `Konva.Node.create()` directly in React or Vue is an anti-pattern. In these frameworks, we should manage state (data) separately from the view (components). Instead of serializing and loading entire node structures, we should save and load the data that defines our shapes, then let the framework components handle rendering. This approach is more aligned with React and Vue's declarative, state-driven patterns and provides better control over component lifecycle and events.
+
 ```js live vue
 <template>
-  <v-stage :config="stageSize">
+  <v-stage :config="stageSize" v-if="shapeData">
     <v-layer>
       <v-circle
-        :config="circleConfig"
-        @click="handleClick"
+        :config="shapeData.circle"
+        @click="handleCircleClick"
       />
     </v-layer>
   </v-stage>
+  <div v-else>Loading...</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Konva from 'konva';
 
 const stageSize = {
@@ -83,20 +113,38 @@ const stageSize = {
   height: 400
 };
 
-const circleConfig = ref({
-  x: 100,
-  y: 100,
-  radius: 50,
-  fill: 'red',
-  stroke: 'black',
-  strokeWidth: 3
+// In Vue, we store shape data as reactive state
+const shapeData = ref(null);
+
+onMounted(() => {
+  // Simulating loading JSON data from storage or API
+  const savedShapeData = {
+    circle: {
+      x: 100,
+      y: 100,
+      radius: 50,
+      fill: 'red',
+      stroke: 'black',
+      strokeWidth: 3
+    }
+    // We could have more shapes here
+  };
+  
+  // In a real app, this might be:
+  // fetch('/api/shapes').then(response => response.json()).then(data => shapeData.value = data)
+  shapeData.value = savedShapeData;
 });
 
-const handleClick = () => {
-  circleConfig.value = {
-    ...circleConfig.value,
-    fill: Konva.Util.getRandomColor()
-  };
+const handleCircleClick = () => {
+  if (shapeData.value) {
+    shapeData.value = {
+      ...shapeData.value,
+      circle: {
+        ...shapeData.value.circle,
+        fill: Konva.Util.getRandomColor()
+      }
+    };
+  }
 };
 </script>
 ```
