@@ -17,7 +17,30 @@ This is particularly useful for:
 
 To cache a shape, simply call the `cache()` method. You can clear the cache with `clearCache()`.
 
+## How caching works?
+
+When you call the `cache()` method on a shape, Konva:
+1. Creates an internal canvas buffer
+2. Draws the shape onto this buffer
+3. Stores this buffer for future use
+
+After caching, instead of redrawing the shape every time it needs to be displayed, Konva simply uses the cached version from the buffer. This is much faster than redrawing the shape repeatedly.
+
+## Guidelines
+
+1. Don't cache simple shapes without filters. It may be faster to render it dirrectly, then from cached version.
+2. Every cached node creates several canvas buffers. So don't overuse it, as it will consume a lot of memory.
+3. It is better to cache groups of shapes, then to cache each shape individually.
+4. Remember to always measure performance with and without caching to see the actual difference.
+
+
 Below is a demo showing the performance difference between cached and non-cached complex shapes:
+
+**Instructions:**
+- Click anywhere on the stage to add 1000 more circles
+- Toggle the checkbox to enable/disable caching
+- Watch the FPS counter to see the performance difference
+- The group of circles rotates continuously
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -36,51 +59,40 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create a complex shape (star with blur filter)
-const createComplexShape = (x, isCached) => {
-  const star = new Konva.Star({
-    x: x,
-    y: 100,
-    numPoints: 20,
-    innerRadius: 40,
-    outerRadius: 70,
-    fill: 'yellow',
-    stroke: 'black',
-    strokeWidth: 4,
-  });
+// Create a group of circles
+const group = new Konva.Group({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+});
+layer.add(group);
 
-  // Add blur filter
-  star.filters([Konva.Filters.Blur]);
-  star.blurRadius(5);
+// Add initial circles
+const addCircles = (count) => {
+  const radius = 300;
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * radius;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
 
-  // Cache the shape if specified
-  if (isCached) {
-    star.cache();
+    const circle = new Konva.Circle({
+      x,
+      y,
+      radius: 5 + Math.random() * 10,
+      fill: Konva.Util.getRandomColor(),
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOpacity: 0.5,
+      shadowOffset: { x: 2, y: 2 },
+      listening: false,
+    });
+
+    group.add(circle);
   }
-
-  return star;
 };
 
-// Create non-cached shape
-const nonCachedStar = createComplexShape(100, false);
-
-// Create cached shape
-const cachedStar = createComplexShape(250, true);
-
-// Add labels
-const nonCachedLabel = new Konva.Text({
-  x: 50,
-  y: 200,
-  text: 'Non-Cached Shape',
-  fontSize: 16,
-});
-
-const cachedLabel = new Konva.Text({
-  x: 200,
-  y: 200,
-  text: 'Cached Shape\n(Better Performance)',
-  fontSize: 16,
-});
+// Add initial circles
+addCircles(5000);
 
 // Add FPS counter
 const fpsText = new Konva.Text({
@@ -88,116 +100,208 @@ const fpsText = new Konva.Text({
   y: 10,
   text: 'FPS: 0',
   fontSize: 16,
+  fill: 'white',
+  shadowColor: 'black',
+  shadowBlur: 5,
+  shadowOffset: { x: 1, y: 1 }
 });
-
-layer.add(nonCachedStar);
-layer.add(cachedStar);
-layer.add(nonCachedLabel);
-layer.add(cachedLabel);
 layer.add(fpsText);
 
-// Create animation to demonstrate performance
+// Add circle count text
+const countText = new Konva.Text({
+  x: 10,
+  y: 40,
+  text: 'Circles: 1000',
+  fontSize: 16,
+  fill: 'white',
+  shadowColor: 'black',
+  shadowBlur: 5,
+  shadowOffset: { x: 1, y: 1 }
+});
+layer.add(countText);
+
+// Create animation
 const anim = new Konva.Animation((frame) => {
-  nonCachedStar.rotation(frame.time * 0.1);
-  cachedStar.rotation(frame.time * 0.1);
+  group.rotation(frame.time * 0.05);
   
   // Update FPS counter
   fpsText.text('FPS: ' + frame.frameRate.toFixed(1));
 }, layer);
+
+// Add click handler to add more circles
+stage.on('click', () => {
+  addCircles(1000);
+  countText.text('Circles: ' + group.children.length);
+});
+
+// Add DOM checkbox
+const container = stage.container();
+const checkbox = document.createElement('input');
+checkbox.type = 'checkbox';
+checkbox.id = 'cache-toggle';
+checkbox.style.position = 'absolute';
+checkbox.style.top = '70px';
+checkbox.style.left = '10px';
+checkbox.style.zIndex = '100';
+container.appendChild(checkbox);
+
+const label = document.createElement('label');
+label.htmlFor = 'cache-toggle';
+label.textContent = 'Enable Caching';
+label.style.position = 'absolute';
+label.style.top = '70px';
+label.style.left = '30px';
+label.style.color = 'white';
+label.style.textShadow = '0 0 5px black';
+label.style.zIndex = '100';
+container.appendChild(label);
+
+// Toggle caching
+checkbox.addEventListener('change', () => {
+  if (checkbox.checked) {
+    group.cache();
+  } else {
+    group.clearCache();
+  }
+});
 
 anim.start();
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { Stage, Layer, Star, Text } from 'react-konva';
-import { useEffect, useRef } from 'react';
+import { Stage, Layer, Circle, Text, Group } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+import Konva from 'konva';
 
 const App = () => {
-  const nonCachedStarRef = useRef(null);
-  const cachedStarRef = useRef(null);
+  const [circles, setCircles] = useState([]);
+  const [isCached, setIsCached] = useState(false);
   const fpsTextRef = useRef(null);
+  const groupRef = useRef(null);
 
   useEffect(() => {
-    // Add blur filter and cache to the cached star
-    if (cachedStarRef.current) {
-      cachedStarRef.current.cache();
-      cachedStarRef.current.filters([Konva.Filters.Blur]);
-      cachedStarRef.current.blurRadius(5);
-    }
+    // Add initial circles
+    addCircles(5000);
 
-    // Add blur filter to non-cached star
-    if (nonCachedStarRef.current) {
-      nonCachedStarRef.current.filters([Konva.Filters.Blur]);
-      nonCachedStarRef.current.blurRadius(5);
-    }
-
+    // Setup animation
     const anim = new Konva.Animation((frame) => {
-      // Rotate stars
-      nonCachedStarRef.current.rotation(frame.time * 0.1);
-      cachedStarRef.current.rotation(frame.time * 0.1);
+      if (groupRef.current) {
+        groupRef.current.rotation(frame.time * 0.05);
+      }
       
       // Update FPS counter
       fpsTextRef.current.text('FPS: ' + frame.frameRate.toFixed(1));
-    }, nonCachedStarRef.current.getLayer());
+    }, fpsTextRef.current.getLayer());
 
     anim.start();
     return () => anim.stop();
   }, []);
 
+  // Toggle caching
+  useEffect(() => {
+    if (groupRef.current) {
+      if (isCached) {
+        groupRef.current.cache();
+      } else {
+        groupRef.current.clearCache();
+      }
+    }
+  }, [isCached]);
+
+  // Add circles
+  const addCircles = (count) => {
+    const newCircles = [];
+    const radius = 300;
+
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * radius;
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      newCircles.push({
+        id: circles.length + i,
+        x,
+        y,
+        radius: 5 + Math.random() * 10,
+        fill: Konva.Util.getRandomColor(),
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOpacity: 0.5,
+        shadowOffset: { x: 2, y: 2 },
+        listening: false
+      });
+    }
+
+    setCircles(prev => [...prev, ...newCircles]);
+  };
+
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
-      <Layer>
-        {/* Non-cached complex shape */}
-        <Star
-          ref={nonCachedStarRef}
-          x={100}
-          y={100}
-          numPoints={20}
-          innerRadius={40}
-          outerRadius={70}
-          fill="yellow"
-          stroke="black"
-          strokeWidth={4}
+    <>
+      <Stage 
+        width={window.innerWidth} 
+        height={window.innerHeight}
+        onClick={() => addCircles(1000)}
+      >
+        <Layer>
+          <Group
+            ref={groupRef}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+          >
+            {circles.map((circle) => (
+              <Circle
+                key={circle.id}
+                {...circle}
+              />
+            ))}
+          </Group>
+
+          <Text
+            ref={fpsTextRef}
+            x={10}
+            y={10}
+            text="FPS: 0"
+            fontSize={16}
+            fill="white"
+            shadowColor="black"
+            shadowBlur={5}
+            shadowOffset={{ x: 1, y: 1 }}
+          />
+
+          <Text
+            x={10}
+            y={40}
+            text={`Circles: ${circles.length}`}
+            fontSize={16}
+            fill="white"
+            shadowColor="black"
+            shadowBlur={5}
+            shadowOffset={{ x: 1, y: 1 }}
+          />
+        </Layer>
+      </Stage>
+
+      <div style={{ position: 'absolute', top: '70px', left: '10px', zIndex: 100 }}>
+        <input
+          type="checkbox"
+          id="cache-toggle"
+          checked={isCached}
+          onChange={(e) => setIsCached(e.target.checked)}
         />
-        
-        {/* Cached complex shape */}
-        <Star
-          ref={cachedStarRef}
-          x={250}
-          y={100}
-          numPoints={20}
-          innerRadius={40}
-          outerRadius={70}
-          fill="yellow"
-          stroke="black"
-          strokeWidth={4}
-        />
-        
-        {/* Labels */}
-        <Text
-          x={50}
-          y={200}
-          text="Non-Cached Shape"
-          fontSize={16}
-        />
-        <Text
-          x={200}
-          y={200}
-          text="Cached Shape\n(Better Performance)"
-          fontSize={16}
-        />
-        
-        {/* FPS counter */}
-        <Text
-          ref={fpsTextRef}
-          x={10}
-          y={10}
-          text="FPS: 0"
-          fontSize={16}
-        />
-      </Layer>
-    </Stage>
+        <label
+          htmlFor="cache-toggle"
+          style={{
+            color: 'white',
+            textShadow: '0 0 5px black',
+            marginLeft: '10px'
+          }}
+        >
+          Enable Caching
+        </label>
+      </div>
+    </>
   );
 };
 
@@ -207,35 +311,61 @@ export default App;
   <TabItem value="Vue">
 ```js live vue
 <template>
-  <v-stage :config="stageSize">
+  <v-stage 
+    :config="stageSize"
+    @click="addCircles(1000)"
+  >
     <v-layer ref="layerRef">
-      <!-- Non-cached complex shape -->
-      <v-star
-        ref="nonCachedStarRef"
-        :config="starConfig"
-      />
-      
-      <!-- Cached complex shape -->
-      <v-star
-        ref="cachedStarRef"
-        :config="{ ...starConfig, x: 250 }"
-      />
-      
-      <!-- Labels -->
-      <v-text :config="nonCachedLabelConfig" />
-      <v-text :config="cachedLabelConfig" />
-      
-      <!-- FPS counter -->
+      <v-group
+        ref="groupRef"
+        :config="{
+          x: stageSize.width / 2,
+          y: stageSize.height / 2
+        }"
+      >
+        <v-circle
+          v-for="circle in circles"
+          :key="circle.id"
+          :config="circle"
+        />
+      </v-group>
+
       <v-text
         ref="fpsTextRef"
         :config="fpsConfig"
       />
+
+      <v-text
+        :config="{
+          x: 10,
+          y: 40,
+          text: `Circles: ${circles.length}`,
+          fontSize: 16,
+          fill: 'white',
+          shadowColor: 'black',
+          shadowBlur: 5,
+          shadowOffset: { x: 1, y: 1 }
+        }"
+      />
     </v-layer>
   </v-stage>
+    <div style="position: absolute; top: 70px; left: 10px; z-index: 100">
+      <input
+        type="checkbox"
+        id="cache-toggle"
+        v-model="isCached"
+      />
+      <label
+        for="cache-toggle"
+        style="color: white; text-shadow: 0 0 5px black; margin-left: 10px"
+      >
+        Enable Caching
+      </label>
+    </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import Konva from 'konva';
 
 const stageSize = {
@@ -243,60 +373,73 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const starConfig = {
-  x: 100,
-  y: 100,
-  numPoints: 20,
-  innerRadius: 40,
-  outerRadius: 70,
-  fill: 'yellow',
-  stroke: 'black',
-  strokeWidth: 4
+const isCached = ref(false);
+const layerRef = ref(null);
+const fpsTextRef = ref(null);
+const groupRef = ref(null);
+const circles = ref([]);
+
+// Add circles
+const addCircles = (count) => {
+  console.log('addCircles', count);
+  const radius = 300;
+  const newCircles = [];
+
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * radius;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    newCircles.push({
+      id: (circles.value.length + i).toString(),
+      x,
+      y,
+      radius: 5 + Math.random() * 10,
+      fill: Konva.Util.getRandomColor(),
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOpacity: 0.5,
+      shadowOffset: { x: 2, y: 2 },
+      listening: false
+    });
+  }
+
+  circles.value = [...circles.value, ...newCircles];
 };
 
-const nonCachedLabelConfig = {
-  x: 50,
-  y: 200,
-  text: 'Non-Cached Shape',
-  fontSize: 16
-};
-
-const cachedLabelConfig = {
-  x: 200,
-  y: 200,
-  text: 'Cached Shape\n(Better Performance)',
-  fontSize: 16
-};
+// Toggle caching
+watch(isCached, (value) => {
+  if (groupRef.value) {
+    if (value) {
+      groupRef.value.getNode().cache();
+    } else {
+      groupRef.value.getNode().clearCache();
+    }
+  }
+});
 
 const fpsConfig = ref({
   x: 10,
   y: 10,
   text: 'FPS: 0',
-  fontSize: 16
+  fontSize: 16,
+  fill: 'white',
+  shadowColor: 'black',
+  shadowBlur: 5,
+  shadowOffset: { x: 1, y: 1 }
 });
 
-const layerRef = ref(null);
-const nonCachedStarRef = ref(null);
-const cachedStarRef = ref(null);
-const fpsTextRef = ref(null);
 let anim = null;
 
 onMounted(() => {
-  // Add blur filter and cache to the cached star
-  const cachedStar = cachedStarRef.value.getNode();
-  cachedStar.cache();
-  cachedStar.filters([Konva.Filters.Blur]);
-  cachedStar.blurRadius(5);
-
-  // Add blur filter to non-cached star
-  const nonCachedStar = nonCachedStarRef.value.getNode();
-  nonCachedStar.filters([Konva.Filters.Blur]);
-  nonCachedStar.blurRadius(5);
+  // Add initial circles
+  addCircles(5000);
 
   anim = new Konva.Animation((frame) => {
-    // Rotate stars
-    nonCachedStar.rotation(frame.time * 0.1);
-    cachedStar.rotation(frame.time * 0.1);
+    if (groupRef.value) {
+      groupRef.value.getNode().rotation(frame.time * 0.05);
+    }
     
     // Update FPS counter
     fpsTextRef.value.getNode().text('FPS: ' + frame.frameRate.toFixed(1));
