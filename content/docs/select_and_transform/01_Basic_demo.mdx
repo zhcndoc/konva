@@ -326,17 +326,18 @@ const App = () => {
 
   const handleDragEnd = (e) => {
     const id = e.target.id();
-    const index = rectangles.findIndex(r => r.id === id);
-    
-    if (index !== -1) {
-      const rects = [...rectangles];
-      rects[index] = {
-        ...rects[index],
-        x: e.target.x(),
-        y: e.target.y(),
-      };
-      setRectangles(rects);
-    }
+    setRectangles(prevRects => {
+      const newRects = [...prevRects];
+      const index = newRects.findIndex(r => r.id === id);
+      if (index !== -1) {
+        newRects[index] = {
+          ...newRects[index],
+          x: e.target.x(),
+          y: e.target.y()
+        };
+      }
+      return newRects;
+    });
   };
 
   const handleTransformEnd = (e) => {
