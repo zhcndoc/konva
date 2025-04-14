@@ -10,6 +10,15 @@ To apply filter to an `Konva.Image`, we have to cache it first with `cache()` fu
 To mask the colors of an image with Konva, we can use the
 `Konva.Filters.Mask` filter.
 
+The `Konva.Filters.Mask` filter attempts to remove the background from an image. It works by:
+1. Sampling the color of the four corners of the image.
+2. If the corner colors are similar (within the `threshold`), it assumes this color represents the background.
+3. It then creates a mask where pixels similar to the identified background color become transparent, and other pixels remain opaque.
+4. This mask is refined using image processing techniques (like erosion and dilation) to remove noise and smooth edges.
+5. Finally, the refined mask is applied to the image's alpha channel.
+
+The `threshold` property (ranging from 0 to 255) controls how similar a pixel's color must be to the background color to be masked out. A lower threshold means only colors very close to the background will be removed, while a higher threshold will remove a wider range of colors.
+
 **Instructions**: Slide the control to adjust the mask threshold.
 
 For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
@@ -63,7 +72,7 @@ imageObj.onload = () => {
 
   document.body.appendChild(slider);
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/space.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -75,7 +84,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const [threshold, setThreshold] = useState(10);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/space.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -156,7 +165,7 @@ const stageSize = {
 
 const threshold = ref(10);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/space.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {
