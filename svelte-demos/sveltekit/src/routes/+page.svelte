@@ -5,9 +5,9 @@
 	import type KonvaCanvas from "$lib/canvas/KonvaCanvas.svelte";
 	import { onMount } from "svelte";
 
-	let count = 10;
+	let count = $state(10);
 
-	let MyCanvas: typeof KonvaCanvas;
+	let MyCanvas: typeof KonvaCanvas | undefined = $state();
 
 	onMount(async () => {
 		// Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
@@ -41,8 +41,10 @@
 
 	<Counter bind:count />
 
-	<!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block -->
-	<svelte:component this={MyCanvas} starCount={count} />
+	<!-- Use your dynamically imported svelte-konva canvas component once it becomes defined -->
+	{#if MyCanvas}
+		<MyCanvas starCount={count} />
+	{/if}
 </section>
 
 <style>

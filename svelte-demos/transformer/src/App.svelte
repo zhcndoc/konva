@@ -2,7 +2,7 @@
     import { Stage, Layer, Rect, Transformer } from "svelte-konva";
     import Konva from "konva";
 
-    const rectangles = [
+    const rectangles = $state([
         {
             rotation: 0,
             x: 10,
@@ -27,15 +27,15 @@
             name: "rect2",
             draggable: true,
         },
-    ];
+    ]);
 
     let transformer;
     let selectedShapeName = "";
 
     function handleStageMouseDown(e) {
-        const konvaEvent = e.detail;
+        const target = e.target;
         // clicked on stage - clear selection
-        if (konvaEvent.target === konvaEvent.target.getStage()) {
+        if (target === target.getStage()) {
             selectedShapeName = "";
             updateTransformer();
             return;
@@ -43,13 +43,13 @@
 
         // clicked on transformer - do nothing
         const clickedOnTransformer =
-            konvaEvent.target.getParent().className === "Transformer";
+            target.getParent().className === "Transformer";
         if (clickedOnTransformer) {
             return;
         }
 
         // find clicked rect by its name
-        const name = konvaEvent.target.name();
+        const name = target.name();
         const rect = rectangles.find((r) => r.name === name);
         if (rect) {
             selectedShapeName = name;
@@ -72,34 +72,35 @@
         if (!transformer) return;
 
         // here we need to manually attach or detach Transformer node
-        const stage = transformer.getStage();
+        const stage = transformer.handle.getStage();
 
         const selectedNode = stage.findOne("." + selectedShapeName);
 
         // do nothing if selected node is already attached
-        if (selectedNode === transformer.node()) {
+        if (selectedNode === transformer.handle.node()) {
             return;
         }
 
         if (selectedNode) {
             // attach to another node
-            transformer.nodes([selectedNode]);
+            transformer.handle.nodes([selectedNode]);
         } else {
             // remove transformer
-            transformer.nodes([]);
+            transformer.handle.nodes([]);
         }
     }
 </script>
 
 <Stage
-    config={{ width: window.innerWidth, height: window.innerHeight }}
-    on:mousedown={handleStageMouseDown}
-    on:touchstart={handleStageMouseDown}
+    width={window.innerWidth}
+    height={window.innerHeight}
+    onmousedown={handleStageMouseDown}
+    ontouchstart={handleStageMouseDown}
 >
     <Layer>
         {#each rectangles as rectangle}
-            <Rect config={rectangle} on:transformend={handleTransformEnd} />
+            <Rect {...rectangle} ontransformend={handleTransformEnd} />
         {/each}
-        <Transformer bind:handle={transformer} />
+        <Transformer bind:this={transformer} />
     </Layer>
 </Stage>

@@ -5,15 +5,14 @@
     const LOCALSTORAGE_KEY = "storage";
     const DEFAULT_DATA = { x: 100, y: 100, radius: 50, fill: "blue" };
 
-    let list = [{ ...DEFAULT_DATA }];
+    let list = $state([{ ...DEFAULT_DATA }]);
 
     onMount(() => {
         load();
     });
 
     function handleClick(e) {
-        const konvaEvent = e.detail;
-        const stage = konvaEvent.target.getStage();
+        const stage = e.target.getStage();
 
         const pos = stage.getPointerPosition();
 
@@ -22,8 +21,6 @@
             fill: "red",
             ...pos,
         });
-
-        list = list; // Trigger Svelte reactivity
 
         save();
     }
@@ -45,17 +42,14 @@
 
 <div>
     <Stage
-        config={{
-            width: window.innerWidth,
-            height: window.innerHeight,
-            draggable: false,
-        }}
-        on:click={handleClick}
-        on:tap={handleClick}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onclick={handleClick}
+        ontap={handleClick}
     >
         <Layer>
             {#each list as config}
-                <Circle {config} />
+                <Circle {...config} />
             {/each}
         </Layer>
     </Stage>
@@ -63,7 +57,7 @@
     <div class="reload">
         Click on canvas to create a cirlce.
         <a href=".">Reload the page</a>. Circles should stay here.
-        <button on:click={clear}>clear saved data</button>
+        <button onclick={clear}>clear saved data</button>
     </div>
 </div>
 

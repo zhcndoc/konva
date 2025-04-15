@@ -1,7 +1,7 @@
 <script>
     import { Stage, Layer, Text, Circle } from "svelte-konva";
 
-    // Will be holding the Konva node reference of the circle
+    // Will be holding the svelte-konva component reference of the circle
     let circle;
 
     function pulseShape(shape) {
@@ -19,43 +19,36 @@
     }
 
     function handleStageClick() {
-        // this event demonstrates how to access the Konva node by binding the handle prop
-        pulseShape(circle);
+        // Now access the konva node using the handle property
+        pulseShape(circle.handle);
     }
 
     function handleCircleClick(e) {
-        // another way to access Konva nodes is to just use the event payload
-        pulseShape(e.detail.target);
+        // another way to access Konva nodes is to just use the event target
+        pulseShape(e.target);
         // prevent bubbling of the click event to the stage
-        e.detail.cancelBubble = true;
+        e.cancelBubble = true;
     }
 </script>
 
 <Stage
-    config={{ width: window.innerWidth, height: window.innerHeight }}
-    on:click={handleStageClick}
-    on:tap={handleStageClick}
+    width={window.innerWidth}
+    height={window.innerHeight}
+    onclick={handleStageClick}
+    ontap={handleStageClick}
 >
     <Layer>
-        <Text
-            config={{
-                x: 10,
-                y: 10,
-                text: "Click on any place to see an animation",
-            }}
-        />
+        <Text x={10} y={10} text="Click on any place to see an animation" />
 
         <Circle
-            config={{
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
-                radius: 80,
-                fill: "red",
-            }}
-            on:click={handleCircleClick}
-            on:tap={handleCircleClick}
-            on:dblclick={handleCircleClick}
-            bind:handle={circle}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            radius={80}
+            fill="red"
+            onclick={handleCircleClick}
+            ontap={handleCircleClick}
+            ondblclick={handleCircleClick}
+            bind:this={circle}
         />
     </Layer>
 </Stage>

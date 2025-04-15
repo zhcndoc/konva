@@ -1,8 +1,9 @@
 <script>
-    import { onMount, tick } from "svelte";
+    import { onMount } from "svelte";
     import { Stage, Layer, Image } from "svelte-konva";
 
-    let image = null;
+    let image = $state(null);
+
     onMount(() => {
         const img = document.createElement("img");
         img.src = "https://konvajs.org/assets/yoda.jpg";
@@ -12,8 +13,8 @@
     });
 </script>
 
-<Stage config={{ width: 1000, height: 1000 }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
-        <Image config={{ image }} />
+        <Image {image} />
     </Layer>
 </Stage>

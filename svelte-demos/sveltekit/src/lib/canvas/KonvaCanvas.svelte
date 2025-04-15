@@ -6,7 +6,6 @@
 
     export let starCount: number;
 
-    let stage: Konva.Stage;
     let container: HTMLDivElement;
 
     let list: Array<Partial<Konva.StarConfig>> = [];
@@ -52,13 +51,13 @@
 
     let handleDragStart = (e: KonvaDragTransformEvent) => {
         // save drag element:
-        dragItemId = e.detail.target.id();
+        dragItemId = e.target.id();
         // move current element to the top:
         const item = list.find((i) => i.id === dragItemId);
 
         if (!item) return;
 
-        item.handle.moveToTop();
+        item.component.handle.moveToTop();
     };
 
     let handleDragEnd = (e: KonvaDragTransformEvent) => {
@@ -66,44 +65,41 @@
         if (!item) {
             return;
         }
-        item.x = e.detail.target.x();
-        item.y = e.detail.target.y();
+        item.x = e.target.x();
+        item.y = e.target.y();
         dragItemId = null;
     };
 </script>
 
-<ResponsiveStage bind:handle={stage} bind:container bind:width bind:height>
+<ResponsiveStage bind:container bind:width bind:height>
     <Layer>
         {#each list as item (item.id)}
             <Star
-                config={{
-                    x: item.x,
-                    y: item.y,
-                    rotation: item.rotation,
-                    id: item.id,
-                    numPoints: 5,
-                    innerRadius: 30,
-                    outerRadius: 50,
-                    fill: Konva.Util.getRandomColor(),
-                    opacity: 0.8,
-                    draggable: true,
-                    scaleX:
-                        dragItemId === item.id
-                            ? item.scale?.x ?? 1 * 1.2
-                            : item.scale?.x,
-                    scaleY:
-                        dragItemId === item.id
-                            ? item.scale?.y ?? 1 * 1.2
-                            : item.scale?.y,
-                    shadowColor: "black",
-                    shadowBlur: 10,
-                    shadowOffsetX: dragItemId === item.id ? 15 : 5,
-                    shadowOffsetY: dragItemId === item.id ? 15 : 5,
-                    shadowOpacity: 0.6,
-                }}
-                bind:handle={item.handle}
-                on:dragstart={handleDragStart}
-                on:dragend={handleDragEnd}
+                x={item.x}
+                y={item.y}
+                rotation={item.rotation}
+                id={item.id}
+                numPoints={5}
+                innerRadius={30}
+                outerRadius={50}
+                fill={Konva.Util.getRandomColor()}
+                opacity={0.8}
+                draggable
+                scaleX={dragItemId === item.id
+                    ? (item.scale?.x ?? 1 * 1.2)
+                    : item.scale?.x}
+                scaleY={dragItemId === item.id
+                    ? (item.scale?.y ?? 1 * 1.2)
+                    : item.scale?.y}
+                shadowColor="black"
+                ,
+                shadowBlur={10}
+                shadowOffsetX={dragItemId === item.id ? 15 : 5}
+                shadowOffsetY={dragItemId === item.id ? 15 : 5}
+                shadowOpacity={0.6}
+                ondragstart={handleDragStart}
+                ondragend={handleDragEnd}
+                bind:this={item.component}
             />
         {/each}
     </Layer>
