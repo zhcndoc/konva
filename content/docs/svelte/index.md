@@ -32,21 +32,11 @@ npm i svelte-konva konva
   import { Stage, Layer, Rect } from 'svelte-konva';
 </script>
 
-<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
   <Layer>
-    <Rect config={{ x: 100, y: 100, width: 400, height: 200, fill: 'blue' }} />
+    <Rect x={100} y={100} width={400} height={200} fill="blue" />
   </Layer>
 </Stage>
 ```
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/basic_demo?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/basic_demo?file=/src/App.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

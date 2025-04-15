@@ -27,7 +27,7 @@ A better approach is to dynamically import your svelte-konva canvas on the clien
 
 _MyCanvas.svelte_
 
-```js
+```html
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
   import OtherComponentUsingSvelteKonva from './OtherComponentUsingSvelteKonva.svelte';
@@ -37,28 +37,28 @@ _MyCanvas.svelte_
   };
 </script>
 
-<Stage config={{ width: 1000, height: 1000 }}>
+<Stage width={1000} height={1000}>
   <Layer>
-    <Rect bind:config={rectangleConfig} />
+    <Rect {...rectangleConfig} />
 
     <OtherComponentUsingSvelteKonva />
   </Layer>
 </Stage>
 ```
 
-To use this component inside a SvelteKit prerendered/SSR page you can dynamically import it inside `onMount()` and render it using `<svelte:component>`:
+To use this component inside a SvelteKit prerendered/SSR page you can dynamically import it inside `onMount()` and render it once it becomes defined:
 
 _+page.svelte_
 
-```js
+```html
 <script>
   import { onMount } from 'svelte';
   // typescript:
   // import type MyCanvasComponent from '$lib/MyCanvas.svelte';
 
-  let MyCanvas;
+  let MyCanvas = $state();
   // typescript:
-  // let MyCanvas: typeof MyCanvasComponent;
+  // let MyCanvas: typeof MyCanvasComponent | undefined = $state();
 
   onMount(async () => {
     // Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
@@ -69,8 +69,10 @@ _+page.svelte_
 <div>
   <p>This is my fancy server side rendered (or prerendered) page.</p>
 
-  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
-  <svelte:component this={MyCanvas} someProp="SomeString" />
+  <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
+  {#if MyCanvas}
+    <MyCanvas someProp="SomeString" />
+  {/if}
 </div>
 ```
 
@@ -80,7 +82,7 @@ The [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-impor
 
 _+page.svelte_
 
-```js
+```html
 <script>
   import MyCanvasComponent from '$lib/MyCanvas.svelte?client'; // Client-side only import
 
@@ -91,23 +93,16 @@ _+page.svelte_
 <div>
   <p>This is my fancy server side rendered (or prerendered) page.</p>
 
-  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
-  <svelte:component this={MyCanvas} someProp="SomeString" />
+  <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
+  {#if MyCanvas}
+    <MyCanvas someProp="SomeString" />
+  {/if}
 </div>
 ```
 
 Currently vite-plugin-iso-import cannot automatically fix intellisense inside .svelte files with TypeScript. Consult the [README](https://www.npmjs.com/package/vite-plugin-iso-import) for a workaround to this problem. Or have a look at the demo below.
 
-**Instructions:** Each page available in this SvelteKit App is rendered differently containing a `svelte-konva` canvas. Both dynamic import approaches are shown. Dynamic loading using `onMount()` on the prerendered page and dynamic loading with [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) on the SSR page. Try to inspect the network requests made on each navigation to understand the different approaches of rendering in SvelteKit.
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+Instructions: Each page available in this SvelteKit App is rendered differently containing a `svelte-konva` canvas. Both dynamic import approaches are shown. Dynamic loading using `onMount()` on the prerendered page and dynamic loading with [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) on the SSR page. Try to inspect the network requests made on each navigation to understand the different approaches of rendering in SvelteKit.
+
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
