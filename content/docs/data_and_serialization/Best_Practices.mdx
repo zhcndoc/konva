@@ -71,18 +71,41 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
+// Create container
+const container = document.createElement('div');
+container.style.position = 'relative';
+document.body.appendChild(container);
+
+// Create button container
+const buttonContainer = document.createElement('div');
+buttonContainer.style.position = 'absolute';
+buttonContainer.style.top = '10px';
+buttonContainer.style.left = '10px';
+buttonContainer.style.zIndex = '10';
+container.appendChild(buttonContainer);
+
 // Create UI buttons
 const addButton = document.createElement('button');
 addButton.textContent = 'Add Image';
-document.body.appendChild(addButton);
+addButton.style.margin = '0 5px';
+buttonContainer.appendChild(addButton);
 
 const undoButton = document.createElement('button');
 undoButton.textContent = 'Undo';
-document.body.appendChild(undoButton);
+undoButton.style.margin = '0 5px';
+buttonContainer.appendChild(undoButton);
 
 const redoButton = document.createElement('button');
 redoButton.textContent = 'Redo';
-document.body.appendChild(redoButton);
+redoButton.style.margin = '0 5px';
+buttonContainer.appendChild(redoButton);
+
+// Move stage container into our container
+const stageContainer = document.getElementById('container');
+container.appendChild(stageContainer);
+stageContainer.style.position = 'absolute';
+stageContainer.style.top = '0';
+stageContainer.style.left = '0';
 
 // Load image
 const imageObj = new Image();
@@ -143,6 +166,7 @@ function saveHistory() {
   history.push(JSON.stringify(state));
 }
 
+// Add event listeners
 addButton.addEventListener('click', () => {
   state.images.push({
     x: Math.random() * stage.width(),
@@ -246,11 +270,16 @@ const App = () => {
   };
 
   return (
-    <div>
-      <div style={{ marginBottom: '10px' }}>
-        <button onClick={handleAdd}>Add Image</button>
-        <button onClick={handleUndo}>Undo</button>
-        <button onClick={handleRedo}>Redo</button>
+    <div style={{ position: 'relative' }}>
+      <div style={{ 
+        position: 'absolute', 
+        top: 10, 
+        left: 10, 
+        zIndex: 10 
+      }}>
+        <button style={{ margin: '0 5px' }} onClick={handleAdd}>Add Image</button>
+        <button style={{ margin: '0 5px' }} onClick={handleUndo}>Undo</button>
+        <button style={{ margin: '0 5px' }} onClick={handleRedo}>Redo</button>
       </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -281,11 +310,11 @@ export default App;
   <TabItem value="Vue">
 ```js live vue
 <template>
-  <div>
-    <div style="margin-bottom: 10px">
-      <button @click="handleAdd">Add Image</button>
-      <button @click="handleUndo">Undo</button>
-      <button @click="handleRedo">Redo</button>
+  <div style="position: relative">
+    <div style="position: absolute; top: 10px; left: 10px; z-index: 10">
+      <button style="margin: 0 5px" @click="handleAdd">Add Image</button>
+      <button style="margin: 0 5px" @click="handleUndo">Undo</button>
+      <button style="margin: 0 5px" @click="handleRedo">Redo</button>
     </div>
     <v-stage :config="stageSize">
       <v-layer>
