@@ -82,9 +82,13 @@ stage.on('mousedown touchstart', (e) => {
   x2 = stage.getPointerPosition().x;
   y2 = stage.getPointerPosition().y;
 
-  selectionRectangle.visible(true);
-  selectionRectangle.width(0);
-  selectionRectangle.height(0);
+  selectionRectangle.setAttrs({
+    x: x1,
+    y: y1,
+    width: 0,
+    height: 0,
+    visible: true,
+  });
 });
 
 stage.on('mousemove touchmove', () => {
