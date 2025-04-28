@@ -5,9 +5,13 @@ hide_table_of_contents: true
 slug: Fire_Events.html
 ---
 
+
+
 To fire events with Konva, we can use the `fire()` method.
 This enables us to programmatically fire events like `click`, `mouseover`,
 `mousemove`, etc., and also fire custom events, like foo and bar.
+
+> **Note**: While custom events are possible, it's generally better to use built-in interaction events like `click`, `mouseover`, `mousemove`, etc. Custom events can make code harder to maintain and debug.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -43,6 +47,10 @@ circle.on('customEvent', function (evt) {
 // add button to trigger custom event
 const button = document.createElement('button');
 button.innerHTML = 'Fire Custom Event';
+button.style.position = 'absolute';
+button.style.top = '10px';
+button.style.left = '10px';
+button.style.zIndex = '1';
 document.body.appendChild(button);
 button.addEventListener('click', () => {
   // fire custom event
@@ -67,14 +75,24 @@ const App = () => {
   };
 
   const fireCustomEvent = () => {
-    circleRef.current.fire('customEvent', {
+    circleRef.current.fire('customevent', {
       bubbles: true,
     });
   };
 
   return (
     <>
-      <button onClick={fireCustomEvent}>Fire Custom Event</button>
+      <button 
+        onClick={fireCustomEvent}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          zIndex: 1
+        }}
+      >
+        Fire Custom Event
+      </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Circle
@@ -85,7 +103,7 @@ const App = () => {
             fill="red"
             stroke="black"
             strokeWidth={4}
-            onCustomEvent={handleCustomEvent}
+            onCustomevent={handleCustomEvent}
           />
         </Layer>
       </Stage>
@@ -100,7 +118,12 @@ export default App;
 ```html live vue
 <template>
   <div>
-    <button @click="fireCustomEvent">Fire Custom Event</button>
+    <button 
+      @click="fireCustomEvent"
+      style="position: absolute; top: 10px; left: 10px; z-index: 1"
+    >
+      Fire Custom Event
+    </button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-circle
@@ -137,7 +160,7 @@ const handleCustomEvent = () => {
 };
 
 const fireCustomEvent = () => {
-  circleRef.value.getNode().fire('customEvent', {
+  circleRef.value.getNode().fire('customevent', {
     bubbles: true,
   });
 };
