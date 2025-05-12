@@ -1,20 +1,20 @@
 ---
-title: How to resize and rotate canvas shapes with React and Konva?
-sidebar_label: Transformer
+title: 如何使用 React 和 Konva 调整画布形状的大小和旋转？
+sidebar_label: 转换器
 hide_table_of_contents: true
 slug: Transformer.html
 ---
 
-Currently there is no good, pure declarative "react-way" to use the Transformer tool.
-But you can still use it with some small manual requests to the Konva nodes.
-And it will work just fine.
+目前还没有一个好用的、纯声明式的“React 方式”来使用 Transformer 工具。
+但你依然可以通过对 Konva 节点进行一些小的手动操作来使用它。
+它依旧可以正常工作。
 
-The idea: you need to create a `Konva.Transformer` node, and attach it to the required node manually.
+思路是：你需要创建一个 `Konva.Transformer` 节点，并手动将其附加到所需节点上。
 
-Instructions: Click on one of the rectangles to select it. Then you can:
-- Drag it to move
-- Use handles to resize
-- Click outside to deselect
+使用说明：点击其中一个矩形以选择它。然后你可以：
+- 拖动它移动
+- 使用控制点调整大小
+- 点击画布空白处取消选择
 
 ```js live react
 import React from 'react';
@@ -26,7 +26,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
 
   React.useEffect(() => {
     if (isSelected) {
-      // we need to attach transformer manually
+      // 需要手动附加转换器
       trRef.current.nodes([shapeRef.current]);
     }
   }, [isSelected]);
@@ -47,22 +47,22 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
           });
         }}
         onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
+          // 转换器改变节点的缩放比例
+          // 而非直接改变宽度或高度
+          // 但存储的数据里只有宽度和高度
+          // 为了数据一致性，转换结束时重置缩放比例
           const node = shapeRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
 
-          // we will reset it back
+          // 重置缩放比例
           node.scaleX(1);
           node.scaleY(1);
           onChange({
             ...shapeProps,
             x: node.x(),
             y: node.y(),
-            // set minimal value
+            // 设定最小值
             width: Math.max(5, node.width() * scaleX),
             height: Math.max(node.height() * scaleY),
           });
@@ -73,7 +73,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
           ref={trRef}
           flipEnabled={false}
           boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
+            // 限制调整大小的最小边界
             if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
               return oldBox;
             }
@@ -109,7 +109,7 @@ const App = () => {
   const [selectedId, selectShape] = React.useState(null);
 
   const checkDeselect = (e) => {
-    // deselect when clicked on empty area
+    // 点击空白区域时取消选择
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
       selectShape(null);
@@ -146,4 +146,4 @@ const App = () => {
   );
 };
 
-export default App; 
+export default App;

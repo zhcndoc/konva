@@ -1,6 +1,6 @@
 ---
-title: Getting started with React and Canvas via Konva
-sidebar_label: Getting Started
+title: 使用 Konva 开始 React 和 Canvas
+sidebar_label: 开始使用
 hide_table_of_contents: true
 slug: /docs/react/index.html
 ---
@@ -9,25 +9,25 @@ slug: /docs/react/index.html
   <img src="https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png" alt="React Konva Logo"/>
 </div>
 
-`react-konva` is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+`react-konva` 是一个用于通过 [React](http://facebook.github.io/react/) 绘制复杂画布图形的 JavaScript 库。它为 [Konva 框架](https://konvajs.org/) 提供了声明性和响应式的绑定。
 
 [Github Repo](https://github.com/lavrton/react-konva)
 
-It is an attempt to make [React](http://facebook.github.io/react/) work with the HTML5 canvas library. The goal is to have a similar declarative markup as normal React and also a similar data-flow model.
+这是一个使 [React](http://facebook.github.io/react/) 能够与 HTML5 画布库协同工作的尝试。目标是拥有与普通 React 类似的声明性标记，以及类似的数据流模型。
 
-**Currently, `react-konva` is not supported in the React Native environment.**
+**目前，`react-konva` 不支持 React Native 环境。**
 
-Currently you can use all `Konva` nodes and shapes as React components and all `Konva` events are supported on them in the same way.
+目前，您可以将所有 `Konva` 节点和形状用作 React 组件，所有 `Konva` 事件在它们上都是以相同方式支持的。
 
-**Note: you can find a lot of demos and examples for using Konva at [https://konvajs.org/](https://konvajs.org/). Really, just go there and take a look at what Konva can do for you. You will be able to do the same with react-konva, too. `Konva` for `react-konva` is like DOM for `React`.**
+**注意：您可以在 [https://konvajs.org/](https://konvajs.org/) 找到很多关于使用 Konva 的演示和示例。真的，去那里看看 Konva 可以为您做些什么。您也可以使用 react-konva 做同样的事情。`Konva` 对于 `react-konva` 就像 DOM 对于 `React`。**
 
-## Installation
+## 安装
 
 ```bash
 npm install react-konva konva --save
 ```
 
-Here's a basic example showing how to create a simple canvas with some shapes:
+下面是一个基本示例，展示如何创建一个简单的画布和一些形状：
 
 ```js live react
 import React from 'react';
@@ -37,7 +37,7 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Text text="Try to drag shapes" fontSize={15} />
+        <Text text="试着拖动形状" fontSize={15} />
         <Rect
           x={20}
           y={50}

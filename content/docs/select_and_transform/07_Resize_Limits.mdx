@@ -1,16 +1,16 @@
 ---
-title: HTML5 Canvas Shape Resize and Transform Limits
-sidebar_label: Resize Limits
+title: HTML5 Canvas 图形缩放与变换限制
+sidebar_label: 缩放限制
 hide_table_of_contents: true
 slug: Resize_Limits.html
 ---
 
-To limit or change resize and transform behavior you can use `boundBoxFunc` property.
-It works a bit similar to [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds.html).
+若要限制或改变缩放及变换的行为，你可以使用 `boundBoxFunc` 属性。
+它的工作方式与 [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds.html) 有些类似。
 
-**Instructions: Try to resize a shape. You will see that its width is limited to 200.**
+**使用说明：尝试调整一个图形的大小，你会看到它的宽度被限制在200以内。**
 
-Also you can control movement of every anchors individually. See [Resize Snap Demo](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html).
+此外，你还可以逐个控制每个锚点的移动。请参阅 [Resize Snap Demo](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -24,34 +24,34 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
 const rect = new Konva.Rect({
-x: 50,
-y: 50,
-width: 100,
-height: 100,
-fill: 'yellow',
-stroke: 'black',
-draggable: true,
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: 'yellow',
+  stroke: 'black',
+  draggable: true,
 });
 layer.add(rect);
 
 const tr = new Konva.Transformer({
-nodes: [rect],
-boundBoxFunc: (oldBox, newBox) => {
-// limit resize
-if (newBox.width > 200) {
-return oldBox;
-}
-return newBox;
-},
+  nodes: [rect],
+  boundBoxFunc: (oldBox, newBox) => {
+    // 限制缩放
+    if (newBox.width > 200) {
+      return oldBox;
+    }
+    return newBox;
+  },
 });
 layer.add(tr);
 
@@ -86,7 +86,7 @@ const App = () => {
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
+            // 限制缩放
             if (newBox.width > 200) {
               return oldBox;
             }
@@ -139,7 +139,7 @@ const rectConfig = {
 
 const transformerConfig = {
   boundBoxFunc: (oldBox, newBox) => {
-    // limit resize
+    // 限制缩放
     if (newBox.width > 200) {
       return oldBox;
     }
@@ -159,5 +159,3 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

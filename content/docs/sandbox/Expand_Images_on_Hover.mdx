@@ -1,13 +1,13 @@
 ---
-title: Expand Image on Hover
-sidebar_label: Expand Images on Hover
+title: 鼠标悬停时扩展图像
+sidebar_label: 鼠标悬停时扩展图像
 hide_table_of_contents: true
 slug: Expand_Images_on_Hover.html
 ---
 
-This demo shows how to create an effect where images expand when the mouse hovers over them. The images are also draggable.
+本演示展示了如何创建一个效果，当鼠标悬停在图像上时图像会扩展。这些图像也是可拖动的。
 
-**Instructions:** Hover your mouse over the images to see them expand.
+**说明：** 将鼠标悬停在图像上以查看它们的扩展效果。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -29,7 +29,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create Darth Vader image
+// 创建达斯·维德图像
 const darthVaderImg = new Konva.Image({
   x: 110,
   y: 88,
@@ -43,7 +43,7 @@ const darthVaderImg = new Konva.Image({
 });
 layer.add(darthVaderImg);
 
-// Create Yoda image
+// 创建尤达图像
 const yodaImg = new Konva.Image({
   x: 290,
   y: 70,
@@ -57,26 +57,26 @@ const yodaImg = new Konva.Image({
 });
 layer.add(yodaImg);
 
-// Load Darth Vader image
+// 加载达斯·维德图像
 const imageObj1 = new Image();
 imageObj1.onload = function () {
   darthVaderImg.image(imageObj1);
 };
 imageObj1.src = 'https://konvajs.org/assets/darth-vader.jpg';
 
-// Load Yoda image
+// 加载尤达图像
 const imageObj2 = new Image();
 imageObj2.onload = function () {
   yodaImg.image(imageObj2);
 };
 imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
 
-// Use event delegation to update pointer style and apply scaling
+// 使用事件委托更新指针样式并应用缩放
 layer.on('mouseover', function (evt) {
   const shape = evt.target;
   document.body.style.cursor = 'pointer';
   
-  // Scale up the image on hover
+  // 在悬停时缩放图像
   shape.to({
     scaleX: 1.2,
     scaleY: 1.2,
@@ -88,7 +88,7 @@ layer.on('mouseout', function (evt) {
   const shape = evt.target;
   document.body.style.cursor = 'default';
   
-  // Scale back to normal when mouse leaves
+  // 鼠标离开时缩放回正常
   shape.to({
     scaleX: 1,
     scaleY: 1,
@@ -185,7 +185,7 @@ const layerRef = ref(null);
 const hoveredIndex = ref(null);
 const loadedImages = ref({});
 
-// Define image data
+// 定义图像数据
 const images = ref([
   {
     src: 'https://konvajs.org/assets/darth-vader.jpg',
@@ -209,7 +209,7 @@ const images = ref([
   }
 ]);
 
-// Load images
+// 加载图像
 onMounted(() => {
   images.value.forEach((img, index) => {
     const imageObj = new Image();
@@ -223,7 +223,7 @@ onMounted(() => {
   });
 });
 
-// Get configuration for each image
+// 获取每个图像的配置
 const getImageConfig = (img, index) => {
   const isHovered = hoveredIndex.value === index;
   const scale = isHovered ? 1.2 : 1;
@@ -242,7 +242,7 @@ const getImageConfig = (img, index) => {
   };
 };
 
-// Mouse event handlers
+// 鼠标事件处理程序
 const handleMouseEnter = (index) => {
   hoveredIndex.value = index;
   document.body.style.cursor = 'pointer';
@@ -255,4 +255,4 @@ const handleMouseLeave = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

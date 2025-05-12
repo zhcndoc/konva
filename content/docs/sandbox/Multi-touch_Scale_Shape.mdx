@@ -1,13 +1,13 @@
 ---
-title: Multi-touch Scale Shape Tutorial
-sidebar_label: Multi-touch Scale Shape
+title: 多点触控缩放形状教程
+sidebar_label: 多点触控缩放形状
 hide_table_of_contents: true
 slug: Multi-touch_Scale_Shape.html
 ---
 
-Note: This lab only works on devices that support multi-touch gestures such as iOS because it makes use of multiple touch events.
+注意：本实验仅适用于支持多点触控手势的设备，如 iOS，因为它利用了多个触摸事件。
 
-**Instructions:** Using a mobile device that supports multi-touch gestures such as iOS, drag and drop a shape by touching it and then dragging your finger across the screen, activate a shape by tapping on it, and scale an active shape by pinching the screen.
+**说明：** 使用支持多点触控手势的移动设备，例如 iOS，通过触摸一个形状并拖动手指在屏幕上拖放该形状，通过点击来激活一个形状，并通过捏合屏幕来缩放一个活跃的形状。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -17,10 +17,10 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
+// 默认情况下，Konva会在节点拖动时禁止某些事件
+// 这样可以提高性能，并且在95%的情况下工作良好
+// 我们需要在Konva上启用所有事件，即使在拖动节点时
+// 因此它可以正确触发touchmove
 Konva.hitOnDragEnabled = true;
 
 const width = window.innerWidth;
@@ -73,14 +73,14 @@ const circle = new Konva.Circle({
 });
 
 stage.on('tap', function (evt) {
-  // set active shape
+  // 设置活跃形状
   const shape = evt.target;
   activeShape =
     activeShape && activeShape.getName() === shape.getName()
       ? null
       : shape;
 
-  // sync scene graph
+  // 同步场景图
   triangle.setAttrs({
     fill:
       activeShape && activeShape.getName() === triangle.getName()
@@ -154,10 +154,10 @@ stage.add(layer);
 import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
 import { useState, useEffect } from 'react';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
+// 默认情况下，Konva会在节点拖动时禁止某些事件
+// 这样可以提高性能，并且在95%的情况下工作良好
+// 我们需要在Konva上启用所有事件，即使在拖动节点时
+// 因此它可以正确触发touchmove
 window.Konva.hitOnDragEnabled = true;
 
 const App = () => {
@@ -336,10 +336,10 @@ export default App;
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
+// 默认情况下，Konva会在节点拖动时禁止某些事件
+// 这样可以提高性能，并且在95%的情况下工作良好
+// 我们需要在Konva上启用所有事件，即使在拖动节点时
+// 因此它可以正确触发touchmove
 window.Konva.hitOnDragEnabled = true;
 
 const stageSize = {

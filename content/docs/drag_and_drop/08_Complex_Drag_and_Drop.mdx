@@ -1,18 +1,15 @@
 ---
-title: HTML5 Canvas Complex Drag and Drop Bounds
-sidebar_label: Complex Drag and Drop
+title: HTML5 Canvas 复杂拖放边界
+sidebar_label: 复杂拖放
 hide_table_of_contents: true
 slug: Complex_Drag_and_Drop.html
 ---
 
-To bound the movement of nodes being dragged and dropped inside regions with
-Konva, we can use the `dragmove` event to define boundaries that the node cannot cross.
+为了限制使用 Konva 拖拽和放置的节点在区域内的移动，我们可以使用 `dragmove` 事件来定义节点无法越过的边界。
 
-_Tip: you can use `shape.absolutePosition()` method to get/set absolute position of a node, instead of relative `x` and `y`._
+_提示：您可以使用 `shape.absolutePosition()` 方法来获取/设置节点的绝对位置，而不是相对的 `x` 和 `y`。_
 
-**Instructions:** Drag and drop the light blue rectangle and observe that it
-is bound below an imaginary boundary at y = 50. Drag and drop the yellow
-rectangle and observe that it is bound inside of an imaginary circle.
+**说明：** 拖动和放置浅蓝色矩形，观察它被限制在 y = 50 的虚拟边界以下。拖动和放置黄色矩形，观察它被限制在一个虚拟圆形内。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -36,12 +33,12 @@ y: 70,
 draggable: true,
 });
 
-// bound below y=50
+// 限制在 y=50 之下
 blueGroup.on('dragmove', () => {
 blueGroup.y(Math.max(blueGroup.y(), 50));
 });
 
-// bound inside a circle
+// 限制在圆形内
 const yellowGroup = new Konva.Group({
 x: stage.width() / 2,
 y: 70,
@@ -64,7 +61,7 @@ yellowGroup.y(Math.round((pos.y - y) * scale + y));
 const blueText = new Konva.Text({
 fontSize: 26,
 fontFamily: 'Calibri',
-text: 'bound below',
+text: '限制在下面',
 fill: 'black',
 padding: 10,
 width: 150,
@@ -82,7 +79,7 @@ strokeWidth: 4,
 const yellowText = new Konva.Text({
 fontSize: 26,
 fontFamily: 'Calibri',
-text: 'bound in circle',
+text: '限制在圆内',
 fill: 'black',
 padding: 10,
 width: 150,
@@ -104,7 +101,7 @@ layer.add(blueGroup);
 layer.add(yellowGroup);
 stage.add(layer);
 
-````
+````  
   </TabItem>
   <TabItem value="React">
 ```jsx live react
@@ -140,7 +137,7 @@ const App = () => {
             strokeWidth={4}
           />
           <Text
-            text="bound below"
+            text="限制在下面"
             fontSize={26}
             fontFamily="Calibri"
             fill="black"
@@ -163,7 +160,7 @@ const App = () => {
             strokeWidth={4}
           />
           <Text
-            text="bound in circle"
+            text="限制在圆内"
             fontSize={26}
             fontFamily="Calibri"
             fill="black"
@@ -239,7 +236,7 @@ const yellowRectConfig = {
 };
 
 const blueTextConfig = {
-  text: 'bound below',
+  text: '限制在下面',
   fontSize: 26,
   fontFamily: 'Calibri',
   fill: 'black',
@@ -249,7 +246,7 @@ const blueTextConfig = {
 };
 
 const yellowTextConfig = {
-  text: 'bound in circle',
+  text: '限制在圆内',
   fontSize: 26,
   fontFamily: 'Calibri',
   fill: 'black',

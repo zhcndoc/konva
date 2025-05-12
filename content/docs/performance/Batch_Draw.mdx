@@ -1,28 +1,19 @@
 ---
-title: HTML5 Canvas Batch Draw Tip
-sidebar_label: Batch Draw
+title: HTML5 Canvas 批量绘制技巧
+sidebar_label: 批量绘制
 hide_table_of_contents: true
 slug: Batch_Draw.html
 ---
 
-**Update: this demo is not relevant with the new `konva@8`. In the new version, `Konva` is doing all batching draws automatically on any changes on canvas.**
+**更新：此演示与新版本的 `konva@8` 无关。在新版本中，`Konva` 会自动处理所有的批量绘制，无论何时在画布上发生更改。**
 
-The demo may be still relevant if you use `Konva.autoDrawEnabled = false`.
+如果您使用 `Konva.autoDrawEnabled = false`，则此演示可能仍然相关。
 
-In some situations, we may want to update a Konva shape as fast as possible,
-but without causing too many redraws. For example, if we want to update an
-element on the stage via mousemove, we don't want to redraw the layer with the
-`draw()` method, because the mousemove event could be fired hundreds of times per
-second, which would result in a forced frame rate of over a hundred frames per second.
-Often times this can cause jumpy animations because browsers simply can't handle excessive redraws.
+在某些情况下，我们可能希望尽快更新一个 Konva 图形，但又不想导致过多的重绘。例如，如果我们希望通过鼠标移动更新舞台上的一个元素，我们不希望使用 `draw()` 方法重绘图层，因为鼠标移动事件每秒可能触发数百次，这将导致每秒超过一百帧的强制帧率。通常情况下，这会导致动画不连贯，因为浏览器根本无法处理过多的重绘。
 
-For situations like this, it's much better to use the `batchDraw()` method
-which automatically hooks redraws into the Konva animation engine.
-No matter how many times you call `batchDraw()`, Konva will automatically
-limit the number of redraws per second based on the maximum number of frames
-per second that the browser can handle at any given point in time.
+对于这种情况，使用 `batchDraw()` 方法要好得多，该方法会自动将重绘与 Konva 动画引擎连接起来。不管你调用多少次 `batchDraw()`，Konva 都会自动根据浏览器在任何给定时刻能够处理的最大帧数来限制每秒的重绘次数。
 
-**Instructions:** Move your mouse over the stage to spin the rectangle
+**说明:** 将鼠标移动到舞台上以旋转矩形
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -32,7 +23,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// For demo purposes, disable auto draw
+// 为演示目的，禁用自动绘制
 Konva.autoDrawEnabled = false;
 
 const stage = new Konva.Stage({
@@ -57,9 +48,9 @@ const rect = new Konva.Rect({
 layer.add(rect);
 
 stage.on('mousemove', () => {
-  // rotate rectangle on mouse move
+  // 在鼠标移动时旋转矩形
   rect.rotate(5);
-  // use batchDraw instead of draw for better performance
+  // 使用 batchDraw 代替 draw 提高性能
   layer.batchDraw();
 });
 ```
@@ -69,7 +60,7 @@ stage.on('mousemove', () => {
 import { Stage, Layer, Rect } from 'react-konva';
 import { useRef, useEffect } from 'react';
 
-// For demo purposes, disable auto draw
+// 为演示目的，禁用自动绘制
 Konva.autoDrawEnabled = false;
 
 const App = () => {
@@ -80,9 +71,9 @@ const App = () => {
     const stage = rectRef.current.getStage();
     
     stage.on('mousemove', () => {
-      // rotate rectangle on mouse move
+      // 在鼠标移动时旋转矩形
       rectRef.current.rotate(5);
-      // use batchDraw instead of draw for better performance
+      // 使用 batchDraw 代替 draw 提高性能
       layerRef.current.getLayer().batchDraw();
     });
   }, []);
@@ -122,7 +113,7 @@ export default App;
 import { ref, onMounted } from 'vue';
 import Konva from 'konva';
 
-// For demo purposes, disable auto draw
+// 为演示目的，禁用自动绘制
 Konva.autoDrawEnabled = false;
 
 const stageSize = {
@@ -144,12 +135,12 @@ const layerRef = ref(null);
 const rectRef = ref(null);
 
 const handleMouseMove = () => {
-  // rotate rectangle on mouse move
+  // 在鼠标移动时旋转矩形
   rectRef.value.getNode().rotate(5);
-  // use batchDraw instead of draw for better performance
+  // 使用 batchDraw 代替 draw 提高性能
   layerRef.value.getNode().batchDraw();
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,18 +1,15 @@
 ---
-title: HTML5 Canvas Desktop and Mobile Events Support Tutorial
-sidebar_label: Desktop and Mobile
+title: HTML5 Canvas 桌面和移动设备事件支持教程
+sidebar_label: 桌面和移动设备
 hide_table_of_contents: true
 slug: Desktop_and_Mobile.html
 ---
 
-_Note: this demo may be outdate, because modern browsers support pointer events. And you can use pointer events in Konva too. See [Pointer Events Demo](/docs/events/Pointer_Events.html). But if you prefer not to use pointer events, keep reading..._
+_注意：此演示可能已经过时，因为现代浏览器支持指针事件。您也可以在 Konva 中使用指针事件。请参阅 [指针事件演示](/docs/events/Pointer_Events.html)。但如果您不想使用指针事件，请继续阅读..._
 
-To add event handlers to shapes that work for both desktop and mobile applications with Konva, we can use the `on()` method and pass in paired events.
-For example, in order for the `mousedown` event to be triggered on desktop and mobile applications, we can use the `"mousedown touchstart"` event pair to cover both mediums.
-In order for the `mouseup` event to be triggered on both desktop and mobile applications, we can use the `"mouseup touchend"` event pair.
-We can also use the `"dblclick dbltap"` event pair to bind a double click event that works for both desktop and mobile devices.
+要为桌面和移动应用程序中的形状添加事件处理程序，我们可以使用 `on()` 方法并传入成对的事件。例如，为了在桌面和移动应用程序中触发 `mousedown` 事件，我们可以使用 `"mousedown touchstart"` 事件对来覆盖这两种媒介。为了在桌面和移动应用程序中触发 `mouseup` 事件，我们可以使用 `"mouseup touchend"` 事件对。我们还可以使用 `"dblclick dbltap"` 事件对来绑定在桌面和移动设备上都有效的双击事件。
 
-**Instructions: Mousedown, mouseup, touchstart, or touchend the circle on either a desktop or mobile device to observe the same functionality.**
+**操作说明：在桌面或移动设备上点击、松开鼠标或触摸圆圈以观察相同的功能。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -52,13 +49,13 @@ function writeMessage(message) {
   text.text(message);
 }
 
-// desktop and mobile events
+// 桌面和移动事件
 circle.on('mousedown touchstart', function () {
-  writeMessage('Mousedown or touchstart');
+  writeMessage('按下或触摸开始');
 });
 
 circle.on('mouseup touchend', function () {
-  writeMessage('Mouseup or touchend');
+  writeMessage('松开或触摸结束');
 });
 
 layer.add(circle);
@@ -92,10 +89,10 @@ const App = () => {
           fill="red"
           stroke="black"
           strokeWidth={4}
-          onMousedown={() => setMessage('Mousedown or touchstart')}
-          onTouchstart={() => setMessage('Mousedown or touchstart')}
-          onMouseup={() => setMessage('Mouseup or touchend')}
-          onTouchend={() => setMessage('Mouseup or touchend')}
+          onMousedown={() => setMessage('按下或触摸开始')}
+          onTouchstart={() => setMessage('按下或触摸开始')}
+          onMouseup={() => setMessage('松开或触摸结束')}
+          onTouchend={() => setMessage('松开或触摸结束')}
         />
       </Layer>
     </Stage>
@@ -151,13 +148,13 @@ const circleConfig = {
 };
 
 const handleStart = () => {
-  message.value = 'Mousedown or touchstart';
+  message.value = '按下或触摸开始';
 };
 
 const handleEnd = () => {
-  message.value = 'Mouseup or touchend';
+  message.value = '松开或触摸结束';
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

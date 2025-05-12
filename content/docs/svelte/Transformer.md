@@ -1,15 +1,15 @@
 ---
-title: How to resize and rotate canvas shapes with Svelte and Konva?
-sidebar_label: Transformer
+title: 如何使用 Svelte 和 Konva 调整画布形状的大小和旋转？
+sidebar_label: 变换器
 hide_table_of_contents: true
 slug: Transformer.html
 ---
 
-You can use the transformer tool by using the svelte-konva transformer component. Generally this approach requires some interfacing with the native Konva API. You can attach shapes to the transformer by manually attaching their handles to the transformer using the `nodes()` function. svelte-konva also automatically keeps your config in sync with the Konva node on `transformend`. See the [bindings](/docs/svelte/Bindings.html) doc page for more details.
+您可以通过使用 svelte-konva 变换器组件来使用变换器工具。通常，这种方法需要与原生 Konva API 进行一些交互。您可以通过手动将形状的句柄附加到变换器来将形状附加到变换器，使用 `nodes()` 函数。svelte-konva 还会在 `transformend` 时自动保持您的配置与 Konva 节点同步。有关更多详细信息，请参阅 [绑定](/docs/svelte/Bindings.html) 文档页面。
 
-For a more detailed example with select & transform functionality see the [example](https://github.com/konvajs/svelte-konva/blob/master/src/routes/examples/transform/Transform.svelte) in the svelte-konva repo.
+有关选择和变换功能的更详细示例，请参见 svelte-konva 仓库中的 [示例](https://github.com/konvajs/svelte-konva/blob/master/src/routes/examples/transform/Transform.svelte)。
 
-**Instructions:** click on shape to select it.
+**说明：** 单击形状以选择它。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/transformer?file=/src/App.svelte" 

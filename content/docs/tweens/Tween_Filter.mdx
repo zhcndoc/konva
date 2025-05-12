@@ -1,14 +1,14 @@
 ---
-title: Tween Blur Filter Tutorial
-sidebar_label: Filter Tweening
+title: Tween 模糊滤镜教程
+sidebar_label: 滤镜补间
 hide_table_of_contents: true
 slug: Tween_Filter.html
 ---
 
-To tween a filter using Konva, we can simply tween the properties associated with the filter.
-In this tutorial, we'll tween the `blurRadius` property, which controls the amount of blur applied to the image.
+要使用 Konva 对滤镜进行补间，我们只需对与滤镜相关的属性进行补间。
+在本教程中，我们将补间 `blurRadius` 属性，该属性控制应用于图像的模糊量。
 
-**Instructions: Mouseover or touch the image to focus it (reduce blur).**
+**步骤：将鼠标悬停或触摸图像以聚焦（减少模糊）。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -29,7 +29,7 @@ height: height,
 
 const layer = new Konva.Layer();
 
-// create image
+// 创建图像
 const imageObj = new Image();
 imageObj.onload = () => {
 const lion = new Konva.Image({
@@ -41,12 +41,12 @@ draggable: true,
 
 layer.add(lion);
 
-// add blur filter
+// 添加模糊滤镜
 lion.cache();
 lion.filters([Konva.Filters.Blur]);
 lion.blurRadius(10);
 
-// create blur tween
+// 创建模糊补间
 const tween = new Konva.Tween({
 node: lion,
 duration: 0.5,
@@ -54,7 +54,7 @@ blurRadius: 0,
 easing: Konva.Easings.EaseInOut,
 });
 
-// bind events
+// 绑定事件
 lion.on('mouseenter touchstart', () => {
 tween.play();
 });
@@ -69,7 +69,7 @@ imageObj.crossOrigin = 'anonymous';
 
 stage.add(layer);
 
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -160,7 +160,7 @@ const image = ref(null);
 const imageRef = ref(null);
 let tween = null;
 
-// Load image
+// 加载图像
 const img = new Image();
 img.onload = () => {
   image.value = img;
@@ -203,5 +203,3 @@ const handleMouseLeave = () => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

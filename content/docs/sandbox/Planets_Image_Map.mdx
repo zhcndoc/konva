@@ -1,11 +1,11 @@
 ---
-title: Planets Image Map
+title: 行星图像地图
 layout: demo_page
 hide_table_of_contents: true
 slug: Planets_Image_Map.html
 ---
 
-**Instructions:** Mouse over the planets to see their names and use the check box to show and hide the map overlay.
+**说明：** 将鼠标悬停在行星上以查看它们的名称，并使用复选框显示和隐藏地图覆盖层。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -44,29 +44,29 @@ text.text(message);
 }
 
 const planets = {
-Mercury: {
+水星: {
 x: 46,
 y: 126,
 radius: 32,
 },
-Venus: {
+金星: {
 x: 179,
 y: 126,
 radius: 79,
 },
-Earth: {
+地球: {
 x: 366,
 y: 127,
 radius: 85,
 },
-Mars: {
+火星: {
 x: 515,
 y: 127,
 radius: 45,
 },
 };
 
-// create checkbox
+// 创建复选框
 const container = document.createElement('div');
 container.style.position = 'absolute';
 container.style.top = '10px';
@@ -74,11 +74,11 @@ container.style.left = '10px';
 container.style.zIndex = '99999';
 container.innerHTML = `  <label style="color: white;">
     <input type="checkbox" id="checkbox" />
-    Show map overlay
+    显示地图覆盖层
   </label>`;
 document.body.appendChild(container);
 
-// draw shape overlays
+// 绘制形状覆盖层
 for (const key in planets) {
 const planet = planets[key];
 const planetOverlay = new Konva.Circle({
@@ -106,12 +106,12 @@ shape.fill(f === 'red' ? null : 'red');
 });
 });
 
-// load the image
+// 加载图像
 Konva.Image.fromURL('https://konvajs.org/assets/planets.png', (planetsImage) => {
 planetsLayer.add(planetsImage);
 });
 
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -120,22 +120,22 @@ import { useState } from 'react';
 import useImage from 'use-image';
 
 const planets = {
-  Mercury: {
+  水星: {
     x: 46,
     y: 126,
     radius: 32,
   },
-  Venus: {
+  金星: {
     x: 179,
     y: 126,
     radius: 79,
   },
-  Earth: {
+  地球: {
     x: 366,
     y: 127,
     radius: 85,
   },
-  Mars: {
+  火星: {
     x: 515,
     y: 127,
     radius: 45,
@@ -176,7 +176,7 @@ const App = () => {
             checked={showOverlay}
             onChange={(e) => setShowOverlay(e.target.checked)}
           />
-          Show map overlay
+          显示地图覆盖层
         </label>
       </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -226,7 +226,7 @@ export default App;
           :style="styles.input"
           v-model="showOverlay"
         />
-        Show map overlay
+        显示地图覆盖层
       </label>
     </div>
     <v-stage :config="stageSize">
@@ -266,22 +266,22 @@ const showOverlay = ref(false);
 const [planetsImage] = useImage('https://konvajs.org/assets/planets.png');
 
 const planets = {
-  Mercury: {
+  水星: {
     x: 46,
     y: 126,
     radius: 32,
   },
-  Venus: {
+  金星: {
     x: 179,
     y: 126,
     radius: 79,
   },
-  Earth: {
+  地球: {
     x: 366,
     y: 127,
     radius: 85,
   },
-  Mars: {
+  火星: {
     x: 515,
     y: 127,
     radius: 45,

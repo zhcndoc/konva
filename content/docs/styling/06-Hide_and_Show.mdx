@@ -1,13 +1,13 @@
 ---
-title: HTML5 Canvas Hide and Show Shape Tutorial
-sidebar_label: Hide and Show
+title: HTML5 Canvas 隐藏和显示图形教程
+sidebar_label: 隐藏和显示
 hide_table_of_contents: true
 slug: Hide_and_Show.html
 ---
 
-To hide and show a shape with Konva, we can set the visible property when we instantiate a shape, or we can use the `hide()` and `show()` methods.
+要使用 Konva 隐藏和显示形状，我们可以在实例化形状时设置 visible 属性，或者使用 `hide()` 和 `show()` 方法。
 
-**Instructions:** Click on the buttons to show and hide the shape.
+**说明：** 点击按钮显示和隐藏形状。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -37,7 +37,7 @@ const rect = new Konva.Rect({
 });
 layer.add(rect);
 
-// update button creation and styling
+// 更新按钮创建和样式
 const buttonContainer = document.createElement('div');
 buttonContainer.style.position = 'absolute';
 buttonContainer.style.zIndex = 1;
@@ -46,12 +46,12 @@ buttonContainer.style.top = '0px';
 buttonContainer.style.left = '0px';
 
 const showBtn = document.createElement('button');
-showBtn.textContent = 'Show';
+showBtn.textContent = '显示';
 showBtn.onclick = () => rect.show();
 buttonContainer.appendChild(showBtn);
 
 const hideBtn = document.createElement('button');
-hideBtn.textContent = 'Hide';
+hideBtn.textContent = '隐藏';
 hideBtn.onclick = () => rect.hide();
 buttonContainer.appendChild(hideBtn);
 
@@ -69,8 +69,8 @@ function App() {
   return (
     <div style={{ position: 'relative' }}>
       <div style={{ position: 'absolute', zIndex: 1, padding: '10px' }}>
-        <button onClick={() => setVisible(true)}>Show</button>
-        <button onClick={() => setVisible(false)}>Hide</button>
+        <button onClick={() => setVisible(true)}>显示</button>
+        <button onClick={() => setVisible(false)}>隐藏</button>
       </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -98,8 +98,8 @@ export default App;
 <template>
   <div style="position: relative;">
     <div style="position: absolute; z-index: 1; padding: 10px;">
-      <button @click="showShape">Show</button>
-      <button @click="hideShape">Hide</button>
+      <button @click="showShape">显示</button>
+      <button @click="hideShape">隐藏</button>
     </div>
     <v-stage :config="stageSize">
       <v-layer>

@@ -1,20 +1,20 @@
 ---
-title: How to access native 2d context
-sidebar_label: Native Context Access
+title: 如何访问原生 2d 上下文
+sidebar_label: 原生上下文访问
 hide_table_of_contents: true
 slug: Native_Context_Access.html
 ---
 
-## How to access native 2d canvas context from Konva
+## 如何从 Konva 访问原生 2d 画布上下文
 
-Konva gives you object model for drawing shapes on canvas. Your app is starting from a stage (div wrapper) and then the stage have one or many layers (canvas DOM elements) inside.
+Konva 为你提供了在画布上绘制图形的对象模型。你的应用从一个舞台（div 容器）开始，舞台内有一个或多个图层（canvas DOM 元素）。
 
-You can hijack into Konva internals (or DOM internals) and draw into canvas directly without creating any shapes. But that is not recommended. Because Konva has full control over drawing and may reset your manual drawings or lost them on any export such as `stage.toDataURL()`.
+你可以深入 Konva 内部（或 DOM 内部）直接在画布上绘图而不创建任何形状。但这不推荐。因为 Konva 完全控制绘图，可能会重置你的手动绘制内容，或者在任何导出操作（比如 `stage.toDataURL()`）时丢失它们。
 
-There are two recommended ways if you want to draw something manually:
+如果你想手动绘制，推荐有两种方式：
 
-1. [Use custom shape](/docs/shapes/Custom.html)
-2. Create a new canvas element manually and then use it for `Konva.Image`.
+1. [使用自定义形状](/docs/shapes/Custom.html)
+2. 手动创建一个新的 canvas 元素，然后将其用于 `Konva.Image`。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -36,8 +36,8 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// if you want to make something with native 2d canvas
-// we can create it and use it for Konva.Image
+// 如果你想使用原生 2d 画布操作
+// 可以创建一个画布用于 Konva.Image
 const canvas = document.createElement('canvas');
 canvas.width = 200;
 canvas.height = 150;
@@ -51,7 +51,7 @@ const image = new Konva.Image({
 });
 layer.add(image);
 
-// make manual drawings
+// 手动绘制内容
 ctx.fillStyle = 'blue';
 ctx.fillRect(5, 5, canvas.width - 10, canvas.height / 2);
 ctx.fillStyle = 'red';
@@ -59,7 +59,7 @@ ctx.beginPath();
 ctx.arc(100, 75, 50, 0, 2 * Math.PI);
 ctx.fill();
 
-// such as canvas is updated we need to redraw the layer
+// 由于画布已更新，需要重绘图层
 layer.batchDraw();
 ```
   </TabItem>
@@ -77,7 +77,7 @@ const App = () => {
     canvas.height = 150;
     const ctx = canvas.getContext('2d');
 
-    // make manual drawings
+    // 手动绘制内容
     ctx.fillStyle = 'blue';
     ctx.fillRect(5, 5, canvas.width - 10, canvas.height / 2);
     ctx.fillStyle = 'red';
@@ -146,7 +146,7 @@ onMounted(() => {
   canvasEl.height = 150;
   const ctx = canvasEl.getContext('2d');
 
-  // make manual drawings
+  // 手动绘制内容
   ctx.fillStyle = 'blue';
   ctx.fillRect(5, 5, canvasEl.width - 10, canvasEl.height / 2);
   ctx.fillStyle = 'red';
@@ -167,4 +167,3 @@ const handleDragEnd = (e) => {
 ```
   </TabItem>
 </Tabs>
-

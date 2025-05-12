@@ -1,27 +1,25 @@
 ---
-title: Offscreen canvas inside Web Worker
+title: Web Worker 中的离屏画布
 sidebar_label: Web Worker
 hide_table_of_contents: true
 slug: Web_Worker.html
 ---
 
-## How to run Konva in a Web Worker?
+## 如何在 Web Worker 中运行 Konva？
 
-**Warning! This demo is VERY EXPERIMENTAL! It may not work in many browsers.** Check [Offscreen canvas capability tabletv](https://caniuse.com/#feat=offscreencanvas).
+**警告！这个演示是非常实验性的！可能在许多浏览器中无法正常工作。** 请查看 [Offscreen canvas capability tabletv](https://caniuse.com/#feat=offscreencanvas)。
 
-With some extra work we can render `Konva` stage inside a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) using [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) for performance reasons or for some crazy ideas.
+通过一些额外的工作，我们可以在 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) 中使用 [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) 渲染 `Konva` 阶段，以提高性能或实现一些疯狂的想法。
 
-You can use a webworker to make some visualizations with `Konva`.
+您可以使用 Web Worker 使用 `Konva` 制作一些可视化效果。
 
-But one of the main features of `Konva` is its interactivity (full events support for canvas shapes). And there are no DOM events inside a web worker. So we have to write some kind of "proxy" to pass all DOM events inside Konva engine. That way we can have interactive objects inside web worker too.
+但 `Konva` 的主要特点之一是它的交互性（对画布形状的完整事件支持）。而在 Web Worker 内部没有 DOM 事件。因此，我们必须编写某种“代理”来传递所有 DOM 事件到 Konva 引擎中。这样我们也可以在 Web Worker 内部拥有交互式对象。
 
-This demo is adopted from [Jumping bunnies](/docs/sandbox/Jumping_Bunnies.html) performance stress test.
+这个演示改编自 [跳跃的兔子](/docs/sandbox/Jumping_Bunnies.html) 性能压力测试。
 
-You may need to write more code to cover more functions and different edge cases (such as HDPI screen support).
+**说明：舞台上有两个交互对象。“添加按钮”和一个可拖动的红色圆圈。尝试添加更多兔子或拖动圆圈。**
 
-**Instructions: there are two interactive objects on the stage. "Add buttons" and a draggable red circle. Try to add more bunnies or drag the circle.**
-
-All you see on that screen is **rendered inside another javascript thread**!. So it should not block main JS thread of the current page.
+您在屏幕上看到的所有内容都是**在另一个 JavaScript 线程中渲染的**！因此，它不应该阻塞当前页面的主 JS 线程。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -31,17 +29,17 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 // main.js
 const workerCode = `
-// load konva framework
+// 加载 konva 框架
 importScripts('https://unpkg.com/konva@9/konva.min.js');
 
-// monkeypatch Konva for offscreen canvas usage
+// monkeypatch Konva 以使用离屏画布
 Konva.Util.createCanvasElement = () => {
   const canvas = new OffscreenCanvas(1, 1);
   canvas.style = {};
   return canvas;
 };
 
-// now we can create our canvas content
+// 现在我们可以创建我们的画布内容
 var stage = new Konva.Stage({
   width: 200,
   height: 200,
@@ -53,14 +51,14 @@ stage.add(layer);
 var topGroup = new Konva.Group();
 layer.add(topGroup);
 
-// counter will show number of bunnies
+// 计数器将显示兔子的数量
 var counter = new Konva.Text({
   x: 5,
   y: 35,
 });
 topGroup.add(counter);
 
-// "add more bunnies" button
+// “添加更多兔子”按钮
 var button = new Konva.Label({
   x: 5,
   y: 5,
@@ -76,7 +74,7 @@ button.add(
 
 button.add(
   new Konva.Text({
-    text: 'Push me to add bunnies',
+    text: '推我以添加兔子',
     fontFamily: 'Calibri',
     fontSize: 18,
     padding: 5,
@@ -84,7 +82,7 @@ button.add(
   })
 );
 
-// draggable circle to show interactivity
+// 可拖动的圆圈以显示交互性
 var circle = new Konva.Circle({
   x: stage.width() / 2,
   y: stage.height() / 2,
@@ -95,7 +93,7 @@ var circle = new Konva.Circle({
 topGroup.add(circle);
 
 self.onmessage = function (evt) {
-  // when canvas is passes we can start our worker
+  // 当画布被传递时，我们可以启动工作线程
   if (evt.data.canvas) {
     var canvas = evt.data.canvas;
     stage.setSize({
@@ -110,7 +108,7 @@ self.onmessage = function (evt) {
       ctx.drawImage(layer.getCanvas()._canvas, 0, 0);
     });
   }
-  // emulate some drag&drop events
+  // 模拟一些拖动和放置事件
   if (evt.data.eventName === 'mouseup') {
     Konva.DD._endDragBefore(evt.data.event);
   }
@@ -130,7 +128,7 @@ self.onmessage = function (evt) {
     Konva.DD._endDragAfter(evt.data.event);
   }
 
-  // pass incoming events into the stage
+  // 将传入的事件传递到舞台
   if (evt.data.eventName) {
     const event = evt.data.eventName.replace('mouse', 'pointer');
     stage['_' + event](evt.data.event);
@@ -176,7 +174,7 @@ async function runBunnies() {
     bunny.speedY = Math.random() * 10 - 5;
 
     bunnys.push(bunny);
-    counter.text('Bunnies number: ' + bunnys.length);
+    counter.text('兔子数量: ' + bunnys.length);
     layer.add(bunny);
   }
   topGroup.moveToTop();
@@ -199,7 +197,7 @@ async function runBunnies() {
         bunny.speedY = Math.random() * 10 - 5;
         bunnys.push(bunny);
         layer.add(bunny);
-        counter.text('Bunnies number: ' + bunnys.length);
+        counter.text('兔子数量: ' + bunnys.length);
         count++;
       }
       topGroup.moveToTop();
@@ -238,7 +236,7 @@ async function runBunnies() {
 runBunnies();
 `;
 
-// Create a blob from the worker code
+// 从工作代码创建一个 Blob
 const blob = new Blob([workerCode], { type: 'application/javascript' });
 const worker = new Worker(URL.createObjectURL(blob));
 
@@ -248,11 +246,11 @@ canvas.style.border = '1px solid black';
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// transfer control of the canvas to the worker
+// 将画布的控制权转移给工作线程
 const offscreen = canvas.transferControlToOffscreen();
 worker.postMessage({ canvas: offscreen }, [offscreen]);
 
-// proxy all events
+// 代理所有事件
 const events = [
   'mousedown',
   'mouseup',

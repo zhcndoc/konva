@@ -1,23 +1,23 @@
 ---
-title: How to use custom font for HTML5 canvas?
-sidebar_label: Custom Font
+title: 如何在 HTML5 画布中使用自定义字体?
+sidebar_label: 自定义字体
 hide_table_of_contents: true
 slug: Custom_Font.html
 ---
 
-## How to draw external font on html5 canvas?
+## 如何在 HTML5 画布上绘制外部字体?
 
-If you want to use custom font for `Konva.Text` you just need to:
-1. Add font style to your page
-2. Set `fontFamily` attribute to required font-face.
+如果您想在 `Konva.Text` 中使用自定义字体，只需执行以下步骤：
+1. 将字体样式添加到您的页面
+2. 将 `fontFamily` 属性设置为所需的字体面。
 
-But there is one important thing here. When you set font for DOM elements (like `div` or `span`) browsers will automatically update that elements when font is loaded. But it doesn't work the same for canvas text. You need to redraw canvas again.
+但这里有一个重要的事情。当您为 DOM 元素（如 `div` 或 `span`）设置字体时，浏览器会在字体加载后自动更新这些元素。但这对于画布文本则不起作用。您需要再次重绘画布。
 
-### Modern approach: CSS Font Loading API
+### 现代方法：CSS 字体加载 API
 
-The most modern way to detect when a font is loaded is to use the [CSS Font Loading API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API), which is supported in all modern browsers.
+检测字体何时加载的最现代方法是使用 [CSS 字体加载 API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API)，它在所有现代浏览器中都得到了支持。
 
-This API provides a clean, Promise-based way to load and detect fonts without any hacks or workarounds.
+该 API 提供了一种干净、基于 Promise 的方式来加载和检测字体，而无需任何黑客或变通方法。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,7 +27,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Build our stage
+// 建立我们的舞台
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -40,52 +40,52 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Add a text node with default font
+// 添加一个默认字体的文本节点
 const text = new Konva.Text({
   x: 50,
   y: 50,
   fontSize: 40,
-  text: 'A text with custom font.',
+  text: '带有自定义字体的文本。',
   width: 250,
-  // Start with default font
+  // 开始使用默认字体
   fontFamily: 'Arial'
 });
 
-// Add another text to help debug font loading
+// 添加另一个文本帮助调试字体加载
 const debugText = new Konva.Text({
   x: 50,
   y: 0,
   fontSize: 16,
-  text: 'Loading font...',
+  text: '加载字体...',
   fill: 'green'
 });
 
 layer.add(text);
 layer.add(debugText);
 
-// First, load the font using a stylesheet link (more reliable)
+// 首先，通过样式表链接加载字体（更可靠）
 const fontLink = document.createElement('link');
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
 fontLink.rel = 'stylesheet';
 document.head.appendChild(fontLink);
 
-// Use the browser's font loading mechanism to detect when it's ready
+// 使用浏览器的字体加载机制检测何时准备好
 document.fonts.ready.then(() => {
-  // Check if our font is loaded
+  // 检查我们的字体是否被加载
   if (document.fonts.check('1em Kavivanar')) {
     text.fontFamily('Kavivanar');
-    debugText.text('Font loaded successfully!');
+    debugText.text('字体加载成功！');
   } else {
-    // Fallback - try with a small delay (common issue with some browsers)
+    // 备选方案 - 尝试稍作延迟（某些浏览器的常见问题）
     setTimeout(() => {
-      debugText.text('Using fallback timer - attempting to set font now');
+      debugText.text('使用备选计时器 - 现在尝试设置字体');
       text.fontFamily('Kavivanar');
     }, 500);
   }
 }).catch(err => {
-  debugText.text('Error loading font: ' + err.message);
+  debugText.text('加载字体错误: ' + err.message);
   debugText.fill('red');
-  console.error('Font loading failed:', err);
+  console.error('字体加载失败:', err);
 });
 ```
   </TabItem>
@@ -96,31 +96,31 @@ import { useState, useEffect } from 'react';
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
-  const [fontStatus, setFontStatus] = useState('Loading font...');
+  const [fontStatus, setFontStatus] = useState('加载字体...');
   
   useEffect(() => {
-    // Load font using a regular stylesheet link (more reliable)
+    // 使用常规样式表链接加载字体（更可靠）
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
     
-    // Use the document.fonts.ready promise to detect when fonts are loaded
+    // 使用 document.fonts.ready promise 检测何时加载字体
     document.fonts.ready.then(() => {
-      // Check if our font is loaded
+      // 检查我们的字体是否被加载
       if (document.fonts.check('1em Kavivanar')) {
-        setFontStatus('Font loaded successfully!');
+        setFontStatus('字体加载成功！');
         setFontLoaded(true);
       } else {
-        // Fallback - try with a small delay
+        // 备选方案 - 尝试稍作延迟
         setTimeout(() => {
-          setFontStatus('Using fallback timer - attempting to set font now');
+          setFontStatus('使用备选计时器 - 现在尝试设置字体');
           setFontLoaded(true);
         }, 500);
       }
     }).catch(err => {
-      setFontStatus('Error loading font: ' + err.message);
-      console.error('Font loading failed:', err);
+      setFontStatus('加载字体错误: ' + err.message);
+      console.error('字体加载失败:', err);
     });
   }, []);
 
@@ -131,7 +131,7 @@ const App = () => {
           x={50}
           y={50}
           fontSize={40}
-          text="A text with custom font."
+          text="带有自定义字体的文本。"
           width={250}
           fontFamily={fontLoaded ? 'Kavivanar' : 'Arial'}
         />
@@ -140,7 +140,7 @@ const App = () => {
           y={0}
           fontSize={16}
           text={fontStatus}
-          fill={fontStatus.includes('Error') ? 'red' : 'green'}
+          fill={fontStatus.includes('错误') ? 'red' : 'green'}
         />
       </Layer>
     </Stage>
@@ -173,7 +173,7 @@ const textConfig = ref({
   x: 50,
   y: 50,
   fontSize: 40,
-  text: 'A text with custom font.',
+  text: '带有自定义字体的文本。',
   width: 250,
   fontFamily: 'Arial'
 });
@@ -182,34 +182,34 @@ const debugTextConfig = ref({
   x: 50,
   y: 0,
   fontSize: 16,
-  text: 'Loading font...',
+  text: '加载字体...',
   fill: 'green'
 });
 
 onMounted(() => {
-  // Load font using a regular stylesheet link (more reliable)
+  // 使用常规样式表链接加载字体（更可靠）
   const fontLink = document.createElement('link');
   fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
   fontLink.rel = 'stylesheet';
   document.head.appendChild(fontLink);
   
-  // Use the document.fonts.ready promise to detect when fonts are loaded
+  // 使用 document.fonts.ready promise 检测何时加载字体
   document.fonts.ready.then(() => {
-    // Check if our font is loaded
+    // 检查我们的字体是否被加载
     if (document.fonts.check('1em Kavivanar')) {
-      debugTextConfig.value.text = 'Font loaded successfully!';
+      debugTextConfig.value.text = '字体加载成功！';
       textConfig.value.fontFamily = 'Kavivanar';
     } else {
-      // Fallback - try with a small delay
+      // 备选方案 - 尝试稍作延迟
       setTimeout(() => {
-        debugTextConfig.value.text = 'Using fallback timer - attempting to set font now';
+        debugTextConfig.value.text = '使用备选计时器 - 现在尝试设置字体';
         textConfig.value.fontFamily = 'Kavivanar';
       }, 500);
     }
   }).catch(err => {
-    debugTextConfig.value.text = 'Error loading font: ' + err.message;
+    debugTextConfig.value.text = '加载字体错误: ' + err.message;
     debugTextConfig.value.fill = 'red';
-    console.error('Font loading failed:', err);
+    console.error('字体加载失败:', err);
   });
 });
 </script>

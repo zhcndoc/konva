@@ -1,46 +1,46 @@
 ---
-title: Free Drawing Konva Demo
-sidebar_label: Free Drawing
+title: 自由绘画 Konva 演示
+sidebar_label: 自由绘画
 hide_table_of_contents: true
 slug: Free_Drawing.html
 ---
 
-There are many ways to implement free drawing tools in Konva.
+有很多方法可以在 Konva 中实现自由绘画工具。
 
-I see two most common and simple ways:
+我看到两种最常见和简单的方法：
 
-1. Konva-based vector graphics (simple)
-2. Manual drawing into 2d canvas (advanced)
+1. 基于 Konva 的矢量图形（简单）
+2. 手动绘制到 2D 画布（高级）
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## Free drawing with Konva nodes
+## 使用 Konva 节点进行自由绘画
 
-So the first and probably the simplest ways is:
+所以第一种方法也是可能是最简单的方法是：
 
-1. Start a new `Konva.Line` on `mousedown`/`touchstart`
-2. Add new point into the line while `mousemove`/`touchmove`
+1. 在 `mousedown`/`touchstart` 时开始一个新的 `Konva.Line`
+2. 在 `mousemove`/`touchmove` 时向该线添加新的点
 
-That way works ok for many applications. Also it is simple to store the state of the drawing somewhere in vector representation (like React store or JSON saving into database).
+这种方式在许多应用中运行良好。要将绘图的状态存储在某处（如 React store 或 JSON 保存到数据库）也很简单。
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// create tool select
+// 创建工具选择
 const select = document.createElement('select');
 select.innerHTML = `
-  <option value="brush">Brush</option>
-  <option value="eraser">Eraser</option>
+  <option value="brush">画笔</option>
+  <option value="eraser">橡皮擦</option>
 `;
 document.body.appendChild(select);
 
 const width = window.innerWidth;
 const height = window.innerHeight - 25;
 
-// first we need Konva core things: stage and layer
+// 首先我们需要 Konva 的核心组件：舞台和图层
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
@@ -62,10 +62,10 @@ stage.on('mousedown touchstart', function (e) {
     strokeWidth: 5,
     globalCompositeOperation:
       mode === 'brush' ? 'source-over' : 'destination-out',
-    // round cap for smoother lines
+    // 为了更平滑的线条，使用圆形端点
     lineCap: 'round',
     lineJoin: 'round',
-    // add point twice, so we have some drawings even on a simple click
+    // 添加点两次，以便我们即使在简单点击时也有一些绘制
     points: [pos.x, pos.y, pos.x, pos.y],
   });
   layer.add(lastLine);
@@ -75,13 +75,13 @@ stage.on('mouseup touchend', function () {
   isPaint = false;
 });
 
-// and core function - drawing
+// 核心功能 - 绘画
 stage.on('mousemove touchmove', function (e) {
   if (!isPaint) {
     return;
   }
 
-  // prevent scrolling on touch devices
+  // 防止触摸设备上的滚动
   e.evt.preventDefault();
 
   const pos = stage.getPointerPosition();
@@ -111,19 +111,19 @@ const App = () => {
   };
 
   const handleMouseMove = (e) => {
-    // no drawing - skipping
+    // 没有绘图 - 跳过
     if (!isDrawing.current) {
       return;
     }
     const stage = e.target.getStage();
     const point = stage.getPointerPosition();
     
-    // To draw line
+    // 绘制线条
     let lastLine = lines[lines.length - 1];
-    // add point
+    // 添加点
     lastLine.points = lastLine.points.concat([point.x, point.y]);
 
-    // replace last
+    // 替换最后一项
     lines.splice(lines.length - 1, 1, lastLine);
     setLines(lines.concat());
   };
@@ -140,8 +140,8 @@ const App = () => {
           setTool(e.target.value);
         }}
       >
-        <option value="brush">Brush</option>
-        <option value="eraser">Eraser</option>
+        <option value="brush">画笔</option>
+        <option value="eraser">橡皮擦</option>
       </select>
       <Stage
         width={window.innerWidth}
@@ -182,8 +182,8 @@ export default App;
 <template>
   <div>
     <select v-model="tool">
-      <option value="brush">Brush</option>
-      <option value="eraser">Eraser</option>
+      <option value="brush">画笔</option>
+      <option value="eraser">橡皮擦</option>
     </select>
     <v-stage
       :config="stageConfig"
@@ -252,31 +252,31 @@ const handleMouseUp = () => {
   </TabItem>
 </Tabs>
 
-## Free drawing manually
+## 手动自由绘画
 
-The first approach has limitation if we want to use some low-level 2d canvas API directly. If you need advanced access to the canvas it is better to use [Native Context Access](/docs/sandbox/Native_Context_Access.html)
+如果我们想直接使用一些低级别的 2D 画布 API，第一个方法有局限性。如果需要对画布进行高级访问，最好使用 [原生上下文访问](/docs/sandbox/Native_Context_Access.html)
 
-We will create special offscreen canvas where we will add all drawings.
-With native access to the canvas we can use low-level 2d context functions.
-To display the canvas on the stage we will use `Konva.Image`.
+我们将创建一个特殊的离屏画布，用于添加所有绘图。
+使用对画布的原生访问，我们可以使用低级别的 2D 上下文函数。
+要在舞台上显示画布，我们将使用 `Konva.Image`。
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// create tool select
+// 创建工具选择
 const select = document.createElement('select');
 select.innerHTML = `
-  <option value="brush">Brush</option>
-  <option value="eraser">Eraser</option>
+  <option value="brush">画笔</option>
+  <option value="eraser">橡皮擦</option>
 `;
 document.body.appendChild(select);
 
 const width = window.innerWidth;
 const height = window.innerHeight - 25;
 
-// first we need Konva core things: stage and layer
+// 首先我们需要 Konva 的核心组件：舞台和图层
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
@@ -286,12 +286,12 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// then we are going to draw into special canvas element
+// 然后我们将绘制到特殊的画布元素中
 const canvas = document.createElement('canvas');
 canvas.width = stage.width();
 canvas.height = stage.height();
 
-// created canvas we can add to layer as "Konva.Image" element
+// 创建的画布我们可以作为 "Konva.Image" 元素添加到图层
 const image = new Konva.Image({
   image: canvas,
   x: 0,
@@ -299,7 +299,7 @@ const image = new Konva.Image({
 });
 layer.add(image);
 
-// Good. Now we need to get access to context element
+// 很好。现在我们需要访问上下文元素
 const context = canvas.getContext('2d');
 context.strokeStyle = '#df4b26';
 context.lineJoin = 'round';
@@ -309,9 +309,9 @@ let isPaint = false;
 let lastPointerPosition;
 let mode = 'brush';
 
-// now we need to bind some events
-// we need to start drawing on mousedown
-// and stop drawing on mouseup
+// 现在我们需要绑定一些事件
+// 我们需要在鼠标按下时开始绘制
+// 在鼠标抬起时停止绘制
 image.on('mousedown touchstart', function () {
   isPaint = true;
   lastPointerPosition = stage.getPointerPosition();
@@ -321,7 +321,7 @@ stage.on('mouseup touchend', function () {
   isPaint = false;
 });
 
-// and core function - drawing
+// 核心功能 - 绘画
 stage.on('mousemove touchmove', function () {
   if (!isPaint) {
     return;
@@ -350,7 +350,7 @@ stage.on('mousemove touchmove', function () {
   context.stroke();
 
   lastPointerPosition = pos;
-  // redraw manually
+  // 手动重绘
   layer.batchDraw();
 });
 
@@ -428,8 +428,8 @@ const App = () => {
           setTool(e.target.value);
         }}
       >
-        <option value="brush">Brush</option>
-        <option value="eraser">Eraser</option>
+        <option value="brush">画笔</option>
+        <option value="eraser">橡皮擦</option>
       </select>
       <Stage
         width={window.innerWidth}
@@ -462,8 +462,8 @@ export default App;
 <template>
   <div>
     <select v-model="tool">
-      <option value="brush">Brush</option>
-      <option value="eraser">Eraser</option>
+      <option value="brush">画笔</option>
+      <option value="eraser">橡皮擦</option>
     </select>
     <v-stage
       :config="stageConfig"
@@ -498,12 +498,12 @@ const stageConfig = {
   height: window.innerHeight - 25
 };
 
-// create canvas element
+// 创建画布元素
 const canvas = document.createElement('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight - 25;
 
-// get context
+// 获取上下文
 const context = canvas.getContext('2d');
 context.strokeStyle = '#df4b26';
 context.lineJoin = 'round';
@@ -557,4 +557,4 @@ const handleMouseMove = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

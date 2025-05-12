@@ -1,15 +1,15 @@
 ---
-title: How to animate GIF on Canvas
-sidebar_label: GIF on Canvas
+title: 如何在 Canvas 上动画 GIF
+sidebar_label: 在 Canvas 上的 GIF
 hide_table_of_contents: true
 slug: GIF_On_Canvas.html
 ---
 
-## How to show animated GIF on canvas?
+## 如何在画布上显示动画 GIF？
 
-You can't directly insert GIF image into the canvas. But we can use external library to parse the gif and then we can draw it into the layer as `Konva.Image` shape.
+你不能直接将 GIF 图像插入到画布中。但我们可以使用外部库来解析 GIF，然后将其作为 `Konva.Image` 形状绘制到图层中。
 
-In this demo we will use [gifler](http://themadcreator.github.io/gifler/) to parse and draw the gif. You can use any other library.
+在这个演示中，我们将使用 [gifler](http://themadcreator.github.io/gifler/) 来解析和绘制 GIF。你可以使用任何其他库。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -19,7 +19,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Load gifler library
+// 加载 gifler 库
 const script = document.createElement('script');
 script.src = 'https://unpkg.com/gifler@0.1.0/gifler.min.js';
 document.head.appendChild(script);
@@ -35,14 +35,14 @@ stage.add(layer);
 
 const canvas = document.createElement('canvas');
 
-// use external library to parse and draw gif animation
+// 使用外部库解析并绘制 GIF 动画
 function onDrawFrame(ctx, frame) {
-  // update canvas size
+  // 更新画布大小
   canvas.width = frame.width;
   canvas.height = frame.height;
-  // update canvas that we are using for Konva.Image
+  // 更新我们用于 Konva.Image 的画布
   ctx.drawImage(frame.buffer, 0, 0);
-  // redraw the layer
+  // 重新绘制图层
   layer.draw();
 }
 
@@ -50,7 +50,7 @@ script.onload = () => {
   gifler('https://konvajs.org/assets/yoda.gif').frames(canvas, onDrawFrame);
 };
 
-// draw resulted canvas into the stage as Konva.Image
+// 将结果画布绘制到舞台作为 Konva.Image
 const image = new Konva.Image({
   image: canvas,
 });
@@ -67,19 +67,19 @@ const GifImage = () => {
   const canvasRef = React.useRef(document.createElement('canvas'));
 
   React.useEffect(() => {
-    // Load gifler library
+    // 加载 gifler 库
     const script = document.createElement('script');
     script.src = 'https://unpkg.com/gifler@0.1.0/gifler.min.js';
     
     script.onload = () => {
-      // use external library to parse and draw gif animation
+      // 使用外部库解析并绘制 GIF 动画
       function onDrawFrame(ctx, frame) {
-        // update canvas size
+        // 更新画布大小
         canvasRef.current.width = frame.width;
         canvasRef.current.height = frame.height;
-        // update canvas that we are using for Konva.Image
+        // 更新我们用于 Konva.Image 的画布
         ctx.drawImage(frame.buffer, 0, 0);
-        // update Konva.Image
+        // 更新 Konva.Image
         imageRef.current?.getLayer()?.batchDraw();
       }
 
@@ -136,19 +136,19 @@ const stageConfig = {
 };
 
 onMounted(() => {
-  // Load gifler library
+  // 加载 gifler 库
   const script = document.createElement('script');
   script.src = 'https://unpkg.com/gifler@0.1.0/gifler.min.js';
   
   script.onload = () => {
-    // use external library to parse and draw gif animation
+    // 使用外部库解析并绘制 GIF 动画
     function onDrawFrame(ctx, frame) {
-      // update canvas size
+      // 更新画布大小
       canvas.width = frame.width;
       canvas.height = frame.height;
-      // update canvas that we are using for Konva.Image
+      // 更新我们用于 Konva.Image 的画布
       ctx.drawImage(frame.buffer, 0, 0);
-      // update Konva.Image
+      // 更新 Konva.Image
       imageRef.value.getNode().getLayer().batchDraw();
     }
 
@@ -164,4 +164,4 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 
-Instructions: The demo shows an animated GIF rendered on canvas using the gifler library. The GIF is parsed and each frame is drawn onto a canvas, which is then used as the source for a Konva.Image shape. 
+说明：该演示展示了使用 gifler 库在画布上呈现的动画 GIF。GIF 被解析，并且每一帧都绘制到画布上，然后该画布被用作 Konva.Image 形状的源。

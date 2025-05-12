@@ -1,11 +1,11 @@
 ---
-title: Interactive Building Map
+title: 交互式建筑地图
 layout: demo_page
 hide_table_of_contents: true
 slug: Interactive_Building_Map.html
 ---
 
-**Instructions: hover over sections of the building to see its description**
+**说明：将鼠标悬停在建筑物的各个部分以查看其说明**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -17,19 +17,19 @@ import Konva from 'konva';
 
 function getData() {
   return {
-    '1st Floor': {
+    '一楼': {
       color: 'blue',
       points: [366, 298, 500, 284, 499, 204, 352, 183, 72, 228, 74, 274],
     },
-    '2nd Floor': {
+    '二楼': {
       color: 'red',
       points: [72, 228, 73, 193, 340, 96, 498, 154, 498, 191, 341, 171],
     },
-    '3rd Floor': {
+    '三楼': {
       color: 'yellow',
       points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
     },
-    Gym: {
+    健身房: {
       color: 'green',
       points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
     },
@@ -51,7 +51,7 @@ const stage = new Konva.Stage({
   height: window.innerHeight,
 });
 
-// add background image first
+// 先添加背景图像
 const imageLayer = new Konva.Layer();
 stage.add(imageLayer);
 
@@ -99,10 +99,10 @@ tooltip.add(
 
 tooltipLayer.add(tooltip);
 
-// get areas data
+// 获取区域数据
 const areas = getData();
 
-// draw areas
+// 绘制区域
 for (const key in areas) {
   const area = areas[key];
   const points = area.points;
@@ -113,27 +113,27 @@ for (const key in areas) {
     opacity: 0,
     closed: true,
     name: 'area',
-    // custom attr
+    // 自定义属性
     key: key,
   });
 
   shapesLayer.add(shape);
 }
 
-// add layers in correct order
+// 按正确顺序添加层
 stage.add(shapesLayer);
 stage.add(tooltipLayer);
 
 stage.on('mouseover', (evt) => {
   const shape = evt.target;
-  if (shape && shape.name() === 'area') {  // only change opacity if it's an area shape
+  if (shape && shape.name() === 'area') {  // 仅在是区域形状时改变不透明度
     shape.opacity(0.5);
   }
 });
 
 stage.on('mouseout', (evt) => {
   const shape = evt.target;
-  if (shape && shape.name() === 'area') {  // only change opacity if it's an area shape
+  if (shape && shape.name() === 'area') {  // 仅在是区域形状时改变不透明度
     shape.opacity(0);
     tooltip.hide();
   }
@@ -141,7 +141,7 @@ stage.on('mouseout', (evt) => {
 
 stage.on('mousemove', (evt) => {
   const shape = evt.target;
-  if (shape && shape.name() === 'area') {  // only change opacity if it's an area shape
+  if (shape && shape.name() === 'area') {  // 仅在是区域形状时改变不透明度
     const mousePos = stage.getPointerPosition();
     const x = mousePos.x;
     const y = mousePos.y - 5;
@@ -157,19 +157,19 @@ import { useState } from 'react';
 import useImage from 'use-image';
 
 const getData = () => ({
-  '1st Floor': {
+  '一楼': {
     color: 'blue',
     points: [366, 298, 500, 284, 499, 204, 352, 183, 72, 228, 74, 274],
   },
-  '2nd Floor': {
+  '二楼': {
     color: 'red',
     points: [72, 228, 73, 193, 340, 96, 498, 154, 498, 191, 341, 171],
   },
-  '3rd Floor': {
+  '三楼': {
     color: 'yellow',
     points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
   },
-  Gym: {
+  健身房: {
     color: 'green',
     points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
   },
@@ -343,19 +343,19 @@ const stageSize = {
 const [backgroundImage] = useImage('https://konvajs.org/assets/line-building.png');
 
 const getData = () => ({
-  '1st Floor': {
+  '一楼': {
     color: 'blue',
     points: [366, 298, 500, 284, 499, 204, 352, 183, 72, 228, 74, 274],
   },
-  '2nd Floor': {
+  '二楼': {
     color: 'red',
     points: [72, 228, 73, 193, 340, 96, 498, 154, 498, 191, 341, 171],
   },
-  '3rd Floor': {
+  '三楼': {
     color: 'yellow',
     points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
   },
-  Gym: {
+  健身房: {
     color: 'green',
     points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
   },

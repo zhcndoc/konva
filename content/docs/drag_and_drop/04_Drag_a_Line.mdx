@@ -1,20 +1,19 @@
 ---
-title: HTML5 Canvas Drag and Drop a Line
-sidebar_label: Drag a Line
+title: HTML5 Canvas 拖拽一条线
+sidebar_label: 拖拽一条线
 hide_table_of_contents: true
 slug: Drag_a_Line.html
 ---
 
-To drag and drop a line with Konva, we can set the `draggable` property
-of the config object to `true` when the line is instantiated, or we can use the `draggable()` method.
+要使用 Konva 拖拽一条线，我们可以在实例化线条时将配置对象的 `draggable` 属性设置为 `true`，或者可以使用 `draggable()` 方法。
 
-**Note: (!) dragging a line will NOT change the `points` property. Instead `x` and `y` properties of the line are changed.**
+**注意：(!) 拖拽一条线不会更改 `points` 属性。相反，线条的 `x` 和 `y` 属性会发生更改。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生">
 ```js live vanilla
 import Konva from 'konva';
 
@@ -37,7 +36,7 @@ const redLine = new Konva.Line({
   draggable: true,
 });
 
-// add cursor styling
+// 添加鼠标样式
 redLine.on('mouseover', function () {
   document.body.style.cursor = 'pointer';
 });
@@ -141,4 +140,4 @@ const handleMouseLeave = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

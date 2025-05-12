@@ -1,17 +1,17 @@
 ---
-title: How to drag and drop DOM image into the canvas
-sidebar_label: Drop DOM Element
+title: 如何将 DOM 图像拖放到画布中
+sidebar_label: 放置 DOM 元素
 hide_table_of_contents: true
 slug: Drop_DOM_Element.html
 ---
 
-In this demo we will demonstrate how drop DOM element that is placed outside of canvas into the stage.
+在这个演示中，我们将展示如何将放置在画布外部的 DOM 元素拖放到舞台中。
 
-The first image you see is a DOM image. We can use [HTML5 drag&drop](https://www.html5rocks.com/en/tutorials/dnd/basics/) to enable its dragging.
+您看到的第一张图像是一个 DOM 图像。我们可以使用 [HTML5 拖放](https://www.html5rocks.com/en/tutorials/dnd/basics/) 来启用它的拖动。
 
-You will need some extra step if you need to enable drag&drop for DOM element on touch devices. You can read [here](https://mobiforge.com/design-development/touch-friendly-drag-and-drop) for more info.
+如果您需要在触摸设备上为 DOM 元素启用拖放，则需要一些额外的步骤。您可以在 [这里](https://mobiforge.com/design-development/touch-friendly-drag-and-drop) 阅读更多信息。
 
-**Instructions:** drag&drop yoda into the canvas.
+**说明：** 将尤达拖放到画布中。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -24,11 +24,11 @@ import Konva from 'konva';
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// Add DOM elements to render outside the container
+// 添加 DOM 元素以在容器外部渲染
 document.getElementById('container').insertAdjacentHTML(
   'beforebegin',
   `
-  <p>Drag&drop yoda into the grey area.</p>
+  <p>将尤达拖放到灰色区域。</p>
   <div id="drag-items">
     <img src="https://konvajs.org/assets/yoda.jpg" draggable="true" style="height: 100px; margin: 5px;" />
     <img src="https://konvajs.org/assets/darth-vader.jpg" draggable="true" style="height: 100px; margin: 5px;" />
@@ -36,20 +36,20 @@ document.getElementById('container').insertAdjacentHTML(
 `
 );
 
-// Style the container with grey background
+// 用灰色背景样式化容器
 document.getElementById('container').style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
 
-// Create stage and layer
+// 创建舞台和图层
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
-  height: height - 150, // leave space for the DOM elements
+  height: height - 150, // 留出空间给 DOM 元素
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Track URL of the dragging element
+// 跟踪拖动元素的 URL
 let itemURL = '';
 document
   .getElementById('drag-items')
@@ -57,22 +57,22 @@ document
     itemURL = e.target.src;
   });
 
-// Handle dragover on container
+// 处理容器上的 dragover
 const container = stage.container();
 container.addEventListener('dragover', function (e) {
-  e.preventDefault(); // important - must prevent default behavior
+  e.preventDefault(); // 重要 - 必须阻止默认行为
 });
 
-// Handle drop on container
+// 处理容器上的 drop
 container.addEventListener('drop', function (e) {
   e.preventDefault();
   
-  // Register the pointer position manually since this is a DOM event
+  // 手动注册指针位置，因为这是一个 DOM 事件
   stage.setPointersPositions(e);
   
-  // Load the image and add it to the layer
+  // 加载图像并将其添加到图层
   Konva.Image.fromURL(itemURL, function (image) {
-    // Calculate appropriate size based on image dimensions
+    // 根据图像尺寸计算合适的大小
     const img = image.image();
     const maxDimension = 100;
     let width = img.width;
@@ -125,7 +125,7 @@ const App = () => {
   };
   
   const handleDragOver = (e) => {
-    e.preventDefault(); // prevent default behavior
+    e.preventDefault(); // 阻止默认行为
   };
   
   const handleDrop = (e) => {
@@ -133,14 +133,14 @@ const App = () => {
     
     if (!dragImageSrc || !stageRef.current) return;
     
-    // Get stage and pointer position
+    // 获取舞台和指针位置
     const stage = stageRef.current;
     
-    // Register the pointer position manually since this is a DOM event
+    // 手动注册指针位置，因为这是一个 DOM 事件
     stage.setPointersPositions(e);
     const position = stage.getPointerPosition();
     
-    // Add new image to the list
+    // 将新图像添加到列表中
     setImages([
       ...images,
       {
@@ -154,7 +154,7 @@ const App = () => {
   
   return (
     <div>
-      <p>Drag&drop yoda into the grey area.</p>
+      <p>将尤达拖放到灰色区域。</p>
       <div style={{ marginBottom: '10px' }}>
         <DragItem 
           src="https://konvajs.org/assets/yoda.jpg" 
@@ -193,13 +193,13 @@ const App = () => {
   );
 };
 
-// Separate component for Konva Image with proper loading
+// 单独的组件，用于 Konva 图像的正确加载
 const KonvaImage = ({ src, x, y, draggable }) => {
   const [image] = useImage(src);
   
   if (!image) return null;
   
-  // Calculate appropriate size
+  // 计算合适的大小
   const maxDimension = 100;
   let width = image.width;
   let height = image.height;
@@ -231,7 +231,7 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <p>Drag&drop yoda into the grey area.</p>
+    <p>将尤达拖放到灰色区域。</p>
     <div style="margin-bottom: 10px;">
       <img 
         src="https://konvajs.org/assets/yoda.jpg" 
@@ -281,23 +281,23 @@ const images = ref([]);
 const dragImageSrc = ref('');
 const loadedImages = ref({});
 
-// Handle drag start to track the image being dragged
+// 处理拖动开始，以跟踪正在拖动的图像
 const handleDragStart = (src) => {
   dragImageSrc.value = src;
 };
 
-// Handle drop event to add image to stage
+// 处理 drop 事件，将图像添加到舞台
 const handleDrop = (e) => {
   e.preventDefault();
   
   if (!dragImageSrc.value || !stageRef.value) return;
   
-  // Get stage reference and register pointer positions
+  // 获取舞台引用并注册指针位置
   const stage = stageRef.value.getNode();
   stage.setPointersPositions(e);
   const position = stage.getPointerPosition();
   
-  // Load the image if not loaded already
+  // 如果尚未加载图像，则加载图像
   if (!loadedImages.value[dragImageSrc.value]) {
     const img = new Image();
     img.onload = () => {
@@ -306,17 +306,17 @@ const handleDrop = (e) => {
         [dragImageSrc.value]: img
       };
       
-      // Add image to the stage
+      // 将图像添加到舞台
       addImageToStage(dragImageSrc.value, position);
     };
     img.src = dragImageSrc.value;
   } else {
-    // Image already loaded, add it to stage
+    // 图像已加载，添加到舞台
     addImageToStage(dragImageSrc.value, position);
   }
 };
 
-// Helper to add image to stage
+// 辅助函数将图像添加到舞台
 const addImageToStage = (src, position) => {
   images.value.push({
     src: src,
@@ -326,12 +326,12 @@ const addImageToStage = (src, position) => {
   });
 };
 
-// Configure image properties 
+// 配置图像属性 
 const getImageConfig = (img) => {
   const image = loadedImages.value[img.src];
   if (!image) return { x: img.x, y: img.y, draggable: true };
   
-  // Calculate appropriate size
+  // 计算合适的大小
   const maxDimension = 100;
   let width = image.width;
   let height = image.height;

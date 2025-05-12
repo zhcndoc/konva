@@ -1,33 +1,25 @@
 ---
-title: HTML5 Canvas Custom Hit Detection Function Tutorial
-sidebar_label: Custom Hit Region
+title: HTML5 Canvas 自定义命中检测函数教程
+sidebar_label: 自定义命中区域
 hide_table_of_contents: true
 slug: Custom_Hit_Region.html
 ---
 
-There are two ways to change hit region of the shape: `hitFunc` and `hitStrokeWidth` properties.
+改变图形命中区域有两种方式：`hitFunc` 和 `hitStrokeWidth` 属性。
 
-## 1. What is `hitFunc`?
+## 1. 什么是 `hitFunc`？
 
-To create a custom hit draw function for a shape with Konva, we can set
-the `hitFunc` property. A hit draw function is the function that Konva
-will use to draw a region used for hit detection. Using a custom draw hit
-function can have several benefits, such as making the hit region larger
-so that it's easier for users to interact with a shape, making some portions
-of a shape detectable and others not, or simplifying the hit draw function
-in order to improve rendering performance.
+要为 Konva 中的图形创建自定义命中绘制函数，可以设置 `hitFunc` 属性。命中绘制函数是 Konva 用来绘制用于命中检测的区域的函数。使用自定义命中绘制函数有多种好处，比如使命中区域更大，方便用户与图形交互；只让图形的某些部分可以被检测到，其他部分则不行；或者简化命中绘制函数以提升渲染性能。
 
-Also take a look into some [best practices](/docs/shapes/Custom.html) of writing custom `sceneFunc` that can be used for `hitFunc` too.
+另外，可以查看一些编写自定义 `sceneFunc` 的[最佳实践](/docs/shapes/Custom.html)，`sceneFunc` 也可用于 `hitFunc`。
 
-`hitFunc` is a function with two arguments: [Konva.Context](/api/Konva.Context.html) renderer and a shape instance.
+`hitFunc` 是一个带有两个参数的函数：[`Konva.Context`](/api/Konva.Context.html) 渲染器和一个图形实例。
 
-## 2. What is `hitStrokeWidth`?
+## 2. 什么是 `hitStrokeWidth`？
 
-For some shapes, like `Konva.Line` it is too hard to overwrite `hitFunc`. In some cases you just want to make it thicker for events. In this case it is better to use `hitStrokeWidth` property with a large value.
+对于某些图形，比如 `Konva.Line`，覆盖 `hitFunc` 太困难。在某些情况下，你可能只是想让它的事件响应范围更宽一点。这种情况下，最好使用 `hitStrokeWidth` 属性设置一个较大的值。
 
-**Instructions: Mouseover, mouseout, mousedown, and mouseup over the star and
-observe that the hit region is an over sized circle encompassing the shape. Also try the same for a line.
-Also you can toggle hit canvas to see how it looks. It may be useful for debugging.**
+**操作说明：在星形上进行 mouseover、mouseout、mousedown 和 mouseup 操作，观察命中区域是一个包裹图形的超大圆。对线条也试试看。同时你可以切换命中画布，观察其显示效果，这对调试很有用。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -65,7 +57,7 @@ const star = new Konva.Star({
   strokeWidth: 4,
 });
 
-// custom hit function
+// 自定义命中函数
 star.hitFunc(function (context) {
   context.beginPath();
   context.arc(0, 0, 70, 0, Math.PI * 2, true);
@@ -83,7 +75,7 @@ const line = new Konva.Line({
 });
 
 const button = document.createElement('button');
-button.innerHTML = 'Toggle hit canvas';
+button.innerHTML = '切换命中画布';
 document.body.appendChild(button);
 let showHit = false;
 
@@ -106,11 +98,11 @@ function writeMessage(message) {
 }
 
 star.on('mouseover mouseout mousedown mouseup', function (evt) {
-  writeMessage(evt.type + ' star');
+  writeMessage(evt.type + ' 星形');
 });
 
 line.on('mouseover mouseout mousedown mouseup', function (evt) {
-  writeMessage(evt.type + ' line');
+  writeMessage(evt.type + ' 线条');
 });
 
 layer.add(star);
@@ -127,11 +119,11 @@ const App = () => {
   const [showHit, setShowHit] = useState(false);
 
   const handleStarEvent = (evt) => {
-    setMessage(evt.type + ' star');
+    setMessage(evt.type + ' 星形');
   };
 
   const handleLineEvent = (evt) => {
-    setMessage(evt.type + ' line');
+    setMessage(evt.type + ' 线条');
   };
 
   useEffect(() => {
@@ -147,7 +139,7 @@ const App = () => {
 
   return (
     <>
-      <button onClick={() => setShowHit(!showHit)}>Toggle hit canvas</button>
+      <button onClick={() => setShowHit(!showHit)}>切换命中画布</button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Text x={10} y={10} text={message} fontSize={24} />
@@ -196,7 +188,7 @@ export default App;
 ```html live vue
 <template>
   <div>
-    <button @click="toggleHit">Toggle hit canvas</button>
+    <button @click="toggleHit">切换命中画布</button>
     <v-stage :config="stageSize" ref="stageRef">
       <v-layer ref="layerRef">
         <v-text :config="textConfig" />
@@ -266,11 +258,11 @@ const lineConfig = {
 };
 
 const handleStarEvent = (e) => {
-  message.value = e.type + ' star';
+  message.value = e.type + ' 星形';
 };
 
 const handleLineEvent = (e) => {
-  message.value = e.type + ' line';
+  message.value = e.type + ' 线条';
 };
 
 const toggleHit = () => {
@@ -291,4 +283,4 @@ const toggleHit = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

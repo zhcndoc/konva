@@ -1,15 +1,15 @@
 ---
-title: How to Limit Dragging and Resizing of Shapes by Canvas Stage
-sidebar_label: Limited Drag and Resize
+title: 如何限制形状在画布舞台上的拖动和调整大小
+sidebar_label: 限制拖动和调整大小
 hide_table_of_contents: true
 slug: Limited_Drag_And_Resize.html
 ---
 
-This demo demonstrates how to restrict dragging and resizing of shapes to stay within the boundaries of the canvas stage. By implementing custom boundary functions, we can prevent shapes from being moved or resized outside the visible area.
+该演示展示了如何限制形状的拖动和调整大小，使其保持在画布舞台的边界内。通过实现自定义边界函数，我们可以防止形状移动或调整到可见区域之外。
 
-The implementation combines techniques from the [Drag Limit Demo](https://konvajs.org/docs/drag_and_drop/Simple_Drag_Bounds.html) and [Resize Limit Demo](https://konvajs.org/docs/select_and_transform/Resize_Limits.html) to add restrictions to user interactions.
+该实现结合了[拖动限制演示](https://konvajs.org/docs/drag_and_drop/Simple_Drag_Bounds.html)和[调整大小限制演示](https://konvajs.org/docs/select_and_transform/Resize_Limits.html)中的技术，以增加对用户交互的限制。
 
-**Instructions:** Try to rotate, drag, or resize the shapes. Notice how they are constrained to stay within the canvas boundaries.
+**说明：** 尝试旋转、拖动或调整形状的大小。注意它们如何被限制在画布边界内。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -19,21 +19,21 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Helper functions for calculating bounding boxes
+// 计算边界框的辅助函数
 function getCorner(pivotX, pivotY, diffX, diffY, angle) {
   const distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
-  // Find angle from pivot to corner
+  // 从枢轴到拐角的角度
   angle += Math.atan2(diffY, diffX);
 
-  // Get new x and y coordinates
+  // 获取新的 x 和 y 坐标
   const x = pivotX + distance * Math.cos(angle);
   const y = pivotY + distance * Math.sin(angle);
 
   return { x, y };
 }
 
-// Calculate client rect accounting for rotation
+// 计算考虑旋转的客户端矩形
 function getClientRect(rotatedBox) {
   const { x, y, width, height } = rotatedBox;
   const rad = rotatedBox.rotation;
@@ -56,7 +56,7 @@ function getClientRect(rotatedBox) {
   };
 }
 
-// Calculate total bounding box of multiple shapes
+// 计算多个形状的总边界框
 function getTotalBox(boxes) {
   let minX = Infinity;
   let minY = Infinity;
@@ -78,7 +78,7 @@ function getTotalBox(boxes) {
   };
 }
 
-// Set up the stage
+// 设置舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: window.innerWidth,
@@ -88,7 +88,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create first shape (red rectangle)
+// 创建第一个形状（红色矩形）
 const shape1 = new Konva.Rect({
   x: stage.width() / 2 - 60,
   y: stage.height() / 2 - 60,
@@ -99,7 +99,7 @@ const shape1 = new Konva.Rect({
 });
 layer.add(shape1);
 
-// Create second shape (green rectangle)
+// 创建第二个形状（绿色矩形）
 const shape2 = shape1.clone({
   x: stage.width() / 2 + 10,
   y: stage.height() / 2 + 10,
@@ -107,49 +107,49 @@ const shape2 = shape1.clone({
 });
 layer.add(shape2);
 
-// Add transformer that includes both shapes
+// 添加包括两个形状的变形器
 const tr = new Konva.Transformer({
   nodes: [shape1, shape2],
-  // Set boundary function for resize operations
+  // 设置调整大小操作的边界函数
   boundBoxFunc: (oldBox, newBox) => {
-    // Calculate the actual bounding box of the transformed shape
+    // 计算变换后形状的实际边界框
     const box = getClientRect(newBox);
     
-    // Check if the new box is outside the stage boundaries
+    // 检查新框是否超出了舞台边界
     const isOut =
       box.x < 0 ||
       box.y < 0 ||
       box.x + box.width > stage.width() ||
       box.y + box.height > stage.height();
 
-    // If outside boundaries, keep the old box
+    // 如果超出边界，保持旧框
     if (isOut) {
       return oldBox;
     }
     
-    // If within boundaries, allow the transformation
+    // 如果在边界内，允许变换
     return newBox;
   },
 });
 layer.add(tr);
 
-// Handle drag events to keep shapes within the stage
+// 处理拖动事件以保持形状在舞台内
 tr.on('dragmove', () => {
-  // Get client rects for all selected nodes
+  // 获取所有选定节点的客户端矩形
   const boxes = tr.nodes().map((node) => node.getClientRect());
   
-  // Get the total bounding box of all shapes
+  // 获取所有形状的总边界框
   const box = getTotalBox(boxes);
   
-  // Keep shapes within stage boundaries
+  // 保持形状在舞台边界内
   tr.nodes().forEach((shape) => {
     const absPos = shape.getAbsolutePosition();
     
-    // Calculate shape position relative to group bounding box
+    // 计算形状位置相对于组边界框
     const offsetX = box.x - absPos.x;
     const offsetY = box.y - absPos.y;
 
-    // Adjust position if outside boundaries
+    // 如果超出边界，调整位置
     const newAbsPos = { ...absPos };
     
     if (box.x < 0) {
@@ -175,7 +175,7 @@ tr.on('dragmove', () => {
 import { useState, useEffect, useRef } from 'react';
 import { Stage, Layer, Rect, Transformer } from 'react-konva';
 
-// Helper functions for calculating bounding boxes
+// 计算边界框的辅助函数
 const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
   const distance = Math.sqrt(diffX * diffX + diffY * diffY);
   angle += Math.atan2(diffY, diffX);
@@ -255,7 +255,7 @@ const LimitedDragAndResize = () => {
   const shapeRefs = useRef(new Map());
   const trRef = useRef(null);
   
-  // Set up Transformer after the layer mounts
+  // 在层装载后设置变形器
   useEffect(() => {
     if (trRef.current) {
       const nodes = shapes.map(shape => shapeRefs.current.get(shape.id));
@@ -263,7 +263,7 @@ const LimitedDragAndResize = () => {
     }
   }, [shapes]);
   
-  // Handle window resize
+  // 处理窗口大小调整
   useEffect(() => {
     const handleResize = () => {
       setStageSize({
@@ -276,7 +276,7 @@ const LimitedDragAndResize = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  // Boundary function for Transformer
+  // 变形器的边界函数
   const boundBoxFunc = (oldBox, newBox) => {
     const box = getClientRect(newBox);
     
@@ -293,7 +293,7 @@ const LimitedDragAndResize = () => {
     return newBox;
   };
   
-  // Handle drag for transformer group
+  // 处理变形器组的拖动
   const handleTransformerDrag = (e) => {
     if (!trRef.current) return;
     
@@ -413,19 +413,19 @@ export default {
     };
   },
   mounted() {
-    // Setup transformer nodes after component is mounted
+    // 在组件挂载后设置变形器节点
     this.$nextTick(() => {
       const transformer = this.$refs.transformerRef.getNode();
       const rects = transformer.getStage().find('.my-rect');
       
-      // Set transformer to work with both rectangles
+      // 设置变形器以处理两个矩形
       transformer.nodes(rects);
       
-      // Add boundary function for transformer
+      // 为变形器添加边界函数
       transformer.boundBoxFunc(this.boundBoxFunc);
     });
     
-    // Handle window resize
+    // 处理窗口大小调整
     window.addEventListener('resize', this.handleResize);
   },
   beforeDestroy() {
@@ -533,7 +533,7 @@ export default {
     },
     
     handleRectDragMove(e) {
-      // Individual rect drag handling is handled by transformer
+      // 单个矩形的拖动处理由变形器处理
     },
     
     handleResize() {
@@ -545,4 +545,4 @@ export default {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

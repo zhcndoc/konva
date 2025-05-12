@@ -1,13 +1,13 @@
 ---
-title: HTML5 Canvas Special Stage Events Konva
-sidebar_label: Stage Events
+title: HTML5 Canvas 特殊舞台事件 Konva
+sidebar_label: 舞台事件
 hide_table_of_contents: true
 slug: Stage_Events.html
 ---
 
-All events are started from Shapes. So if you click on an empty space within a canvas, a `click` event will not trigger on `Layer` but it will trigger on the `Stage` object instead.
+所有事件都是从形状开始的。因此，如果您在画布上的空白处单击，`click` 事件不会在 `Layer` 上触发，而是会在 `Stage` 对象上触发。
 
-**Instructions: Click on empty space and on shapes to see different event behaviors.**
+**说明：单击空白处和形状以查看不同的事件行为。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -49,16 +49,16 @@ function writeMessage(message) {
   text.text(message);
 }
 
-// handle stage click
+// 处理舞台点击
 stage.on('click', function (e) {
   if (e.target === stage) {
-    writeMessage('clicked on stage');
+    writeMessage('在舞台上点击');
     return;
   }
-  writeMessage('clicked on ' + e.target.name());
+  writeMessage('在 ' + e.target.name() + ' 上点击');
 });
 
-// add shape
+// 添加形状
 circle.name('circle');
 layer.add(circle);
 ```
@@ -73,10 +73,10 @@ const App = () => {
 
   const handleStageClick = (e) => {
     if (e.target === e.target.getStage()) {
-      setMessage('clicked on stage');
+      setMessage('在舞台上点击');
       return;
     }
-    setMessage('clicked on ' + e.target.name());
+    setMessage('在 ' + e.target.name() + ' 上点击');
   };
 
   return (
@@ -153,12 +153,12 @@ const circleConfig = {
 
 const handleStageClick = (e) => {
   if (e.target === e.target.getStage()) {
-    message.value = 'clicked on stage';
+    message.value = '在舞台上点击';
     return;
   }
-  message.value = 'clicked on ' + e.target.name();
+  message.value = '在 ' + e.target.name() + ' 上点击';
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

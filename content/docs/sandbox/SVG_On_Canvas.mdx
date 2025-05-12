@@ -1,17 +1,17 @@
 ---
-title: How to draw SVG image on canvas with Konva
-sidebar_label: SVG on Canvas
+title: 如何使用 Konva 在画布上绘制 SVG 图像
+sidebar_label: 画布上的 SVG
 hide_table_of_contents: true
 slug: SVG_On_Canvas.html
 ---
 
-## How to show SVG image on canvas?
+## 如何在画布上显示 SVG 图像？
 
-It has not always been possible for browsers to draw `*.svg` images onto the canvas. However, the situation has improved and you currently have several options available if you want to render a vector image with `Konva`:
+浏览器并不总是能够将 `*.svg` 图像绘制到画布上。然而，情况已经有所改善，如果你想用 `Konva` 渲染矢量图像，目前有几种选择：
 
-### Option 1: Use Konva.Image
+### 选项 1: 使用 Konva.Image
 
-In most of the cases you can use `*.svg` image the same way as any other image such as `*.png` or `*.jpg`. You can use [Konva.Image](/docs/shapes/Text.html) shape.
+在大多数情况下，你可以像使用其他图像（如 `*.png` 或 `*.jpg`）一样使用 `*.svg` 图像。你可以使用 [Konva.Image](/docs/shapes/Text.html) 形状。
 
 ```js
 Konva.Image.fromURL('/image.svg', (image) => {
@@ -19,21 +19,21 @@ Konva.Image.fromURL('/image.svg', (image) => {
 });
 ```
 
-This method works well in many cases, but is not fully cross-compatible. For example, some SVG may not be visible in the Firefox browser ([there is a workaround for that case](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)).
+该方法在许多情况下效果良好，但并不是完全跨浏览器兼容的。例如，一些 SVG 在 Firefox 浏览器中可能不可见（[对此情况有一个变通方法](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)）。
 
-### Option 2: Use Konva.Path
+### 选项 2: 使用 Konva.Path
 
-Use [Konva.Path](/docs/shapes/Path.html). This method is good for simple path shapes. If you have a large SVG with many paths you, you may need to split it manually into several `Konva.Path` shapes.
+使用 [Konva.Path](/docs/shapes/Path.html)。该方法适用于简单的路径形状。如果你有一个包含许多路径的大 SVG，你可能需要手动将其拆分成多个 `Konva.Path` 形状。
 
-### Option 3: Use an external library to render SVG to canvas
+### 选项 3: 使用外部库将 SVG 渲染到画布
 
-Use an external library (for example, [canvg](https://github.com/canvg/canvg)) to draw the SVG into the `<canvas>` element. And then use that canvas for [Konva.Image](/docs/shapes/Image.html).
+使用外部库（例如 [canvg](https://github.com/canvg/canvg)）将 SVG 绘制到 `<canvas>` 元素中。然后使用该画布用于 [Konva.Image](/docs/shapes/Image.html)。
 
-This method has been tested in at least one large production app, with proven reliability and rendering accuracy.
+该方法已在至少一个大型生产应用中进行了测试，可靠性和渲染精度得到了证明。
 
-### Demo
+### 演示
 
-Below is a demo that shows drawing natively and with a library.
+下面是一个演示，展示了原生绘制和使用库绘制的效果。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -43,7 +43,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Load canvg library
+// 加载 canvg 库
 const script = document.createElement('script');
 script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
 document.head.appendChild(script);
@@ -59,7 +59,7 @@ stage.add(layer);
 
 const SOURCE = 'https://konvajs.org/assets/tiger.svg';
 
-// try to draw SVG natively
+// 尝试原生绘制 SVG
 Konva.Image.fromURL(SOURCE, (imageNode) => {
   layer.add(imageNode);
   imageNode.setAttrs({
@@ -68,7 +68,7 @@ Konva.Image.fromURL(SOURCE, (imageNode) => {
   });
 });
 
-// draw svg with external library
+// 使用外部库绘制 SVG
 script.onload = () => {
   const canvas = document.createElement('canvas');
   canvg(canvas, SOURCE, {
@@ -98,7 +98,7 @@ const App = () => {
   const [canvgImage, setCanvgImage] = React.useState(null);
 
   React.useEffect(() => {
-    // Load canvg library and render SVG
+    // 加载 canvg 库并渲染 SVG
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
     script.onload = () => {
@@ -182,7 +182,7 @@ const stageConfig = {
 };
 
 onMounted(() => {
-  // Load canvg library and render SVG
+  // 加载 canvg 库并渲染 SVG
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
   script.onload = () => {
@@ -204,6 +204,6 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 
-Instructions: The demo shows two SVG images rendered in different ways:
-1. Left image: Native SVG rendering using Konva.Image
-2. Right image: SVG rendered using canvg library 
+说明：演示展示了以不同方式渲染的两个 SVG 图像：
+1. 左侧图像：使用 Konva.Image 的原生 SVG 渲染
+2. 右侧图像：使用 canvg 库渲染的 SVG

@@ -1,19 +1,19 @@
 ---
-title: HTML5 Canvas Shape Tango with Konva
-sidebar_label: Shape Tango
+title: 使用 Konva 在 HTML5 Canvas 上跳形状探戈
+sidebar_label: 形状探戈
 hide_table_of_contents: true
 slug: Shape_Tango.html
 ---
 
-## HTML5 Canvas Shape Tango with Konva
+## 使用 Konva 在 HTML5 Canvas 上跳形状探戈
 
-This demo shows how to create animated shapes that dance around the canvas when triggered. It demonstrates:
-1. Creating random shapes with different properties
-2. Using Konva's tweening system for smooth animations
-3. Handling user interactions (drag and drop, button clicks)
-4. Managing multiple animations simultaneously
+此演示展示了如何创建触发时围绕画布跳舞的动画形状。它演示了：
+1. 创建具有不同属性的随机形状
+2. 使用 Konva 的补间系统实现平滑动画
+3. 处理用户交互（拖放、按钮点击）
+4. 同时管理多个动画
 
-**Instructions:** Drag and drop the shapes to position them, then click the "Tango!" button to make them dance around the canvas. Each shape will move to a random position, rotate, change size, and color. Refresh the page to generate new random shapes. 
+**使用说明：** 拖放形状以调整位置，然后点击 “Tango!” 按钮让它们在画布上跳舞。每个形状将移动到随机位置，旋转，改变大小和颜色。刷新页面以生成新的随机形状。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -23,7 +23,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Create button
+// 创建按钮
 const button = document.createElement('button');
 button.textContent = 'Tango!';
 button.style.position = 'absolute';
@@ -65,7 +65,7 @@ function tango(layer) {
   });
 }
 
-// Create initial shapes
+// 创建初始形状
 for (let n = 0; n < 10; n++) {
   const radius = Math.random() * 100 + 20;
   const shape = new Konva.RegularPolygon({
@@ -146,7 +146,7 @@ const App = () => {
 
       node.to(newProps);
 
-      // Update state after animation
+      // 动画后更新状态
       setTimeout(() => {
         setShapes(prev => {
           const newShapes = [...prev];
@@ -277,7 +277,7 @@ const handleTango = () => {
 
     node.to(newProps);
 
-    // Update state after animation
+    // 动画后更新状态
     setTimeout(() => {
       const newShapes = [...shapes.value];
       newShapes[i] = { ...newShapes[i], ...newProps };
@@ -293,4 +293,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-

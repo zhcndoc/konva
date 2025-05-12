@@ -1,11 +1,11 @@
 ---
-title: How to listen to an event on a canvas shape with Svelte and Konva?
-sidebar_label: Events
+title: 如何在 Svelte 和 Konva 中监听画布形状的事件？
+sidebar_label: 事件
 hide_table_of_contents: true
 slug: Events.html
 ---
 
-With `svelte-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+使用 `svelte-konva`，你可以轻松监听用户输入事件（`click`、`dblclick`、`mouseover`、`tap`、`dbltap`、`touchstart` 等）以及拖拽事件（`dragstart`、`dragmove`、`dragend`）。
 
 ```js
 <script>
@@ -13,7 +13,7 @@ With `svelte-konva` you can easily listen to user input events (`click`, `dblcli
 
   function handleClick(e) {
     const konvaEvent = e.detail;
-    window.alert(`Clicked on rectangle: ${konvaEvent.type}`);
+    window.alert(`点击了矩形：${konvaEvent.type}`);
   }
 </script>
 
@@ -27,19 +27,19 @@ With `svelte-konva` you can easily listen to user input events (`click`, `dblcli
 </Stage>
 ```
 
-For the full list of events take a look into [on() method documentation](/api/Konva.Node.html#on).
+欲了解完整的事件列表，请参阅 [on() 方法文档](/api/Konva.Node.html#on)。
 
-## Bubbling
-Konva events bubble up by default. To prevent this you can call `preventDefault()` on the event object or set the `cancelBubble` property of the Konva event to `false`:
+## 事件冒泡
+Konva 事件默认会冒泡。若需阻止冒泡，可以在事件对象上调用 `preventDefault()`，或将 Konva 事件的 `cancelBubble` 属性设置为 `true`：
 
 ```js
   function handleClick(e) {
     const konvaEvent = e.detail;
     
-    // Cancel bubbling
+    // 阻止冒泡
     e.preventDefault();
 
-    // or alternatively
+    // 或者
     konvaEvent.cancelBubble = true;
   }
 ```

@@ -1,23 +1,23 @@
 ---
-title: Gesture Events on Canvas Shapes
-sidebar_label: Gesture Events
+title: 画布形状上的手势事件
+sidebar_label: 手势事件
 hide_table_of_contents: true
 slug: Gestures.html
 ---
 
-## How to listen to swipe, pinch zoom, rotate and other multi-touch gesture events on canvas shapes?
+## 如何在画布形状上监听滑动、捏合缩放、旋转和其他多点触控手势事件？
 
-By default `Konva` supports only basic touch events such as `touchstart`, `touchmove`, `touchend`.
+默认情况下，`Konva` 仅支持基本的触摸事件，如 `touchstart`、`touchmove`、`touchend`。
 
-You have to implement gesture events manually from that touch events.
+你需要手动从这些触摸事件中实现手势事件。
 
-If you are looking for pan and zoom logic for the whole stage take a look into [Multi-touch scale Stage demo](/docs/sandbox/Multi-touch_Scale_Stage.html).
+如果你在寻找整个舞台的平移和缩放逻辑，可以查看 [多点触控缩放舞台演示](/docs/sandbox/Multi-touch_Scale_Stage.html)。
 
-But I was able to slightly change [Hammer.js](https://hammerjs.github.io/) to make it work with Konva!
+但我能够稍微修改 [Hammer.js](https://hammerjs.github.io/) 使其与 Konva 一起工作！
 
-You can find modified [hammer.js source code here](/js/hammer-konva.js).
+你可以在这里找到修改后的 [hammer.js 源代码](/js/hammer-konva.js)。
 
-**Instructions: you can try different gestures on the rectangle such as swipe, rotate, zoom, drag&drop, press. For desktop browsers you can hold `Shift` key to emulate touch events.**
+**说明：你可以在矩形上试验不同的手势，如滑动、旋转、缩放、拖放、按压。在桌面浏览器上，按住 `Shift` 键可以模拟触摸事件。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,7 +27,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Load required scripts
+// 加载所需的脚本
 const loadScript = (src) => {
   return new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) {
@@ -42,13 +42,13 @@ const loadScript = (src) => {
   });
 };
 
-// Initialize the demo after loading dependencies
+// 加载依赖后初始化演示
 async function initDemo() {
   try {
     await loadScript('https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js');
     await loadScript('https://konvajs.org/js/hammer-konva.js');
 
-    // emulate touches on desktop
+    // 在桌面上模拟触摸
     TouchEmulator();
     Konva.hitOnDragEnabled = true;
     Konva.captureTouchEventsEnabled = true;
@@ -88,7 +88,7 @@ async function initDemo() {
     });
     group.add(rect);
 
-    const defaultText = 'Try\ndrag, swipe, pinch zoom, rotate, press...';
+    const defaultText = '试试\拖动、滑动、捏合缩放、旋转、按压...';
     const text = new Konva.Text({
       text: defaultText,
       x: -size / 2,
@@ -97,17 +97,17 @@ async function initDemo() {
     });
     group.add(text);
 
-    // attach modified version of Hammer.js
-    // "domEvents" property will allow triggering events on group
-    // instead of "hammertime" instance
+    // 附加修改后的 Hammer.js
+    // "domEvents" 属性允许在组上触发事件
+    // 而不是 "hammertime" 实例
     const hammertime = new Hammer(group, { domEvents: true });
 
-    // add rotate gesture
+    // 添加旋转手势
     hammertime.get('rotate').set({ enable: true });
 
-    // now attach all possible events
+    // 现在附加所有可能的事件
     group.on('swipe', function (ev) {
-      text.text('swiping');
+      text.text('正在滑动');
       group.to({
         x: group.x() + ev.evt.gesture.deltaX,
         y: group.y() + ev.evt.gesture.deltaY,
@@ -119,7 +119,7 @@ async function initDemo() {
     });
 
     group.on('press', function (ev) {
-      text.text('Under press');
+      text.text('正在按压');
       rect.to({
         fill: 'green',
       });
@@ -146,7 +146,7 @@ async function initDemo() {
       startScale = rect.scaleX();
       group.stopDrag();
       group.draggable(false);
-      text.text('rotating...');
+      text.text('正在旋转...');
     });
 
     group.on('rotate', function (ev) {
@@ -163,11 +163,11 @@ async function initDemo() {
       group.draggable(true);
     });
   } catch (error) {
-    console.error('Failed to initialize demo:', error);
+    console.error('初始化演示失败：', error);
   }
 }
 
-// Start the demo
+// 启动演示
 initDemo();
 ```
   </TabItem>

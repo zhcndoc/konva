@@ -1,11 +1,11 @@
 ---
-title: Drag and Drop Stress Test with 10,000 Shapes
-sidebar_label: Drag and Drop Stress Test
+title: 拖放压力测试与10,000个形状
+sidebar_label: 拖放压力测试
 hide_table_of_contents: true
 slug: Drag_and_Drop_Stress_Test.html
 ---
 
-This example demonstrates a stress test with 10,000 shapes. For simplicity, we're using just two layers - one main layer for all shapes and one dedicated drag layer. When we drag a shape, it's moved to the separate drag layer to ensure smooth movement.
+本示例展示了一个包含10,000个形状的压力测试。为简化操作，我们只使用了两个图层 - 一个主要图层用于所有形状，一个专用的拖动图层。当我们拖动一个形状时，它会移动到单独的拖动图层上，以确保移动的流畅性。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -18,20 +18,20 @@ import Konva from 'konva';
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// Create stage
+// 创建舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
   height: height,
 });
 
-// Create main layer for all shapes
+// 创建用于所有形状的主要图层
 const mainLayer = new Konva.Layer();
 
-// Create a dedicated layer for dragging
+// 创建一个专用图层用于拖动
 const dragLayer = new Konva.Layer();
 
-// Define colors for random shapes
+// 定义随机形状的颜色
 const colors = [
   'red',
   'orange',
@@ -43,7 +43,7 @@ const colors = [
 ];
 let colorIndex = 0;
 
-// Helper function to add a circle to a layer
+// 辅助函数，将圆添加到图层
 function addCircle(layer) {
   const color = colors[colorIndex++];
   if (colorIndex >= colors.length) {
@@ -62,39 +62,39 @@ function addCircle(layer) {
   layer.add(circle);
 }
 
-// Create 10,000 circles on the main layer
+// 在主要图层上创建10,000个圆
 for (let n = 0; n < 10000; n++) {
   addCircle(mainLayer);
 }
 
-// Add the main layer and drag layer to the stage
+// 将主要图层和拖动图层添加到舞台
 stage.add(mainLayer);
 stage.add(dragLayer);
 
-// Setup drag and drop behavior
+// 设置拖放行为
 stage.on('mousedown', function (evt) {
   const circle = evt.target;
   
-  // Only handle circle shapes (ignore clicks on empty space)
+  // 仅处理圆形（忽略在空白区域的点击）
   if (!circle || circle.getClassName() !== 'Circle') {
     return;
   }
   
-  // Move the circle to the drag layer
+  // 将圆形移动到拖动图层
   circle.moveTo(dragLayer);
   circle.startDrag();
 });
 
-// When dragging stops, move the circle back to the main layer
+// 当拖动停止时，将圆形移动回主要图层
 stage.on('mouseup', function (evt) {
   const circle = evt.target;
   
-  // Only handle circle shapes
+  // 仅处理圆形
   if (!circle || circle.getClassName() !== 'Circle') {
     return;
   }
   
-  // Move the circle back to the main layer
+  // 将圆形移回主要图层
   circle.moveTo(mainLayer);
 });
 ```
@@ -108,18 +108,18 @@ const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
 const SHAPE_COUNT = 10000;
 
 const App = () => {
-  // State to hold all the circles data
+  // 用于存储所有圆形数据的状态
   const [circles, setCircles] = useState([]);
   
-  // Refs to layers
+  // 图层的refs
   const mainLayerRef = useRef(null);
   const dragLayerRef = useRef(null);
   
-  // Initialize circles data
+  // 初始化圆形数据
   useEffect(() => {
     const circlesData = [];
     
-    // Create 10,000 circles
+    // 创建10,000个圆形
     for (let i = 0; i < SHAPE_COUNT; i++) {
       circlesData.push({
         id: i,
@@ -133,27 +133,27 @@ const App = () => {
     setCircles(circlesData);
   }, []);
   
-  // This is not the typical "React way" of managing components.
-  // In a more React-friendly approach, we would update state and let React handle the DOM.
-  // However, for this performance demo, we're directly manipulating the nodes
-  // to match the vanilla JS implementation.
+  // 这不是典型的“React方式”管理组件。
+  // 在更符合React的方式中，我们会更新状态，并让React处理DOM。
+  // 然而为了本性能演示，我们直接操作节点
+  // 以匹配原生JS实现。
   const handleDragStart = (e) => {
     const target = e.target;
     
-    // Move the circle to the drag layer
+    // 将圆形移动到拖动图层
     target.moveTo(dragLayerRef.current);
   };
   
   const handleDragEnd = (e) => {
     const target = e.target;
     
-    // Move the circle back to the main layer
+    // 将圆形移回主要图层
     target.moveTo(mainLayerRef.current);
   };
   
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
-      {/* Main layer for all circles */}
+      {/* 用于所有圆形的主要图层 */}
       <Layer ref={mainLayerRef}>
         {circles.map(circle => (
           <Circle
@@ -170,7 +170,7 @@ const App = () => {
         ))}
       </Layer>
       
-      {/* Empty drag layer that will receive circles during drag */}
+      {/* 空拖动图层，在拖动期间接收圆形 */}
       <Layer ref={dragLayerRef} />
     </Stage>
   );
@@ -183,7 +183,7 @@ export default App;
 ```js live vue
 <template>
   <v-stage :config="stageConfig">
-    <!-- Main layer for all circles -->
+    <!-- 用于所有圆形的主要图层 -->
     <v-layer ref="mainLayer">
       <v-circle
         v-for="circle in circles"
@@ -201,7 +201,7 @@ export default App;
       />
     </v-layer>
     
-    <!-- Empty drag layer that will receive circles during drag -->
+    <!-- 空拖动图层，在拖动期间接收圆形 -->
     <v-layer ref="dragLayer" />
   </v-stage>
 </template>
@@ -217,18 +217,18 @@ const stageConfig = {
   height: window.innerHeight
 };
 
-// Refs for layers
+// 图层的refs
 const mainLayer = ref(null);
 const dragLayer = ref(null);
 
-// State for circles
+// 圆形的状态
 const circles = ref([]);
 
-// Initialize circles data
+// 初始化圆形数据
 onMounted(() => {
   const circlesData = [];
   
-  // Create 10,000 circles
+  // 创建10,000个圆形
   for (let i = 0; i < SHAPE_COUNT; i++) {
     circlesData.push({
       id: i,
@@ -242,24 +242,24 @@ onMounted(() => {
   circles.value = circlesData;
 });
 
-// This is not the typical "Vue way" of managing components.
-// In a more Vue-friendly approach, we would update state and let Vue handle the DOM.
-// However, for this performance demo, we're directly manipulating the nodes
-// to match the vanilla JS implementation.
+// 这不是典型的“Vue方式”管理组件。
+// 在更符合Vue的方式中，我们会更新状态，并让Vue处理DOM。
+// 然而为了本性能演示，我们直接操作节点
+// 以匹配原生JS实现。
 const handleDragStart = (e) => {
   const target = e.target;
   
-  // Move the circle to the drag layer
+  // 将圆形移动到拖动图层
   target.moveTo(dragLayer.value.getNode());
 };
 
 const handleDragEnd = (e) => {
   const target = e.target;
   
-  // Move the circle back to the main layer
+  // 将圆形移回主要图层
   target.moveTo(mainLayer.value.getNode());
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

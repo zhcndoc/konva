@@ -1,19 +1,15 @@
 ---
-title: HTML5 Canvas Remove Event Listener by Name with Konva
-sidebar_label: Remove by Name
+title: 使用 Konva 按名称移除 HTML5 Canvas 事件监听器
+sidebar_label: 按名称移除
 hide_table_of_contents: true
 slug: Remove_by_Name.html
 ---
 
-To remove an event listener by name with Konva,
-we can namespace the event type with the `on()` method so that we can later
-remove the event listener by the same namespace with the `off()` method.
+要使用 Konva 按名称移除事件监听器，我们可以使用 `on()` 方法对事件类型进行命名空间处理，以便随后可以使用 `off()` 方法按相同命名空间移除事件监听器。
 
-**Instructions: Click on the circle to see two alerts triggered from two different
-onclick event bindings. Remove the event listeners using the buttons to
-the left, and again click on the circle to observe the new onclick bindings.**
+**说明：点击圆形可查看两个不同的 onclick 事件绑定触发的两个警报。使用左侧的按钮移除事件监听器，然后再次点击圆形以观察新的 onclick 绑定。**
 
-Note: vue and react don't support event namespacing, so we don't make a demo for them. We don't recommend using namespacing for Vue and React anyway.
+注意：vue 和 react 不支持事件命名空间，因此我们没有为它们制作演示。我们也不建议在 Vue 和 React 中使用命名空间。
 
 ```js live vanilla
 import Konva from 'konva';
@@ -36,27 +32,27 @@ const circle = new Konva.Circle({
   strokeWidth: 4,
 });
 
-// add click listeners
+// 添加点击监听器
 circle.on('click.event1', function () {
-  alert('first click listener');
+  alert('第一个点击监听器');
 });
 
 circle.on('click.event2', function () {
-  alert('second click listener');
+  alert('第二个点击监听器');
 });
 
 layer.add(circle);
 
-// add buttons to remove listeners
+// 添加按钮以移除监听器
 const button1 = document.createElement('button');
-button1.innerHTML = 'Remove first listener';
+button1.innerHTML = '移除第一个监听器';
 button1.style.position = 'absolute';
 button1.style.top = '0';
 button1.style.left = '0';
 document.getElementById('container').appendChild(button1);
 
 const button2 = document.createElement('button');
-button2.innerHTML = 'Remove second listener';
+button2.innerHTML = '移除第二个监听器';
 button2.style.position = 'absolute';
 button2.style.top = '30px';
 button2.style.left = '0';

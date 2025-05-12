@@ -1,16 +1,13 @@
 ---
-title: HTML5 Canvas Remove Event Listener with Konva
-sidebar_label: Remove Event
+title: HTML5 Canvas 移除 Konva 事件监听器
+sidebar_label: 移除事件
 hide_table_of_contents: true
 slug: Remove_Event.html
 ---
 
-To remove an event listener with Konva, we can use the `off()` method of
-a shape object which requires an event type such as click or mousedown.
+要使用 Konva 移除事件监听器，我们可以使用形状对象的 `off()` 方法，该方法需要一个事件类型，例如 click 或 mousedown。
 
-**Instructions: Click on the circle to see an alert triggered from the onclick
-event binding. Remove the event listener by clicking on the button and again
-click on the circle to observe that the event binding has been removed.**
+**说明：点击圆圈以查看通过 onclick 事件绑定触发的警报。通过点击按钮移除事件监听器，然后再次点击圆圈以观察事件绑定已经被移除。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -38,22 +35,22 @@ const circle = new Konva.Circle({
   strokeWidth: 4,
 });
 
-// add click listener
+// 添加点击监听器
 circle.on('click', function () {
-  alert('you clicked the circle');
+  alert('你点击了圆圈');
 });
 
 layer.add(circle);
 
-// add button to remove listener
+// 添加按钮以移除监听器
 const button = document.createElement('button');
 button.style.position = 'absolute';
 button.style.top = '10px';
 button.style.left = '10px';
-button.innerHTML = 'Remove click listener';
+button.innerHTML = '移除点击监听器';
 document.body.appendChild(button);
 button.addEventListener('click', () => {
-  // remove click listener
+  // 移除点击监听器
   circle.off('click');
 });
 ```
@@ -69,7 +66,7 @@ const App = () => {
   return (
     <>
       <button onClick={() => setHasListener(false)}>
-        Remove click listener
+        移除点击监听器
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -80,7 +77,7 @@ const App = () => {
             fill="red"
             stroke="black"
             strokeWidth={4}
-            onClick={hasListener ? () => alert('you clicked the circle') : null}
+            onClick={hasListener ? () => alert('你点击了圆圈') : null}
           />
         </Layer>
       </Stage>
@@ -95,12 +92,12 @@ export default App;
 ```html live vue
 <template>
   <div>
-    <button @click="removeListener">Remove click listener</button>
+    <button @click="removeListener">移除点击监听器</button>
     <v-stage :config="stageSize">
       <v-layer>
         <!-- 
-          Note: Vue-Konva doesn't support conditional event binding like @click="condition ? handler : null"
-          Instead, we keep the click handler attached and check the condition inside the handler function
+          注意：Vue-Konva 不支持像 @click="condition ? handler : null" 这样的条件事件绑定
+          相反，我们保持点击处理程序的附加状态，并在处理程序函数内部检查条件
         -->
         <v-circle
           :config="circleConfig"
@@ -132,7 +129,7 @@ const circleConfig = {
 
 const handleClick = () => {
   if (hasListener.value) {
-    alert('you clicked the circle');
+    alert('你点击了圆圈');
   }
 };
 
@@ -142,4 +139,4 @@ const removeListener = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

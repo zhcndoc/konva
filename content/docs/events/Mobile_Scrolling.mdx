@@ -1,25 +1,25 @@
 ---
-title: HTML5 Canvas Mobile Scrolling and Native Events with Konva
-sidebar_label: Mobile Scrolling
+title: HTML5 Canvas 移动滚动和原生事件与 Konva
+sidebar_label: 移动滚动
 hide_table_of_contents: true
 slug: Mobile_Scrolling.html
 ---
 
-By default `Konva` will prevent default behaviour of all pointer interactions with a stage.
-That will prevent unexpected scrolling of a page when you are trying to drag&drop a shape on a mobile device.
+默认情况下，`Konva` 会阻止所有指针交互在舞台上的默认行为。  
+这将防止在移动设备上拖放形状时意外滚动页面。
 
-But in some cases you may want to keep default behaviour of browser events. In that case you may set `preventDefault` property of a shape to `false`.
+但在某些情况下，您可能希望保留浏览器事件的默认行为。在这种情况下，您可以将形状的 `preventDefault` 属性设置为 `false`。
 
-**Instructions: if you are on mobile device try to scroll a page by each rectangle.
-Green - should prevent default behaviour (no page scrolling).
-Red - will keep default behaviour (scrolling should work).**
+**说明：如果您在移动设备上，请尝试通过每个矩形滚动页面。  
+绿色 - 应该会阻止默认行为（不滚动页面）。  
+红色 - 将保留默认行为（滚动应有效）。**
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";  
+import TabItem from "@theme/TabItem";  
 
-<Tabs>
-  <TabItem value="Vanilla" default>
-```js live vanilla
+<Tabs>  
+  <TabItem value="Vanilla" default>  
+```js live vanilla  
 import Konva from 'konva';
 
 const stage = new Konva.Stage({
@@ -31,7 +31,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// green rectangle - will prevent scrolling
+// 绿色矩形 - 将阻止滚动
 const greenRect = new Konva.Rect({
   x: 50,
   y: 50,
@@ -43,7 +43,7 @@ const greenRect = new Konva.Rect({
 });
 layer.add(greenRect);
 
-// red rectangle - will NOT prevent scrolling
+// 红色矩形 - 将不会阻止滚动
 const redRect = new Konva.Rect({
   x: 200,
   y: 50,
@@ -55,10 +55,10 @@ const redRect = new Konva.Rect({
   preventDefault: false,
 });
 layer.add(redRect);
-```
-  </TabItem>
-  <TabItem value="React">
-```jsx live react
+```  
+  </TabItem>  
+  <TabItem value="React">  
+```jsx live react  
 import { Stage, Layer, Rect } from 'react-konva';
 
 const App = () => {
@@ -90,10 +90,10 @@ const App = () => {
 };
 
 export default App;
-```
-  </TabItem>
-  <TabItem value="Vue">
-```html live vue
+```  
+  </TabItem>  
+  <TabItem value="Vue">  
+```html live vue  
 <template>
   <v-stage :config="stageSize">
     <v-layer>
@@ -130,6 +130,6 @@ const redRectConfig = {
   preventDefault: false
 };
 </script>
-```
-  </TabItem>
-</Tabs> 
+```  
+  </TabItem>  
+</Tabs>

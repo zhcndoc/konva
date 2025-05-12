@@ -1,16 +1,16 @@
 ---
-title: HTML5 Canvas Force Update Tutorial
-sidebar_label: Force Update
+title: HTML5 Canvas 强制更新教程
+sidebar_label: 强制更新
 hide_table_of_contents: true
 slug: Force_Update.html
 ---
 
-`Konva.Transformer` automatically tracks properties of attached nodes.
-So it will adopt its own properties automatically.
+`Konva.Transformer` 会自动跟踪附加节点的属性。
+因此，它会自动采用自己的属性。
 
-But in some cases `Konva.Transformer` can't do this. Currently `Konva.Transformer` can not track deep changes inside `Konva.Group` node. In this case you will need to use `forceUpdate` method to reset transforming tools.
+但是在某些情况下，`Konva.Transformer` 无法做到这一点。目前，`Konva.Transformer` 不能追踪 `Konva.Group` 节点内部的深层变化。在这种情况下，您需要使用 `forceUpdate` 方法来重置变换工具。
 
-**Instructions: Click the button. See how transformer is changed.**
+**使用说明：点击按钮。查看变换器如何变化。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -40,7 +40,7 @@ draggable: true,
 layer.add(group);
 
 const text = new Konva.Text({
-text: 'Some text here',
+text: '这里是一些文本',
 fontSize: 24,
 });
 group.add(text);
@@ -52,28 +52,28 @@ fill: 'yellow',
 });
 group.add(rect);
 
-// add the shape to the layer
+// 将形状添加到层中
 rect.moveToBottom();
 
 const tr = new Konva.Transformer({
 nodes: [group],
 padding: 5,
-// enable only one anchor
+// 只能启用一个锚点
 enabledAnchors: ['middle-left', 'middle-right'],
 });
 layer.add(tr);
 
 const button = document.createElement('button');
-button.innerHTML = 'Change text';
+button.innerHTML = '更改文本';
 document.body.appendChild(button);
 button.addEventListener('click', () => {
-text.text('Something else is here');
+text.text('这里是另一些内容');
 rect.width(text.width());
-// we need to update transformer manually
+// 我们需要手动更新变换器
 tr.forceUpdate();
 });
 
-````
+````  
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -81,12 +81,12 @@ import { Stage, Layer, Text, Rect, Group, Transformer } from 'react-konva';
 import { useState, useRef, useEffect } from 'react';
 
 const App = () => {
-  const [text, setText] = useState('Some text here');
+  const [text, setText] = useState('这里是一些文本');
   const groupRef = useRef();
   const trRef = useRef();
 
   const handleClick = () => {
-    setText('Something else is here');
+    setText('这里是另一些内容');
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const App = () => {
 
   return (
     <>
-      <button onClick={handleClick}>Change text</button>
+      <button onClick={handleClick}>更改文本</button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Group
@@ -128,14 +128,13 @@ const App = () => {
 };
 
 export default App;
-````
-
+````  
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <button @click="changeText">Change text</button>
+    <button @click="changeText">更改文本</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-group :config="groupConfig" ref="groupRef">
@@ -156,7 +155,7 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const text = ref('Some text here');
+const text = ref('这里是一些文本');
 const groupRef = ref(null);
 const transformerRef = ref(null);
 
@@ -183,7 +182,7 @@ const transformerConfig = {
 };
 
 const changeText = () => {
-  text.value = 'Something else is here';
+  text.value = '这里是另一些内容';
 };
 
 onMounted(() => {
@@ -197,5 +196,3 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

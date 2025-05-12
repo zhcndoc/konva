@@ -1,14 +1,11 @@
 ---
-title: HTML5 Canvas Drag and Drop an Image
-sidebar_label: Drag an Image
+title: HTML5 Canvas 拖放图片
+sidebar_label: 拖放图片
 hide_table_of_contents: true
 slug: Drag_an_Image.html
 ---
 
-To drag and drop an image with Konva, we can set the `draggable` property
-to true when we instantiate a shape, or we can use the `draggable()` method.
-The `draggable()` method enables drag and drop for both desktop and mobile
-applications automatically.
+要使用 Konva 实现拖放图片，可以在实例化形状时将 `draggable` 属性设置为 true，或者可以使用 `draggable()` 方法。`draggable()` 方法自动为桌面和移动应用启用拖放功能。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -37,7 +34,7 @@ imageObj.onload = () => {
     draggable: true,
   });
 
-  // add cursor styling
+  // 添加光标样式
   yoda.on('mouseover', function () {
     document.body.style.cursor = 'pointer';
   });
@@ -130,4 +127,4 @@ const handleMouseLeave = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

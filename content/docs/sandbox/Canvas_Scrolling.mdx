@@ -1,32 +1,32 @@
 ---
-title: HTML5 Large Canvas Scrolling Demo
-sidebar_label: Canvas Scrolling
+title: HTML5 大画布滚动演示
+sidebar_label: 画布滚动
 hide_table_of_contents: true
 slug: Canvas_Scrolling.html
 ---
 
-Imagine we have this scenario. There are a very large stage 3000x3000 with many nodes inside.
-User wants to take a look into all nodes, but they are not visible at once.
+想象一下，我们有这样一个场景。一个非常大的舞台 3000x3000，里面有许多节点。
+用户希望查看所有节点，但它们一次无法全部显示。
 
-## How to display and scroll a very big html5 canvas?
+## 如何显示和滚动一个非常大的 HTML5 画布？
 
-Lets think you have a very large canvas and you want to add ability to navigate on it.
+想一想，你有一个非常大的画布，并且想要添加在上面导航的能力。
 
-I will show your 4 different approaches to achieve that:
+我将向你展示 4 种不同的方法来实现这一点：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-### 1. Just make large stage
+### 1. 仅仅制作大舞台
 
-This is the simplest approach. But it is very slow, because large canvases are slow.
-User will be able to scroll with native scrollbars.
+这是最简单的方法。但它非常慢，因为大画布的渲染速度较慢。
+用户将能够使用本地滚动条进行滚动。
 
-Pros:
-* Simple implementation
+优点：
+* 实现简单
 
-Cons:
-* Slow
+缺点：
+* 速度慢
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -138,16 +138,16 @@ const nodes = Array(NUMBER).fill().map(() => ({
   </TabItem>
 </Tabs>
 
-### 2. Make stage draggable (navigate with drag&drop)
+### 2. 使舞台可拖动（通过拖放导航）
 
-That one is better because stage is much smaller.
+这个方法更好，因为舞台的尺寸要小得多。
 
-Pros:
-* Simple implementation
-* Fast
+优点：
+* 实现简单
+* 快速
 
-Cons:
-* Sometimes drag&drop navigation is not the best UX
+缺点：
+* 有时拖放导航不是最佳用户体验
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -267,20 +267,19 @@ const nodes = Array(NUMBER).fill().map(() => ({
   </TabItem>
 </Tabs>
 
-### 3. Emulate scrollbars
+### 3. 模拟滚动条
 
-You will have to draw them manually and implement all moving functionality.
-That is quite a lot of work. But works good for many apps.
+你需要手动绘制滚动条并实现所有移动功能。这将涉及大量工作，但在许多应用中效果良好。
 
-**Instructions**: try to scroll with bars.
+**指示**：尝试通过滚动条进行滚动。
 
-Pros:
-- Works ok
-- Intuitive scroll
-- Fast
+优点：
+- 运行良好
+- 直观的滚动体验
+- 快速
 
-Cons:
-- Scrollbars are not native, so you have to implement many things manually (like scroll with keyboard)
+缺点：
+- 滚动条不是本地的，因此你需要手动实现许多功能（如键盘滚动）
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -317,7 +316,7 @@ for (let i = 0; i < NUMBER; i++) {
   layer.add(generateNode());
 }
 
-// now draw our bars
+// 现在绘制我们的滚动条
 const scrollLayers = new Konva.Layer();
 stage.add(scrollLayers);
 
@@ -343,7 +342,7 @@ const verticalBar = new Konva.Rect({
 scrollLayers.add(verticalBar);
 
 verticalBar.on('dragmove', function () {
-  // delta in %
+  // 百分比的增量
   const availableHeight =
     stage.height() - PADDING * 2 - verticalBar.height();
   const delta = (verticalBar.y() - PADDING) / availableHeight;
@@ -372,7 +371,7 @@ const horizontalBar = new Konva.Rect({
 scrollLayers.add(horizontalBar);
 
 horizontalBar.on('dragmove', function () {
-  // delta in %
+  // 百分比的增量
   const availableWidth =
     stage.width() - PADDING * 2 - horizontalBar.width();
   const delta = (horizontalBar.x() - PADDING) / availableWidth;
@@ -381,7 +380,7 @@ horizontalBar.on('dragmove', function () {
 });
 
 stage.on('wheel', function (e) {
-  // prevent parent scrolling
+  // 防止父级滚动
   e.evt.preventDefault();
   const dx = e.evt.deltaX;
   const dy = e.evt.deltaY;
@@ -683,30 +682,30 @@ const handleWheel = (e) => {
   </TabItem>
 </Tabs>
 
-### 4. Emulate screen moving with transform
+### 4. 模拟屏幕移动，使用变换
 
-That demo works really good, but it may be tricky.
-The idea is:
-- We will use small canvas with the size of the screen
-- We will create container with required size (3000x3000), so native scrollbars will be visible
-- When user is trying to scroll, we will apply css transform for the stage container so it will be still in the center of user's screen
-- We will move all nodes so it looks like you scroll (by changing stage position)
+该演示非常顺畅，但可能会有些复杂。
+其思路是：
+- 我们将使用一个小画布，大小与屏幕相同
+- 我们将创建一个所需大小的容器（3000x3000），因此可以显示本地滚动条
+- 当用户尝试滚动时，我们会为舞台容器应用 CSS 变换，以使其仍然位于用户屏幕的中心
+- 我们将移动所有节点，以使其看起来像是在滚动（通过改变舞台位置）
 
-Props:
-- Works perfect and fast
-- Native scrolling
+优点：
+- 运行完美且快速
+- 本地滚动
 
-Cons:
-- You have to understand what is going on.
+缺点：
+- 你必须理解发生了什么。
 
-**Instructions**: try to scroll with native bars.
+**指示**：尝试通过本地滚动条进行滚动。
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// First we need to add required CSS
+// 首先我们需要添加所需的 CSS
 const style = document.createElement('style');
 style.textContent = `
   #large-container {
@@ -725,7 +724,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Then create required DOM structure
+// 然后创建所需的 DOM 结构
 const scrollContainer = document.createElement('div');
 scrollContainer.id = 'scroll-container';
 const largeContainer = document.createElement('div');
@@ -741,8 +740,8 @@ const WIDTH = 3000;
 const HEIGHT = 3000;
 const NUMBER = 200;
 
-// padding will increase the size of stage
-// so scrolling will look smoother
+// padding 增加了舞台的大小
+// 因此滚动看起来会更顺畅
 const PADDING = 200;
 
 const stage = new Konva.Stage({
@@ -964,4 +963,4 @@ onUnmounted(() => {
 </style>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

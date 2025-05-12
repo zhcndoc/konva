@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10000
-title: Konva.js Tools and Plugins
-sidebar_label: Tools
+title: Konva.js 工具和插件
+sidebar_label: 工具
 slug: tools.html
 sidebar_class_name: hidden
 ---

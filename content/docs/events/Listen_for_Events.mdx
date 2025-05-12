@@ -1,18 +1,13 @@
 ---
-title: HTML5 Canvas Listen or Don't Listen to Events with Konva
-sidebar_label: Listen for Events
+title: HTML5 Canvas 使用 Konva 监听或不监听事件
+sidebar_label: 监听事件
 hide_table_of_contents: true
 slug: Listen_for_Events.html
 ---
 
-To listen or don't listen to events with Konva, we can set the listening
-property of the config object to true or false when a shape is instantiated,
-or we can set the listening property with the `setListening()` method.
-Once we've set the listening property for one or more nodes, we'll also need
-to redraw the hit graph for each affected layer with the `drawHit()` method.
+要使用 Konva 监听或不监听事件，我们可以在实例化形状时将配置对象的 listening 属性设置为 true 或 false，或者可以使用 `setListening()` 方法设置 listening 属性。 一旦我们为一个或多个节点设置了 listening 属性，我们还需要使用 `drawHit()` 方法重新绘制每个受影响的层的命中图形。
 
-**Instructions: Mouseover the oval to observe that the event handler is not executed.
-Click on "Listen" to start listening for events and observe that the event handler is now executed.**
+**说明：将鼠标悬停在椭圆上以观察事件处理程序未被执行。点击“监听”以开始监听事件，并观察事件处理程序现在被执行。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -53,7 +48,7 @@ const oval = new Konva.Ellipse({
 });
 
 oval.on('mouseover', function () {
-  writeMessage('Mouseover oval');
+  writeMessage('鼠标悬停在椭圆上');
 });
 oval.on('mouseout', function () {
   writeMessage('');
@@ -65,14 +60,14 @@ function writeMessage(message) {
 
 layer.add(oval);
 
-// add button to toggle listening
+// 添加切换监听的按钮
 const button = document.createElement('button');
-button.innerHTML = 'Listen';
+button.innerHTML = '监听';
 document.body.appendChild(button);
 button.addEventListener('click', () => {
   const listening = !oval.listening();
   oval.listening(listening);
-  button.innerHTML = listening ? 'Stop listening' : 'Listen';
+  button.innerHTML = listening ? '停止监听' : '监听';
   layer.drawHit();
 });
 ```
@@ -89,7 +84,7 @@ const App = () => {
   return (
     <>
       <button onClick={() => setListening(!listening)}>
-        {listening ? 'Stop listening' : 'Listen'}
+        {listening ? '停止监听' : '监听'}
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -110,7 +105,7 @@ const App = () => {
             stroke="black"
             strokeWidth={4}
             listening={listening}
-            onMouseover={() => setMessage('Mouseover oval')}
+            onMouseover={() => setMessage('鼠标悬停在椭圆上')}
             onMouseout={() => setMessage('')}
           />
         </Layer>
@@ -127,7 +122,7 @@ export default App;
 <template>
   <div>
     <button @click="toggleListening">
-      {{ listening ? 'Stop listening' : 'Listen' }}
+      {{ listening ? '停止监听' : '监听' }}
     </button>
     <v-stage :config="stageSize">
       <v-layer>
@@ -174,7 +169,7 @@ const ovalConfig = computed(() => ({
 }));
 
 const handleMouseover = () => {
-  message.value = 'Mouseover oval';
+  message.value = '鼠标悬停在椭圆上';
 };
 
 const handleMouseout = () => {
@@ -187,4 +182,4 @@ const toggleListening = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,16 +1,15 @@
 ---
-title: How to resize text on canvas?
-sidebar_label: Resize Text
+title: 如何在画布上调整文本大小?
+sidebar_label: 调整文本
 hide_table_of_contents: true
 slug: Resize_Text.html
 ---
 
-Remember, that `Konva.Transformer` is changing `scaleX` and `scaleY` properties of a node.
-If you want to change width of the text, without changing its size, you should reset scale of a text back to 1 and adjust `width` accordingly.
+请记住，`Konva.Transformer` 会改变节点的 `scaleX` 和 `scaleY` 属性。如果您想在不改变文本大小的情况下更改文本的宽度，您应该将文本的缩放重置为 1，并相应地调整 `width`。
 
-You can use `transform` event to update text's properties as you need it.
+您可以使用 `transform` 事件根据需要更新文本的属性。
 
-**Instructions: Try to resize a text.**
+**说明：尝试调整文本大小。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -44,14 +43,14 @@ layer.add(text);
 
 const tr = new Konva.Transformer({
 nodes: [text],
-// enable only one anchor to see better what is happening
-// we are changing width only
+// 仅启用一个锚点，以便更好地查看正在发生的事情
+// 我们只改变宽度
 enabledAnchors: ['middle-left', 'middle-right'],
 });
 layer.add(tr);
 
 text.on('transform', function () {
-// reset scale on transform
+// 在变换时重置缩放
 text.setAttrs({
 width: text.width() * text.scaleX(),
 scaleX: 1,

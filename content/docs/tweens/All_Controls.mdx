@@ -1,20 +1,20 @@
 ---
-title: All Tween Controls Tutorial
-sidebar_label: All Controls
+title: 所有 Tween 控制教程
+sidebar_label: 所有控制
 hide_table_of_contents: true
 slug: All_Controls.html
 ---
 
-To control tweens with Konva, we can use the following methods:
+要使用 Konva 控制 Tweens，我们可以采用以下方法：
 
-- `play()` - Start or resume the tween
-- `pause()` - Pause the tween
-- `reverse()` - Reverse the tween direction
-- `reset()` - Reset to initial state
-- `finish()` - Jump to final state
-- `seek()` - Jump to specific position
+- `play()` — 开始或继续动画
+- `pause()` — 暂停动画
+- `reverse()` — 反转动画方向
+- `reset()` — 重置为初始状态
+- `finish()` — 跳转到最终状态
+- `seek()` — 跳转到特定位置
 
-**Instructions: Use the buttons to control the tween animation of the circle.**
+**说明：** 使用按钮来控制圆形的动画效果。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -28,48 +28,48 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
 
 const circle = new Konva.Circle({
-x: 100,
-y: height / 2,
-radius: 70,
-fill: 'red',
-stroke: 'black',
-strokeWidth: 4,
+  x: 100,
+  y: height / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
 });
 
 layer.add(circle);
 stage.add(layer);
 
 const tween = new Konva.Tween({
-node: circle,
-duration: 2,
-x: width - 100,
-easing: Konva.Easings.EaseInOut,
+  node: circle,
+  duration: 2,
+  x: width - 100,
+  easing: Konva.Easings.EaseInOut,
 });
 
-// create buttons
+// 创建控制按钮
 const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
 controls.forEach(control => {
-const button = document.createElement('button');
-button.textContent = control;
-button.addEventListener('click', () => {
-tween[control]();
-});
-document.body.appendChild(button);
+  const button = document.createElement('button');
+  button.textContent = control;
+  button.addEventListener('click', () => {
+    tween[control]();
+  });
+  document.body.appendChild(button);
 });
 
-// seek control
+// 进度控制按钮
 const seekBtn = document.createElement('button');
-seekBtn.textContent = 'Seek to 50%';
+seekBtn.textContent = '跳转到 50%';
 seekBtn.addEventListener('click', () => {
-tween.seek(1); // seek to 1 second
+  tween.seek(1); // 跳转到 1 秒位置
 });
 document.body.appendChild(seekBtn);
 
@@ -108,7 +108,7 @@ const App = () => {
         </button>
       ))}
       <button onClick={() => tweenRef.current.seek(1)}>
-        Seek to 50%
+        跳转到 50%
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -142,7 +142,7 @@ export default App;
     >
       {{ control }}
     </button>
-    <button @click="handleSeek">Seek to 50%</button>
+    <button @click="handleSeek">跳转到 50%</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-circle
@@ -198,5 +198,3 @@ const handleSeek = () => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

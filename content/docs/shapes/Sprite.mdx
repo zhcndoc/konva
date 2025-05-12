@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Sprite Tutorial
-sidebar_label: Sprite
+title: HTML5 canvas 精灵教程
+sidebar_label: 精灵
 hide_table_of_contents: true
 slug: /docs/shapes/Sprite.html
 ---
 
-To create an animated sprite with `Konva`, we can instantiate a `Konva.Sprite()` object.
+要使用 `Konva` 创建一个动画精灵，我们可以实例化一个 `Konva.Sprite()` 对象。
 
-For full list of properties and methods, see the [Sprite API Reference](/api/Konva.Sprite.html).
+完整的属性和方法列表，请查看 [精灵 API 参考](/api/Konva.Sprite.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -28,15 +28,15 @@ stage.add(layer);
 
 const animations = {
   idle: [
-    2, 2, 70, 119,      // frame 1
-    71, 2, 74, 119,     // frame 2
-    146, 2, 81, 119,    // frame 3
-    226, 2, 76, 119,    // frame 4
+    2, 2, 70, 119,      // 帧 1
+    71, 2, 74, 119,     // 帧 2
+    146, 2, 81, 119,    // 帧 3
+    226, 2, 76, 119,    // 帧 4
   ],
   punch: [
-    2, 138, 74, 122,    // frame 1
-    76, 138, 84, 122,   // frame 2
-    346, 138, 120, 122, // frame 3
+    2, 138, 74, 122,    // 帧 1
+    76, 138, 84, 122,   // 帧 2
+    346, 138, 120, 122, // 帧 3
   ],
 };
 
@@ -55,9 +55,9 @@ imageObj.onload = function() {
   layer.add(sprite);
   sprite.start();
 
-  // Add punch button functionality
+  // 添加击打按钮功能
   const button = document.createElement('button');
-  button.textContent = 'Punch';
+  button.textContent = '击打';
   button.style.position = 'absolute';
   button.style.top = '0';
   button.style.left = '0';
@@ -90,15 +90,15 @@ const App = () => {
 
   const animations = {
     idle: [
-      2, 2, 70, 119,      // frame 1
-      71, 2, 74, 119,     // frame 2
-      146, 2, 81, 119,    // frame 3
-      226, 2, 76, 119,    // frame 4
+      2, 2, 70, 119,      // 帧 1
+      71, 2, 74, 119,     // 帧 2
+      146, 2, 81, 119,    // 帧 3
+      226, 2, 76, 119,    // 帧 4
     ],
     punch: [
-      2, 138, 74, 122,    // frame 1
-      76, 138, 84, 122,   // frame 2
-      346, 138, 120, 122, // frame 3
+      2, 138, 74, 122,    // 帧 1
+      76, 138, 84, 122,   // 帧 2
+      346, 138, 120, 122, // 帧 3
     ],
   };
 
@@ -144,7 +144,7 @@ const App = () => {
         onClick={handlePunch}
         style={{ position: 'absolute', top: 0, left: 0 }}
       >
-        Punch
+        击打
       </button>
     </>
   );
@@ -169,7 +169,7 @@ export default App;
       @click="handlePunch"
       style="position: absolute; top: 0; left: 0"
     >
-      Punch
+      击打
     </button>
   </div>
 </template>
@@ -188,15 +188,15 @@ const [image] = useImage('https://konvajs.org/assets/blob-sprite.png');
 
 const animations = {
   idle: [
-    2, 2, 70, 119,      // frame 1
-    71, 2, 74, 119,     // frame 2
-    146, 2, 81, 119,    // frame 3
-    226, 2, 76, 119,    // frame 4
+    2, 2, 70, 119,      // 帧 1
+    71, 2, 74, 119,     // 帧 2
+    146, 2, 81, 119,    // 帧 3
+    226, 2, 76, 119,    // 帧 4
   ],
   punch: [
-    2, 138, 74, 122,    // frame 1
-    76, 138, 84, 122,   // frame 2
-    346, 138, 120, 122, // frame 3
+    2, 138, 74, 122,    // 帧 1
+    76, 138, 84, 122,   // 帧 2
+    346, 138, 120, 122, // 帧 3
   ],
 };
 
@@ -232,4 +232,4 @@ const handlePunch = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

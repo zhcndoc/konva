@@ -1,24 +1,17 @@
 ---
-title: HTML5 Canvas Layer Management Performance Tip
-sidebar_label: Layer Management
+title: HTML5 Canvas 层管理性能提示
+sidebar_label: 层管理
 hide_table_of_contents: true
 slug: Layer_Management.html
 ---
 
-When creating Konva applications, the most important thing to consider,
-in regards to performance, is layer management. One of the things that makes
-Konva stand out from other canvas libraries is that it enables us to create
-individual layers, each with their own canvas elements. This means that we can
-animate, transition, or update some stage elements, while not redrawing others.
-If we inspect the DOM of a Konva stage, we'll see that there is actually one
-canvas element per layer.
+在创建 Konva 应用时，关于性能，最重要的考虑是层管理。Konva 相较于其他画布库的一个突出特点是，它使我们能够创建各个独立的层，每个层都有自己的画布元素。这意味着我们可以对某些舞台元素进行动画、过渡或更新，而无需重新绘制其他元素。如果我们检查一个 Konva 舞台的 DOM，我们会发现实际上每个层都有一个画布元素。
 
-This tutorial has two layers, one layer that's animated, and another static layer
-that contains text. Since there's no reason to continually redraw the text, it's placed in its own layer.
+本教程包含两个层，一个是动画层，另一个是包含文本的静态层。由于没有理由不断重绘文本，所以它被放置在自己的层中。
 
-**Note: Do not create too many layers. Usually 3-5 is max.**
+**注意：不要创建太多层。通常最大为 3-5 个。**
 
-Below is a demo showing efficient layer management:
+下面是一个展示高效层管理的示例：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -34,25 +27,25 @@ const stage = new Konva.Stage({
   height: window.innerHeight,
 });
 
-// Static layer for text
+// 静态文本层
 const textLayer = new Konva.Layer();
 stage.add(textLayer);
 
-// Animated layer for shapes
+// 动画形状层
 const animLayer = new Konva.Layer();
 stage.add(animLayer);
 
-// Add static text
+// 添加静态文本
 const text = new Konva.Text({
   x: 20,
   y: 20,
-  text: 'This text is in a static layer.\nThe circle below is in an animated layer.',
+  text: '这段文本在一个静态层中。\n下方的圆是在动画层中。',
   fontSize: 16,
   fill: 'black'
 });
 textLayer.add(text);
 
-// Add animated circle
+// 添加动画圆形
 const circle = new Konva.Circle({
   x: 100,
   y: 100,
@@ -61,9 +54,9 @@ const circle = new Konva.Circle({
 });
 animLayer.add(circle);
 
-// Create animation
+// 创建动画
 const anim = new Konva.Animation((frame) => {
-  // Move circle in a figure-8 pattern
+  // 按"8"字形移动圆形
   const scale = 100;
   const centerX = stage.width() / 2;
   const centerY = stage.height() / 2;
@@ -99,18 +92,18 @@ const App = () => {
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
-      {/* Static layer for text */}
+      {/* 静态文本层 */}
       <Layer>
         <Text
           x={20}
           y={20}
-          text="This text is in a static layer.\nThe circle below is in an animated layer."
+          text="这段文本在一个静态层中。\n下方的圆是在动画层中。"
           fontSize={16}
           fill="black"
         />
       </Layer>
       
-      {/* Animated layer for shapes */}
+      {/* 动画形状层 */}
       <Layer>
         <Circle
           ref={circleRef}
@@ -131,12 +124,12 @@ export default App;
 ```js live vue
 <template>
   <v-stage :config="stageSize">
-    <!-- Static layer for text -->
+    <!-- 静态文本层 -->
     <v-layer>
       <v-text :config="textConfig" />
     </v-layer>
     
-    <!-- Animated layer for shapes -->
+    <!-- 动画形状层 -->
     <v-layer ref="animLayerRef">
       <v-circle
         ref="circleRef"
@@ -158,7 +151,7 @@ const stageSize = {
 const textConfig = {
   x: 20,
   y: 20,
-  text: 'This text is in a static layer.\nThe circle below is in an animated layer.',
+  text: '这段文本在一个静态层中。\n下方的圆是在动画层中。',
   fontSize: 16,
   fill: 'black'
 };
@@ -196,4 +189,4 @@ onUnmounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

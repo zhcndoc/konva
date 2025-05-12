@@ -1,17 +1,17 @@
 ---
-title: Multi-touch Canvas scale with pinch zoom
-sidebar_label: Multi-touch Scale Stage
+title: 多点触控画布缩放与捏合缩放
+sidebar_label: 多点触控缩放舞台
 hide_table_of_contents: true
 slug: Multi-touch_Scale_Stage.html
 ---
 
-## How to enable pan and pinch zoom for canvas stage?
+## 如何为画布舞台启用平移和捏合缩放？
 
-Inside `touchmove` callback we can get access to all native properties of touch events with `e.evt.touches`. So we just need to manually calculate position and scale properties of the stage, when two pointers are used in `touchmove`.
+在 `touchmove` 回调中，我们可以通过 `e.evt.touches` 访问所有触控事件的原生属性。所以当使用两个指点触控时，我们只需手动计算舞台的位置和缩放属性。
 
-Note: This lab only works on devices that support multi-touch gestures because it makes use of multiple touch events.
+注意：该实验仅在支持多点触控手势的设备上工作，因为它使用了多个触控事件。
 
-**Instructions:** Using a mobile device that supports multi-touch gestures, use two fingers to zoom in or out of the stage.
+**说明：** 使用支持多点触控手势的移动设备，用两个手指放大或缩小舞台。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -21,10 +21,10 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
+// 默认情况下，Konva在节点拖动时会阻止某些事件
+// 这提高了性能并在95%的情况下工作良好
+// 我们需要在Konva上启用所有事件，即使在拖动节点时
+// 这样可以正确触发touchmove
 Konva.hitOnDragEnabled = true;
 
 const width = window.innerWidth;
@@ -78,15 +78,15 @@ stage.on('touchmove', function (e) {
   const touch1 = e.evt.touches[0];
   const touch2 = e.evt.touches[1];
 
-  // we need to restore dragging, if it was cancelled by multi-touch
+  // 如果多点触控取消了拖动，我们需要恢复拖动
   if (touch1 && !touch2 && !stage.isDragging() && dragStopped) {
     stage.startDrag();
     dragStopped = false;
   }
 
   if (touch1 && touch2) {
-    // if the stage was under Konva's drag&drop
-    // we need to stop it, and implement our own pan logic with two pointers
+    // 如果舞台在Konva的拖放中
+    // 我们需要停止它，并用两个指点实现我们自己的平移逻辑
     if (stage.isDragging()) {
       dragStopped = true;
       stage.stopDrag();
@@ -113,7 +113,7 @@ stage.on('touchmove', function (e) {
       lastDist = dist;
     }
 
-    // local coordinates of center point
+    // 中心点的局部坐标
     const pointTo = {
       x: (newCenter.x - stage.x()) / stage.scaleX(),
       y: (newCenter.y - stage.y()) / stage.scaleX(),
@@ -124,7 +124,7 @@ stage.on('touchmove', function (e) {
     stage.scaleX(scale);
     stage.scaleY(scale);
 
-    // calculate new position of the stage
+    // 计算舞台的新位置
     const dx = newCenter.x - lastCenter.x;
     const dy = newCenter.y - lastCenter.y;
 
@@ -155,10 +155,10 @@ stage.add(layer);
 import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
 import { useState, useEffect, useCallback } from 'react';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
+// 默认情况下，Konva在节点拖动时会阻止某些事件
+// 这提高了性能并在95%的情况下工作良好
+// 我们需要在Konva上启用所有事件，即使在拖动节点时
+// 这样可以正确触发touchmove
 window.Konva.hitOnDragEnabled = true;
 
 const App = () => {
@@ -185,15 +185,15 @@ const App = () => {
     const touch2 = e.evt.touches[1];
     const stage = e.target.getStage();
 
-    // we need to restore dragging, if it was cancelled by multi-touch
+    // 如果多点触控取消了拖动，我们需要恢复拖动
     if (touch1 && !touch2 && !stage.isDragging() && dragStopped) {
       stage.startDrag();
       setDragStopped(false);
     }
 
     if (touch1 && touch2) {
-      // if the stage was under Konva's drag&drop
-      // we need to stop it, and implement our own pan logic with two pointers
+      // 如果舞台在Konva的拖放中
+      // 我们需要停止它，并用两个指点实现我们自己的平移逻辑
       if (stage.isDragging()) {
         stage.stopDrag();
         setDragStopped(true);
@@ -221,7 +221,7 @@ const App = () => {
         return;
       }
 
-      // local coordinates of center point
+      // 中心点的局部坐标
       const pointTo = {
         x: (newCenter.x - stagePos.x) / stageScale.x,
         y: (newCenter.y - stagePos.y) / stageScale.x,
@@ -231,7 +231,7 @@ const App = () => {
 
       setStageScale({ x: scale, y: scale });
 
-      // calculate new position of the stage
+      // 计算舞台的新位置
       const dx = newCenter.x - lastCenter.x;
       const dy = newCenter.y - lastCenter.y;
 
@@ -325,10 +325,10 @@ export default App;
 <script setup>
 import { ref, computed } from 'vue';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
+// 默认情况下，Konva在节点拖动时会阻止某些事件
+// 这提高了性能并在95%的情况下工作良好
+// 我们需要在Konva上启用所有事件，即使在拖动节点时
+// 这样可以正确触发touchmove
 window.Konva.hitOnDragEnabled = true;
 
 const stagePos = ref({ x: 0, y: 0 });
@@ -364,15 +364,15 @@ const handleTouchMove = (e) => {
   const touch2 = e.evt.touches[1];
   const stage = e.target.getStage();
 
-  // we need to restore dragging, if it was cancelled by multi-touch
+  // 如果多点触控取消了拖动，我们需要恢复拖动
   if (touch1 && !touch2 && !stage.isDragging() && dragStopped.value) {
     stage.startDrag();
     dragStopped.value = false;
   }
 
   if (touch1 && touch2) {
-    // if the stage was under Konva's drag&drop
-    // we need to stop it, and implement our own pan logic with two pointers
+    // 如果舞台在Konva的拖放中
+    // 我们需要停止它，并用两个指点实现我们自己的平移逻辑
     if (stage.isDragging()) {
       stage.stopDrag();
       dragStopped.value = true;
@@ -400,7 +400,7 @@ const handleTouchMove = (e) => {
       return;
     }
 
-    // local coordinates of center point
+    // 中心点的局部坐标
     const pointTo = {
       x: (newCenter.x - stagePos.value.x) / stageScale.value.x,
       y: (newCenter.y - stagePos.value.y) / stageScale.value.x,
@@ -410,7 +410,7 @@ const handleTouchMove = (e) => {
 
     stageScale.value = { x: scale, y: scale };
 
-    // calculate new position of the stage
+    // 计算舞台的新位置
     const dx = newCenter.x - lastCenter.value.x;
     const dy = newCenter.y - lastCenter.value.y;
 

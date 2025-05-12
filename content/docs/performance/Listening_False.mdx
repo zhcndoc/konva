@@ -1,17 +1,17 @@
 ---
-title: HTML5 Canvas Listening False Performance Tip
-sidebar_label: Listening False
+title: HTML5 Canvas 监听禁用性能提示
+sidebar_label: 监听禁用
 hide_table_of_contents: true
 slug: Listening_False.html
 ---
 
-If you have a lot of shapes on the canvas and you don't need to detect events for some of them,
-you can set `listening` to `false` to improve performance.
+如果你在画布上有很多形状，并且不需要对其中某些形状检测事件，
+你可以将 `listening` 设置为 `false` 来提高性能。
 
-When `listening = false`, the shape will be ignored from event detection (like mouseover, drag and drop, click, etc).
-This can significantly improve performance for complex applications.
+当 `listening = false` 时，该形状将被忽略事件检测（如鼠标悬停、拖放、点击等）。
+这可以显著提高复杂应用的性能。
 
-Below is a demo showing the performance difference between listening and non-listening shapes:
+下面是一个演示，展示了监听形状与非监听形状之间的性能差异：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -30,7 +30,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create many circles with listening enabled
+// 创建许多启用事件监听的圆圈
 for (let i = 0; i < 100; i++) {
   const circle = new Konva.Circle({
     x: Math.random() * stage.width(),
@@ -38,11 +38,11 @@ for (let i = 0; i < 100; i++) {
     radius: 20,
     fill: 'blue',
     opacity: 0.5,
-    // Enable event detection (default)
+    // 启用事件检测（默认）
     listening: true,
   });
   
-  // Add hover effect
+  // 添加悬停效果
   circle.on('mouseover', function() {
     this.fill('red');
   });
@@ -54,7 +54,7 @@ for (let i = 0; i < 100; i++) {
   layer.add(circle);
 }
 
-// Create many circles with listening disabled
+// 创建许多禁用事件监听的圆圈
 for (let i = 0; i < 1000; i++) {
   const circle = new Konva.Circle({
     x: Math.random() * stage.width(),
@@ -62,17 +62,17 @@ for (let i = 0; i < 1000; i++) {
     radius: 20,
     fill: 'green',
     opacity: 0.5,
-    // Disable event detection for better performance
+    // 禁用事件检测以获得更好的性能
     listening: false,
   });
   layer.add(circle);
 }
 
-// Add text explanation
+// 添加文本说明
 const text = new Konva.Text({
   x: 10,
   y: 10,
-  text: 'Blue circles (100) have event listeners (hover them)\nGreen circles (1000) have no listeners (better performance)',
+  text: '蓝色圆圈（100）有事件监听（悬停它们）\n绿色圆圈（1000）没有监听（更好的性能）',
   fontSize: 16,
   fill: 'black',
 });
@@ -87,7 +87,7 @@ import { useState } from 'react';
 const App = () => {
   const [hoveredId, setHoveredId] = useState(null);
   
-  // Generate circles data
+  // 生成圆圈数据
   const listeningCircles = Array.from({ length: 100 }, (_, i) => ({
     id: i,
     x: Math.random() * window.innerWidth,
@@ -103,7 +103,7 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        {/* Circles with event listeners */}
+        {/* 含事件监听的圆圈 */}
         {listeningCircles.map((circle) => (
           <Circle
             key={circle.id}
@@ -117,7 +117,7 @@ const App = () => {
           />
         ))}
         
-        {/* Circles without event listeners */}
+        {/* 不含事件监听的圆圈 */}
         {nonListeningCircles.map((circle) => (
           <Circle
             key={circle.id}
@@ -133,7 +133,7 @@ const App = () => {
         <Text
           x={10}
           y={10}
-          text="Blue circles (100) have event listeners (hover them)\nGreen circles (1000) have no listeners (better performance)"
+          text="蓝色圆圈（100）有事件监听（悬停它们）\n绿色圆圈（1000）没有监听（更好的性能）"
           fontSize={16}
           fill="black"
         />
@@ -150,7 +150,7 @@ export default App;
 <template>
   <v-stage :config="stageSize">
     <v-layer>
-      <!-- Circles with event listeners -->
+      <!-- 含事件监听的圆圈 -->
       <v-circle
         v-for="circle in listeningCircles"
         :key="circle.id"
@@ -159,7 +159,7 @@ export default App;
         @mouseleave="handleMouseLeave"
       />
       
-      <!-- Circles without event listeners -->
+      <!-- 不含事件监听的圆圈 -->
       <v-circle
         v-for="circle in nonListeningCircles"
         :key="circle.id"
@@ -181,7 +181,7 @@ const stageSize = {
 
 const hoveredId = ref(null);
 
-// Generate circles data
+// 生成圆圈数据
 const listeningCircles = Array.from({ length: 100 }, (_, i) => ({
   id: i,
   x: Math.random() * window.innerWidth,
@@ -214,7 +214,7 @@ const getNonListeningCircleConfig = (circle) => ({
 const textConfig = {
   x: 10,
   y: 10,
-  text: 'Blue circles (100) have event listeners (hover them)\nGreen circles (1000) have no listeners (better performance)',
+  text: '蓝色圆圈（100）有事件监听（悬停它们）\n绿色圆圈（1000）没有监听（更好的性能）',
   fontSize: 16,
   fill: 'black',
 };
@@ -229,4 +229,4 @@ const handleMouseLeave = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

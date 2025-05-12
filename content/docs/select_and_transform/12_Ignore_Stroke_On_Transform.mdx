@@ -1,19 +1,19 @@
 ---
-title: How to resize shape on canvas without changing its stroke size?
-sidebar_label: Ignore Stroke
+title: 如何在不改变描边大小的情况下调整画布上形状的大小？
+sidebar_label: 忽略描边
 hide_table_of_contents: true
 slug: Ignore_Stroke_On_Transform.html
 ---
 
-Remember, that `Konva.Transformer` is changing `scaleX` and `scaleY` properties of a node.
-By default, if you are transforming a shape, its stroke will be scaled too. In some cases that is not a good behavior.
+请记住，`Konva.Transformer` 会改变节点的 `scaleX` 和 `scaleY` 属性。
+默认情况下，如果你正在变换一个形状，它的描边也会被缩放。在某些情况下，这不是理想的行为。
 
-There are two ways to prevent stroke scaling:
+有两种方法可以防止描边缩放：
 
-1. Reset scale of a shape
-2. Use combination of `shape.strokeScaleEnabled(false)` and `transformer.ignoreStroke(false)`
+1. 重置形状的缩放比例
+2. 使用 `shape.strokeScaleEnabled(false)` 和 `transformer.ignoreStroke(false)` 的组合
 
-**Instructions: there are two rectangles to resize. The green one will reset its scale. The red one will just disable stroke scaling.**
+**说明：有两个矩形可供调整大小。绿色矩形会重置它的缩放比例，红色矩形则只是禁止描边缩放。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,62 +27,62 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// first way - reset scale on transform end
+// 第一种方法 - 在变换结束时重置缩放比例
 const rect1 = new Konva.Rect({
-x: 50,
-y: 50,
-width: 100,
-height: 100,
-fill: '#00ff00',
-stroke: 'black',
-strokeWidth: 5,
-draggable: true,
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: '#00ff00',
+  stroke: 'black',
+  strokeWidth: 5,
+  draggable: true,
 });
 layer.add(rect1);
 
 const tr1 = new Konva.Transformer({
-nodes: [rect1],
+  nodes: [rect1],
 });
 layer.add(tr1);
 
 rect1.on('transformend', () => {
-// after transform we need to reset scale
-rect1.scaleX(1);
-rect1.scaleY(1);
-// and increase width and height manually
-rect1.width(rect1.width() - rect1.scaleX());
-rect1.height(rect1.height() - rect1.scaleY());
+  // 变换结束后，需要重置缩放比例
+  rect1.scaleX(1);
+  rect1.scaleY(1);
+  // 并手动增加宽度和高度
+  rect1.width(rect1.width() * rect1.scaleX());
+  rect1.height(rect1.height() * rect1.scaleY());
 });
 
-// second way - disable stroke scaling
+// 第二种方法 - 禁用描边缩放
 const rect2 = new Konva.Rect({
-x: 200,
-y: 50,
-width: 100,
-height: 100,
-fill: '#ff0000',
-stroke: 'black',
-strokeWidth: 5,
-draggable: true,
-strokeScaleEnabled: false,
+  x: 200,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: '#ff0000',
+  stroke: 'black',
+  strokeWidth: 5,
+  draggable: true,
+  strokeScaleEnabled: false,
 });
 layer.add(rect2);
 
 const tr2 = new Konva.Transformer({
-nodes: [rect2],
-ignoreStroke: true,
+  nodes: [rect2],
+  ignoreStroke: true,
 });
 layer.add(tr2);
 
-````
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -149,8 +149,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

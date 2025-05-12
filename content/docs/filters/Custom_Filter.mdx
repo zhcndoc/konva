@@ -1,28 +1,28 @@
 ---
-title: HTML5 Canvas Custom Filter Tutorial
-sidebar_label: Custom Filter
+title: HTML5 Canvas 自定义滤镜教程
+sidebar_label: 自定义滤镜
 hide_table_of_contents: true
 slug: Custom_Filter.html
 ---
 
-## How apply custom filter for Konva nodes?
+## 如何为 Konva 节点应用自定义滤镜？
 
-This demo demonstrate how to use custom filters with `Konva` framework.
+这个示例演示了如何在 `Konva` 框架中使用自定义滤镜。
 
-`Filter` is a function that have canvas ImageData as input and it should mutate it.
+`滤镜` 是一个函数，它以画布的 ImageData 为输入，并应当对其进行修改。
 
 ```javascript
 function Filter(imageData) {
-  // do something with image data
+  // 对图像数据进行处理
   imageData.data[0] = 0;
 }
 ```
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用滤镜的信息，请访问 [滤镜文档](/api/Konva.Filters.html)。
 
-Also take a look into [Image Border Demo](/docs/sandbox/Image_Border.html) for custom filter example.
+还可以查看 [图像边框示例](/docs/sandbox/Image_Border.html) 以获取自定义滤镜示例。
 
-**In this demo we will remove all transparency from the image.**
+**在这个示例中，我们将移除图像的所有透明度。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -32,11 +32,11 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// create our custom filter
+// 创建自定义滤镜
 Konva.Filters.RemoveAlpha = function (imageData) {
   const data = imageData.data;
   for (let i = 0; i < data.length; i += 4) {
-    data[i + 3] = 255; // set alpha to 1
+    data[i + 3] = 255; // 将 alpha 设置为 1
   }
 };
 
@@ -73,11 +73,11 @@ import { Stage, Layer, Image } from 'react-konva';
 import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 
-// create our custom filter
+// 创建自定义滤镜
 Konva.Filters.RemoveAlpha = function (imageData) {
   const data = imageData.data;
   for (let i = 0; i < data.length; i += 4) {
-    data[i + 3] = 255; // set alpha to 1
+    data[i + 3] = 255; // 将 alpha 设置为 1
   }
 };
 
@@ -134,11 +134,11 @@ import { ref, watch, nextTick } from 'vue';
 import { useImage } from 'vue-konva';
 import Konva from 'konva';
 
-// create our custom filter
+// 创建自定义滤镜
 Konva.Filters.RemoveAlpha = function (imageData) {
   const data = imageData.data;
   for (let i = 0; i < data.length; i += 4) {
-    data[i + 3] = 255; // set alpha to 1
+    data[i + 3] = 255; // 将 alpha 设置为 1
   }
 };
 

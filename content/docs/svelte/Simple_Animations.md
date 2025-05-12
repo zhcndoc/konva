@@ -1,15 +1,15 @@
 ---
-title: How to apply canvas animations with Svelte and Konva?
-sidebar_label: Simple Animations
+title: 如何使用 Svelte 和 Konva 应用画布动画？
+sidebar_label: 简单动画
 hide_table_of_contents: true
 slug: Simple_Animations.html
 ---
 
-Konva itself has two methods for animations [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). You can apply both of them to nodes manually.
+Konva 本身有两种动画方法 [Tween](/docs/tweens/Linear_Easing.html) 和 [Animation](/docs/animations/Rotation.html)。你可以手动将它们应用于节点。
 
-For simple use cases we recommend to use `node.to()` method.
+对于简单的用例，我们建议使用 `node.to()` 方法。
 
-**Instructions:** Try to move a rectangle.
+**指示：** 尝试移动一个矩形。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/simple_animations?file=/src/App.svelte" 

@@ -1,16 +1,16 @@
 ---
-title: How to resize and rotate canvas shapes with Vue and Konva?
+title: 如何使用 Vue 和 Konva 调整画布形状的大小和旋转？
 sidebar_label: Transformer
 hide_table_of_contents: true
 slug: Transformer.html
 ---
 
-Currently, there is no pure declarative "Vue-way" to use the Transformer tool.
-However, you can still use it effectively by manually attaching it to Konva nodes.
+目前，没有纯声明性的“Vue方式”使用 Transformer 工具。
+不过，你仍然可以通过手动将其附加到 Konva 节点来有效使用它。
 
-The idea is to create a `v-transformer` component and manually attach it to the required node when selected.
+这个想法是创建一个 `v-transformer` 组件，并在选中时手动将其附加到所需的节点上。
 
-Instructions: Click on a shape to select it. You can then resize and rotate it using the transformer handles. The shape will change color after transformation.
+说明：点击形状以选择它。然后，你可以使用变换手柄调整其大小和旋转。形状将在变换后改变颜色。
 
 ```js live vue
 <template>
@@ -72,20 +72,20 @@ const selectedShapeName = ref('');
 const transformer = ref(null);
 
 const handleTransformEnd = (e) => {
-  // find element in our state
+  // 在我们的状态中找到元素
   const rect = rectangles.value.find(
     (r) => r.name === selectedShapeName.value
   );
   if (!rect) return;
 
-  // update the state with new properties
+  // 用新属性更新状态
   rect.x = e.target.x();
   rect.y = e.target.y();
   rect.rotation = e.target.rotation();
   rect.scaleX = e.target.scaleX();
   rect.scaleY = e.target.scaleY();
 
-  // change fill color randomly
+  // 随机改变填充颜色
   rect.fill = Konva.Util.getRandomColor();
 };
 
@@ -95,36 +95,36 @@ const updateTransformer = () => {
   const selected = selectedShapeName.value;
 
   const selectedNode = stage.findOne('.' + selected);
-  // do nothing if selected node is already attached
+  // 如果选择的节点已经附加，则什么也不做
   if (selectedNode === transformerNode.node()) {
     return;
   }
 
   if (selectedNode) {
-    // attach to selected node
+    // 附加到选中的节点
     transformerNode.nodes([selectedNode]);
   } else {
-    // remove transformer
+    // 移除变换器
     transformerNode.nodes([]);
   }
 };
 
 const handleStageMouseDown = (e) => {
-  // clicked on stage - clear selection
+  // 点击舞台 - 清除选择
   if (e.target === e.target.getStage()) {
     selectedShapeName.value = '';
     updateTransformer();
     return;
   }
 
-  // clicked on transformer - do nothing
+  // 点击变换器 - 不做任何事
   const clickedOnTransformer =
     e.target.getParent().className === 'Transformer';
   if (clickedOnTransformer) {
     return;
   }
 
-  // find clicked rect by its name
+  // 根据名字找到被点击的矩形
   const name = e.target.name();
   const rect = rectangles.value.find((r) => r.name === name);
   if (rect) {

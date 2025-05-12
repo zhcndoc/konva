@@ -1,17 +1,17 @@
 ---
-title: Scaling image to fit a fixed area on canvas
-sidebar_label: Scale Image to Fit
+title: 缩放图像以适应固定的画布区域
+sidebar_label: 缩放图像以适应
 hide_table_of_contents: true
 slug: Scale_Image_To_Fit.html
 ---
 
-## How to scale image to fit available area without its stretching?
+## 如何在不拉伸图像的情况下缩放图像以适应可用区域？
 
-The demo demonstrates how to use [crop](/api/Konva.Image.html#crop) property of `Konva.Image` to emulate `object-fit: cover` of CSS.
+该演示展示了如何使用 `Konva.Image` 的 [crop](/api/Konva.Image.html#crop) 属性来模拟 CSS 的 `object-fit: cover`。
 
-The [crop](https://konvajs.org/api/Konva.Image.html#crop) property allows you to use only specified area of source image to draw into the canvas. If you do the correct calculations, then the resulting image can be drawn without any stretching.
+[crop](https://konvajs.org/api/Konva.Image.html#crop) 属性允许您仅使用源图像的指定区域进行画布绘制。如果做出正确的计算，则可以在不拉伸的情况下绘制得到的图像。
 
-**Instructions: Try to resize the image or change the crop strategy using the dropdown menu at the top. The image will maintain its aspect ratio while fitting into the specified dimensions.** 
+**说明：尝试调整图像大小或使用顶部下拉菜单更改裁剪策略。图像将在符合指定尺寸的同时保持其纵横比。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -21,23 +21,23 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Create select element for crop position
+// 创建选择元素以选择裁剪位置
 const select = document.createElement('select');
 select.style.position = 'absolute';
 select.style.top = '4px';
 select.style.left = '4px';
 
 const positions = [
-  'left-top', 'center-top', 'right-top', '--',
-  'left-middle', 'center-middle', 'right-middle', '--',
-  'left-bottom', 'center-bottom', 'right-bottom'
+  '左上', '中上', '右上', '--',
+  '左中', '中中', '右中', '--',
+  '左下', '中下', '右下'
 ];
 
 positions.forEach(pos => {
   const option = document.createElement('option');
   option.value = pos;
   option.text = pos;
-  if (pos === 'center-middle') option.selected = true;
+  if (pos === '中中') option.selected = true;
   select.appendChild(option);
 });
 
@@ -52,7 +52,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// function to calculate crop values from source image, its visible size and a crop strategy
+// 计算源图像、其可见大小和裁剪策略的裁剪值的函数
 function getCrop(image, size, clipPosition = 'center-middle') {
   const width = size.width;
   const height = size.height;
@@ -73,31 +73,31 @@ function getCrop(image, size, clipPosition = 'center-middle') {
 
   let x = 0;
   let y = 0;
-  if (clipPosition === 'left-top') {
+  if (clipPosition === '左上') {
     x = 0;
     y = 0;
-  } else if (clipPosition === 'left-middle') {
+  } else if (clipPosition === '左中') {
     x = 0;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'left-bottom') {
+  } else if (clipPosition === '左下') {
     x = 0;
     y = image.height - newHeight;
-  } else if (clipPosition === 'center-top') {
+  } else if (clipPosition === '中上') {
     x = (image.width - newWidth) / 2;
     y = 0;
-  } else if (clipPosition === 'center-middle') {
+  } else if (clipPosition === '中中') {
     x = (image.width - newWidth) / 2;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'center-bottom') {
+  } else if (clipPosition === '中下') {
     x = (image.width - newWidth) / 2;
     y = image.height - newHeight;
-  } else if (clipPosition === 'right-top') {
+  } else if (clipPosition === '右上') {
     x = image.width - newWidth;
     y = 0;
-  } else if (clipPosition === 'right-middle') {
+  } else if (clipPosition === '右中') {
     x = image.width - newWidth;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'right-bottom') {
+  } else if (clipPosition === '右下') {
     x = image.width - newWidth;
     y = image.height - newHeight;
   }
@@ -110,7 +110,7 @@ function getCrop(image, size, clipPosition = 'center-middle') {
   };
 }
 
-// function to apply crop
+// 应用裁剪的函数
 function applyCrop(img, pos) {
   img.setAttr('lastCropUsed', pos);
   const crop = getCrop(
@@ -131,8 +131,8 @@ Konva.Image.fromURL('https://konvajs.org/assets/darth-vader.jpg', (img) => {
     draggable: true,
   });
   layer.add(img);
-  // apply default center-middle crop
-  applyCrop(img, 'center-middle');
+  // 应用默认的中中裁剪
+  applyCrop(img, '中中');
 
   const tr = new Konva.Transformer({
     nodes: [img],
@@ -149,7 +149,7 @@ Konva.Image.fromURL('https://konvajs.org/assets/darth-vader.jpg', (img) => {
   layer.add(tr);
 
   img.on('transform', () => {
-    // reset scale on transform
+    // 在变换时重置缩放
     img.setAttrs({
       scaleX: 1,
       scaleY: 1,
@@ -173,9 +173,9 @@ import { Stage, Layer, Image, Transformer } from 'react-konva';
 import { useImage } from 'react-konva-utils';
 
 const positions = [
-  'left-top', 'center-top', 'right-top', '--',
-  'left-middle', 'center-middle', 'right-middle', '--',
-  'left-bottom', 'center-bottom', 'right-bottom'
+  '左上', '中上', '右上', '--',
+  '左中', '中中', '右中', '--',
+  '左下', '中下', '右下'
 ];
 
 function getCrop(image, size, clipPosition = 'center-middle') {
@@ -198,31 +198,31 @@ function getCrop(image, size, clipPosition = 'center-middle') {
 
   let x = 0;
   let y = 0;
-  if (clipPosition === 'left-top') {
+  if (clipPosition === '左上') {
     x = 0;
     y = 0;
-  } else if (clipPosition === 'left-middle') {
+  } else if (clipPosition === '左中') {
     x = 0;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'left-bottom') {
+  } else if (clipPosition === '左下') {
     x = 0;
     y = image.height - newHeight;
-  } else if (clipPosition === 'center-top') {
+  } else if (clipPosition === '中上') {
     x = (image.width - newWidth) / 2;
     y = 0;
-  } else if (clipPosition === 'center-middle') {
+  } else if (clipPosition === '中中') {
     x = (image.width - newWidth) / 2;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'center-bottom') {
+  } else if (clipPosition === '中下') {
     x = (image.width - newWidth) / 2;
     y = image.height - newHeight;
-  } else if (clipPosition === 'right-top') {
+  } else if (clipPosition === '右上') {
     x = image.width - newWidth;
     y = 0;
-  } else if (clipPosition === 'right-middle') {
+  } else if (clipPosition === '右中') {
     x = image.width - newWidth;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'right-bottom') {
+  } else if (clipPosition === '右下') {
     x = image.width - newWidth;
     y = image.height - newHeight;
   }
@@ -236,7 +236,7 @@ function getCrop(image, size, clipPosition = 'center-middle') {
 }
 
 const App = () => {
-  const [position, setPosition] = React.useState('center-middle');
+  const [position, setPosition] = React.useState('中中');
   const [size, setSize] = React.useState({ width: 300, height: 100 });
   const imageRef = React.useRef(null);
   const trRef = React.useRef(null);
@@ -360,12 +360,12 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useImage } from 'vue-konva';
 
 const positions = [
-  'left-top', 'center-top', 'right-top', '--',
-  'left-middle', 'center-middle', 'right-middle', '--',
-  'left-bottom', 'center-bottom', 'right-bottom'
+  '左上', '中上', '右上', '--',
+  '左中', '中中', '右中', '--',
+  '左下', '中下', '右下'
 ];
 
-const position = ref('center-middle');
+const position = ref('中中');
 const size = ref({ width: 300, height: 100 });
 const imageRef = ref(null);
 const transformerRef = ref(null);
@@ -395,31 +395,31 @@ function getCrop(image, size, clipPosition = 'center-middle') {
 
   let x = 0;
   let y = 0;
-  if (clipPosition === 'left-top') {
+  if (clipPosition === '左上') {
     x = 0;
     y = 0;
-  } else if (clipPosition === 'left-middle') {
+  } else if (clipPosition === '左中') {
     x = 0;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'left-bottom') {
+  } else if (clipPosition === '左下') {
     x = 0;
     y = image.height - newHeight;
-  } else if (clipPosition === 'center-top') {
+  } else if (clipPosition === '中上') {
     x = (image.width - newWidth) / 2;
     y = 0;
-  } else if (clipPosition === 'center-middle') {
+  } else if (clipPosition === '中中') {
     x = (image.width - newWidth) / 2;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'center-bottom') {
+  } else if (clipPosition === '中下') {
     x = (image.width - newWidth) / 2;
     y = image.height - newHeight;
-  } else if (clipPosition === 'right-top') {
+  } else if (clipPosition === '右上') {
     x = image.width - newWidth;
     y = 0;
-  } else if (clipPosition === 'right-middle') {
+  } else if (clipPosition === '右中') {
     x = image.width - newWidth;
     y = (image.height - newHeight) / 2;
-  } else if (clipPosition === 'right-bottom') {
+  } else if (clipPosition === '右下') {
     x = image.width - newWidth;
     y = image.height - newHeight;
   }

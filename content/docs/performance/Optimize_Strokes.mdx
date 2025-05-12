@@ -1,18 +1,15 @@
 ---
-title: HTML5 Canvas Optimize Strokes Performance Tip
-sidebar_label: Optimize Strokes
+title: HTML5 Canvas 优化描边性能提示
+sidebar_label: 优化描边
 hide_table_of_contents: true
 slug: Optimize_Strokes.html
 ---
 
-When drawing shapes with strokes and shadows in Konva, there's an extra internal drawing step that occurs.
-This is because Konva needs to ensure that the stroke's shadow is drawn correctly.
-However, this can impact performance, especially when dealing with many shapes.
+在 Konva 中绘制带有描边和阴影的形状时，会发生额外的内部绘制步骤。这是因为 Konva 需要确保描边的阴影被正确绘制。然而，这可能会影响性能，特别是处理许多形状时。
 
-To optimize performance, you can disable the stroke shadow by setting `shadowForStrokeEnabled(false)`.
-This is particularly useful when you don't need the stroke to cast a shadow.
+为了优化性能，您可以通过设置 `shadowForStrokeEnabled(false)` 来禁用描边阴影。当您不需要描边投影阴影时，这尤其有用。
 
-Below is a demo showing the performance difference with and without stroke shadows:
+下面是一个演示，展示了带和不带描边阴影的性能差异：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -31,7 +28,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create shape with shadow for stroke (default)
+// 创建带有描边阴影的形状（默认）
 const circleWithShadow = new Konva.Circle({
   x: 100,
   y: 100,
@@ -45,7 +42,7 @@ const circleWithShadow = new Konva.Circle({
   shadowOpacity: 0.5,
 });
 
-// Create shape without shadow for stroke (optimized)
+// 创建不带描边阴影的形状（优化）
 const circleOptimized = new Konva.Circle({
   x: 250,
   y: 100,
@@ -60,22 +57,22 @@ const circleOptimized = new Konva.Circle({
   shadowForStrokeEnabled: false,
 });
 
-// Add labels
+// 添加标签
 const defaultLabel = new Konva.Text({
   x: 50,
   y: 170,
-  text: 'With Stroke Shadow',
+  text: '带描边阴影',
   fontSize: 16,
 });
 
 const optimizedLabel = new Konva.Text({
   x: 200,
   y: 170,
-  text: 'Without Stroke Shadow\n(Better Performance)',
+  text: '不带描边阴影\n（更好的性能）',
   fontSize: 16,
 });
 
-// Add FPS counter
+// 添加 FPS 计数器
 const fpsText = new Konva.Text({
   x: 10,
   y: 10,
@@ -89,12 +86,12 @@ layer.add(defaultLabel);
 layer.add(optimizedLabel);
 layer.add(fpsText);
 
-// Create animation to demonstrate performance
+// 创建动画以演示性能
 const anim = new Konva.Animation((frame) => {
   circleWithShadow.rotation(frame.time * 0.1);
   circleOptimized.rotation(frame.time * 0.1);
   
-  // Update FPS counter
+  // 更新 FPS 计数器
   fpsText.text('FPS: ' + frame.frameRate.toFixed(1));
 }, layer);
 
@@ -113,11 +110,11 @@ const App = () => {
 
   useEffect(() => {
     const anim = new Konva.Animation((frame) => {
-      // Rotate circles
+      // 旋转圆形
       circleWithShadowRef.current.rotation(frame.time * 0.1);
       circleOptimizedRef.current.rotation(frame.time * 0.1);
       
-      // Update FPS counter
+      // 更新 FPS 计数器
       fpsTextRef.current.text('FPS: ' + frame.frameRate.toFixed(1));
     }, circleWithShadowRef.current.getLayer());
 
@@ -128,7 +125,7 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        {/* Circle with shadow for stroke (default) */}
+        {/* 带有描边阴影的圆形（默认） */}
         <Circle
           ref={circleWithShadowRef}
           x={100}
@@ -143,7 +140,7 @@ const App = () => {
           shadowOpacity={0.5}
         />
         
-        {/* Circle without shadow for stroke (optimized) */}
+        {/* 不带描边阴影的圆形（优化） */}
         <Circle
           ref={circleOptimizedRef}
           x={250}
@@ -159,21 +156,21 @@ const App = () => {
           shadowForStrokeEnabled={false}
         />
         
-        {/* Labels */}
+        {/* 标签 */}
         <Text
           x={50}
           y={170}
-          text="With Stroke Shadow"
+          text="带描边阴影"
           fontSize={16}
         />
         <Text
           x={200}
           y={170}
-          text="Without Stroke Shadow\n(Better Performance)"
+          text="不带描边阴影\n（更好的性能）"
           fontSize={16}
         />
         
-        {/* FPS counter */}
+        {/* FPS 计数器 */}
         <Text
           ref={fpsTextRef}
           x={10}
@@ -194,23 +191,23 @@ export default App;
 <template>
   <v-stage :config="stageSize">
     <v-layer ref="layerRef">
-      <!-- Circle with shadow for stroke (default) -->
+      <!-- 带有描边阴影的圆形（默认） -->
       <v-circle
         ref="circleWithShadowRef"
         :config="circleWithShadowConfig"
       />
       
-      <!-- Circle without shadow for stroke (optimized) -->
+      <!-- 不带描边阴影的圆形（优化） -->
       <v-circle
         ref="circleOptimizedRef"
         :config="circleOptimizedConfig"
       />
       
-      <!-- Labels -->
+      <!-- 标签 -->
       <v-text :config="defaultLabelConfig" />
       <v-text :config="optimizedLabelConfig" />
       
-      <!-- FPS counter -->
+      <!-- FPS 计数器 -->
       <v-text
         ref="fpsTextRef"
         :config="fpsConfig"
@@ -258,14 +255,14 @@ const circleOptimizedConfig = {
 const defaultLabelConfig = {
   x: 50,
   y: 170,
-  text: 'With Stroke Shadow',
+  text: '带描边阴影',
   fontSize: 16
 };
 
 const optimizedLabelConfig = {
   x: 200,
   y: 170,
-  text: 'Without Stroke Shadow\n(Better Performance)',
+  text: '不带描边阴影\n（更好的性能）',
   fontSize: 16
 };
 
@@ -284,11 +281,11 @@ let anim = null;
 
 onMounted(() => {
   anim = new Konva.Animation((frame) => {
-    // Rotate circles
+    // 旋转圆形
     circleWithShadowRef.value.getNode().rotation(frame.time * 0.1);
     circleOptimizedRef.value.getNode().rotation(frame.time * 0.1);
     
-    // Update FPS counter
+    // 更新 FPS 计数器
     fpsTextRef.value.getNode().text('FPS: ' + frame.frameRate.toFixed(1));
   }, layerRef.value.getNode());
 
@@ -303,4 +300,4 @@ onUnmounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,12 +1,11 @@
 ---
-title: Load Simple HTML5 Canvas Stage from JSON Tutorial
-sidebar_label: Simple Load
+title: 从 JSON 加载简单 HTML5 Canvas 阶段教程
+sidebar_label: 简单加载
 hide_table_of_contents: true
 slug: Simple_Load.html
 ---
 
-To load a simple stage from JSON with Konva, we can use the `Konva.Node.create()` method.
-The `create()` method accepts a JSON string and container id as arguments.
+要使用 Konva 从 JSON 加载一个简单的舞台，可以使用 `Konva.Node.create()` 方法。`create()` 方法接受一个 JSON 字符串和容器 ID 作为参数。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -16,13 +15,13 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// JSON string from a previous save
+// 从之前保存的 JSON 字符串
 const json = '{"attrs":{"width":400,"height":400},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"radius":50,"fill":"red","stroke":"black","strokeWidth":3},"className":"Circle"}]}]}';
 
-// create node using json string
+// 使用 JSON 字符串创建节点
 const stage = Konva.Node.create(json, 'container');
 
-// you can keep adding events, etc
+// 你可以继续添加事件等
 const circle = stage.findOne('Circle');
 circle.on('click', () => {
   circle.fill(Konva.Util.getRandomColor());
@@ -30,7 +29,7 @@ circle.on('click', () => {
 ```
   </TabItem>
   <TabItem value="React">
-**Note:** Using `Konva.Node.create()` directly in React or Vue is an anti-pattern. In these frameworks, we should manage state (data) separately from the view (components). Instead of serializing and loading entire node structures, we should save and load the data that defines our shapes, then let the framework components handle rendering. This approach is more aligned with React and Vue's declarative, state-driven patterns and provides better control over component lifecycle and events.
+**注意：** 在 React 或 Vue 中直接使用 `Konva.Node.create()` 是反模式。在这些框架中，我们应该将状态（数据）与视图（组件）分开管理。与其序列化和加载整个节点结构，不如保存和加载定义我们形状的数据，然后让框架组件处理渲染。这种方法更符合 React 和 Vue 的声明式、基于状态的模式，并提供更好的组件生命周期和事件控制。
 
 ```js live react
 import { Stage, Layer, Circle } from 'react-konva';
@@ -38,11 +37,11 @@ import { useState, useEffect } from 'react';
 import Konva from 'konva';
 
 const App = () => {
-  // In React, we store shape data as state instead of using Konva.Node.create()
+  // 在 React 中，我们将形状数据存储为状态，而不是使用 Konva.Node.create()
   const [shapeData, setShapeData] = useState(null);
   
   useEffect(() => {
-    // Simulating loading JSON data from storage or API
+    // 模拟从存储或 API 加载 JSON 数据
     const savedShapeData = {
       circle: {
         x: 100,
@@ -52,10 +51,10 @@ const App = () => {
         stroke: 'black',
         strokeWidth: 3
       },
-      // We could have more shapes here
+      // 此处可以有更多形状
     };
     
-    // In a real app, this might be:
+    // 在真实应用中，这可能是：
     // fetch('/api/shapes').then(response => response.json()).then(setShapeData)
     setShapeData(savedShapeData);
   }, []);
@@ -70,8 +69,8 @@ const App = () => {
     });
   };
   
-  // Don't render until we have data
-  if (!shapeData) return <div>Loading...</div>;
+  // 在我们有数据之前不进行渲染
+  if (!shapeData) return <div>加载中...</div>;
   
   return (
     <Stage width={400} height={400}>
@@ -89,7 +88,7 @@ export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
-**Note:** Using `Konva.Node.create()` directly in React or Vue is an anti-pattern. In these frameworks, we should manage state (data) separately from the view (components). Instead of serializing and loading entire node structures, we should save and load the data that defines our shapes, then let the framework components handle rendering. This approach is more aligned with React and Vue's declarative, state-driven patterns and provides better control over component lifecycle and events.
+**注意：** 在 React 或 Vue 中直接使用 `Konva.Node.create()` 是反模式。在这些框架中，我们应该将状态（数据）与视图（组件）分开管理。与其序列化和加载整个节点结构，不如保存和加载定义我们形状的数据，然后让框架组件处理渲染。这种方法更符合 React 和 Vue 的声明式、基于状态的模式，并提供更好的组件生命周期和事件控制。
 
 ```js live vue
 <template>
@@ -101,7 +100,7 @@ export default App;
       />
     </v-layer>
   </v-stage>
-  <div v-else>Loading...</div>
+  <div v-else>加载中...</div>
 </template>
 
 <script setup>
@@ -113,11 +112,11 @@ const stageSize = {
   height: 400
 };
 
-// In Vue, we store shape data as reactive state
+// 在 Vue 中，我们将形状数据存储为响应式状态
 const shapeData = ref(null);
 
 onMounted(() => {
-  // Simulating loading JSON data from storage or API
+  // 模拟从存储或 API 加载 JSON 数据
   const savedShapeData = {
     circle: {
       x: 100,
@@ -127,10 +126,10 @@ onMounted(() => {
       stroke: 'black',
       strokeWidth: 3
     }
-    // We could have more shapes here
+    // 此处可以有更多形状
   };
   
-  // In a real app, this might be:
+  // 在真实应用中，这可能是：
   // fetch('/api/shapes').then(response => response.json()).then(data => shapeData.value = data)
   shapeData.value = savedShapeData;
 });
@@ -149,4 +148,4 @@ const handleCircleClick = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

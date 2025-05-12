@@ -1,25 +1,25 @@
 ---
-title: HTML5 Canvas Shape Events
-sidebar_label: Binding Events
+title: HTML5 Canvas 形状事件
+sidebar_label: 绑定事件
 hide_table_of_contents: true
 slug: Binding_Events.html
 ---
 
-To detect shape events with Konva, we can use the `on()` method to bind event handlers to a node.
+要使用 Konva 检测形状事件，我们可以使用 `on()` 方法将事件处理程序绑定到节点上。
 
-The `on()` method requires an event type and a function to be executed when the event occurs.
+`on()` 方法需要一个事件类型和一个在事件发生时执行的函数。
 
-Mouse events: `mouseover`, `mouseout`, `mouseenter`, `mouseleave`, `mousemove`, `mousedown`, `mouseup`, `wheel`, `click`, `dblclick`.
+鼠标事件：`mouseover`、`mouseout`、`mouseenter`、`mouseleave`、`mousemove`、`mousedown`、`mouseup`、`wheel`、`click`、`dblclick`。
 
-Touch events: `touchstart`, `touchmove`, `touchend`, `tap`, `dbltap`.
+触摸事件：`touchstart`、`touchmove`、`touchend`、`tap`、`dbltap`。
 
-Pointer events: `pointerdown`, `pointermove`, `pointereup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`,`pointerleave`, `pointerclick`, `pointerdblclick`.
+指针事件：`pointerdown`、`pointermove`、`pointereup`、`pointercancel`、`pointerover`、`pointerenter`、`pointerout`、`pointerleave`、`pointerclick`、`pointerdblclick`。
 
-Drag events: `dragstart`, `dragmove`, and `dragend`.
+拖动事件：`dragstart`、`dragmove` 和 `dragend`。
 
-Transform events: `transformstart`, `transform`, `transformend`.
+变换事件：`transformstart`、`transform`、`transformend`。
 
-**Instructions: Mouseover and mouseout of the triangle, and mouseover, mouseout, mousedown, and mouseup over the circle.**
+**说明：三角形的鼠标悬停和鼠标离开，以及圆形的鼠标悬停、鼠标离开、按下和抬起。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -69,7 +69,7 @@ text.text(message);
 }
 
 triangle.on('mouseout', () => {
-writeMessage('Mouseout triangle');
+writeMessage('三角形鼠标离开');
 });
 
 triangle.on('mousemove', () => {
@@ -78,16 +78,16 @@ writeMessage('x: ' + mousePos.x + ', y: ' + mousePos.y);
 });
 
 circle.on('mouseover', () => {
-writeMessage('Mouseover circle');
+writeMessage('鼠标悬停在圆形上');
 });
 circle.on('mouseout', () => {
-writeMessage('Mouseout circle');
+writeMessage('圆形鼠标离开');
 });
 circle.on('mousedown', () => {
-writeMessage('Mousedown circle');
+writeMessage('圆形鼠标按下');
 });
 circle.on('mouseup', () => {
-writeMessage('Mouseup circle');
+writeMessage('圆形鼠标抬起');
 });
 
 layer.add(triangle);
@@ -95,7 +95,7 @@ layer.add(circle);
 layer.add(text);
 stage.add(layer);
 
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```jsx live react
@@ -129,7 +129,7 @@ const App = () => {
           fill="#00D2FF"
           stroke="black"
           strokeWidth={4}
-          onMouseout={() => writeMessage('Mouseout triangle')}
+          onMouseout={() => writeMessage('三角形鼠标离开')}
           onMousemove={() => {
             const mousePos = stageRef.current.getPointerPosition();
             writeMessage('x: ' + mousePos.x + ', y: ' + mousePos.y);
@@ -142,10 +142,10 @@ const App = () => {
           fill="red"
           stroke="black"
           strokeWidth={4}
-          onMouseover={() => writeMessage('Mouseover circle')}
-          onMouseout={() => writeMessage('Mouseout circle')}
-          onMousedown={() => writeMessage('Mousedown circle')}
-          onMouseup={() => writeMessage('Mouseup circle')}
+          onMouseover={() => writeMessage('鼠标悬停在圆形上')}
+          onMouseout={() => writeMessage('圆形鼠标离开')}
+          onMousedown={() => writeMessage('圆形鼠标按下')}
+          onMouseup={() => writeMessage('圆形鼠标抬起')}
         />
       </Layer>
     </Stage>
@@ -164,15 +164,15 @@ export default App;
       <v-text :config="textConfig" />
       <v-regular-polygon
         :config="triangleConfig"
-        @mouseout="writeMessage('Mouseout triangle')"
+        @mouseout="writeMessage('三角形鼠标离开')"
         @mousemove="handleTriangleMouseMove"
       />
       <v-circle
         :config="circleConfig"
-        @mouseover="writeMessage('Mouseover circle')"
-        @mouseout="writeMessage('Mouseout circle')"
-        @mousedown="writeMessage('Mousedown circle')"
-        @mouseup="writeMessage('Mouseup circle')"
+        @mouseover="writeMessage('鼠标悬停在圆形上')"
+        @mouseout="writeMessage('圆形鼠标离开')"
+        @mousedown="writeMessage('圆形鼠标按下')"
+        @mouseup="writeMessage('圆形鼠标抬起')"
       />
     </v-layer>
   </v-stage>

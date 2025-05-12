@@ -1,15 +1,13 @@
 ---
-title: HTML5 Canvas Drag and Drop the Stage
-sidebar_label: Drag a Stage
+title: HTML5 Canvas 拖拽舞台
+sidebar_label: 拖拽舞台
 hide_table_of_contents: true
 slug: Drag_a_Stage.html
 ---
 
-To drag and drop a stage with Konva, we can set the `draggable` property
-of the config object to `true` when the group is instantiated, or we can use the `draggable()` method.
+要使用 Konva 拖拽舞台，我们可以在实例化分组时将配置对象的 `draggable` 属性设置为 `true`，或者使用 `draggable()` 方法。
 
-Unlike drag and drop for other nodes, such as shapes, groups, and layers,
-we can drag the entire stage by dragging any portion of the stage.
+与其他节点（如形状、组和图层）的拖拽方式不同，我们可以通过拖拽舞台的任何部分来拖动整个舞台。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -29,7 +27,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create circle
+// 创建圆形
 const circle = new Konva.Circle({
   x: stage.width() / 2,
   y: stage.height() / 2,
@@ -39,11 +37,11 @@ const circle = new Konva.Circle({
   strokeWidth: 4
 });
 
-// create text
+// 创建文本
 const text = new Konva.Text({
   x: 10,
   y: 10,
-  text: 'Drag the stage anywhere',
+  text: '可以随意拖拽舞台',
   fontSize: 20,
   fontFamily: 'Calibri',
   fill: 'black'
@@ -76,7 +74,7 @@ const App = () => {
         <Text
           x={10}
           y={10}
-          text="Drag the stage anywhere"
+          text="可以随意拖拽舞台"
           fontSize={20}
           fontFamily="Calibri"
           fill="black"
@@ -119,7 +117,7 @@ const circleConfig = {
 const textConfig = {
   x: 10,
   y: 10,
-  text: 'Drag the stage anywhere',
+  text: '可以随意拖拽舞台',
   fontSize: 20,
   fontFamily: 'Calibri',
   fill: 'black'
@@ -127,4 +125,4 @@ const textConfig = {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

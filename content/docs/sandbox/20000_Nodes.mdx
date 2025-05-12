@@ -1,13 +1,13 @@
 ---
-title: Interactive Scatter Plot with 20,000 Nodes
-sidebar_label: 20000 Nodes
+title: 互动散点图与 20000 个节点
+sidebar_label: 20000 节点
 hide_table_of_contents: true
 slug: 20000_Nodes.html
 ---
 
-The purpose of this lab is to demonstrate the sheer number of nodes that Konva can handle by rendering 20,000 circles. Each circle is sensitive to mouseover events, and can be drag and dropped. This lab is also a great demonstration of event delegation, in which a single event handler attached to the stage handles the circle events.
+本实验的目的是通过渲染 20000 个圆形来展示 Konva 能处理的节点数量。每个圆形对鼠标悬停事件敏感，可以被拖动并放置。这个实验还很好地演示了事件委托，其中附加到舞台的单个事件处理器处理的是圆形事件。
 
-**Instructions:** Mouse over the nodes to see more information, and then drag and drop them around the stage. 
+**说明:** 将鼠标悬停在节点上以查看更多信息，然后在舞台上拖动和放置它们。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -17,7 +17,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// create stage
+// 创建舞台
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -27,7 +27,7 @@ const stage = new Konva.Stage({
   height: height,
 });
 
-// function to add a node to layer
+// 添加节点到图层的函数
 function addNode(obj, layer) {
   const node = new Konva.Circle({
     x: obj.x,
@@ -40,12 +40,12 @@ function addNode(obj, layer) {
   layer.add(node);
 }
 
-// Create a single layer for all circles
+// 为所有圆形创建一个单独的图层
 const circlesLayer = new Konva.Layer();
 const tooltipLayer = new Konva.Layer();
 const dragLayer = new Konva.Layer();
 
-// create tooltip
+// 创建工具提示
 const tooltip = new Konva.Label({
   opacity: 0.75,
   visible: false,
@@ -79,7 +79,7 @@ tooltip.add(
 
 tooltipLayer.add(tooltip);
 
-// build data
+// 构建数据
 const data = [];
 const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
 
@@ -94,17 +94,17 @@ for (let n = 0; n < 20000; n++) {
   });
 }
 
-// Add all nodes to a single layer
+// 将所有节点添加到单个图层
 for (let n = 0; n < data.length; n++) {
   addNode(data[n], circlesLayer);
 }
 
-// Add all layers to stage
+// 将所有图层添加到舞台
 stage.add(circlesLayer);
 stage.add(dragLayer);
 stage.add(tooltipLayer);
 
-// handle events
+// 处理事件
 let originalLayer;
 
 stage.on('mouseover mousemove dragmove', function (evt) {
@@ -113,7 +113,7 @@ stage.on('mouseover mousemove dragmove', function (evt) {
     return;
   }
   if (node) {
-    // update tooltip
+    // 更新工具提示
     const mousePos = node.getStage().getPointerPosition();
     tooltip.position({
       x: mousePos.x,
@@ -121,7 +121,7 @@ stage.on('mouseover mousemove dragmove', function (evt) {
     });
     tooltip
       .getText()
-      .text('node: ' + node.id() + ', color: ' + node.fill());
+      .text('节点: ' + node.id() + ', 颜色: ' + node.fill());
     tooltip.show();
   }
 });
@@ -135,7 +135,7 @@ stage.on('mousedown', function (evt) {
   if (shape) {
     originalLayer = shape.getLayer();
     shape.moveTo(dragLayer);
-    // manually trigger drag and drop
+    // 手动触发拖动和放置
     shape.startDrag();
   }
 });
@@ -154,7 +154,7 @@ import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { Stage, Layer, Circle, Label, Tag, Text } from 'react-konva';
 
 const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown, onMouseUp }) => {
-  // Only re-render when the nodes array reference changes
+  // 只有在节点数组引用更改时才重新渲染
   return (
     <Layer>
       {nodes.map(node => (
@@ -177,7 +177,7 @@ const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown
   );
 };
 
-// Memoize the CirclesLayer component to prevent unnecessary re-renders
+// 记忆化 CirclesLayer 组件以防止不必要的重新渲染
 const MemoizedCirclesLayer = memo(CirclesLayer);
 
 const TooltipLayer = ({ tooltip }) => (
@@ -211,17 +211,17 @@ const TooltipLayer = ({ tooltip }) => (
   </Layer>
 );
 
-// Memoize the TooltipLayer to only re-render when tooltip props change
+// 记忆化 TooltipLayer 以仅在工具提示属性更改时重新渲染
 const MemoizedTooltipLayer = memo(TooltipLayer);
 
 const App = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
   
-  // Create refs for the layers
+  // 为图层创建 refs
   const dragLayerRef = useRef(null);
   
-  // State for tooltip
+  // 工具提示的状态
   const [tooltip, setTooltip] = useState({
     visible: false,
     x: 0,
@@ -229,7 +229,7 @@ const App = () => {
     text: ''
   });
   
-  // State for nodes data - using useMemo to ensure it doesn't regenerate on re-renders
+  // 节点数据的状态 - 使用 useMemo 确保在重新渲染时不会重新生成
   const nodes = useMemo(() => {
     const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
     const data = [];
@@ -248,7 +248,7 @@ const App = () => {
     return data;
   }, [width, height]);
   
-  // Event handlers - wrap in useCallback to prevent recreating functions on each render
+  // 事件处理程序 - 包装在 useCallback 中以防止在每次渲染时重新创建函数
   const handleMouseOver = useCallback((e, node) => {
     const stage = e.target.getStage();
     const pos = stage.getPointerPosition();
@@ -256,7 +256,7 @@ const App = () => {
       visible: true,
       x: pos.x,
       y: pos.y - 5,
-      text: `node: ${node.id}, color: ${node.color}`
+      text: `节点: ${node.id}, 颜色: ${node.color}`
     });
   }, []);
   
@@ -278,16 +278,16 @@ const App = () => {
   }, []);
   
   const handleMouseDown = useCallback((e, node) => {
-    // For drag handling if needed
+    // 如果需要, 处理拖动
   }, []);
   
   const handleMouseUp = useCallback((e, node) => {
-    // For drag handling if needed
+    // 如果需要, 处理拖动
   }, []);
   
   return (
     <Stage width={width} height={height}>
-      {/* Render single layer for all circles */}
+      {/* 为所有圆形渲染单个图层 */}
       <MemoizedCirclesLayer 
         nodes={nodes}
         onMouseOver={handleMouseOver}
@@ -297,10 +297,10 @@ const App = () => {
         onMouseUp={handleMouseUp}
       />
       
-      {/* Drag layer - if needed */}
+      {/* 拖动层 - 如果需要 */}
       <Layer ref={dragLayerRef} />
       
-      {/* Tooltip layer */}
+      {/* 工具提示层 */}
       <MemoizedTooltipLayer tooltip={tooltip} />
     </Stage>
   );
@@ -379,7 +379,7 @@ const stageConfig = {
   height: height
 };
 
-// For tooltip handling
+// 用于工具提示处理
 const tooltip = reactive({
   visible: false,
   x: 0,
@@ -387,12 +387,12 @@ const tooltip = reactive({
   text: ''
 });
 
-// Store all nodes in a single array - not reactive after initial setup
+// 将所有节点存储在一个单独的数组中 - 初始化设置后不再反应
 const nodes = ref([]);
 const circlesLayerRef = ref(null);
 const dragLayerRef = ref(null);
 
-// This key only changes when the nodes data changes, preventing unnecessary re-renders
+// 这个键仅在节点数据更改时更改，防止不必要的重新渲染
 const circlesKey = ref(0);
 
 onMounted(() => {
@@ -410,7 +410,7 @@ onMounted(() => {
     });
   }
   
-  // Set the nodes once and increment the key to trigger a single render
+  // 一次设置节点并增加键以触发单个渲染
   nodes.value = data;
   circlesKey.value++;
 });
@@ -422,7 +422,7 @@ function handleMouseOver(e, node) {
   tooltip.visible = true;
   tooltip.x = pos.x;
   tooltip.y = pos.y - 5;
-  tooltip.text = `node: ${node.id}, color: ${node.color}`;
+  tooltip.text = `节点: ${node.id}, 颜色: ${node.color}`;
 }
 
 function handleMouseMove(e) {
@@ -439,34 +439,34 @@ function handleMouseOut() {
   tooltip.visible = false;
 }
 
-// Drag and drop handlers that use the native Konva API
+// 使用原生 Konva API 的拖动和放置处理程序
 function handleStageMouseDown(e) {
-  // Get the target shape
+  // 获取目标形状
   const shape = e.target;
-  // Only process if it's not the stage itself
+  // 只有在它不是舞台本身时才处理
   if (shape && shape !== e.target.getStage()) {
-    // Store reference to the original layer for later
+    // 存储对原始图层的引用以供后用
     shape._originalLayer = shape.getParent();
     
-    // Move the shape to the drag layer manually using Konva's API
-    // This avoids Vue's reactivity system during the drag
+    // 手动使用 Konva 的 API 将形状移动到拖动层
+    // 这避免了在拖动期间 Vue 的反应系统
     if (dragLayerRef.value && dragLayerRef.value.getNode()) {
       shape.moveTo(dragLayerRef.value.getNode());
-      // Start the drag operation
+      // 启动拖动操作
       shape.startDrag();
     }
   }
 }
 
 function handleStageMouseUp(e) {
-  // Get the target shape
+  // 获取目标形状
   const shape = e.target;
-  // Only process if it's not the stage itself
+  // 只有在它不是舞台本身时才处理
   if (shape && shape !== e.target.getStage()) {
-    // Move back to original layer if we have that reference
+    // 如果我们有原始层的引用，则移回原始图层
     if (shape._originalLayer) {
       shape.moveTo(shape._originalLayer);
-      // Clear the reference
+      // 清除引用
       shape._originalLayer = null;
     }
   }
@@ -475,4 +475,3 @@ function handleStageMouseUp(e) {
 ```
   </TabItem>
 </Tabs>
-

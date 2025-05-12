@@ -1,14 +1,13 @@
 ---
-title: Animate Position Tutorial
-sidebar_label: Moving
+title: 位置动画教程
+sidebar_label: 移动
 hide_table_of_contents: true
 slug: Moving.html
 ---
 
-To animate a shape's position with Konva, we can create a new animation with `Konva.Animation`
-which modifies the shape's position with each animation frame.
+要使用 Konva 进行形状位置的动画，我们可以创建一个新的动画 `Konva.Animation`，它会在每个动画帧中修改形状的位置。
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -38,7 +37,7 @@ strokeWidth: 4,
 layer.add(circle);
 
 const amplitude = 100;
-const period = 2000; // in milliseconds
+const period = 2000; // 以毫秒为单位
 
 const anim = new Konva.Animation(function(frame) {
 circle.x(
@@ -61,7 +60,7 @@ const App = () => {
 
   useEffect(() => {
     const amplitude = 100;
-    const period = 2000; // in milliseconds
+    const period = 2000; // 以毫秒为单位
 
     const anim = new Konva.Animation((frame) => {
       circleRef.current.x(
@@ -135,7 +134,7 @@ let anim = null;
 
 onMounted(() => {
   const amplitude = 100;
-  const period = 2000; // in milliseconds
+  const period = 2000; // 以毫秒为单位
 
   anim = new Konva.Animation((frame) => {
     circleRef.value.getNode().x(

@@ -1,11 +1,11 @@
 ---
-title: How to draw image on canvas with Svelte?
-sidebar_label: Images
+title: 如何在 Svelte 中在画布上绘制图像？
+sidebar_label: 图像
 hide_table_of_contents: true
 slug: Images.html
 ---
 
-For images you need to manually create a native window.Image instance or `canvas` element and use it as image attribute of `Image` component.
+对于图像，您需要手动创建一个原生的 `window.Image` 实例或 `canvas` 元素，并将其用作 `Image` 组件的图像属性。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/images?file=/src/App.svelte" 

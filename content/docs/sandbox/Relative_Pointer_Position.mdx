@@ -1,17 +1,17 @@
 ---
-title: How to find relative mouse position?
-sidebar_label: Relative Mouse Position
+title: 如何找到相对鼠标位置？
+sidebar_label: 相对鼠标位置
 hide_table_of_contents: true
 slug: Relative_Pointer_Position.html
 ---
 
-In some cases you may need to find position of a point relative to a node. For purpose we can use mathematical `Konva.Transform` methods.
+在某些情况下，您可能需要找到相对于某个节点的点的位置。为此，我们可以使用数学的 `Konva.Transform` 方法。
 
-In this demo we have deep nesting transformed nodes: moved stage, scaled layer, rotated group.
-Now we want to add circles into the group on click. But how to find position of that circles?
-We can't use `stage.getPointerPosition()` directly because that is position relative to top-left corner of the stage.
+在本示例中，我们有深层嵌套的变换节点：移动的舞台、缩放的图层、旋转的组。
+现在我们想在点击时向组中添加圆圈。但是，如何找到这些圆圈的位置呢？
+我们不能直接使用 `stage.getPointerPosition()`，因为该方法返回的是相对于舞台左上角的位置。
 
-The idea is simple. We just need to use inverted absolute transform.
+这个想法很简单。我们只需要使用反转的绝对变换。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -47,7 +47,7 @@ var group = new Konva.Group({
 layer.add(group);
 
 var text = new Konva.Text({
-  text: 'Click on the canvas to draw a circle',
+  text: '点击画布以绘制圆圈',
   fontSize: 20,
 });
 group.add(text);
@@ -74,14 +74,14 @@ const App = () => {
   const [circles, setCircles] = useState([]);
   
   const handleStageClick = (e) => {
-    // Get the group reference from konva tree
+    // 从konva树中获取组的引用
     const group = e.target.getStage().findOne('Group');
     if (!group) return;
     
-    // Get position relative to the group
+    // 获取相对于组的位置
     const pos = group.getRelativePointerPosition();
     
-    // Add new circle
+    // 添加新圆圈
     setCircles([
       ...circles,
       {
@@ -113,7 +113,7 @@ const App = () => {
           scaleX={1.5}
         >
           <Text 
-            text="Click on the canvas to draw a circle" 
+            text="点击画布以绘制圆圈" 
             fontSize={20}
           />
           {circles.map((circle) => (
@@ -177,21 +177,21 @@ const groupConfig = {
 };
 
 const textConfig = {
-  text: 'Click on the canvas to draw a circle',
+  text: '点击画布以绘制圆圈',
   fontSize: 20
 };
 
 const circles = ref([]);
 
 const handleStageClick = (e) => {
-  // Get the group reference from konva tree
+  // 从konva树中获取组的引用
   const group = e.target.getStage().findOne('Group');
   if (!group) return;
   
-  // Get position relative to the group
+  // 获取相对于组的位置
   const pos = group.getRelativePointerPosition();
   
-  // Add new circle
+  // 添加新圆圈
   circles.value.push({
     x: pos.x,
     y: pos.y,

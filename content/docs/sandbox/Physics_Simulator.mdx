@@ -1,11 +1,11 @@
 ---
-title: Physics Simulator with Curve Detection
-sidebar_label: Physics Simulator
+title: 具有曲线检测功能的物理模拟器
+sidebar_label: 物理模拟器
 hide_table_of_contents: true
 slug: Physics_Simulator.html
 ---
 
-**Instructions: Throw the ball around with your cursor.**
+**说明：用鼠标光标抛掷小球。**
 
 ```js live vanilla
 import Konva from 'konva';
@@ -14,7 +14,7 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 /*
- * Vector math functions
+ * 向量数学函数
  */
 function dot(a, b) {
   return a.x * b.x + a.y * b.y;
@@ -63,9 +63,9 @@ function invert(a) {
   };
 }
 /*
- * this cross product function has been simplified by
- * setting x and y to zero because vectors a and b
- * lie in the canvas plane
+ * 该叉积函数已简化，
+ * 由于向量 a 和 b 位于画布平面，
+ * 因此 x 和 y 设为零
  */
 function cross(a, b) {
   return {
@@ -78,14 +78,14 @@ function getNormal(curve, ball) {
   var curveLayer = curve.getLayer();
   var context = curveLayer.getContext();
   var testRadius = 20;
-  // pixels
+  // 像素
   var totalX = 0;
   var totalY = 0;
   var x = ball.x();
   var y = ball.y();
   /*
-   * check various points around the center point
-   * to determine the normal vector
+   * 检查中心点周围的多个点，
+   * 以确定法向量
    */
   for (var n = 0; n < 20; n++) {
     var angle = (n * 2 * Math.PI) / 20;
@@ -121,7 +121,7 @@ function handleCurveCollision(ball, curve) {
   var y = ball.y();
 
   var curveDamper = 0.05;
-  // 5% energy loss
+  // 5% 能量损失
   if (curveLayer.getIntersection({ x: x, y: y })) {
     var normal = getNormal(curve, ball);
     if (normal !== null) {
@@ -159,17 +159,17 @@ function updateBall(frame) {
 
   tween.reverse();
 
-  // physics variables
+  // 物理变量
   var gravity = 10;
-  // px / second^2
+  // 像素/秒²
   var speedIncrementFromGravityEachFrame = (gravity * timeDiff) / 1000;
   var collisionDamper = 0.2;
-  // 20% energy loss
+  // 20% 能量损失
   var floorFriction = 5;
-  // px / second^2
+  // 像素/秒²
   var floorFrictionSpeedReduction = (floorFriction * timeDiff) / 1000;
 
-  // if ball is being dragged and dropped
+  // 如果球被拖拽
   if (ball.isDragging()) {
     var mousePos = stage.getPointerPosition();
 
@@ -187,26 +187,26 @@ function updateBall(frame) {
       ball.lastMouseY = mouseY;
     }
   } else {
-    // gravity
+    // 重力
     ball.velocity.y += speedIncrementFromGravityEachFrame;
     x += ball.velocity.x;
     y += ball.velocity.y;
 
-    // ceiling condition
+    // 天花板碰撞条件
     if (y < radius) {
       y = radius;
       ball.velocity.y *= -1;
       ball.velocity.y *= 1 - collisionDamper;
     }
 
-    // floor condition
+    // 地板碰撞条件
     if (y > height - radius) {
       y = height - radius;
       ball.velocity.y *= -1;
       ball.velocity.y *= 1 - collisionDamper;
     }
 
-    // floor friction
+    // 地板摩擦
     if (y == height - radius) {
       if (ball.velocity.x > 0.1) {
         ball.velocity.y -= floorFrictionSpeedReduction;
@@ -217,14 +217,14 @@ function updateBall(frame) {
       }
     }
 
-    // right wall condition
+    // 右墙碰撞条件
     if (x > width - radius) {
       x = width - radius;
       ball.velocity.x *= -1;
       ball.velocity.x *= 1 - collisionDamper;
     }
 
-    // left wall condition
+    // 左墙碰撞条件
     if (x < radius) {
       x = radius;
       ball.velocity.x *= -1;
@@ -234,26 +234,25 @@ function updateBall(frame) {
     ball.position({ x: x, y: y });
 
     /*
-     * if the ball comes into contact with the
-     * curve, then bounce it in the direction of the
-     * curve's surface normal
+     * 如果球与曲线接触，则沿
+     * 曲线表面法线方向反弹
      */
     var collision = handleCurveCollision(ball, curve);
   }
 }
 
-// create stage
+// 创建舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
   height: height,
 });
 
-// create separate layers for curve and ball
+// 创建曲线和球的独立图层
 const curveLayer = new Konva.Layer();
 const ballLayer = new Konva.Layer();
 
-// create curve with original bezier curve
+// 使用原始贝塞尔曲线创建曲线
 const curve = new Konva.Shape({
   sceneFunc: function (context) {
     context.beginPath();
@@ -276,7 +275,7 @@ const curve = new Konva.Shape({
 
 curveLayer.add(curve);
 
-// create ball with original styling
+// 创建原样式球
 const ball = new Konva.Circle({
   x: 190,
   y: 20,
@@ -291,7 +290,7 @@ ball.velocity = {
   y: 0,
 };
 
-// add original event handlers
+// 添加原事件处理器
 ball.on('dragstart', function () {
   ball.velocity = {
     x: 0,
@@ -314,11 +313,11 @@ ball.on('mouseout', function () {
 
 ballLayer.add(ball);
 
-// add layers to stage in correct order
+// 按正确顺序添加图层到舞台
 stage.add(curveLayer);
 stage.add(ballLayer);
 
-// add tween with original styling
+// 添加原样式 tween 动画
 const tween = new Konva.Tween({
   node: ball,
   fill: 'red',
@@ -326,7 +325,7 @@ const tween = new Konva.Tween({
   easing: Konva.Easings.EaseOut,
 });
 
-// add animation
+// 添加动画
 const anim = new Konva.Animation(function (frame) {
   updateBall(frame);
 }, ballLayer);

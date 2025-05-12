@@ -1,11 +1,11 @@
 ---
-title: How to drop image elements into a canvas with React?
-sidebar_label: Drop Image
+title: 如何在画布上拖放图像元素与 React？
+sidebar_label: 拖放图像
 hide_table_of_contents: true
 slug: Drop_Image.html
 ---
 
-You can use native HTML5 drag&drop features to drop images (or other elements) from the page into the canvas area.
+您可以使用原生 HTML5 拖放功能将图像（或其他元素）从页面拖放到画布区域。
 
 ```js live react
 import React from 'react';
@@ -19,7 +19,7 @@ const URLImage = ({ image }) => {
       image={img}
       x={image.x}
       y={image.y}
-      // I will use offset to set origin to the center of the image
+      // 我将使用偏移量将原点设置为图像的中心
       offsetX={img ? img.width / 2 : 0}
       offsetY={img ? img.height / 2 : 0}
       draggable
@@ -33,7 +33,7 @@ const App = () => {
   const [images, setImages] = React.useState([]);
   return (
     <div>
-      Try to drag and drop the image into the stage:
+      尝试将图像拖放到舞台上：
       <br />
       <img
         alt="lion"
@@ -46,9 +46,9 @@ const App = () => {
       <div
         onDrop={(e) => {
           e.preventDefault();
-          // register event position
+          // 注册事件位置
           stageRef.current.setPointersPositions(e);
-          // add image
+          // 添加图像
           setImages(
             images.concat([
               {
@@ -78,4 +78,4 @@ const App = () => {
 };
 
 export default App;
-``` 
+```

@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Image Tutorial
-sidebar_label: Image
+title: HTML5 画布图片教程
+sidebar_label: 图片
 hide_table_of_contents: true
 slug: /docs/shapes/Image.html
 ---
 
-To create an image with `Konva`, you can use the `Konva.Image()` object.
+要创建一个使用 `Konva` 的图片，可以使用 `Konva.Image()` 对象。
 
-For full list of properties and methods, see the [Image API Reference](/api/Konva.Image.html).
+完整的属性和方法列表，请参见 [图片 API 参考]( /api/Konva.Image.html )。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,7 +26,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// main API:
+// 主要API:
 const imageObj = new Image();
 imageObj.onload = function () {
   const yoda = new Konva.Image({
@@ -41,7 +41,7 @@ imageObj.onload = function () {
 };
 imageObj.src = 'https://konvajs.org/assets/yoda.jpg';
 
-// alternative API:
+// 备用API:
 Konva.Image.fromURL('https://konvajs.org/assets/darth-vader.jpg', function (darthNode) {
   darthNode.setAttrs({
     x: 200,
@@ -133,4 +133,4 @@ const [vaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg');
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

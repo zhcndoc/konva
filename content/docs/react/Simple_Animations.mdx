@@ -1,17 +1,17 @@
 ---
-title: How to apply canvas animations with React and Konva?
-sidebar_label: Simple Animations
+title: 如何使用 React 和 Konva 实现画布动画？
+sidebar_label: 简单动画
 hide_table_of_contents: true
 slug: Simple_Animations.html
 ---
 
-Konva itself has two methods for animations: [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). You can apply both of them to nodes manually.
+Konva 本身提供两种动画方式： [Tween](/docs/tweens/Linear_Easing.html) 和 [Animation](/docs/animations/Rotation.html)。你可以手动将它们应用到节点上。
 
-For simple use cases we recommend using the `node.to()` method. For more complex animations take a look at the [Complex react-konva animation demo](/docs/react/Complex_Animations.html).
+对于简单的使用场景，建议使用 `node.to()` 方法。对于更复杂的动画，可以参考 [复杂的 react-konva 动画示例](/docs/react/Complex_Animations.html)。
 
-The demo is using the [refs API](/docs/react/Access_Konva_Nodes.html) to access shape instances directly.
+该示例使用 [refs API](/docs/react/Access_Konva_Nodes.html) 直接访问形状实例。
 
-Instructions: Try to drag the rectangle to see it animate.
+操作指南：尝试拖拽矩形以查看动画效果。
 
 ```js live react
 import React, { Component } from 'react';
@@ -19,7 +19,7 @@ import { Stage, Layer, Rect } from 'react-konva';
 
 class MyRect extends React.Component {
   changeSize = () => {
-    // to() is a method of `Konva.Node` instances
+    // to() 是 `Konva.Node` 实例的方法
     this.rect.to({
       scaleX: Math.random() + 0.8,
       scaleY: Math.random() + 0.8,

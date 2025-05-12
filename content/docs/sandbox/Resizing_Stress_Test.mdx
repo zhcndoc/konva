@@ -1,23 +1,23 @@
 ---
-title: Resizing Stress Test with Konva
-sidebar_label: Resizing Stress Test
+title: 使用 Konva 的缩放压力测试
+sidebar_label: 缩放压力测试
 hide_table_of_contents: true
 slug: Resizing_Stress_Test.html
 ---
 
-This is a stress test demo to select and resize many shapes at the same time.
+这是一个压力测试演示，用于同时选择和缩放多个形状。
 
-The demo is using two core `Konva` features to boost the performance:
+该演示使用了两个核心的 `Konva` 特性来提升性能：
 
-### 1. Layers
+### 1. 图层
 
-Resizing shapes are moved into another layer (another canvas element). So while you resize selected shapes, we don't need to redraw other shapes.
+正在缩放的形状被移动到另一个图层（另一个画布元素）。因此，当您缩放选定的形状时，我们不需要重新绘制其他形状。
 
-### 2. Caching
+### 2. 缓存
 
-On `select`, I am moving all selected shapes into a group and cache that group. The cache action will convert group into bitmap image. It is mush faster to redraw such group on the screen.
+在 `select` 时，我将所有选定的形状移动到一个组中并缓存该组。缓存操作将组转换为位图图像。在屏幕上重新绘制这样的组速度更快。
 
-**Instructions: try to select several shapes and resize/rotate them.**
+**说明：尝试选择几个形状并缩放/旋转它们。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,7 +27,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// first we need to create a stage
+// 首先我们需要创建一个舞台
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -37,7 +37,7 @@ var stage = new Konva.Stage({
   height: height,
 });
 
-// layer for all shapes
+// 所有形状的图层
 var layer = new Konva.Layer();
 stage.add(layer);
 for (var i = 0; i < 10000; i++) {
@@ -51,7 +51,7 @@ for (var i = 0; i < 10000; i++) {
   layer.add(shape);
 }
 
-// top layer for transforming group
+// 用于转换组的顶部图层
 var topLayer = new Konva.Layer();
 stage.add(topLayer);
 
@@ -63,7 +63,7 @@ topLayer.add(group);
 var tr = new Konva.Transformer();
 topLayer.add(tr);
 
-// add a new feature, lets add ability to draw selection rectangle
+// 添加一个新特性，让我们添加绘制选择矩形的能力
 var selectionRectangle = new Konva.Rect({
   fill: 'rgba(0,0,255,0.5)',
   visible: false,
@@ -72,11 +72,11 @@ topLayer.add(selectionRectangle);
 
 var x1, y1, x2, y2;
 stage.on('mousedown touchstart', (e) => {
-  // do nothing if we mousedown on the transformer
+  // 如果我们在变换器上按下鼠标，则不执行任何操作
   if (e.target.getParent() === tr) {
     return;
   }
-  // do nothing if we mousedown on the group
+  // 如果我们在组上按下鼠标，则不执行任何操作
   if (e.target.parent === group) {
     return;
   }
@@ -93,13 +93,13 @@ stage.on('mousedown touchstart', (e) => {
     visible: true,
   });
 
-  // move old selection back to original layer
+  // 将旧选择移回原始图层
   group.children.slice().forEach((shape) => {
     const transform = shape.getAbsoluteTransform();
     shape.moveTo(layer);
     shape.setAttrs(transform.decompose());
   });
-  // reset group transforms
+  // 重置组转换
   group.setAttrs({
     x: 0,
     y: 0,
@@ -111,7 +111,7 @@ stage.on('mousedown touchstart', (e) => {
 });
 
 stage.on('mousemove touchmove', () => {
-  // do nothing if we didn't start selection
+  // 如果我们没有开始选择，则不执行任何操作
   if (!selectionRectangle.visible()) {
     return;
   }
@@ -127,11 +127,11 @@ stage.on('mousemove touchmove', () => {
 });
 
 stage.on('mouseup touchend', () => {
-  // no nothing if we didn't start selection
+  // 如果我们没有开始选择，则不执行任何操作
   if (!selectionRectangle.visible()) {
     return;
   }
-  // update visibility in timeout, so we can check it in click event
+  // 更新可见性，延时处理，这样我们可以在点击事件中检查
   setTimeout(() => {
     selectionRectangle.visible(false);
   });
@@ -139,10 +139,10 @@ stage.on('mouseup touchend', () => {
   var shapes = stage.find('.shape');
   var box = selectionRectangle.getClientRect();
 
-  // remove all children for better performance
+  // 为了更好的性能，移除所有子元素
   layer.removeChildren();
 
-  // then check intersections and add all shape into correct container
+  // 然后检查交集并将所有形状添加到正确的容器中
   shapes.forEach((shape) => {
     var intersected = Konva.Util.haveIntersection(
       box,
@@ -166,14 +166,14 @@ stage.on('mouseup touchend', () => {
   }
 });
 
-// clicks should select/deselect shapes
+// 点击应该选择/取消选择形状
 stage.on('click tap', function (e) {
-  // if we are selecting with rect, do nothing
+  // 如果我们正在用矩形选择，则不执行任何操作
   if (selectionRectangle.visible()) {
     return;
   }
 
-  // if click on empty area - remove all selections
+  // 如果点击空白区域 - 移除所有选择
   if (e.target === stage) {
     tr.nodes([]);
     return;
@@ -204,7 +204,7 @@ const App = () => {
   const topLayerRef = useRef();
   const selectionRectRef = useRef();
   
-  // Generate initial shapes
+  // 生成初始形状
   useEffect(() => {
     const initialShapes = [];
     for (let i = 0; i < 10000; i++) {
@@ -234,7 +234,7 @@ const App = () => {
   }, [selectedShapes]);
 
   const handleMouseDown = (e) => {
-    // do nothing if we mousedown on transformer or on the group
+    // 如果在变换器上或组上按下鼠标则不执行任何操作
     const clickedOnTransformer = e.target.getParent() === trRef.current;
     const clickedOnGroup = e.target.parent === groupRef.current;
     
@@ -251,7 +251,7 @@ const App = () => {
       y2: pointerPos.y,
     });
 
-    // move old selection back to original layer
+    // 将旧选择移回原始图层
     if (groupRef.current && selectedShapes.length > 0) {
       const updatedShapes = [...shapes];
       const transform = groupRef.current.getAbsoluteTransform();
@@ -277,7 +277,7 @@ const App = () => {
       setSelectedShapes([]);
     }
 
-    // reset group transforms
+    // 重置组转换
     if (groupRef.current) {
       groupRef.current.setAttrs({
         x: 0,
@@ -308,7 +308,7 @@ const App = () => {
       return;
     }
     
-    // hide selection rectangle with timeout, so we can check it in click event
+    // 用超时隐藏选择矩形，以便我们可以在点击事件中检查
     setTimeout(() => {
       setSelectionRect({
         ...selectionRect,
@@ -317,7 +317,7 @@ const App = () => {
     });
 
     var shapes = e.target.getStage().find('.shape');
-    // Create box manually instead of using getClientRect()
+    // 手动创建框，而不是使用 getClientRect()
     var box = {
       x: Math.min(selectionRect.x1, selectionRect.x2),
       y: Math.min(selectionRect.y1, selectionRect.y2),
@@ -325,10 +325,10 @@ const App = () => {
       height: Math.abs(selectionRect.y2 - selectionRect.y1)
     };
 
-    // remove all children for better performance
+    // 为了更好的性能，移除所有子元素
     layerRef.current.removeChildren();
 
-    // then check intersections and add all shape into correct container
+    // 然后检查交集并将所有形状添加到正确的容器中
     shapes.forEach((shape) => {
       var intersected = Konva.Util.haveIntersection(
         box,
@@ -353,12 +353,12 @@ const App = () => {
   };
 
   const handleClick = (e) => {
-    // if we are selecting with rect, do nothing
+    // 如果我们正在用矩形选择，则不执行任何操作
     if (selectionRect.visible) {
       return;
     }
 
-    // if click on empty area - remove all selections
+    // 如果点击空白区域 - 移除所有选择
     if (e.target === e.target.getStage()) {
       if (groupRef.current && selectedShapes.length > 0) {
         const updatedShapes = [...shapes];
@@ -393,7 +393,7 @@ const App = () => {
     }
   };
 
-  // Calculate selection rectangle properties
+  // 计算选择矩形属性
   const selectionRectProps = {
     fill: 'rgba(0,0,255,0.5)',
     visible: selectionRect.visible,

@@ -1,16 +1,16 @@
 ---
-title: Move Shape to Another Container
-sidebar_label: Change Containers
+title: 将形状移动到另一个容器
+sidebar_label: 更改容器
 hide_table_of_contents: true
 slug: Change_Containers.html
 ---
 
-To move a shape from one container into another with Konva, we can use the `moveTo()` method which requires a container as a parameter.
-A container can be another stage, a layer, or a group. You can also move groups into other groups and layers, or shapes from groups directly into other layers.
+要将形状从一个容器移动到另一个容器，使用 Konva，我们可以使用 `moveTo()` 方法，该方法需要一个容器作为参数。  
+容器可以是另一个舞台、一个层或者一个组。你还可以将组移动到其他组和层，或者将形状从组直接移动到其他层。
 
-**Instructions: Drag and drop the groups and observe that the red rectangle is bound to either the yellow group or the blue group. Use the buttons on the left to move the box from one group into another.**
+**说明：拖放这些组，观察红色矩形绑定到黄色组或蓝色组。使用左侧的按钮将盒子从一个组移动到另一个组。**
 
-import Tabs from "@theme/Tabs";
+import Tabs from "@theme/Tabs";  
 import TabItem from "@theme/TabItem";
 
 <Tabs>
@@ -29,7 +29,7 @@ height: height,
 
 const layer = new Konva.Layer();
 
-// yellow group
+// 黄色组
 const group1 = new Konva.Group({
 x: 50,
 y: 50,
@@ -45,7 +45,7 @@ strokeWidth: 4,
 });
 group1.add(yellow);
 
-// blue group
+// 蓝色组
 const group2 = new Konva.Group({
 x: 200,
 y: 50,
@@ -61,7 +61,7 @@ strokeWidth: 4,
 });
 group2.add(blue);
 
-// red box
+// 红色框
 const redBox = new Konva.Rect({
 x: 10,
 y: 10,
@@ -75,15 +75,15 @@ layer.add(group1);
 layer.add(group2);
 stage.add(layer);
 
-// create buttons
+// 创建按钮
 const moveToGroup1Btn = document.createElement('button');
-moveToGroup1Btn.textContent = 'Move to yellow group';
+moveToGroup1Btn.textContent = '移动到黄色组';
 moveToGroup1Btn.addEventListener('click', () => {
 redBox.moveTo(group1);
 });
 
 const moveToGroup2Btn = document.createElement('button');
-moveToGroup2Btn.textContent = 'Move to blue group';
+moveToGroup2Btn.textContent = '移动到蓝色组';
 moveToGroup2Btn.addEventListener('click', () => {
 redBox.moveTo(group2);
 });
@@ -91,8 +91,8 @@ redBox.moveTo(group2);
 document.body.appendChild(moveToGroup1Btn);
 document.body.appendChild(moveToGroup2Btn);
 
-````
-  </TabItem>
+````  
+  </TabItem>  
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Group } from 'react-konva';
@@ -104,10 +104,10 @@ const App = () => {
   return (
     <>
       <button onClick={() => setRedBoxGroup('yellow')}>
-        Move to yellow group
+        移动到黄色组
       </button>
       <button onClick={() => setRedBoxGroup('blue')}>
-        Move to blue group
+        移动到蓝色组
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -142,15 +142,14 @@ const App = () => {
 };
 
 export default App;
-````
-
-  </TabItem>
+````  
+  </TabItem>  
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <button @click="moveToYellow">Move to yellow group</button>
-    <button @click="moveToBlue">Move to blue group</button>
+    <button @click="moveToYellow">移动到黄色组</button>
+    <button @click="moveToBlue">移动到蓝色组</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-group :config="yellowGroupConfig">

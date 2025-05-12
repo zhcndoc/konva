@@ -1,13 +1,13 @@
 ---
-title: HTML5 Canvas Simple Window Designer
-sidebar_label: Simple Window Designer
+title: HTML5 Canvas 简单窗口设计器
+sidebar_label: 简单窗口设计器
 hide_table_of_contents: true
 slug: Simple_Window_Frame.html
 ---
 
-That is a very simple demo that draws a window frame.
+这是一个非常简单的示例，它绘制了一个窗口框架。
 
-**Instructions:** You can change its width and height
+**说明：** 您可以更改它的宽度和高度
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -33,7 +33,7 @@ var widthInput = document.createElement('input');
 widthInput.type = 'number';
 widthInput.value = '1000';
 var widthLabel = document.createElement('span');
-widthLabel.innerText = 'Width: ';
+widthLabel.innerText = '宽度: ';
 var widthContainer = document.createElement('div');
 widthContainer.style.float = 'left';
 widthContainer.style.padding = '10px';
@@ -44,7 +44,7 @@ var heightInput = document.createElement('input');
 heightInput.type = 'number';
 heightInput.value = '2000';
 var heightLabel = document.createElement('span');
-heightLabel.innerText = 'Height: ';
+heightLabel.innerText = '高度: ';
 var heightContainer = document.createElement('div');
 heightContainer.style.float = 'left';
 heightContainer.style.padding = '10px';
@@ -166,16 +166,16 @@ function createInfo(frameWidth, frameHeight) {
 
   var leftArrow = new Konva.Shape({
     sceneFunc: function (ctx) {
-      // top pointer
+      // 顶部箭头
       ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
       ctx.lineTo(-arrowOffset, 0);
       ctx.lineTo(-arrowOffset + arrowSize, arrowSize);
 
-      // line
+      // 线
       ctx.moveTo(-arrowOffset, 0);
       ctx.lineTo(-arrowOffset, frameHeight);
 
-      // bottom pointer
+      // 底部箭头
       ctx.moveTo(-arrowOffset - arrowSize, frameHeight - arrowSize);
       ctx.lineTo(-arrowOffset, frameHeight);
       ctx.lineTo(-arrowOffset + arrowSize, frameHeight - arrowSize);
@@ -188,17 +188,17 @@ function createInfo(frameWidth, frameHeight) {
 
   var bottomArrow = new Konva.Shape({
     sceneFunc: function (ctx) {
-      // top pointer
+      // 顶部箭头
       ctx.translate(0, frameHeight + arrowOffset);
       ctx.moveTo(arrowSize, -arrowSize);
       ctx.lineTo(0, 0);
       ctx.lineTo(arrowSize, arrowSize);
 
-      // line
+      // 线
       ctx.moveTo(0, 0);
       ctx.lineTo(frameWidth, 0);
 
-      // bottom pointer
+      // 底部箭头
       ctx.moveTo(frameWidth - arrowSize, -arrowSize);
       ctx.lineTo(frameWidth, 0);
       ctx.lineTo(frameWidth - arrowSize, arrowSize);
@@ -209,7 +209,7 @@ function createInfo(frameWidth, frameHeight) {
     strokeWidth: 0.5,
   });
 
-  // left text
+  // 左边文本
   var leftLabel = new Konva.Label();
 
   leftLabel.add(
@@ -234,7 +234,7 @@ function createInfo(frameWidth, frameHeight) {
     createInput('height', this.getAbsolutePosition(), leftText.size());
   });
 
-  // bottom text
+  // 底部文本
   var bottomLabel = new Konva.Label();
 
   bottomLabel.add(
@@ -356,14 +356,14 @@ updateCanvas();
 import { Stage, Layer, Group, Line, Rect, Shape, Label, Tag, Text } from 'react-konva';
 import { useState, useEffect, useRef, useCallback, useMemo, useReducer } from 'react';
 
-// Constants
+// 常量
 const MIN_DIMENSION = 100;
 const MAX_DIMENSION = 5000;
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 2000;
 const PADDING = 70;
 
-// Reducer for dimensions state
+// 用于维度状态的 reducer
 const dimensionsReducer = (state, action) => {
   switch (action.type) {
     case 'SET_WIDTH':
@@ -375,7 +375,7 @@ const dimensionsReducer = (state, action) => {
   }
 };
 
-// Custom hook for window size
+// 用于窗口大小的自定义钩子
 const useWindowSize = () => {
   const [size, setSize] = useState({
     width: window.innerWidth,
@@ -397,25 +397,25 @@ const useWindowSize = () => {
   return size;
 };
 
-// Custom hook for overlay input
+// 用于覆盖输入的自定义钩子
 const useInputOverlay = (dimensions, dispatch) => {
   const [overlay, setOverlay] = useState(null);
   
-  // Handle creating overlay
+  // 处理创建覆盖层
   const createOverlay = useCallback((metric, position, size) => {
     setOverlay({ metric, position, size });
   }, []);
   
-  // Handle closing overlay
+  // 处理关闭覆盖层
   const closeOverlay = useCallback(() => {
     setOverlay(null);
   }, []);
   
-  // Handle overlay effects
+  // 处理覆盖层效果
   useEffect(() => {
     if (!overlay) return;
     
-    // Create overlay elements
+    // 创建覆盖层元素
     const wrap = document.createElement('div');
     wrap.style.position = 'absolute';
     wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
@@ -437,12 +437,12 @@ const useInputOverlay = (dimensions, dispatch) => {
     input.style.left = `${overlay.position.x}px`;
     input.style.width = `${overlay.size.width + 3}px`;
     input.style.height = `${overlay.size.height + 3}px`;
-    input.setAttribute('aria-label', `Edit ${overlay.metric}`);
+    input.setAttribute('aria-label', `编辑 ${overlay.metric}`);
     
     wrap.appendChild(input);
     document.body.appendChild(wrap);
     
-    // Handle input changes
+    // 处理输入变化
     const handleChange = () => {
       const value = input.value;
       dispatch({
@@ -451,7 +451,7 @@ const useInputOverlay = (dimensions, dispatch) => {
       });
     };
     
-    // Handle click outside
+    // 处理点击外部
     const handleWrapClick = (e) => {
       if (e.target === wrap) {
         closeOverlay();
@@ -459,7 +459,7 @@ const useInputOverlay = (dimensions, dispatch) => {
       }
     };
     
-    // Handle keyboard events
+    // 处理键盘事件
     const handleKeyUp = (e) => {
       if (e.key === 'Enter' || e.key === 'Escape') {
         closeOverlay();
@@ -473,10 +473,10 @@ const useInputOverlay = (dimensions, dispatch) => {
     input.addEventListener('keyup', handleKeyUp);
     window.addEventListener('keyup', handleKeyUp);
     
-    // Focus the input
+    // 焦点到输入框
     input.focus();
     
-    // Cleanup
+    // 清理工作
     return () => {
       input.removeEventListener('change', handleChange);
       input.removeEventListener('input', handleChange);
@@ -493,9 +493,9 @@ const useInputOverlay = (dimensions, dispatch) => {
   return { createOverlay, closeOverlay };
 };
 
-// WindowFrame component for the actual frame rendering
+// WindowFrame 组件用于实际框架渲染
 const WindowFrame = ({ width, height }) => {
-  // Generate the points for each side of the frame
+  // 为每一侧框架生成点
   const framePoints = useMemo(() => ({
     top: [0, 0, width, 0, width - PADDING, PADDING, PADDING, PADDING],
     left: [0, 0, PADDING, PADDING, PADDING, height - PADDING, 0, height],
@@ -505,7 +505,7 @@ const WindowFrame = ({ width, height }) => {
   
   return (
     <Group>
-      {/* Glass panel */}
+      {/* 玻璃面板 */}
       <Rect
         x={PADDING}
         y={PADDING}
@@ -514,7 +514,7 @@ const WindowFrame = ({ width, height }) => {
         fill="lightblue"
       />
       
-      {/* Frame sides */}
+      {/* 框架侧面 */}
       {Object.entries(framePoints).map(([key, points]) => (
         <Line
           key={key}
@@ -529,13 +529,13 @@ const WindowFrame = ({ width, height }) => {
   );
 };
 
-// MeasurementInfo component for dimensions and arrows
+// MeasurementInfo 组件用于尺寸和箭头
 const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
   const offset = 20;
   const arrowOffset = offset / 2;
   const arrowSize = 5;
   
-  // Handle label clicks
+  // 处理标签点击
   const handleLabelClick = useCallback((metric, e) => {
     const pos = e.target.getAbsolutePosition();
     const size = e.target.getSize();
@@ -544,7 +544,7 @@ const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
   
   return (
     <Group>
-      {/* Guide lines */}
+      {/* 指导线 */}
       <Shape
         sceneFunc={(ctx, shape) => {
           ctx.fillStyle = 'grey';
@@ -566,19 +566,19 @@ const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
         }}
       />
       
-      {/* Left arrow (height) */}
+      {/* 左箭头（高度） */}
       <Shape
         sceneFunc={(ctx, shape) => {
-          // top pointer
+          // 顶部指针
           ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
           ctx.lineTo(-arrowOffset, 0);
           ctx.lineTo(-arrowOffset + arrowSize, arrowSize);
           
-          // line
+          // 线
           ctx.moveTo(-arrowOffset, 0);
           ctx.lineTo(-arrowOffset, height);
           
-          // bottom pointer
+          // 底部指针
           ctx.moveTo(-arrowOffset - arrowSize, height - arrowSize);
           ctx.lineTo(-arrowOffset, height);
           ctx.lineTo(-arrowOffset + arrowSize, height - arrowSize);
@@ -589,33 +589,33 @@ const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
         strokeWidth={0.5}
       />
       
-      {/* Bottom arrow (width) */}
+      {/* 底部箭头（宽度） */}
       <Shape
         sceneFunc={(ctx, shape) => {
           // translate for bottom arrow
           ctx.translate(0, height + arrowOffset);
           
-          // left pointer
+          // 左指针
           ctx.moveTo(arrowSize, -arrowSize);
           ctx.lineTo(0, 0);
           ctx.lineTo(arrowSize, arrowSize);
-          
-          // line
+
+          // 线
           ctx.moveTo(0, 0);
           ctx.lineTo(width, 0);
-          
-          // right pointer
+
+          // 右指针
           ctx.moveTo(width - arrowSize, -arrowSize);
           ctx.lineTo(width, 0);
           ctx.lineTo(width - arrowSize, arrowSize);
-          
+
           ctx.strokeShape(shape);
         }}
         stroke="grey"
         strokeWidth={0.5}
       />
       
-      {/* Height label */}
+      {/* 高度标签 */}
       <Label
         x={-arrowOffset - 40}
         y={height / 2 - 10}
@@ -634,7 +634,7 @@ const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
         />
       </Label>
       
-      {/* Width label */}
+      {/* 宽度标签 */}
       <Label
         x={width / 2 - 20}
         y={height + arrowOffset}
@@ -656,9 +656,9 @@ const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
   );
 };
 
-// DimensionControls component for input fields
+// DimensionControls 组件用于输入字段
 const DimensionControls = ({ dimensions, dispatch }) => {
-  // Styles
+  // 样式
   const inputStyle = {
     float: 'left',
     padding: '10px'
@@ -670,7 +670,7 @@ const DimensionControls = ({ dimensions, dispatch }) => {
     left: '4px'
   };
   
-  // Handle input changes
+  // 处理输入变化
   const handleInputChange = useCallback((e, type) => {
     dispatch({
       type: type === 'width' ? 'SET_WIDTH' : 'SET_HEIGHT',
@@ -681,46 +681,46 @@ const DimensionControls = ({ dimensions, dispatch }) => {
   return (
     <div style={controlsStyle}>
       <div style={inputStyle}>
-        Width:
+        宽度:
         <input 
           type="number"
           value={dimensions.width}
           onChange={(e) => handleInputChange(e, 'width')}
           min={MIN_DIMENSION}
           max={MAX_DIMENSION}
-          aria-label="Window width"
+          aria-label="窗口宽度"
         />
       </div>
       <div style={inputStyle}>
-        Height:
+        高度:
         <input 
           type="number"
           value={dimensions.height}
           onChange={(e) => handleInputChange(e, 'height')}
           min={MIN_DIMENSION}
           max={MAX_DIMENSION}
-          aria-label="Window height"
+          aria-label="窗口高度"
         />
       </div>
     </div>
   );
 };
 
-// Main App component
+// 主应用组件
 const App = () => {
-  // State
+  // 状态
   const [dimensions, dispatch] = useReducer(dimensionsReducer, {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   });
   
-  // Get window size
+  // 获取窗口大小
   const windowSize = useWindowSize();
   
-  // Setup overlay management
+  // 设置覆盖管理
   const { createOverlay } = useInputOverlay(dimensions, dispatch);
   
-  // Calculate frame positioning
+  // 计算框架位置
   const frameCalculation = useMemo(() => {
     const { width, height } = dimensions;
     const wr = windowSize.width / width;
@@ -746,10 +746,10 @@ const App = () => {
     <div 
       style={{ position: 'relative', width: '100%', height: '100%' }}
       role="application"
-      aria-label="Window Frame Designer"
+      aria-label="窗口框架设计器"
     >
       
-      {/* Canvas */}
+      {/* 画布 */}
       <Stage 
         width={windowSize.width} 
         height={windowSize.height}
@@ -759,7 +759,7 @@ const App = () => {
             x={frameCalculation.position.x}
             y={frameCalculation.position.y}
           >
-            {/* Scaled window frame */}
+            {/* 缩放后的窗口框架 */}
             <Group scale={{ x: frameCalculation.scale, y: frameCalculation.scale }}>
               <WindowFrame 
                 width={dimensions.width} 
@@ -767,7 +767,7 @@ const App = () => {
               />
             </Group>
             
-            {/* Measurement info */}
+            {/* 测量信息 */}
             <MeasurementInfo 
               width={frameCalculation.screenWidth}
               height={frameCalculation.screenHeight}
@@ -777,7 +777,7 @@ const App = () => {
           </Group>
         </Layer>
       </Stage>
-            {/* Input controls */}
+            {/* 输入控件 */}
       <DimensionControls 
         dimensions={dimensions} 
         dispatch={dispatch} 
@@ -795,7 +795,7 @@ export default App;
   <div ref="containerRef" style="position: relative; width: 100%; height: 100%">
     <div :style="controlsStyle">
       <div :style="inputStyle">
-        Width:
+        宽度:
         <input 
           type="number"
           v-model="dimensions.width"
@@ -803,7 +803,7 @@ export default App;
         />
       </div>
       <div :style="inputStyle">
-        Height:
+        高度:
         <input 
           type="number"
           v-model="dimensions.height"
@@ -824,12 +824,12 @@ export default App;
             />
           </v-group>
           
-          <!-- Info elements -->
+          <!-- 信息元素 -->
           <v-shape :config="linesConfig" />
           <v-shape :config="leftArrowConfig" />
           <v-shape :config="bottomArrowConfig" />
           
-          <!-- Labels -->
+          <!-- 标签 -->
           <v-label :config="heightLabelConfig" @click="handleLabelClick('height', $event)">
             <v-tag :config="tagConfig" />
             <v-text :config="heightTextConfig" />
@@ -866,7 +866,7 @@ const offset = 20;
 const arrowOffset = offset / 2;
 const arrowSize = 5;
 
-// Style objects
+// 样式对象
 const inputStyle = {
   float: 'left',
   padding: '10px'
@@ -879,7 +879,7 @@ const controlsStyle = {
   zIndex: 100
 };
 
-// Window frame calculations
+// 窗口框架计算
 const frameCalculation = computed(() => {
   const wr = stageSize.width / dimensions.width;
   const hr = stageSize.height / dimensions.height;
@@ -900,25 +900,25 @@ const frameCalculation = computed(() => {
   };
 });
 
-// Stage config
+// 画布配置
 const stageConfig = computed(() => ({
   width: stageSize.width,
   height: stageSize.height
 }));
 
-// Main group
+// 主组
 const mainGroupConfig = computed(() => ({
   x: frameCalculation.value.position.x,
   y: frameCalculation.value.position.y
 }));
 
-// Frame scale group
+// 框架缩放组
 const frameScaleConfig = computed(() => ({
   scaleX: frameCalculation.value.scale,
   scaleY: frameCalculation.value.scale
 }));
 
-// Glass config
+// 玻璃配置
 const glassConfig = computed(() => ({
   x: padding,
   y: padding,
@@ -927,9 +927,9 @@ const glassConfig = computed(() => ({
   fill: 'lightblue'
 }));
 
-// Frame lines
+// 框架线
 const frameLines = computed(() => [
-  // Top line
+  // 顶部线
   {
     points: [
       0, 0,
@@ -942,7 +942,7 @@ const frameLines = computed(() => [
     stroke: 'black',
     strokeWidth: 1
   },
-  // Left line
+  // 左侧线
   {
     points: [
       0, 0,
@@ -955,7 +955,7 @@ const frameLines = computed(() => [
     stroke: 'black',
     strokeWidth: 1
   },
-  // Bottom line
+  // 底部线
   {
     points: [
       0, dimensions.height,
@@ -968,7 +968,7 @@ const frameLines = computed(() => [
     stroke: 'black',
     strokeWidth: 1
   },
-  // Right line
+  // 右侧线
   {
     points: [
       dimensions.width, 0,
@@ -983,7 +983,7 @@ const frameLines = computed(() => [
   }
 ]);
 
-// Info elements
+// 信息元素
 const linesConfig = computed(() => ({
   sceneFunc: function(ctx, shape) {
     const frameWidth = frameCalculation.value.screenWidth;
@@ -1012,16 +1012,16 @@ const leftArrowConfig = computed(() => ({
   sceneFunc: function(ctx, shape) {
     const frameHeight = frameCalculation.value.screenHeight;
     
-    // top pointer
+    // 顶部指针
     ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
     ctx.lineTo(-arrowOffset, 0);
     ctx.lineTo(-arrowOffset + arrowSize, arrowSize);
 
-    // line
+    // 线
     ctx.moveTo(-arrowOffset, 0);
     ctx.lineTo(-arrowOffset, frameHeight);
 
-    // bottom pointer
+    // 底部指针
     ctx.moveTo(-arrowOffset - arrowSize, frameHeight - arrowSize);
     ctx.lineTo(-arrowOffset, frameHeight);
     ctx.lineTo(-arrowOffset + arrowSize, frameHeight - arrowSize);
@@ -1040,16 +1040,16 @@ const bottomArrowConfig = computed(() => ({
     // translate for bottom arrow
     ctx.translate(0, frameHeight + arrowOffset);
     
-    // left pointer
+    // 左指针
     ctx.moveTo(arrowSize, -arrowSize);
     ctx.lineTo(0, 0);
     ctx.lineTo(arrowSize, arrowSize);
 
-    // line
+    // 线
     ctx.moveTo(0, 0);
     ctx.lineTo(frameWidth, 0);
 
-    // right pointer
+    // 右指针
     ctx.moveTo(frameWidth - arrowSize, -arrowSize);
     ctx.lineTo(frameWidth, 0);
     ctx.lineTo(frameWidth - arrowSize, arrowSize);
@@ -1060,7 +1060,7 @@ const bottomArrowConfig = computed(() => ({
   strokeWidth: 0.5
 }));
 
-// Label config
+// 标签配置
 const tagConfig = {
   fill: 'white',
   stroke: 'grey'
@@ -1088,16 +1088,16 @@ const widthTextConfig = computed(() => ({
   fill: 'black'
 }));
 
-// Event handlers
+// 事件处理程序
 const handleLabelClick = (metric, e) => {
   const pos = e.target.getAbsolutePosition();
-  const size = { width: 50, height: 20 }; // Approximate size
+  const size = { width: 50, height: 20 }; // 近似大小
   
   createInputOverlay(metric, pos, size);
 };
 
 const createInputOverlay = (metric, pos, size) => {
-  // Create overlay
+  // 创建覆盖层
   const wrap = document.createElement('div');
   wrap.style.position = 'absolute';
   wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
@@ -1143,17 +1143,15 @@ const createInputOverlay = (metric, pos, size) => {
   input.addEventListener('keyup', handleKeyUp);
 
   input.focus();
-  
-  inputOverlay.value = { wrap, input };
 };
 
-// Window resize handler
+// 窗口调整大小处理程序
 const handleResize = () => {
   stageSize.width = window.innerWidth;
   stageSize.height = window.innerHeight;
 };
 
-// Setup and cleanup
+// 设置和清理
 onMounted(() => {
   window.addEventListener('resize', handleResize);
 });
@@ -1161,7 +1159,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
   
-  // Cleanup any input overlay
+  // 清理任何输入覆盖层
   if (inputOverlay.value) {
     if (document.body.contains(inputOverlay.value.wrap)) {
       document.body.removeChild(inputOverlay.value.wrap);
@@ -1170,7 +1168,7 @@ onBeforeUnmount(() => {
 });
 
 const updateCanvas = () => {
-  // This is handled reactively by Vue
+  // 这由 Vue 反应式地处理
 };
 </script>
 ```

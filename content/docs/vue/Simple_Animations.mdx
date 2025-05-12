@@ -1,13 +1,13 @@
 ---
-title: How to apply canvas animations with Vue and Konva?
-sidebar_label: Simple Animations
+title: 如何使用 Vue 和 Konva 应用画布动画？
+sidebar_label: 简单动画
 hide_table_of_contents: true
 slug: Simple_Animations.html
 ---
 
-Konva provides two methods for animations: [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). For simple use cases, we recommend using the `node.to()` method, which is a simplified version of Tween.
+Konva 提供了两种动画方法：[Tween](/docs/tweens/Linear_Easing.html) 和 [Animation](/docs/animations/Rotation.html)。对于简单的用例，我们推荐使用 `node.to()` 方法，它是 Tween 的简化版。
 
-Instructions: Try to drag the green rectangle to see it scale randomly, and observe the red hexagon moving in a sine wave pattern.
+使用说明：尝试拖动绿色矩形，观察它随机缩放，并观察红色六边形以正弦波模式移动。
 
 ```js live vue
 <template>
@@ -55,7 +55,7 @@ const stage = ref(null);
 const hexagon = ref(null);
 
 const changeSize = (e) => {
-  // to() is a method of `Konva.Node` instances
+  // to() 是 `Konva.Node` 实例的方法
   e.target.to({
     scaleX: Math.random() + 0.8,
     scaleY: Math.random() + 0.8,
@@ -65,11 +65,11 @@ const changeSize = (e) => {
 
 onMounted(() => {
   const amplitude = 100;
-  const period = 5000; // in ms
+  const period = 5000; // 单位为毫秒
   const centerX = stage.value.getNode().getWidth() / 2;
   const hexagonNode = hexagon.value.getNode();
 
-  // example of Konva.Animation
+  // Konva.Animation 的示例
   const anim = new Konva.Animation((frame) => {
     hexagonNode.setX(
       amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + centerX
@@ -81,8 +81,8 @@ onMounted(() => {
 </script>
 ```
 
-The demo above shows two types of animations:
-1. Using `node.to()` method (Tween) to animate the green rectangle's scale when dragged
-2. Using `Konva.Animation` to create a continuous sine wave movement for the red hexagon
+上述演示展示了两种类型的动画：
+1. 使用 `node.to()` 方法（Tween）来在拖动时动画化绿色矩形的缩放
+2. 使用 `Konva.Animation` 创建红色六边形的连续正弦波运动
 
-The `node.to()` method is perfect for simple transitions, while `Konva.Animation` is better for complex, continuous animations that need to run on each frame. 
+`node.to()` 方法非常适合简单的过渡，而 `Konva.Animation` 更适合需要在每一帧上运行的复杂连续动画。

@@ -3,14 +3,15 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Konva - JavaScript Canvas 2d Library',
+  title: 'Konva 中文文档 - JavaScript 2D 画布库',
+  titleDelimiter: ' - ',
   tagline:
-    'The ultimate bridge between your Vanilla/React/Vue/Svelte/Angular app and canvas graphics',
+    '您的 Vanilla/React/Vue/Svelte/Angular 应用与画布图形之间的终极桥梁',
   favicon: 'img/favicon.ico',
   themes: ['./src/theme-live-codeblock'],
 
   // Set the production url of your site here
-  url: 'https://konvajs.org',
+  url: 'https://konva.zhcndoc.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -34,10 +35,8 @@ const config: Config = {
 
   scripts: [
     {
-      src: 'https://plausible.io/js/plausible.js',
+      src: 'https://www.zhcndoc.com/js/common.js',
       async: true,
-      defer: true,
-      'data-domain': 'konvajs.org',
     },
     {
       src: 'https://cdn.convertbox.com/convertbox/js/embed.js',
@@ -74,7 +73,7 @@ const config: Config = {
           routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/konvajs/site/tree/new/',
+          editUrl: 'https://github.com/zhcndoc/konva/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -84,7 +83,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/konvajs/site/tree/new/',
+          editUrl: 'https://github.com/zhcndoc/konva/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -106,9 +105,9 @@ const config: Config = {
     },
     image: 'img/social.jpeg',
     navbar: {
-      title: 'Konva',
+      title: 'Konva 中文文档',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Konva 中文文档',
         src: 'img/icon.png',
       },
       items: [
@@ -116,22 +115,22 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialsSidebar',
           position: 'left',
-          label: 'Tutorials',
+          label: '教程',
         },
         {
           to: 'docs/sandbox.html',
           position: 'left',
-          label: 'Demos',
+          label: '演示',
         },
         {
           type: 'docSidebar',
           sidebarId: 'apiSidebar',
           position: 'left',
-          label: 'API Reference',
+          label: 'API 参考',
         },
         {
           type: 'dropdown',
-          label: 'Frameworks',
+          label: '框架',
           position: 'left',
           items: [
             {
@@ -177,24 +176,24 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: '文档',
           items: [
             {
-              label: 'Tutorial',
+              label: '教程',
               to: '/docs/index.html',
             },
             {
-              label: 'Demos',
+              label: '演示',
               to: '/docs/sandbox.html',
             },
             {
-              label: 'API Reference',
+              label: 'API 参考',
               to: '/api/Konva.html',
             },
           ],
         },
         {
-          title: 'Community',
+          title: '社区',
           items: [
             {
               label: 'Stack Overflow',
@@ -215,7 +214,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'Integrations',
+          title: '集成',
           items: [
             {
               label: 'React',
@@ -236,7 +235,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Konva. Built with Docusaurus.`,
+      copyright: `<a target="_blank" href="https://www.zhcndoc.com">简中文档</a>｜<a rel="nofollow" target="_blank" href="https://beian.miit.gov.cn">沪ICP备2024070610号-3</a>`,
     },
     prism: {
       theme: prismThemes.github,

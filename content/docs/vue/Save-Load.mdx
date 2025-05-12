@@ -1,24 +1,24 @@
 ---
-title: How to save and load canvas with Vue and Konva?
-sidebar_label: Save & Load
+title: 如何用 Vue 和 Konva 保存与加载画布？
+sidebar_label: 保存 & 加载
 hide_table_of_contents: true
 slug: Save-Load.html
 ---
 
-## How to serialize and deserialize Konva stage with Vue?
+## 如何用 Vue 序列化和反序列化 Konva 舞台？
 
-Pure `Konva` has a special mechanism to save/load the full canvas stage with `node.toJSON()` and `Node.create(json)` functions.
-[See demo](/docs/data_and_serialization/Simple_Load.html).
+纯 `Konva` 提供了一种特殊机制，可以使用 `node.toJSON()` 和 `Node.create(json)` 函数保存/加载整个画布舞台。
+[查看示例](/docs/data_and_serialization/Simple_Load.html)。
 
-However, with `vue-konva`, we recommend defining your app's state in your Vue components. The state maps into nodes through templates. To save/load the full stage, you just need to save/load the state of your app. You **don't need to save Konva internals and nodes**.
+然而，对于 `vue-konva`，我们建议在 Vue 组件中定义你的应用状态。状态通过模板映射到节点。要保存/加载整个舞台，你只需保存/加载你的应用状态。**你无需保存 Konva 内部细节和节点信息**。
 
-Instructions: Click on the canvas to create circles. Reload the page - the circles should persist.
+操作指南：点击画布创建圆形。重新加载页面后，圆形应当会保持存在。
 
 ```js live vue
 <template>
   <div>
-    Click on canvas to create a circle.
-    <a href=".">Reload the page</a>. Circles should stay here.
+    点击画布创建一个圆形。
+    <a href=".">重新加载页面</a>。圆形应当会保持在这里。
     <v-stage
       ref="stage"
       :config="stageSize"
@@ -69,4 +69,5 @@ const save = () => {
 onMounted(() => {
   load();
 });
-</script> 
+</script>
+```

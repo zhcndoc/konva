@@ -1,16 +1,16 @@
 ---
-title: HTML5 Canvas Image Events with Konva
-sidebar_label: Image Events
+title: HTML5 Canvas 图像事件与 Konva
+sidebar_label: 图像事件
 hide_table_of_contents: true
 slug: Image_Events.html
 ---
 
-To only detect events for non transparent pixels in an image with Konva, we can use the `drawHitFromCache()` method to generate a more precise image hit region.
-By default, events can be triggered for any pixel inside of an image, even if it's transparent. The `drawHitFromCache()` method also accepts an optional callback method to be executed whenever the image hit region has been created.
+为了仅检测 Konva 中图像中非透明像素的事件，我们可以使用 `drawHitFromCache()` 方法来生成更精确的图像命中区域。
+默认情况下，事件可以在图像内任何像素上触发，即使是透明的。`drawHitFromCache()` 方法还接受一个可选的回调方法，用于在图像命中区域创建时执行。
 
-*Note: The `drawHitFromCache()` method requires that the image is hosted on a web server with the same domain as the code executing it.*
+*注意：`drawHitFromCache()` 方法要求图像托管在与执行代码相同域的 Web 服务器上。*
 
-**Instructions: Mouse over the monkey and the lion and observe the mouseover event bindings. Notice that the event is triggered for the monkey if you mouseover any portion of the image, including transparent pixels. Since we created an image hit region for the lion, transparent pixels are ignored, which enables more precise event detection.**
+**说明：将鼠标悬停在猴子和狮子上，观察鼠标悬停事件的绑定。请注意，当你将鼠标悬停在图像的任何部分（包括透明像素）上时，事件会在猴子上触发。由于我们为狮子创建了一个图像命中区域，因此透明像素会被忽略，这使得事件检测更为精确。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -75,7 +75,7 @@ imageObj2.onload = () => {
     height: 200,
   });
 
-  // override color detection region
+  // 覆盖颜色检测区域
   lion.on('mouseover', function () {
     writeMessage('mouseover lion (with transparent pixels detection)');
   });
@@ -219,7 +219,7 @@ const lionConfig = computed(() => ({
   height: 200
 }));
 
-// watch for image loads to setup hit regions
+// 观察图像加载以设置命中区域
 watch([lionImage, monkeyImage], () => {
   console.log('watch', lionImage, monkeyImage);
   nextTick(() => {
@@ -245,4 +245,4 @@ const handleMouseOut = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

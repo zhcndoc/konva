@@ -1,14 +1,14 @@
 ---
-title: HTML5 Canvas Shape Resize Relative to Center
-sidebar_label: Centered Scaling
+title: HTML5 Canvas 形状相对中心缩放
+sidebar_label: 居中缩放
 hide_table_of_contents: true
 slug: Centered_Scaling.html
 position: 2
 ---
 
-To resize a node into both sides at the same time you can set `centeredScaling` to true or hold `ALT` key while moving an anchor (even if `centeredScaling` is false).
+要同时向两侧调整节点的大小，您可以将 `centeredScaling` 设置为 true，或者在移动锚点时按住 `ALT` 键（即使 `centeredScaling` 为 false）。
 
-**Instructions: Try to resize texts.**
+**说明：请尝试调整文本的大小。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -33,7 +33,7 @@ stage.add(layer);
 const text = new Konva.Text({
 x: 50,
 y: 80,
-text: 'Simple text',
+text: '简单文本',
 fontSize: 30,
 draggable: true,
 width: 200,
@@ -43,7 +43,7 @@ layer.add(text);
 const text2 = new Konva.Text({
 x: 50,
 y: 180,
-text: 'Simple text',
+text: '简单文本',
 fontSize: 30,
 draggable: true,
 width: 200,
@@ -61,7 +61,7 @@ nodes: [text2],
 });
 layer.add(tr2);
 
-````
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -74,7 +74,7 @@ const App = () => {
         <Text
           x={50}
           y={80}
-          text="Simple text"
+          text="简单文本"
           fontSize={30}
           draggable
           width={200}
@@ -83,7 +83,7 @@ const App = () => {
         <Text
           x={50}
           y={180}
-          text="Simple text"
+          text="简单文本"
           fontSize={30}
           draggable
           width={200}
@@ -95,8 +95,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -120,7 +119,7 @@ const stageSize = {
 const textConfig1 = {
   x: 50,
   y: 80,
-  text: 'Simple text',
+  text: '简单文本',
   fontSize: 30,
   draggable: true,
   width: 200
@@ -129,7 +128,7 @@ const textConfig1 = {
 const textConfig2 = {
   x: 50,
   y: 180,
-  text: 'Simple text', 
+  text: '简单文本', 
   fontSize: 30,
   draggable: true,
   width: 200

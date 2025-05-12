@@ -1,30 +1,30 @@
 ---
-title: How to add background to canvas?
-sidebar_label: Canvas Background
+title: 如何给画布添加背景？
+sidebar_label: 画布背景
 hide_table_of_contents: true
 slug: Canvas_Background.html
 ---
 
-## How add background to Konva stage?
+## 如何给 Konva 舞台添加背景？
 
-There are two ways to add a background.
+有两种方式可以添加背景。
 
-### 1. Adding background with `Konva.Rect` shape.
+### 1. 使用 `Konva.Rect` 形状添加背景。
 
-The Konva-way to add a background to your canvas is just by drawing `Konva.Rect` shape with the size of a stage on the bottom of your scene. You can style that rectangle as you want with [solid color, gradient or pattern image](/docs/styling/Fill.html).
+Konva 推荐的给画布添加背景的方法是，在场景底部绘制一个与舞台大小相同的 `Konva.Rect` 矩形形状。你可以根据需要为该矩形设置样式，如[纯色、渐变或图案图片](/docs/styling/Fill.html)。
 
-*The only thing that you should be careful about here is the rectangle's position and size. If you are transforming any parent of background shape (such as stage or layer) by moving it, or applying scale you should "reset" background shape position/size to fill whole Stage area.*
+*这里唯一需要注意的是矩形的位置和大小。如果你对背景形状的任意父级（比如舞台或图层）进行移动或缩放等变换，你需要“重置”背景形状的位置和大小，使其填满整个舞台区域。*
 
-### 2. Adding background with CSS
+### 2. 使用 CSS 添加背景
 
-The other solution to add background to your canvas is just use CSS styles to stage container DOM element. That solution is simpler than the first approach, because you don't need to track position, size changes. It also has **a bit** better performance, because you don't need to draw any additional shapes.
+另一种给画布添加背景的方案是直接使用 CSS 样式给舞台的容器 DOM 元素设置背景。这个方法比第一种更简单，因为你不用再去追踪位置和大小的变化。它也有**稍微**更好的性能表现，因为不需要绘制额外的图形。
 
-**But it has one drawback. The CSS background will be not visible on export when you use methods like `stage.toImage()` and `stage.toDataURL()`.**
+**但它有一个缺点：使用 `stage.toImage()` 和 `stage.toDataURL()` 等导出方法时，CSS 背景不会被导出显示。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**Instructions:** On the demo below, the green solid background is made with CSS. Yellow-blue gradient will be done with `Konva.Rect` instance. Try to drag the stage. You will see that gradient stays in place.
+**说明：**下面示例中，绿色纯色背景是用 CSS 实现的。黄色到蓝色的渐变背景是用 `Konva.Rect` 实例绘制的。尝试拖动舞台，你会看到渐变背景保持固定位置。
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -44,11 +44,11 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// there are two ways to add background to the stage.
-// the simplest solution is to just using CSS
+// 这里演示两种给舞台添加背景的方法。
+// 最简单的是直接用 CSS
 stage.container().style.backgroundColor = 'green';
 
-// another solution is to use rectangle shape
+// 另一种是用矩形形状
 const background = new Konva.Rect({
   x: 0,
   y: 0,
@@ -56,7 +56,7 @@ const background = new Konva.Rect({
   height: stage.height(),
   fillLinearGradientStartPoint: { x: 0, y: 0 },
   fillLinearGradientEndPoint: { x: stage.width(), y: stage.height() },
-  // gradient into transparent color, so we can see CSS styles
+  // 渐变为透明色，以便能看到 CSS 背景
   fillLinearGradientColorStops: [
     0,
     'yellow',
@@ -65,20 +65,20 @@ const background = new Konva.Rect({
     0.6,
     'rgba(0, 0, 0, 0)',
   ],
-  // remove background from hit graph for better perf
-  // because we don't need any events on the background
+  // 为提升性能，移除背景的事件监听
+  // 因为背景不需要处理任何事件
   listening: false,
 });
 layer.add(background);
 
-// the stage is draggable
-// that means absolute position of background may change
-// so we need to reset it back to {0, 0}
+// 舞台是可拖拽的
+// 这意味着背景的绝对位置可能变化
+// 所以需要在拖动时重置位置为 {0, 0}
 stage.on('dragmove', () => {
   background.absolutePosition({ x: 0, y: 0 });
 });
 
-// add demo shape
+// 添加示例图形
 const circle = new Konva.Circle({
   x: stage.width() / 2,
   y: stage.height() / 2,
@@ -100,16 +100,16 @@ const App = () => {
   const stageRef = useRef(null);
   const backgroundRef = useRef(null);
   
-  // Set CSS background when component mounts
+  // 组件挂载时设置 CSS 背景
   useEffect(() => {
     if (stageRef.current) {
-      // Apply CSS background to stage container
+      // 给舞台容器设置 CSS 背景
       const container = stageRef.current.container();
       container.style.backgroundColor = 'green';
     }
   }, []);
   
-  // Handler to reset background position on stage drag
+  // 拖动舞台时重置背景位置
   const handleDragMove = () => {
     if (backgroundRef.current) {
       backgroundRef.current.absolutePosition({ x: 0, y: 0 });
@@ -125,7 +125,7 @@ const App = () => {
       onDragMove={handleDragMove}
     >
       <Layer>
-        {/* Gradient background */}
+        {/* 渐变背景 */}
         <Rect
           ref={backgroundRef}
           x={0}
@@ -142,7 +142,7 @@ const App = () => {
           listening={false}
         />
         
-        {/* Demo shape */}
+        {/* 示例图形 */}
         <Circle
           x={width / 2}
           y={height / 2}
@@ -166,13 +166,13 @@ export default App;
     @dragmove="handleDragMove"
   >
     <v-layer>
-      <!-- Gradient background -->
+      <!-- 渐变背景 -->
       <v-rect
         ref="backgroundRef"
         :config="backgroundConfig"
       />
       
-      <!-- Demo shape -->
+      <!-- 示例图形 -->
       <v-circle
         :config="circleConfig"
       />
@@ -217,16 +217,16 @@ const circleConfig = {
   fill: 'red'
 };
 
-// Set CSS background when component mounts
+// 组件挂载时设置 CSS 背景
 onMounted(() => {
   if (stageRef.value) {
-    // Apply CSS background to stage container
+    // 给舞台容器设置 CSS 背景
     const container = stageRef.value.getNode().container();
     container.style.backgroundColor = 'green';
   }
 });
 
-// Handler to reset background position on stage drag
+// 拖动舞台时重置背景位置
 const handleDragMove = () => {
   if (backgroundRef.value) {
     backgroundRef.value.getNode().absolutePosition({ x: 0, y: 0 });
@@ -235,4 +235,4 @@ const handleDragMove = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

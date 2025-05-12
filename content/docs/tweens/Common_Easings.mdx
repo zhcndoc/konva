@@ -1,19 +1,19 @@
 ---
-title: Simple Easings Tutorial
-sidebar_label: Common Easings
+title: 简单的缓动教程
+sidebar_label: 常见的缓动
 hide_table_of_contents: true
 slug: Common_Easings.html
 ---
 
-To create a non-linear easing tween with Konva, we can set the `easing` property to an easing function. Other than `Konva.Easings.Linear`, the other most common easings are:
+要使用 Konva 创建非线性的缓动动画，我们可以将 `easing` 属性设置为缓动函数。除了 `Konva.Easings.Linear`，其他最常见的缓动有：
 
 - `Konva.Easings.EaseIn`
 - `Konva.Easings.EaseInOut`
 - `Konva.Easings.EaseOut`
 
-For all available easings go to [Easings Documentation](/api/Konva.Easings.html).
+有关所有可用的缓动，请访问 [缓动文档](/api/Konva.Easings.html)。
 
-**Instructions: Mouseover or touchstart the boxes to tween them with different easing functions.**
+**说明：鼠标悬停或触摸盒子以使用不同的缓动函数对它们进行缓动。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -81,7 +81,7 @@ easing: Konva.Easings[easing],
 
 stage.add(layer);
 
-````
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -152,8 +152,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -229,5 +228,3 @@ const handleMouseLeave = (e, easing) => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

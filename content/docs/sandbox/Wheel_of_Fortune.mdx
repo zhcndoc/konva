@@ -1,11 +1,11 @@
 ---
-title: Wheel of Fortune HTML5 Canvas Game
-sidebar_label: Wheel of Fortune
+title: 幸运轮 HTML5 画布游戏
+sidebar_label: 幸运轮
 hide_table_of_contents: true
 slug: Wheel_of_Fortune.html
 ---
 
-This demo shows how to create an interactive Wheel of Fortune game using Konva. The wheel can be spun with mouse or touch input, and it will gradually slow down due to angular friction. When it stops, it will show your prize!
+本演示展示了如何使用 Konva 创建一个互动的幸运轮游戏。轮子可以通过鼠标或触摸输入进行旋转，并会因角摩擦逐渐减速。当它停止时，将显示你的奖品！
 
 ```js live vanilla
 import Konva from 'konva';
@@ -94,12 +94,12 @@ function addWedge(n) {
 }
 
 function animate(frame) {
-  // handle wheel spin
+  // 处理轮子旋转
   const angularVelocityChange =
     (angularVelocity * frame.timeDiff * (1 - angularFriction)) / 1000;
   angularVelocity -= angularVelocityChange;
 
-  // activate / deactivate wedges based on point intersection
+  // 根据点的相交激活/停用楔
   const shape = stage.getIntersection({
     x: stage.width() / 2,
     y: 100,
@@ -121,7 +121,7 @@ function animate(frame) {
       if (shape) {
         const text = shape.getParent().findOne('Text').text();
         const price = text.split('\n').join('');
-        alert('Your price is ' + price);
+        alert('你的奖品是 ' + price);
       }
       finished = true;
     }
@@ -183,12 +183,12 @@ pointer = new Konva.Wedge({
   shadowOpacity: 0.5,
 });
 
-// add components to the stage
+// 将组件添加到舞台
 layer.add(wheel);
 layer.add(pointer);
 stage.add(layer);
 
-// bind events
+// 绑定事件
 wheel.on('mousedown touchstart', function (evt) {
   angularVelocity = 0;
   controlled = true;
@@ -221,6 +221,7 @@ stage.on('mousemove touchmove', function () {
   }
 });
 
-// create animation
+// 创建动画
 const anim = new Konva.Animation(animate, layer);
 anim.start();
+```

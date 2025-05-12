@@ -1,18 +1,16 @@
 ---
-title: Drawing canvas shapes with Svelte
-sidebar_label: Shapes
+title: 使用 Svelte 绘制画布形状
+sidebar_label: 形状
 hide_table_of_contents: true
 slug: Shapes.html
 ---
 
-All `svelte-konva` components correspond to `Konva` components of the same name.
-All the parameters available for `Konva` objects are valid props for
-corresponding `svelte-konva` components, unless noted otherwise.
+所有的 `svelte-konva` 组件都对应同名的 `Konva` 组件。  
+除了特殊说明外，`Konva` 对象的所有参数都是对应的 `svelte-konva` 组件的有效属性（props）。
 
-Core shapes are: Rect, Circle, Ellipse, Line, Image, Text, TextPath, Star,
-Label, SVG Path, RegularPolygon. You can also create custom shapes.
+核心形状包括：矩形（Rect）、圆形（Circle）、椭圆（Ellipse）、线条（Line）、图像（Image）、文本（Text）、文本路径（TextPath）、星形（Star）、标签（Label）、SVG路径（SVG Path）、正多边形（RegularPolygon）。也可以创建自定义形状。
 
-To get more info about Konva you can read [Konva Overview](/docs/overview.html).
+想了解更多关于 Konva 的信息，可以阅读 [Konva 概览](/docs/overview.html)。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/shapes?file=/src/App.svelte" 

@@ -1,13 +1,13 @@
 ---
-title: HTML5 Canvas Set Shape Stroke Color and Width Tutorial
-sidebar_label: Stroke
+title: HTML5 Canvas 设置形状的边框颜色和宽度教程
+sidebar_label: 边框
 hide_table_of_contents: true
 slug: Stroke.html
 ---
 
-To set a shape stroke and stroke width with Konva, we can set the `stroke` and `strokeWidth` properties when we instantiate a shape, or we can use the `stroke()` and `strokeWidth()` methods.
+要使用 Konva 设置形状的边框和边框宽度，我们可以在实例化形状时设置 `stroke` 和 `strokeWidth` 属性，或者可以使用 `stroke()` 和 `strokeWidth()` 方法。
 
-Instructions: Mouseover the pentagon to change its stroke color and width.
+说明：将鼠标悬停在五边形上以更改其边框颜色和宽度。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -47,10 +47,10 @@ pentagon.on('mouseout', function () {
     this.stroke('black');
     this.strokeWidth(4);
 });
-// add the shape to the layer
+// 将形状添加到图层
 layer.add(pentagon);
 
-// add the layer to the stage
+// 将图层添加到舞台
 stage.add(layer);
 ```
 

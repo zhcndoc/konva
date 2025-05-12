@@ -1,24 +1,24 @@
 ---
-title: Basic Tweening Tutorial
-sidebar_label: Linear Easing
+title: 基础插值动画教程
+sidebar_label: 线性缓动
 hide_table_of_contents: true
 slug: Linear_Easing.html
 ---
 
-To tween properties with Konva, we can instantiate a `Konva.Tween` object and then start the tween by calling `play()`.
-Any numeric property of a `Shape`, `Group`, `Layer`, or `Stage` can be transitioned, such as:
+要使用 Konva 插值属性，我们可以实例化一个 `Konva.Tween` 对象，然后通过调用 `play()` 开始插值动画。
+`Shape`、`Group`、`Layer` 或 `Stage` 的任何数值属性都可以进行插值动画，例如：
 
-- `x`, `y` (position)
+- `x`、`y`（位置）
 - `rotation`
-- `width`, `height`, `radius`
+- `width`、`height`、`radius`
 - `strokeWidth`
 - `opacity`
-- `scaleX`, `scaleY`
-- `offsetX`, `offsetY`
+- `scaleX`、`scaleY`
+- `offsetX`、`offsetY`
 
-For a full list of attributes and methods, check out the [Konva.Tween documentation](/api/Konva.Tween.html).
+有关属性和方法的完整列表，请查看 [Konva.Tween 文档](/api/Konva.Tween.html)。
 
-**Instructions: Click the circle to start a simple linear animation.**
+**说明：点击圆圈以开始简单的线性动画。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -52,7 +52,7 @@ layer.add(circle);
 stage.add(layer);
 
 circle.on('click tap', () => {
-// simple tween
+// 简单插值动画
 const tween = new Konva.Tween({
 node: circle,
 duration: 1,
@@ -155,5 +155,3 @@ const handleClick = () => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

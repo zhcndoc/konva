@@ -1,27 +1,27 @@
 ---
-title: How to change the zIndex of nodes with Vue?
+title: 如何在 Vue 中更改节点的 zIndex？
 sidebar_label: zIndex
 hide_table_of_contents: true
 slug: zIndex.html
 ---
 
-## How to change the zIndex and reorder components in `vue-konva`?
+## 如何在 `vue-konva` 中更改 zIndex 并重新排序组件？
 
-When you are working with `Konva` directly, you have many methods to change the order of nodes like `node.zIndex(5)`, `node.moveToTop()`, etc. See the [Layering Tutorial](/docs/groups_and_layers/Layering.html) for more details.
+当你直接使用 `Konva` 时，有许多方法可以更改节点的顺序，比如 `node.zIndex(5)`、`node.moveToTop()` 等。有关更多详细信息，请参见 [分层教程](/docs/groups_and_layers/Layering.html)。
 
-However, when working with Vue, it's recommended to follow Vue's declarative approach instead of using these imperative methods.
+然而，在使用 Vue 时，建议遵循 Vue 的声明式方法，而不是使用这些命令式的方法。
 
-`vue-konva` follows the order of the nodes exactly as you describe them in your `<template>`. Instead of changing the `zIndex` manually, you should update your app's data so that the components in your `<template>` maintain the correct order.
+`vue-konva` 精确遵循你在 `<template>` 中描述的节点顺序。你不应该手动更改 `zIndex`，而应该更新应用的数据，以使 `<template>` 中的组件保持正确的顺序。
 
-The demo shows how to:
-1. Create an array of circle shapes with random positions and colors
-2. Handle drag events to update the visual order of shapes
-3. Maintain the correct stacking order by manipulating the array order
-4. Follow Vue's reactivity system for state management
+示例展示了如何：
+1. 创建一个具有随机位置和颜色的圆形数组
+2. 处理拖拽事件以更新形状的视觉顺序
+3. 通过调整数组顺序来维护正确的堆叠顺序
+4. 遵循 Vue 的响应式系统进行状态管理
 
-Remember: Don't use the `zIndex` property for your canvas components. Instead, rely on the order of elements in your template and data structures. 
+记住：不要为你的画布组件使用 `zIndex` 属性。相反，依赖于模板和数据结构中元素的顺序。
 
-Instructions: Try to drag a circle. When you start dragging, it will automatically move to the top of the stack. This is achieved by manipulating the array of circles in our data, not by manually changing zIndex.
+操作说明：尝试拖动一个圆形。当你开始拖动时，它将自动移动到堆栈的顶部。这是通过在我们的数据中调整圆形数组实现的，而不是手动更改 zIndex。
 
 ```js live vue
 <template>
@@ -66,9 +66,9 @@ const generateItems = () => {
 };
 
 const handleDragstart = (e) => {
-  // save drag element:
+  // 保存拖动的元素：
   dragItemId.value = e.target.id();
-  // move current element to the top by rearranging the items array:
+  // 通过重新排列 items 数组将当前元素移动到顶部：
   const item = items.value.find(i => i.id === dragItemId.value);
   const index = items.value.indexOf(item);
   items.value.splice(index, 1);
@@ -84,4 +84,3 @@ onMounted(() => {
 });
 </script>
 ```
-

@@ -1,19 +1,17 @@
 ---
-title: HTML5 Canvas Konva Scale Animation Tutorial
-sidebar_label: Scaling
+title: HTML5 Canvas Konva 缩放动画教程
+sidebar_label: 缩放
 hide_table_of_contents: true
 slug: Scaling.html
 ---
 
-To animate a shape's scale with Konva, we can create a new animation with
-`Konva.Animation`, and define a function which modifies the shape's scale with each animation frame.
+要使用 Konva 动画化形状的缩放，我们可以使用 `Konva.Animation` 创建一个新的动画，并定义一个函数，在每个动画帧修改形状的缩放。
 
-In this tutorial, we'll scale the x and y component of a blue hexagon, the y component
-of a yellow hexagon, and the x component of a red hexagon about an axis positioned on the right side of the shape.
+在本教程中，我们将缩放一个蓝色六边形的 x 和 y 组件，一个黄色六边形的 y 组件，以及一个红色六边形的 x 组件，围绕位于形状右侧的轴。
 
-**Instructions:** drag and drop the hexagons as they animate
+**说明：** 拖动和放置六边形以观看动画
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -32,7 +30,7 @@ height: window.innerHeight,
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// blue hexagon - scale x and y
+// 蓝色六边形 - 缩放 x 和 y
 const blueHex = new Konva.RegularPolygon({
 x: 50,
 y: 50,
@@ -44,7 +42,7 @@ strokeWidth: 4,
 draggable: true
 });
 
-// yellow hexagon - scale y only
+// 黄色六边形 - 仅缩放 y
 const yellowHex = new Konva.RegularPolygon({
 x: 150,
 y: 50,
@@ -56,7 +54,7 @@ strokeWidth: 4,
 draggable: true
 });
 
-// red hexagon - scale x only
+// 红色六边形 - 仅缩放 x
 const redHex = new Konva.RegularPolygon({
 x: 250,
 y: 50,
@@ -77,19 +75,18 @@ const period = 2000;
 const anim = new Konva.Animation(function(frame) {
 const scale = Math.sin(frame.time * 2 * Math.PI / period) + 2;
 
-// blue hex - scale x and y
+// 蓝色六边形 - 缩放 x 和 y
 blueHex.scale({ x: scale, y: scale });
 
-// yellow hex - scale y only
+// 黄色六边形 - 仅缩放 y
 yellowHex.scaleY(scale);
 
-// red hex - scale x only
+// 红色六边形 - 仅缩放 x
 redHex.scaleX(scale);
 }, layer);
 
 anim.start();
-
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -112,13 +109,13 @@ const App = () => {
     const anim = new Konva.Animation((frame) => {
       const scale = Math.sin(frame.time * 2 * Math.PI / period) + 2;
 
-      // blue hex - scale x and y
+      // 蓝色六边形 - 缩放 x 和 y
       blueHexRef.current.scale({ x: scale, y: scale });
 
-      // yellow hex - scale y only
+      // 黄色六边形 - 仅缩放 y
       yellowHexRef.current.scaleY(scale);
 
-      // red hex - scale x only
+      // 红色六边形 - 仅缩放 x
       redHexRef.current.scaleX(scale);
     }, blueHexRef.current.getLayer());
 
@@ -278,13 +275,13 @@ onMounted(() => {
   anim = new Konva.Animation((frame) => {
     const scale = Math.sin(frame.time * 2 * Math.PI / period) + 2;
     
-    // blue hex - scale x and y
+    // 蓝色六边形 - 缩放 x 和 y
     blueHexRef.value.getNode().scale({ x: scale, y: scale });
     
-    // yellow hex - scale y only
+    // 黄色六边形 - 仅缩放 y
     yellowHexRef.value.getNode().scaleY(scale);
     
-    // red hex - scale x only
+    // 红色六边形 - 仅缩放 x
     redHexRef.value.getNode().scaleX(scale);
   }, layerRef.value.getNode());
 

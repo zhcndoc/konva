@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Label Tutorial
-sidebar_label: Label
+title: HTML5 画布标签教程
+sidebar_label: 标签
 hide_table_of_contents: true
 slug: /docs/shapes/Label.html
 ---
 
-To create a label with `Konva`, you can use the `Konva.Label()` object.
+要使用 `Konva` 创建一个标签，可以使用 `Konva.Label()` 对象。
 
-For full list of properties and methods, see the [Label API Reference](/api/Konva.Label.html).
+有关属性和方法的完整列表，请参见 [标签 API 参考](/api/Konva.Label.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -25,7 +25,7 @@ const stage = new Konva.Stage({
 
 const layer = new Konva.Layer();
 
-// tooltip pointing down
+// 向下指向的工具提示
 const tooltip = new Konva.Label({
   x: 170,
   y: 75,
@@ -49,7 +49,7 @@ tooltip.add(
 
 tooltip.add(
   new Konva.Text({
-    text: 'Tooltip pointing down',
+    text: '向下指向的工具提示',
     fontFamily: 'Calibri',
     fontSize: 18,
     padding: 5,
@@ -57,7 +57,7 @@ tooltip.add(
   })
 );
 
-// label pointing left
+// 向左指向的标签
 const labelLeft = new Konva.Label({
   x: 20,
   y: 130,
@@ -76,7 +76,7 @@ labelLeft.add(
 
 labelLeft.add(
   new Konva.Text({
-    text: 'Label pointing left',
+    text: '向左指向的标签',
     fontFamily: 'Calibri',
     fontSize: 18,
     padding: 5,
@@ -84,7 +84,7 @@ labelLeft.add(
   })
 );
 
-// simple label
+// 简单标签
 const simpleLabel = new Konva.Label({
   x: 180,
   y: 150,
@@ -99,7 +99,7 @@ simpleLabel.add(
 
 simpleLabel.add(
   new Konva.Text({
-    text: 'Simple label',
+    text: '简单标签',
     fontFamily: 'Calibri',
     fontSize: 18,
     padding: 5,
@@ -119,7 +119,7 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        {/* tooltip pointing down */}
+        {/* 向下指向的工具提示 */}
         <Label x={170} y={75} opacity={0.75}>
           <Tag
             fill="black"
@@ -134,7 +134,7 @@ const App = () => {
             shadowOpacity={0.5}
           />
           <Text
-            text="Tooltip pointing down"
+            text="向下指向的工具提示"
             fontFamily="Calibri"
             fontSize={18}
             padding={5}
@@ -142,7 +142,7 @@ const App = () => {
           />
         </Label>
 
-        {/* label pointing left */}
+        {/* 向左指向的标签 */}
         <Label x={20} y={130} opacity={0.75}>
           <Tag
             fill="green"
@@ -152,7 +152,7 @@ const App = () => {
             lineJoin="round"
           />
           <Text
-            text="Label pointing left"
+            text="向左指向的标签"
             fontFamily="Calibri"
             fontSize={18}
             padding={5}
@@ -160,11 +160,11 @@ const App = () => {
           />
         </Label>
 
-        {/* simple label */}
+        {/* 简单标签 */}
         <Label x={180} y={150} opacity={0.75}>
           <Tag fill="yellow" />
           <Text
-            text="Simple label"
+            text="简单标签"
             fontFamily="Calibri"
             fontSize={18}
             padding={5}
@@ -184,19 +184,19 @@ export default App;
 <template>
   <v-stage :config="stageSize">
     <v-layer>
-      <!-- tooltip pointing down -->
+      <!-- 向下指向的工具提示 -->
       <v-label :config="tooltipConfig">
         <v-tag :config="tooltipTagConfig" />
         <v-text :config="tooltipTextConfig" />
       </v-label>
 
-      <!-- label pointing left -->
+      <!-- 向左指向的标签 -->
       <v-label :config="leftLabelConfig">
         <v-tag :config="leftTagConfig" />
         <v-text :config="leftTextConfig" />
       </v-label>
 
-      <!-- simple label -->
+      <!-- 简单标签 -->
       <v-label :config="simpleLabelConfig">
         <v-tag :config="simpleTagConfig" />
         <v-text :config="simpleTextConfig" />
@@ -211,7 +211,7 @@ const stageSize = {
   height: window.innerHeight
 };
 
-// tooltip pointing down
+// 向下指向的工具提示
 const tooltipConfig = {
   x: 170,
   y: 75,
@@ -232,14 +232,14 @@ const tooltipTagConfig = {
 };
 
 const tooltipTextConfig = {
-  text: 'Tooltip pointing down',
+  text: '向下指向的工具提示',
   fontFamily: 'Calibri',
   fontSize: 18,
   padding: 5,
   fill: 'white'
 };
 
-// label pointing left
+// 向左指向的标签
 const leftLabelConfig = {
   x: 20,
   y: 130,
@@ -255,14 +255,14 @@ const leftTagConfig = {
 };
 
 const leftTextConfig = {
-  text: 'Label pointing left',
+  text: '向左指向的标签',
   fontFamily: 'Calibri',
   fontSize: 18,
   padding: 5,
   fill: 'white'
 };
 
-// simple label
+// 简单标签
 const simpleLabelConfig = {
   x: 180,
   y: 150,
@@ -274,7 +274,7 @@ const simpleTagConfig = {
 };
 
 const simpleTextConfig = {
-  text: 'Simple label',
+  text: '简单标签',
   fontFamily: 'Calibri',
   fontSize: 18,
   padding: 5,
@@ -283,4 +283,4 @@ const simpleTextConfig = {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

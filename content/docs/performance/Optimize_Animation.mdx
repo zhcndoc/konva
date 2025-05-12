@@ -1,19 +1,19 @@
 ---
-title: HTML5 Canvas Optimize Animation Performance Tip
-sidebar_label: Optimize Animation
+title: HTML5 Canvas 动画性能优化技巧
+sidebar_label: 优化动画
 hide_table_of_contents: true
 slug: Optimize_Animation.html
 ---
 
-When creating animations with Konva, it's important to optimize them for better performance.
-Here are some key tips:
+在使用 Konva 创建动画时，优化它们以获得更好的性能非常重要。
+以下是一些关键提示：
 
-1. Use `Konva.Animation` instead of `requestAnimationFrame` directly
-2. Only animate properties that need to change
-3. Consider using shape caching for complex shapes
-4. Minimize the number of nodes being animated
+1. 使用 `Konva.Animation` 而不是直接使用 `requestAnimationFrame`
+2. 仅动画需要变化的属性
+3. 考虑对复杂形状使用形状缓存
+4. 最小化正在动画处理的节点数量
 
-Below is a demo showing optimized animation techniques:
+下面是一个显示优化动画技术的演示：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -32,7 +32,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create a complex star shape
+// 创建复杂的星形
 const star = new Konva.Star({
   x: stage.width() / 2,
   y: stage.height() / 2,
@@ -44,11 +44,11 @@ const star = new Konva.Star({
   strokeWidth: 4,
 });
 
-// Cache the shape for better performance
+// 为了更好的性能缓存形状
 star.cache();
 layer.add(star);
 
-// Create simple circle that doesn't need caching
+// 创建不需要缓存的简单圆形
 const circle = new Konva.Circle({
   x: 100,
   y: 100,
@@ -57,19 +57,19 @@ const circle = new Konva.Circle({
 });
 layer.add(circle);
 
-// Create optimized animation
+// 创建优化的动画
 const anim = new Konva.Animation((frame) => {
-  // Rotate star (cached shape)
+  // 旋转星形（缓存形状）
   star.rotation(frame.time * 0.1);
   
-  // Move circle in a circle pattern
+  // 圆形按圆形轨迹移动
   circle.x(100 + Math.cos(frame.time * 0.002) * 50);
   circle.y(100 + Math.sin(frame.time * 0.002) * 50);
 }, layer);
 
-// Add start/stop button
+// 添加开始/停止按钮
 const button = document.createElement('button');
-button.textContent = 'Toggle Animation';
+button.textContent = '切换动画';
 button.style.position = 'absolute';
 button.style.top = '10px';
 button.style.left = '10px';
@@ -79,10 +79,10 @@ let isPlaying = true;
 button.addEventListener('click', () => {
   if (isPlaying) {
     anim.stop();
-    button.textContent = 'Start Animation';
+    button.textContent = '开始动画';
   } else {
     anim.start();
-    button.textContent = 'Stop Animation';
+    button.textContent = '停止动画';
   }
   isPlaying = !isPlaying;
 });
@@ -102,17 +102,17 @@ const App = () => {
   const animRef = useRef(null);
 
   useEffect(() => {
-    // Cache the star shape for better performance
+    // 缓存星形以获得更好的性能
     if (starRef.current) {
       starRef.current.cache();
     }
 
-    // Create animation
+    // 创建动画
     const anim = new Konva.Animation((frame) => {
-      // Rotate star (cached shape)
+      // 旋转星形（缓存形状）
       starRef.current.rotation(frame.time * 0.1);
       
-      // Move circle in a circle pattern
+      // 圆形按圆形轨迹移动
       circleRef.current.x(100 + Math.cos(frame.time * 0.002) * 50);
       circleRef.current.y(100 + Math.sin(frame.time * 0.002) * 50);
     }, starRef.current.getLayer());
@@ -138,7 +138,7 @@ const App = () => {
         onClick={toggleAnimation}
         style={{ position: 'absolute', top: '10px', left: '10px' }}
       >
-        {isPlaying ? 'Stop Animation' : 'Start Animation'}
+        {isPlaying ? '停止动画' : '开始动画'}
       </button>
       
       <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -178,7 +178,7 @@ export default App;
       @click="toggleAnimation"
       style="position: absolute; top: 10px; left: 10px"
     >
-      {{ isPlaying ? 'Stop Animation' : 'Start Animation' }}
+      {{ isPlaying ? '停止动画' : '开始动画' }}
     </button>
     
     <v-stage :config="stageSize">
@@ -230,15 +230,15 @@ const isPlaying = ref(true);
 let anim = null;
 
 onMounted(() => {
-  // Cache the star shape for better performance
+  // 缓存星形以获得更好的性能
   starRef.value.getNode().cache();
 
-  // Create animation
+  // 创建动画
   anim = new Konva.Animation((frame) => {
-    // Rotate star (cached shape)
+    // 旋转星形（缓存形状）
     starRef.value.getNode().rotation(frame.time * 0.1);
     
-    // Move circle in a circle pattern
+    // 圆形按圆形轨迹移动
     const circle = circleRef.value.getNode();
     circle.x(100 + Math.cos(frame.time * 0.002) * 50);
     circle.y(100 + Math.sin(frame.time * 0.002) * 50);
@@ -264,4 +264,4 @@ const toggleAnimation = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

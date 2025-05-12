@@ -1,13 +1,13 @@
 ---
-title: Drag and drop canvas shapes
-sidebar_label: Drag and Drop
+title: 拖放画布形状
+sidebar_label: 拖放
 hide_table_of_contents: true
 slug: Drag_And_Drop.html
 ---
 
-To enable drag&drop for any node on the canvas you just need to pass the `draggable` property into the component.
+要启用画布上任何节点的拖放功能，您只需将 `draggable` 属性传递给组件。
 
-When you drag&drop a shape it is recommended to save its position into your app store. You can use the `onDragMove` and `onDragEnd` events for that purpose.
+当您拖放一个形状时，建议将其位置保存到您的应用商店中。您可以使用 `onDragMove` 和 `onDragEnd` 事件来实现这一目的。
 
 ```js live react
 import React from 'react';
@@ -24,7 +24,7 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          text="Draggable Text"
+          text="可拖动文本"
           x={position.x}
           y={position.y}
           draggable
@@ -46,4 +46,4 @@ const App = () => {
 };
 
 export default App;
-``` 
+```

@@ -1,21 +1,21 @@
 ---
-title: Fill and stroke order demo
-sidebar_label: Fill and stroke order
+title: 填充与描边顺序演示
+sidebar_label: 填充与描边顺序
 hide_table_of_contents: true
 slug: Fill_Stroke_Order.html
 ---
 
-If a shape has both fill and stroke, by default, `Konva` will draw filling first then stroke on top of it. That is the best behavior for most of the applications.
+如果一个形状同时具有填充和描边，默认情况下，`Konva` 会先绘制填充，然后在其上面绘制描边。对于大多数应用程序来说，这是最佳行为。
 
-## How to draw fill part on top of the stroke?
+## 如何将填充部分绘制在描边之上？
 
-In some rare cases you may need a shape that has stroke first, then a fill on top of it. For that use case you may use [fillAfterStrokeEnabled](https://konvajs.org/api/Konva.Shape.html#fillAfterStrokeEnabled) property.
+在一些罕见的情况下，您可能需要一个先绘制描边，然后在其上绘制填充的形状。对于这种用例，您可以使用 [fillAfterStrokeEnabled](https://konvajs.org/api/Konva.Shape.html#fillAfterStrokeEnabled) 属性。
 
 ```js
 shape.fillAfterStrokeEnabled(true);
 ```
 
-**Instructions:** Take a look into two examples of different fill&stroke order.
+**说明：** 查看两个不同填充和描边顺序的示例。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -35,7 +35,7 @@ const layer = new Konva.Layer();
 stage.add(layer);
 
 const text1 = new Konva.Text({
-  text: 'Default shape rendering.\nfillAfterStrokeEnabled = false',
+  text: '默认形状渲染。\nfillAfterStrokeEnabled = false',
   x: 50,
   y: 50,
   fontSize: 40,
@@ -46,7 +46,7 @@ const text1 = new Konva.Text({
 layer.add(text1);
 
 const text2 = new Konva.Text({
-  text: 'Reversed rendering order.\nfillAfterStrokeEnabled = true',
+  text: '反转的渲染顺序。\nfillAfterStrokeEnabled = true',
   x: 50,
   y: 150,
   fontSize: 40,
@@ -67,7 +67,7 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          text="Default shape rendering.\nfillAfterStrokeEnabled = false"
+          text="默认形状渲染。\nfillAfterStrokeEnabled = false"
           x={50}
           y={50}
           fontSize={40}
@@ -76,7 +76,7 @@ const App = () => {
           strokeWidth={3}
         />
         <Text
-          text="Reversed rendering order.\nfillAfterStrokeEnabled = true"
+          text="反转的渲染顺序。\nfillAfterStrokeEnabled = true"
           x={50}
           y={150}
           fontSize={40}
@@ -111,7 +111,7 @@ const stageSize = {
 };
 
 const textConfig1 = {
-  text: 'Default shape rendering.\nfillAfterStrokeEnabled = false',
+  text: '默认形状渲染。\nfillAfterStrokeEnabled = false',
   x: 50,
   y: 50,
   fontSize: 40,
@@ -121,7 +121,7 @@ const textConfig1 = {
 };
 
 const textConfig2 = {
-  text: 'Reversed rendering order.\nfillAfterStrokeEnabled = true',
+  text: '反转的渲染顺序。\nfillAfterStrokeEnabled = true',
   x: 50,
   y: 150,
   fontSize: 40,

@@ -1,13 +1,12 @@
 ---
-title: HTML5 Canvas Drag and Drop Events
-sidebar_label: Drag Events
+title: HTML5 Canvas 拖放事件
+sidebar_label: 拖放事件
 hide_table_of_contents: true
 slug: Drag_Events.html
 ---
 
-To detect drag and drop events with Konva, we can use the `on()` method to
-bind `dragstart`, `dragmove`, or `dragend` events to a node.
-The `on()` method requires an event type and a function to be executed when the event occurs.
+要使用 Konva 检测拖放事件，我们可以使用 `on()` 方法将 `dragstart`、`dragmove` 或 `dragend` 事件绑定到一个节点。
+`on()` 方法需要一个事件类型和一个在事件发生时执行的函数。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -29,7 +28,7 @@ stage.add(layer);
 const text = new Konva.Text({
   x: 40,
   y: 40,
-  text: 'Draggable Text',
+  text: '可拖动文本',
   fontSize: 20,
   draggable: true,
   width: 200,
@@ -46,15 +45,15 @@ const status = new Konva.Text({
 layer.add(status);
 
 text.on('dragstart', () => {
-  status.text('drag started');
+  status.text('拖动开始');
 });
 
 text.on('dragend', () => {
-  status.text('drag ended');
+  status.text('拖动结束');
 });
 
 text.on('dragmove', () => {
-  status.text('dragging');
+  status.text('拖动中');
 });
 ```
   </TabItem>
@@ -72,13 +71,13 @@ const App = () => {
         <Text
           x={40}
           y={40}
-          text="Draggable Text"
+          text="可拖动文本"
           fontSize={20}
           draggable
           width={200}
-          onDragStart={() => setStatus('drag started')}
-          onDragEnd={() => setStatus('drag ended')}
-          onDragMove={() => setStatus('dragging')}
+          onDragStart={() => setStatus('拖动开始')}
+          onDragEnd={() => setStatus('拖动结束')}
+          onDragMove={() => setStatus('拖动中')}
         />
         <Text
           x={40}
@@ -122,7 +121,7 @@ const stageSize = {
 const textConfig = {
   x: 40,
   y: 40,
-  text: 'Draggable Text',
+  text: '可拖动文本',
   fontSize: 20,
   draggable: true,
   width: 200
@@ -139,17 +138,17 @@ const statusConfig = {
 };
 
 const handleDragStart = () => {
-  status.value = 'drag started';
+  status.value = '拖动开始';
 };
 
 const handleDragEnd = () => {
-  status.value = 'drag ended';
+  status.value = '拖动结束';
 };
 
 const handleDragMove = () => {
-  status.value = 'dragging';
+  status.value = '拖动中';
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

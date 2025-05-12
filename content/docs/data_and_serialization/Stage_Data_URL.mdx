@@ -1,20 +1,15 @@
 ---
-title: HTML5 Canvas to Data URL Tutorial
-sidebar_label: Stage Data URL
+title: HTML5 Canvas 到数据 URL 教程
+sidebar_label: Stage 数据 URL
 hide_table_of_contents: true
 slug: Stage_Data_URL.html
 ---
 
-To get the data URL of the stage with `Konva`, we can use the `toDataURL()`
-method which requires a callback function for `Stage` (for other nodes callback is not required).
-In addition, we can also pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
-We can also get the data URLs of specific nodes, including layers, groups, and shapes.
+要获取用 `Konva` 创建的舞台的数据 URL，我们可以使用 `toDataURL()` 方法，该方法要求为 `Stage` 提供一个回调函数（对于其他节点不需要回调）。此外，我们还可以传入一个 MIME 类型，如 image/jpeg，以及一个介于 0 和 1 之间的质量值。我们还可以获取特定节点的数据 URL，包括图层、组和形状。
 
-*Note: The `toDataURL()` method requires that any images drawn onto the canvas
-are hosted on a web server with the same domain as the code executing it.
-If this condition is not met, a SECURITY_ERR exception is thrown.*
+*注意：`toDataURL()` 方法要求绘制到画布上的任何图像都托管在与执行代码相同域的 web 服务器上。如果未满足此条件，将抛出 SECURITY_ERR 异常。*
 
-**Instructions:** Drag and drop the rectangle and then click on the save button to get the composite data url and open the resulting image in a new window.
+**说明：** 拖动矩形，然后点击保存按钮以获取复合数据 URL，并在新窗口中打开生成的图像。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -33,7 +28,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create draggable rectangle
+// 创建可拖动的矩形
 const rect = new Konva.Rect({
   x: 100,
   y: 100,
@@ -47,20 +42,20 @@ const rect = new Konva.Rect({
 
 layer.add(rect);
 
-// add button
+// 添加按钮
 const button = document.createElement('button');
-button.textContent = 'Save as Image';
+button.textContent = '保存为图像';
 document.body.appendChild(button);
 
 button.addEventListener('click', () => {
-  // get data URL with default settings
+  // 获取默认设置的数据 URL
   const dataURL = stage.toDataURL();
   
-  // open in new window
+  // 在新窗口中打开
   const win = window.open();
   win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
   
-  // you can also save with different settings
+  // 你还可以使用不同的设置进行保存
   const jpegURL = stage.toDataURL({
     mimeType: 'image/jpeg',
     quality: 0.8
@@ -79,14 +74,14 @@ const App = () => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
 
   const handleExport = () => {
-    // get data URL with default settings
+    // 获取默认设置的数据 URL
     const dataURL = stageRef.current.toDataURL();
     
-    // open in new window
+    // 在新窗口中打开
     const win = window.open();
     win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
     
-    // you can also save with different settings
+    // 你还可以使用不同的设置进行保存
     const jpegURL = stageRef.current.toDataURL({
       mimeType: 'image/jpeg',
       quality: 0.8
@@ -104,7 +99,7 @@ const App = () => {
   return (
     <div>
       <button onClick={handleExport} style={{ marginBottom: '10px' }}>
-        Save as Image
+        保存为图像
       </button>
       <Stage width={400} height={400} ref={stageRef}>
         <Layer>
@@ -133,7 +128,7 @@ export default App;
 <template>
   <div>
     <button @click="handleExport" style="margin-bottom: 10px">
-      Save as Image
+      保存为图像
     </button>
     <v-stage ref="stageRef" :config="stageSize">
       <v-layer>
@@ -170,14 +165,14 @@ const rectConfig = ref({
 const stageRef = ref(null);
 
 const handleExport = () => {
-  // get data URL with default settings
+  // 获取默认设置的数据 URL
   const dataURL = stageRef.value.getNode().toDataURL();
   
-  // open in new window
+  // 在新窗口中打开
   const win = window.open();
   win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
   
-  // you can also save with different settings
+  // 你还可以使用不同的设置进行保存
   const jpegURL = stageRef.value.getNode().toDataURL({
     mimeType: 'image/jpeg',
     quality: 0.8
@@ -194,4 +189,4 @@ const handleDragEnd = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

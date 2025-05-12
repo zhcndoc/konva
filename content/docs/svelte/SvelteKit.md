@@ -1,29 +1,29 @@
 ---
-title: How to use svelte-konva with SvelteKit?
+title: 如何在 SvelteKit 中使用 svelte-konva?
 sidebar_label: SvelteKit
 hide_table_of_contents: true
 slug: SvelteKit.html
 ---
 
-Generally, svelte-konva is a client-side only library. When using SvelteKit, special care needs to be taken if svelte-konva/Konva functionality is used on prerendered and server side rendered (SSR) components. Prerendering and SSR happens in a Node.js environment which causes Konva to require the [canvas](https://www.npmjs.com/package/canvas) library as Konva can also be used in Node.js environments. When you use svelte-konva in such conditions you'll likely run into the following error:
+通常情况下，svelte-konva 是一个仅限客户端的库。在使用 SvelteKit 时，如果在预渲染和服务器端渲染 (SSR) 组件中使用 svelte-konva/Konva 功能，需要特别小心。预渲染和 SSR 在 Node.js 环境中发生，这使得 Konva 需要 [canvas](https://www.npmjs.com/package/canvas) 库，因为 Konva 也可以在 Node.js 环境中使用。当你在这种情况下使用 svelte-konva 时，你可能会遇到以下错误：
 
-> Error: Cannot find module 'canvas'
+> 错误：无法找到模块 'canvas'
 
-There are multiple solutions to this problem:
+有多种解决这个问题的方法：
 
-### Installing canvas:
+### 安装 canvas：
 
-Simplest solution is to install canvas:
+最简单的解决方案是安装 canvas：
 
 ```npm
 npm i canvas
 ```
 
-This will satisfy the canvas dependency of Konva and you can use svelte-konva components in prerendered and SSR SvelteKit pages. The solution is a bit messy though, as you now have installed a package you don't really need which adds unnecessary overhead. Alternatively use one of the following solutions:
+这将满足 Konva 的 canvas 依赖，因此你可以在预渲染和 SSR 的 SvelteKit 页面中使用 svelte-konva 组件。不过，这个解决方案有点麻烦，因为你现在安装了一个你并不真正需要的软件包，这会增加不必要的开销。替代地，可以使用以下解决方案之一：
 
-### Dynamically import your svelte-konva stage:
+### 动态导入你的 svelte-konva 画布：
 
-A better approach is to dynamically import your svelte-konva canvas on the client-side only. Suppose you have a Svelte component containing your stage with various svelte-konva components:
+一个更好的方法是在客户端动态导入你的 svelte-konva 画布。假设你有一个包含各种 svelte-konva 组件的 Svelte 组件：
 
 _MyCanvas.svelte_
 
@@ -46,7 +46,7 @@ _MyCanvas.svelte_
 </Stage>
 ```
 
-To use this component inside a SvelteKit prerendered/SSR page you can dynamically import it inside `onMount()` and render it using `<svelte:component>`:
+要在 SvelteKit 的预渲染/SSR 页面中使用此组件，您可以在 `onMount()` 中动态导入它，并使用 `<svelte:component>` 渲染它：
 
 _+page.svelte_
 
@@ -61,44 +61,44 @@ _+page.svelte_
   // let MyCanvas: typeof MyCanvasComponent;
 
   onMount(async () => {
-    // Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
+    // 在 onMount() 中动态导入封装所有 svelte-konva 功能的画布组件
     MyCanvas = (await import('$lib/MyCanvas.svelte')).default;
   });
 </script>
 
 <div>
-  <p>This is my fancy server side rendered (or prerendered) page.</p>
+  <p>这是我的华丽的服务器端渲染（或预渲染）页面。</p>
 
-  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
+  <!-- 使用动态导入的 svelte-konva 画布组件，使用 svelte:component 块，您可以按常规传递任何组件属性 -->
   <svelte:component this={MyCanvas} someProp="SomeString" />
 </div>
 ```
 
-### Dynamically import svelte-konva using vite:
+### 使用 vite 动态导入 svelte-konva：
 
-The [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) allows you to make client-side only imports without needing the manual approach in `onMount()` described above. Please follow the installation instructions in the [README](https://www.npmjs.com/package/vite-plugin-iso-import) then you can dynamically import your component like so:
+[vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) 允许您在不需要手动方法的情况下进行仅限客户端的导入，如上面在 `onMount()` 中所述。请按照 [README](https://www.npmjs.com/package/vite-plugin-iso-import) 中的安装说明进行操作，然后您可以像这样动态导入您的组件：
 
 _+page.svelte_
 
 ```js
 <script>
-  import MyCanvasComponent from '$lib/MyCanvas.svelte?client'; // Client-side only import
+  import MyCanvasComponent from '$lib/MyCanvas.svelte?client'; // 仅限客户端的导入
 
-  // Set component variable to null if page is rendered in SSR, otherwise use client-side only import
+  // 如果页面在 SSR 中渲染，则将组件变量设置为 null，否则使用仅限客户端的导入
   let MyCanvas = import.meta.env.SSR ? null : MyCanvasComponent;
 </script>
 
 <div>
-  <p>This is my fancy server side rendered (or prerendered) page.</p>
+  <p>这是我的华丽的服务器端渲染（或预渲染）页面。</p>
 
-  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
+  <!-- 使用动态导入的 svelte-konva 画布组件，使用 svelte:component 块，您可以按常规传递任何组件属性 -->
   <svelte:component this={MyCanvas} someProp="SomeString" />
 </div>
 ```
 
-Currently vite-plugin-iso-import cannot automatically fix intellisense inside .svelte files with TypeScript. Consult the [README](https://www.npmjs.com/package/vite-plugin-iso-import) for a workaround to this problem. Or have a look at the demo below.
+目前，vite-plugin-iso-import 无法自动修复 TypeScript 中 .svelte 文件的智能提示。请查阅 [README](https://www.npmjs.com/package/vite-plugin-iso-import) 以获得此问题的解决方法。或者查看下面的演示。
 
-**Instructions:** Each page available in this SvelteKit App is rendered differently containing a `svelte-konva` canvas. Both dynamic import approaches are shown. Dynamic loading using `onMount()` on the prerendered page and dynamic loading with [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) on the SSR page. Try to inspect the network requests made on each navigation to understand the different approaches of rendering in SvelteKit.
+**说明：** 该 SvelteKit 应用中的每个页面都以不同的方式呈现，包含一个 `svelte-konva` 画布。展示了两种动态导入方法。在预渲染页面上使用 `onMount()` 动态加载，在 SSR 页面上使用 [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) 动态加载。尝试检查每次导航时所发出的网络请求，以了解 SvelteKit 中不同的渲染方法。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" 

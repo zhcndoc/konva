@@ -1,16 +1,16 @@
 ---
-title: How to draw custom canvas shape with Vue?
-sidebar_label: Custom Shape
+title: 如何用 Vue 绘制自定义画布形状？
+sidebar_label: 自定义形状
 hide_table_of_contents: true
 slug: Custom_Shape.html
 ---
 
-To create a custom shape with `vue-konva`, we should use the `v-shape` component.
+要使用 `vue-konva` 创建自定义形状，我们应该使用 `v-shape` 组件。
 
-When creating a custom shape, we need to define a drawing function that is passed a Konva.Canvas renderer.
-We can use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handles filling, stroking, and applying shadows.
+在创建自定义形状时，我们需要定义一个绘图函数，该函数传递一个 Konva.Canvas 渲染器。
+我们可以使用该渲染器访问 HTML5 Canvas 上下文，并使用特殊方法，如 `context.fillStrokeShape(shape)`，该方法自动处理填充、边框和阴影的应用。
 
-Instructions: The demo shows a custom shape drawn using canvas drawing commands.
+说明：演示展示了使用画布绘图命令绘制的自定义形状。
 
 ```js live vue
 <template>
@@ -28,7 +28,7 @@ Instructions: The demo shows a custom shape drawn using canvas drawing commands.
           context.quadraticCurveTo(width - 110, height - 70, width, height);
           context.closePath();
 
-          // (!) Konva specific method, it is very important
+          // (!) Konva 特有的方法，这非常重要
           context.fillStrokeShape(shape);
         },
         fill: '#00D2FF',

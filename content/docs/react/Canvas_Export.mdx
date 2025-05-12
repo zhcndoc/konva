@@ -1,21 +1,21 @@
 ---
-title: How to export a canvas into an image from react-konva?
-sidebar_label: Canvas Export
+title: 如何从 react-konva 导出画布为图像?
+sidebar_label: 画布导出
 hide_table_of_contents: true
 slug: Canvas_Export.html
 ---
 
-## How to save a drawing from react-konva?
+## 如何保存来自 react-konva 的绘图?
 
-To export any `Konva` node into an image you can either use the [node.toDataURL()](/api/Konva.Node.html#toDataURL) or the [node.toImage()](https://konvajs.org/api/Konva.Node.html#toImage) API. Take a look into the [vanilla Konva image export demo](https://konvajs.org/docs/data_and_serialization/Stage_Data_URL.html).
+要将任何 `Konva` 节点导出为图像，您可以使用 [node.toDataURL()](/api/Konva.Node.html#toDataURL) 或 [node.toImage()](https://konvajs.org/api/Konva.Node.html#toImage) API。请查看 [原生 Konva 图像导出演示](https://konvajs.org/docs/data_and_serialization/Stage_Data_URL.html)。
 
-You will need to use the [Refs API](/docs/react/Access_Konva_Nodes.html) to access a `Konva` node directly in order to call these methods.
+您需要使用 [Refs API](/docs/react/Access_Konva_Nodes.html) 直接访问 `Konva` 节点，以便调用这些方法。
 
 ```js live react
 import React, { Fragment } from 'react';
 import { Stage, Layer, Rect } from 'react-konva';
 
-// function from https://stackoverflow.com/a/15832662/512042
+// 来自 https://stackoverflow.com/a/15832662/512042 的函数
 function downloadURI(uri, name) {
   var link = document.createElement('a');
   link.download = name;
@@ -34,13 +34,13 @@ const App = () => {
   const handleExport = () => {
     const uri = stageRef.current.toDataURL();
     console.log(uri);
-    // we also can save uri as file
+    // 我们还可以将 uri 保存为文件
     downloadURI(uri, 'stage.png');
   };
 
   return (
     <Fragment>
-      <button onClick={handleExport}>Click here to export stage as image</button>
+      <button onClick={handleExport}>点击此处将舞台导出为图像</button>
       <Stage width={width} height={height} ref={stageRef}>
         <Layer>
           <Rect x={0} y={0} width={80} height={80} fill="red" />
@@ -60,4 +60,4 @@ const App = () => {
 };
 
 export default App;
-``` 
+```

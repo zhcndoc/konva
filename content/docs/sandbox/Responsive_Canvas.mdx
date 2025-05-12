@@ -1,17 +1,17 @@
 ---
-title: Responsive Canvas Stage Demo
-sidebar_label: Responsive Canvas
+title: 响应式画布舞台演示
+sidebar_label: 响应式画布
 hide_table_of_contents: true
 slug: Responsive_Canvas.html
 ---
 
-## Do you need responsive/adaptive canvas for your desktop and mobile applications?
+## 您的桌面和移动应用需要响应式/自适应画布吗？
 
-There are many ways to make your canvas stage "responsive", and you may need different behavior for different applications.
+有多种方法可以让您的画布舞台“响应式”，而且不同的应用可能需要不同的行为。
 
-This demo shows the simplest solution: fitting a canvas stage into the user's window with scaling. In this example, we'll focus on adjusting the stage WIDTH. You can add extra logic if you need to fit height too.
+此演示展示了最简单的解决方案：通过缩放将画布舞台适应用户窗口。在此示例中，我们将重点调整舞台宽度。如果需要适应高度，您可以添加额外的逻辑。
 
-**Instructions:** Try resizing your browser window and see how the canvas adapts.
+**说明：** 尝试调整浏览器窗口大小，看看画布如何自适应。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -21,12 +21,12 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Define virtual size for our scene
-// The real size will be different to fit user's page
+// 定义场景的虚拟尺寸
+// 实际尺寸会根据用户页面进行调整
 const sceneWidth = 1000;
 const sceneHeight = 1000;
 
-// Create stage with initial size
+// 创建初始尺寸的舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: sceneWidth,
@@ -36,7 +36,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Add circle in the center
+// 在中心添加圆形
 const circle = new Konva.Circle({
   radius: 50,
   fill: 'red',
@@ -45,7 +45,7 @@ const circle = new Konva.Circle({
 });
 layer.add(circle);
 
-// Add rectangle in bottom right of the stage
+// 在舞台右下角添加矩形
 const rect = new Konva.Rect({
   fill: 'green',
   x: stage.width() - 100,
@@ -55,41 +55,41 @@ const rect = new Konva.Rect({
 });
 layer.add(rect);
 
-// Add some text
+// 添加一些文本
 const text = new Konva.Text({
   x: 20,
   y: 20,
-  text: 'Try resizing your browser window',
+  text: '尝试调整浏览器窗口大小',
   fontSize: 20,
   fontFamily: 'Arial',
   fill: 'black',
 });
 layer.add(text);
 
-// Function to make the stage responsive
+// 使舞台响应式的函数
 function fitStageIntoParentContainer() {
-  // Get the container element
+  // 获取容器元素
   const container = document.getElementById('container');
   
-  // Make the container take up the full width
+  // 让容器宽度占满100%
   container.style.width = '100%';
   
-  // Get current container width
+  // 获取当前容器宽度
   const containerWidth = container.offsetWidth;
   
-  // Calculate scale based on virtual width vs actual width
+  // 根据虚拟宽度与实际宽度计算缩放比例
   const scale = containerWidth / sceneWidth;
   
-  // Set stage dimensions and scale
+  // 设置舞台尺寸和缩放
   stage.width(sceneWidth * scale);
   stage.height(sceneHeight * scale);
   stage.scale({ x: scale, y: scale });
 }
 
-// Initial fit
+// 初次自适应
 fitStageIntoParentContainer();
 
-// Adapt the stage on window resize
+// 窗口大小改变时自适应舞台
 window.addEventListener('resize', fitStageIntoParentContainer);
 ```
   </TabItem>
@@ -99,31 +99,31 @@ import { useState, useEffect, useRef } from 'react';
 import { Stage, Layer, Circle, Rect, Text } from 'react-konva';
 
 const App = () => {
-  // Define virtual size for our scene
+  // 定义场景的虚拟尺寸
   const sceneWidth = 1000;
   const sceneHeight = 1000;
   
-  // State to track current scale and dimensions
+  // 状态用于追踪当前缩放和尺寸
   const [stageSize, setStageSize] = useState({
     width: sceneWidth,
     height: sceneHeight,
     scale: 1
   });
   
-  // Reference to parent container
+  // 父容器引用
   const containerRef = useRef(null);
   
-  // Function to handle resize
+  // 处理调整大小的函数
   const updateSize = () => {
     if (!containerRef.current) return;
     
-    // Get container width
+    // 获取容器宽度
     const containerWidth = containerRef.current.offsetWidth;
     
-    // Calculate scale
+    // 计算缩放比例
     const scale = containerWidth / sceneWidth;
     
-    // Update state with new dimensions
+    // 更新状态，设置新尺寸
     setStageSize({
       width: sceneWidth * scale,
       height: sceneHeight * scale,
@@ -131,7 +131,7 @@ const App = () => {
     });
   };
   
-  // Update on mount and when window resizes
+  // 组件挂载及窗口大小变化时更新尺寸
   useEffect(() => {
     updateSize();
     window.addEventListener('resize', updateSize);
@@ -169,7 +169,7 @@ const App = () => {
           <Text
             x={20}
             y={20}
-            text="Try resizing your browser window"
+            text="尝试调整浏览器窗口大小"
             fontSize={20}
             fontFamily="Arial"
             fill="black"
@@ -217,7 +217,7 @@ export default App;
           :config="{
             x: 20,
             y: 20,
-            text: 'Try resizing your browser window',
+            text: '尝试调整浏览器窗口大小',
             fontSize: 20,
             fontFamily: 'Arial',
             fill: 'black'
@@ -231,40 +231,40 @@ export default App;
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
-// Define virtual size for our scene
+// 定义场景的虚拟尺寸
 const sceneWidth = 1000;
 const sceneHeight = 1000;
 
-// Reactive references
+// 响应式引用
 const containerRef = ref(null);
 const scale = ref(1);
 
-// Computed properties for stage dimensions
+// 计算舞台尺寸
 const stageWidth = computed(() => sceneWidth * scale.value);
 const stageHeight = computed(() => sceneHeight * scale.value);
 
-// Function to handle resize
+// 处理调整大小的函数
 const updateSize = () => {
   if (!containerRef.value) return;
   
-  // Get container width
+  // 获取容器宽度
   const containerWidth = containerRef.value.offsetWidth;
   
-  // Calculate scale
+  // 计算缩放比例
   scale.value = containerWidth / sceneWidth;
 };
 
-// Add event listeners
+// 添加事件监听
 onMounted(() => {
   updateSize();
   window.addEventListener('resize', updateSize);
 });
 
-// Clean up
+// 清理监听器
 onUnmounted(() => {
   window.removeEventListener('resize', updateSize);
 });
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

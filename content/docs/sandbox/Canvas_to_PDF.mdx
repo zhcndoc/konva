@@ -1,46 +1,46 @@
 ---
-title: How to convert canvas to pdf
-sidebar_label: Canvas to PDF
+title: 如何将画布转换为 PDF
+sidebar_label: 画布转 PDF
 hide_table_of_contents: true
 slug: Canvas_to_PDF.html
 ---
 
-## Do you want to save Konva stage into a PDF file?
+## 你想将 Konva 阶段保存为 PDF 文件吗？
 
-PDF is a complicated format. So we have to use an external library such as [jsPDF](https://parall.ax/products/jspdf).
+PDF 是一种复杂的格式。因此，我们需要使用一个外部库，如 [jsPDF](https://parall.ax/products/jspdf)。
 
-The idea of saving canvas to pdf is simple:
+将画布保存为PDF的思路很简单：
 
-1. Generate canvas content
-2. Export canvas into the image
-3. Add image into PDF document created with the PDF library
-4. Save PDF file
+1. 生成画布内容
+2. 将画布导出为图像
+3. 将图像添加到使用PDF库创建的PDF文档中
+4. 保存PDF文件
 
-Also I have two tips for you:
+我还有两个小提示：
 
-1. Thanks to [High quality Exports](/docs/data_and_serialization/High-Quality-Export.html), you can increase the quality of a PDF using `pixelRatio` attribute when you are converting a node into the image.
+1. 借助于 [高质量导出](/docs/data_and_serialization/High-Quality-Export.html)，你可以在将节点转换为图像时使用 `pixelRatio` 属性来提高 PDF 的质量。
 
-2. It is possible to make a text selectable in the PDF. Even if we are adding the canvas into the PDF as an image, we can insert texts manually. That is not trivial and it can be difficult if you have complex styles. Also text rendering on PDF is different from the text rendering with `Konva`. But we can try to make it as close as possible. For the demo, we will draw "hidden" text inside PDF file. The text will be places under the image, so it is no visible. But it is still selectable. As a demo of "complex styles" I will blur the text.
+2. 可以使文本在 PDF 中可选择。即使我们将画布作为图像添加到 PDF 中，我们也可以手动插入文本。那并不简单，如果你有复杂样式可能会很困难。此外，PDF 上的文本渲染与 `Konva` 的文本渲染不同。但是我们可以尽量使之接近。为了演示，我们将在 PDF 文件中绘制“隐藏”的文本。文本将放置在图像下方，因此不会可见。但它仍然是可选择的。作为“复杂样式”的演示，我将模糊文本。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**Instructions: take a look into the canvas. Then try to save it as PDF.**
+**说明：查看画布。然后尝试将其保存为 PDF。**
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// Create a button for PDF export
+// 创建用于 PDF 导出的按钮
 const saveButton = document.createElement('button');
-saveButton.textContent = 'Save as PDF';
+saveButton.textContent = '保存为 PDF';
 saveButton.style.position = 'absolute';
 saveButton.style.top = '5px';
 saveButton.style.left = '5px';
 document.body.appendChild(saveButton);
 
-// Create a stage
+// 创建舞台
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -53,7 +53,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Add background
+// 添加背景
 const back = new Konva.Rect({
   width: stage.width(),
   height: stage.height(),
@@ -61,9 +61,9 @@ const back = new Konva.Rect({
 });
 layer.add(back);
 
-// Add text with blur effect
+// 添加带模糊效果的文本
 const text = new Konva.Text({
-  text: 'This is the Darth Vader',
+  text: '这是达斯·维达',
   x: 15,
   y: 40,
   rotation: -10,
@@ -74,7 +74,7 @@ const text = new Konva.Text({
 text.cache();
 layer.add(text);
 
-// Add arrow
+// 添加箭头
 const arrow = new Konva.Arrow({
   points: [70, 50, 100, 80, 150, 100, 190, 100],
   tension: 0.5,
@@ -83,7 +83,7 @@ const arrow = new Konva.Arrow({
 });
 layer.add(arrow);
 
-// Add image
+// 添加图像
 const imageUrl = 'https://konvajs.org/assets/darth-vader.jpg';
 Konva.Image.fromURL(
   imageUrl,
@@ -97,20 +97,20 @@ Konva.Image.fromURL(
     layer.add(darthNode);
   },
   function () {
-    console.error('Failed to load image');
+    console.error('加载图像失败');
   }
 );
 
-// Handle PDF export
+// 处理 PDF 导出
 saveButton.addEventListener('click', function () {
-  // We need to check if jsPDF is loaded
+  // 我们需要检查 jsPDF 是否已加载
   if (typeof jsPDF !== 'undefined') {
     const pdf = new jsPDF('l', 'px', [stage.width(), stage.height()]);
     pdf.setTextColor('#000000');
     
-    // First add texts
+    // 首先添加文本
     stage.find('Text').forEach((text) => {
-      const size = text.fontSize() / 0.75; // convert pixels to points
+      const size = text.fontSize() / 0.75; // 将像素转换为点
       pdf.setFontSize(size);
       pdf.text(text.text(), text.x(), text.y(), {
         baseline: 'top',
@@ -118,7 +118,7 @@ saveButton.addEventListener('click', function () {
       });
     });
 
-    // Then put image on top of texts (so texts are not visible)
+    // 然后在文本上绘制图像（使文本不可见）
     pdf.addImage(
       stage.toDataURL({ pixelRatio: 2 }),
       0,
@@ -129,12 +129,12 @@ saveButton.addEventListener('click', function () {
 
     pdf.save('canvas.pdf');
   } else {
-    console.error('jsPDF library is not loaded. Please include it in your project.');
-    alert('jsPDF library is not loaded. In a real project, you need to include it.');
+    console.error('jsPDF 库未加载。请将其包含在你的项目中。');
+    alert('jsPDF 库未加载。在真实项目中，你需要将其包含进来。');
   }
 });
 
-// Add jsPDF library dynamically for demo purposes
+// 动态加载 jsPDF 库以供演示
 const script = document.createElement('script');
 script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js';
 script.integrity = 'sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/';
@@ -154,7 +154,7 @@ const App = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
   
-  // Load jsPDF library dynamically
+  // 动态加载 jsPDF 库
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js';
@@ -167,16 +167,16 @@ const App = () => {
     };
   }, []);
   
-  // Handle PDF export
+  // 处理 PDF 导出
   const handleExport = () => {
     if (stageRef.current && typeof window.jsPDF !== 'undefined') {
       const stage = stageRef.current;
       const pdf = new window.jsPDF('l', 'px', [width, height]);
       pdf.setTextColor('#000000');
       
-      // First add texts
+      // 首先添加文本
       stage.find('Text').forEach((text) => {
-        const size = text.fontSize() / 0.75; // convert pixels to points
+        const size = text.fontSize() / 0.75; // 将像素转换为点
         pdf.setFontSize(size);
         pdf.text(text.text(), text.x(), text.y(), {
           baseline: 'top',
@@ -184,7 +184,7 @@ const App = () => {
         });
       });
 
-      // Then put image on top of texts (so texts are not visible)
+      // 然后在文本上绘制图像（使文本不可见）
       pdf.addImage(
         stage.toDataURL({ pixelRatio: 2 }),
         0,
@@ -195,8 +195,8 @@ const App = () => {
 
       pdf.save('canvas.pdf');
     } else {
-      console.error('jsPDF library is not loaded or stage is not available');
-      alert('jsPDF library is not loaded. In a real project, you need to include it.');
+      console.error('jsPDF 库未加载或舞台不可用');
+      alert('jsPDF 库未加载。在真实项目中，你需要将其包含进来。');
     }
   };
   
@@ -206,7 +206,7 @@ const App = () => {
         style={{ position: 'absolute', top: '5px', left: '5px', zIndex: 10 }}
         onClick={handleExport}
       >
-        Save as PDF
+        保存为 PDF
       </button>
       
       <Stage width={width} height={height} ref={stageRef}>
@@ -218,7 +218,7 @@ const App = () => {
           />
           
           <Text
-            text="This is the Darth Vader"
+            text="这是达斯·维达"
             x={15}
             y={40}
             rotation={-10}
@@ -260,7 +260,7 @@ export default App;
       style="position: absolute; top: 5px; left: 5px; z-index: 10"
       @click="handleExport"
     >
-      Save as PDF
+      保存为 PDF
     </button>
     
     <v-stage ref="stageRef" :config="stageConfig">
@@ -291,22 +291,22 @@ const [darthVaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg',
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// Stage configuration
+// 舞台配置
 const stageConfig = {
   width,
   height
 };
 
-// Background configuration
+// 背景配置
 const backgroundConfig = {
   width,
   height,
   fill: 'rgba(200, 200, 200)'
 };
 
-// Text configuration
+// 文本配置
 const textConfig = {
-  text: 'This is the Darth Vader',
+  text: '这是达斯·维达',
   x: 15,
   y: 40,
   rotation: -10,
@@ -315,7 +315,7 @@ const textConfig = {
   blurRadius: 4
 };
 
-// Arrow configuration
+// 箭头配置
 const arrowConfig = {
   points: [70, 50, 100, 80, 150, 100, 190, 100],
   tension: 0.5,
@@ -323,7 +323,7 @@ const arrowConfig = {
   fill: 'black'
 };
 
-// Image configuration
+// 图像配置
 const imageConfig = computed(() => ({
   image: darthVaderImage.value,
   x: 200,
@@ -332,39 +332,39 @@ const imageConfig = computed(() => ({
   scaleY: 0.5
 }));
 
-// Load jsPDF library
+// 加载 jsPDF 库
 onMounted(() => {
-  // Load jsPDF library
+  // 加载 jsPDF 库
   const script = document.createElement('script');
   script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js';
   script.integrity = 'sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/';
   script.crossOrigin = 'anonymous';
   document.head.appendChild(script);
   
-  // Cache text for blur filter to work
+  // 缓存文本以便模糊过滤器工作
   if (textRef.value) {
     textRef.value.getNode().cache();
   }
 });
 
 onUnmounted(() => {
-  // Cleanup script
+  // 清理脚本
   const script = document.querySelector('script[src*="jspdf"]');
   if (script) {
     document.head.removeChild(script);
   }
 });
 
-// Handle PDF export
+// 处理 PDF 导出
 const handleExport = () => {
   if (stageRef.value && typeof window.jsPDF !== 'undefined') {
     const stage = stageRef.value.getNode();
     const pdf = new window.jsPDF('l', 'px', [width, height]);
     pdf.setTextColor('#000000');
     
-    // First add texts
+    // 首先添加文本
     stage.find('Text').forEach((text) => {
-      const size = text.fontSize() / 0.75; // convert pixels to points
+      const size = text.fontSize() / 0.75; // 将像素转换为点
       pdf.setFontSize(size);
       pdf.text(text.text(), text.x(), text.y(), {
         baseline: 'top',
@@ -372,7 +372,7 @@ const handleExport = () => {
       });
     });
 
-    // Then put image on top of texts (so texts are not visible)
+    // 然后在文本上绘制图像（使文本不可见）
     pdf.addImage(
       stage.toDataURL({ pixelRatio: 2 }),
       0,
@@ -383,8 +383,8 @@ const handleExport = () => {
 
     pdf.save('canvas.pdf');
   } else {
-    console.error('jsPDF library is not loaded or stage is not available');
-    alert('jsPDF library is not loaded. In a real project, you need to include it.');
+    console.error('jsPDF 库未加载或舞台不可用');
+    alert('jsPDF 库未加载。在真实项目中，你需要将其包含进来。');
   }
 };
 </script> 

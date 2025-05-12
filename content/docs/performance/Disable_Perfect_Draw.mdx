@@ -1,31 +1,31 @@
 ---
-title: HTML5 Canvas Disable Perfect Drawing Tip
-sidebar_label: Disable Perfect Draw
+title: HTML5 Canvas 禁用完美绘制提示
+sidebar_label: 禁用完美绘制
 hide_table_of_contents: true
 slug: Disable_Perfect_Draw.html
 ---
 
-In some cases drawing on canvas has unexpected results.
-For example, let's draw a shape with fill, stroke and opacity.
-As strokes are drawn on top of fill, there's a line of half the size of the stroke inside the shape which is darker
-because it's the intersection of the fill and the stroke.
+在某些情况下，在画布上绘图可能会出现意想不到的效果。
+例如，让我们绘制一个带有填充、描边和不透明度的形状。
+由于描边在填充之上绘制，形状内部会出现一条描边宽度一半的线条，这是较深的颜色
+因为这是填充和描边的交集部分。
 
-Probably that is not expected for you. So `Konva` fixes such behavior with using buffer canvas.
+这可能不是你所期望的。因此，`Konva` 使用缓冲画布来修正此类行为。
 
-In this case `Konva` is doing these steps:
+在这种情况下，`Konva` 会执行以下步骤：
 
-1. Draw shape on buffer canvas
-2. Fill and stroke it WITHOUT opacity
-3. Apply opacity on layer's canvas
-4. Then draw on layer canvas result from buffer
+1. 在缓冲画布上绘制形状
+2. 在不应用不透明度的情况下填充和描边
+3. 在图层画布上应用不透明度
+4. 最后在图层画布上绘制缓冲画布的结果
 
-But using buffer canvas might drop performance. So you can disable such fixing:
+但使用缓冲画布可能会降低性能。因此，你可以禁用此类修正：
 
 ```javascript
 shape.perfectDrawEnabled(false);
 ```
 
-See difference here:
+如下图所示的效果差异：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -44,7 +44,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// With perfect drawing (default)
+// 使用完美绘制（默认）
 const perfectCircle = new Konva.Circle({
   x: 100,
   y: 100,
@@ -55,7 +55,7 @@ const perfectCircle = new Konva.Circle({
   opacity: 0.5,
 });
 
-// Without perfect drawing
+// 不使用完美绘制
 const nonPerfectCircle = new Konva.Circle({
   x: 250,
   y: 100,
@@ -67,18 +67,18 @@ const nonPerfectCircle = new Konva.Circle({
   perfectDrawEnabled: false,
 });
 
-// Add labels
+// 添加标签
 const perfectLabel = new Konva.Text({
   x: 50,
   y: 170,
-  text: 'Perfect Drawing',
+  text: '完美绘制',
   fontSize: 16,
 });
 
 const nonPerfectLabel = new Konva.Text({
   x: 200,
   y: 170,
-  text: 'Perfect Drawing Disabled',
+  text: '禁用完美绘制',
   fontSize: 16,
 });
 
@@ -96,7 +96,7 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        {/* With perfect drawing (default) */}
+        {/* 使用完美绘制（默认） */}
         <Circle
           x={100}
           y={100}
@@ -107,7 +107,7 @@ const App = () => {
           opacity={0.5}
         />
         
-        {/* Without perfect drawing */}
+        {/* 不使用完美绘制 */}
         <Circle
           x={250}
           y={100}
@@ -119,17 +119,17 @@ const App = () => {
           perfectDrawEnabled={false}
         />
         
-        {/* Labels */}
+        {/* 标签 */}
         <Text
           x={50}
           y={170}
-          text="Perfect Drawing"
+          text="完美绘制"
           fontSize={16}
         />
         <Text
           x={200}
           y={170}
-          text="Perfect Drawing Disabled"
+          text="禁用完美绘制"
           fontSize={16}
         />
       </Layer>
@@ -145,13 +145,13 @@ export default App;
 <template>
   <v-stage :config="stageSize">
     <v-layer>
-      <!-- With perfect drawing (default) -->
+      <!-- 使用完美绘制（默认） -->
       <v-circle :config="perfectCircleConfig" />
       
-      <!-- Without perfect drawing -->
+      <!-- 不使用完美绘制 -->
       <v-circle :config="nonPerfectCircleConfig" />
       
-      <!-- Labels -->
+      <!-- 标签 -->
       <v-text :config="perfectLabelConfig" />
       <v-text :config="nonPerfectLabelConfig" />
     </v-layer>
@@ -190,17 +190,17 @@ const nonPerfectCircleConfig = {
 const perfectLabelConfig = {
   x: 50,
   y: 170,
-  text: 'Perfect Drawing',
+  text: '完美绘制',
   fontSize: 16
 };
 
 const nonPerfectLabelConfig = {
   x: 200,
   y: 170,
-  text: 'Perfect Drawing Disabled',
+  text: '禁用完美绘制',
   fontSize: 16
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

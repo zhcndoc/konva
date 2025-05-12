@@ -1,23 +1,23 @@
 ---
-title: How to preview large stage on canvas with Konva?
-sidebar_label: Stage Preview
+title: 如何使用 Konva 在画布上预览大舞台？
+sidebar_label: 舞台预览
 hide_table_of_contents: true
 slug: Stage_Preview.html
 ---
 
-## Need to generate a small preview of the canvas?
+## 需要生成画布的小预览吗？
 
-There are many ways to generate small preview. `Konva` doesn't provide any methods to do this automatically.
-But we can use `Konva` methods to generate preview area manually.
+生成小预览的方法有很多种。`Konva` 并没有提供任何自动执行此操作的方法。
+但我们可以使用 `Konva` 的方法手动生成预览区域。
 
-We will show two options - cloning and using images. In large applications it is better to generate preview from the state of the app.
+我们将展示两种选项 - 克隆和使用图像。在大型应用程序中，从应用的状态生成预览更为合适。
 
-### Clone nodes from the main stage
+### 从主舞台克隆节点
 
-So we can just clone the stage or the layer and update its internal nodes from the state of the main canvas area.
-Also it will make sense to simplify shapes on the preview. Like hide texts, remove strokes and shadows, etc.
+我们可以简单地克隆舞台或图层，并从主画布区域的状态更新其内部节点。
+同时，简化预览上的形状也是有意义的。比如隐藏文本，去掉轮廓和阴影等。
 
-Instructions: Try to drag circles and double-click to add new ones. The preview will update after you finish dragging (dragend) or add a new shape.
+说明：尝试拖动圆形，双击以添加新的圆形。预览将在您完成拖动（dragend）或添加新形状后更新。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,7 +27,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Create preview container
+// 创建预览容器
 const preview = document.createElement('div');
 preview.id = 'preview';
 preview.style.position = 'absolute';
@@ -46,7 +46,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// generate random shapes
+// 生成随机形状
 for (let i = 0; i < 10; i++) {
   const shape = new Konva.Circle({
     x: Math.random() * stage.width(),
@@ -54,14 +54,14 @@ for (let i = 0; i < 10; i++) {
     radius: Math.random() * 30 + 5,
     fill: Konva.Util.getRandomColor(),
     draggable: true,
-    // each shape MUST have unique name
-    // so we can easily update the preview clone by name
+    // 每个形状必须具有唯一名称
+    // 这样我们可以通过名称轻松更新预览克隆
     name: 'shape-' + i,
   });
   layer.add(shape);
 }
 
-// create smaller preview stage
+// 创建较小的预览舞台
 const previewStage = new Konva.Stage({
   container: 'preview',
   width: window.innerWidth / 4,
@@ -70,23 +70,23 @@ const previewStage = new Konva.Stage({
   scaleY: 1 / 4,
 });
 
-// clone original layer, and disable all events on it
+// 克隆原始图层，并禁用其所有事件
 let previewLayer = layer.clone({ listening: false });
 previewStage.add(previewLayer);
 
 function updatePreview() {
-  // we just need to update ALL nodes in the preview
+  // 我们只需要更新预览中的所有节点
   layer.children.forEach((shape) => {
-    // find cloned node
+    // 找到克隆节点
     const clone = previewLayer.findOne('.' + shape.name());
-    // update its position from the original
+    // 更新其位置
     clone.position(shape.position());
   });
 }
 
 stage.on('dragmove', updatePreview);
 
-// add new shapes on double click or double tap
+// 双击或双击以添加新形状
 stage.on('dblclick dbltap', () => {
   const shape = new Konva.Circle({
     x: stage.getPointerPosition().x,
@@ -98,9 +98,9 @@ stage.on('dblclick dbltap', () => {
   });
   layer.add(shape);
 
-  // remove all layer
+  // 移除所有图层
   previewLayer.destroy();
-  // generate new one
+  // 生成新的
   previewLayer = layer.clone({ listening: false });
   previewStage.add(previewLayer);
 });
@@ -301,17 +301,17 @@ const handleDblClick = (e) => {
   </TabItem>
 </Tabs>
 
-### Use image preview
+### 使用图像预览
 
-Or we can export the stage to an image and use it as a preview.
-For performance reasons we are not updating the preview on every `dragmove` events.
+或者我们可以将舞台导出为图像并将其用作预览。
+出于性能原因，我们并不会在每次 `dragmove` 事件时更新预览。
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// Create preview container
+// 创建预览容器
 const preview = document.createElement('img');
 preview.id = 'preview';
 preview.style.position = 'absolute';
@@ -330,7 +330,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// generate random shapes
+// 生成随机形状
 for (let i = 0; i < 10; i++) {
   const shape = new Konva.Circle({
     x: Math.random() * stage.width(),
@@ -345,15 +345,15 @@ for (let i = 0; i < 10; i++) {
 
 function updatePreview() {
   const scale = 1 / 4;
-  // use pixelRatio to generate smaller preview
+  // 使用像素比率生成较小的预览
   const url = stage.toDataURL({ pixelRatio: scale });
   preview.src = url;
 }
 
-// update preview only on dragend for performance
+// 仅在拖动结束时更新预览以提高性能
 stage.on('dragend', updatePreview);
 
-// add new shapes on double click or double tap
+// 双击或双击以添加新形状
 stage.on('dblclick dbltap', () => {
   const shape = new Konva.Circle({
     x: stage.getPointerPosition().x,
@@ -367,7 +367,7 @@ stage.on('dblclick dbltap', () => {
   updatePreview();
 });
 
-// show initial preview
+// 显示初始预览
 updatePreview();
 ```
   </TabItem>
@@ -565,4 +565,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-

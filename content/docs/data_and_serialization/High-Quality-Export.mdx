@@ -1,29 +1,29 @@
 ---
-title: HTML5 Canvas Export to High Quality Image Tutorial
-sidebar_label: High Quality Export
+title: HTML5 Canvas 导出高质量图像教程
+sidebar_label: 高质量导出
 hide_table_of_contents: true
 slug: High-Quality-Export.html
 ---
 
-If you need to export a stage as an image or as base64 then you can use the `stage.toDataURL()` or `stage.toImage()` methods.
+如果你需要将一个舞台导出为图像或 base64，你可以使用 `stage.toDataURL()` 或 `stage.toImage()` 方法。
 
-By default in `Konva`, exported images have the `pixelRatio` attribute set to `1`. This means that if you export a stage with a size of `500x500`, then the exported image will have the same size of `500x500`.
+在 `Konva` 中，导出的图像默认的 `pixelRatio` 属性设置为 `1`。这意味着如果你导出一个大小为 `500x500` 的舞台，那么导出的图像将具有相同的大小 `500x500`。
 
-In some cases you may want to export an image that is more suited to higher (or even smaller) resolutions. For instance, you may wish to export something as an image and then use that image on a canvas on HDPI devices (with a high pixel ratio, like a retina display). Another scenario may be that you need to export a user's drawing onto a computer running a high resolution.
+在某些情况下，你可能想要导出更适合更高（甚至更小）分辨率的图像。例如，你可能希望将某个内容导出为图像，然后在 HDPI 设备（具有高像素比，例如视网膜显示屏）上的画布中使用该图像。另一种情况可能是你需要将用户的绘图导出到运行高分辨率的计算机上。
 
-If you were to do this with the default settings, then you would see a blurred image. You can read more about the global `pixelRatio` attribute here [MDN - devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio). 
+如果你使用默认设置进行此操作，那么你会看到模糊的图像。你可以在这里阅读有关全局 `pixelRatio` 属性的更多信息 [MDN - devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio)。
 
-For both of these use cases, you can use:
+对于这两种用例，你可以使用：
 
 ```javascript
 stage.toDataURL({
-  pixelRatio: 2 // or other value you need
+  pixelRatio: 2 // 或其他你需要的值
 })
 ```
 
-Now, a stage with a size of `500x500` would be exported as an image with a size of `1000x1000`. Almost all nodes in `Konva` are stored as vector data, apart from bitmap images and cached nodes. This results in a high quality exported image.
+现在，大小为 `500x500` 的舞台将导出为大小为 `1000x1000` 的图像。`Konva` 中几乎所有的节点都存储为矢量数据，位图图像和缓存节点除外。这导致导出的图像质量高。
 
-**Instructions:** try to save stage as an image. You will see that it has a high resolution.
+**说明:** 尝试将舞台保存为图像。你会看到它具有高分辨率。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -42,7 +42,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create some shapes
+// 创建一些形状
 const circle = new Konva.Circle({
   x: 200,
   y: 200,
@@ -55,7 +55,7 @@ const circle = new Konva.Circle({
 const text = new Konva.Text({
   x: 150,
   y: 190,
-  text: 'High Quality Export',
+  text: '高质量导出',
   fontSize: 20,
   fill: 'white'
 });
@@ -63,18 +63,18 @@ const text = new Konva.Text({
 layer.add(circle);
 layer.add(text);
 
-// add button
+// 添加按钮
 const button = document.createElement('button');
-button.textContent = 'Save as High Quality Image';
+button.textContent = '保存为高质量图像';
 document.body.appendChild(button);
 
 button.addEventListener('click', () => {
-  // save stage as a high quality image
+  // 将舞台保存为高质量图像
   const dataURL = stage.toDataURL({
-    pixelRatio: 2 // double resolution
+    pixelRatio: 2 // 双倍分辨率
   });
   
-  // create link to download
+  // 创建下载链接
   const link = document.createElement('a');
   link.download = 'stage.png';
   link.href = dataURL;
@@ -94,7 +94,7 @@ const App = () => {
 
   const handleExport = () => {
     const dataURL = stageRef.current.toDataURL({
-      pixelRatio: 2 // double resolution
+      pixelRatio: 2 // 双倍分辨率
     });
     
     const link = document.createElement('a');
@@ -108,7 +108,7 @@ const App = () => {
   return (
     <div>
       <button onClick={handleExport} style={{ marginBottom: '10px' }}>
-        Save as High Quality Image
+        保存为高质量图像
       </button>
       <Stage width={400} height={400} ref={stageRef}>
         <Layer>
@@ -123,7 +123,7 @@ const App = () => {
           <Text
             x={150}
             y={190}
-            text="High Quality Export"
+            text="高质量导出"
             fontSize={20}
             fill="white"
           />
@@ -141,7 +141,7 @@ export default App;
 <template>
   <div>
     <button @click="handleExport" style="margin-bottom: 10px">
-      Save as High Quality Image
+      保存为高质量图像
     </button>
     <v-stage ref="stageRef" :config="stageSize">
       <v-layer>
@@ -172,7 +172,7 @@ const circleConfig = {
 const textConfig = {
   x: 150,
   y: 190,
-  text: 'High Quality Export',
+  text: '高质量导出',
   fontSize: 20,
   fill: 'white'
 };
@@ -181,7 +181,7 @@ const stageRef = ref(null);
 
 const handleExport = () => {
   const dataURL = stageRef.value.getNode().toDataURL({
-    pixelRatio: 2 // double resolution
+    pixelRatio: 2 // 双倍分辨率
   });
   
   const link = document.createElement('a');
@@ -194,4 +194,4 @@ const handleExport = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

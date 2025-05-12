@@ -1,19 +1,19 @@
 ---
-title: How to flip shapes or image on canvas?
+title: 如何在画布上翻转形状或图像？
 layout: demo_page
 hide_table_of_contents: true
 slug: Mirror_Canvas_Shape.html
 ---
 
-## Is it possible mirror shapes vertically or horizontally?
+## 有可能垂直或水平翻转形状吗？
 
-To flip any node with `Konva` you can use negative `scaleX` to flip it horizontally or `scaleY` to flip it vertically.
+要翻转任何节点，您可以使用负的 `scaleX` 来水平翻转，或使用 `scaleY` 来垂直翻转。
 
-Remember that `scale` properties are working relative to origin of a node. For example for rectangle it will be top-left corner, for circle it will be its center. If you want to change origin of a node you can use `offsetX` and `offsetY` properties. To better understanding origin and offset, take a look into [Position vs Offset post](/docs/posts/Position_vs_Offset.html).
+请记住，`scale` 属性是相对于节点的原点工作的。例如，对于矩形，其原点是左上角；对于圆形，其原点是中心。如果您想更改节点的原点，可以使用 `offsetX` 和 `offsetY` 属性。为了更好地理解原点和偏移，您可以查看 [位置与偏移帖子](/docs/posts/Position_vs_Offset.html)。
 
-Depending on your use case, you may need to manually change `{x, y}` properties of the node to keep it on its original position after the scale.
+根据您的使用案例，您可能需要手动更改节点的 `{x, y}` 属性，以在缩放后保持其原始位置。
 
-**Instructions: click on flip button, see how they are mirrored.**
+**操作说明：点击翻转按钮，查看它们是如何被镜像的。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -38,25 +38,25 @@ stage.add(layer);
 var text1 = new Konva.Text({
   x: 180,
   y: 50,
-  text: 'Default text with no offset. Its origin is in top left corner.',
+  text: '没有偏移的默认文本。它的原点在左上角。',
   align: 'center',
   width: 200,
 });
 layer.add(text1);
 
 var text2 = new Konva.Text({
-  text: 'Text with the origin in its center',
+  text: '原点在中心的文本',
   width: 200,
   align: 'center',
   y: 100,
   x: 270,
 });
 layer.add(text2);
-// set horizontal origin in the center of the text
+// 设置文本的水平原点在中心
 text2.offsetX(text2.width() / 2);
 
 var button = document.createElement('button');
-button.innerText = 'Flip horizontally';
+button.innerText = '水平翻转';
 button.style.position = 'absolute';
 button.style.top = '5px';
 button.style.left = '5px';
@@ -80,7 +80,7 @@ const App = () => {
   const [texts, setTexts] = useState([
     {
       id: 1,
-      text: 'Default text with no offset. Its origin is in top left corner.',
+      text: '没有偏移的默认文本。它的原点在左上角。',
       x: 180,
       y: 50,
       width: 200,
@@ -90,13 +90,13 @@ const App = () => {
     },
     {
       id: 2,
-      text: 'Text with the origin in its center',
+      text: '原点在中心的文本',
       x: 270,
       y: 100,
       width: 200,
       align: 'center',
       scaleX: 1,
-      offsetX: 100 // Half of the width to center it
+      offsetX: 100 // 一半的宽度以居中
     }
   ]);
 
@@ -134,7 +134,7 @@ const App = () => {
           left: '5px'
         }}
       >
-        Flip horizontally
+        水平翻转
       </button>
     </div>
   );
@@ -160,7 +160,7 @@ export default App;
       @click="handleFlip"
       style="position: absolute; top: 5px; left: 5px;"
     >
-      Flip horizontally
+      水平翻转
     </button>
   </div>
 </template>
@@ -176,7 +176,7 @@ const stageConfig = {
 const texts = ref([
   {
     id: 1,
-    text: 'Default text with no offset. Its origin is in top left corner.',
+    text: '没有偏移的默认文本。它的原点在左上角。',
     x: 180,
     y: 50,
     width: 200,
@@ -186,13 +186,13 @@ const texts = ref([
   },
   {
     id: 2,
-    text: 'Text with the origin in its center',
+    text: '原点在中心的文本',
     x: 270,
     y: 100,
     width: 200,
     align: 'center',
     scaleX: 1,
-    offsetX: 100 // Half of the width to center it
+    offsetX: 100 // 一半的宽度以居中
   }
 ]);
 

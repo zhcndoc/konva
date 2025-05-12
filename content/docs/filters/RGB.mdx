@@ -1,18 +1,17 @@
 ---
-title: HTML5 Canvas RGB filter Image Tutorial
+title: HTML5 Canvas RGB过滤图片教程
 sidebar_label: RGB
 hide_table_of_contents: true
 slug: RGB.html
 ---
 
-To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
-function. Then apply filter with `filters()` function.
+要对`Konva.Image`应用滤镜，必须先使用`cache()`函数进行缓存。然后再用`filters()`函数应用滤镜。
 
-To change rgb components of an image with Konva, we can use the `Konva.Filters.RGB`.
+用Konva更改图片的RGB分量，可以使用`Konva.Filters.RGB`。
 
-**Instructions**: Slide the controls to change RGB values.
+**说明**：通过滑动控件来改变RGB值。
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+所有可用滤镜详见【滤镜文档】(/api/Konva.Filters.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -48,16 +47,16 @@ imageObj.onload = () => {
   image.green(100);
   image.blue(100);
 
-  // create sliders
+  // 创建滑块
   const createSlider = (label, property) => {
     const container = document.createElement('div');
     container.style.position = 'absolute';
     container.style.left = '20px';
-    
+
     const text = document.createElement('span');
     text.textContent = `${label}: `;
     container.appendChild(text);
-    
+
     const slider = document.createElement('input');
     slider.type = 'range';
     slider.min = '0';
@@ -65,25 +64,25 @@ imageObj.onload = () => {
     slider.step = '1';
     slider.value = image[property]();
     slider.style.width = '200px';
-    
+
     slider.addEventListener('input', (e) => {
       const value = parseInt(e.target.value);
       image[property](value);
     });
-    
+
     container.appendChild(slider);
     return container;
   };
 
-  const redSlider = createSlider('Red', 'red');
+  const redSlider = createSlider('红色', 'red');
   redSlider.style.top = '20px';
   document.body.appendChild(redSlider);
 
-  const greenSlider = createSlider('Green', 'green');
+  const greenSlider = createSlider('绿色', 'green');
   greenSlider.style.top = '45px';
   document.body.appendChild(greenSlider);
 
-  const blueSlider = createSlider('Blue', 'blue');
+  const blueSlider = createSlider('蓝色', 'blue');
   blueSlider.style.top = '70px';
   document.body.appendChild(blueSlider);
 };
@@ -129,7 +128,7 @@ const App = () => {
       </Stage>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
         <div>
-          Red
+          红色
           <input
             type="range"
             min="0"
@@ -139,7 +138,7 @@ const App = () => {
           />
         </div>
         <div>
-          Green
+          绿色
           <input
             type="range"
             min="0"
@@ -149,7 +148,7 @@ const App = () => {
           />
         </div>
         <div>
-          Blue
+          蓝色
           <input
             type="range"
             min="0"
@@ -189,7 +188,7 @@ export default App;
     </v-stage>
     <div style="position: absolute; top: 20px; left: 20px">
       <div>
-        Red
+        红色
         <input
           type="range"
           min="0"
@@ -199,7 +198,7 @@ export default App;
         />
       </div>
       <div>
-        Green
+        绿色
         <input
           type="range"
           min="0"
@@ -209,7 +208,7 @@ export default App;
         />
       </div>
       <div>
-        Blue
+        蓝色
         <input
           type="range"
           min="0"

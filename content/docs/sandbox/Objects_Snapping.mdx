@@ -1,20 +1,20 @@
 ---
-title: How to snap shapes positions on dragging with Konva?
-sidebar_label: Objects Snapping
+title: 如何在拖动时使形状位置对齐于 Konva？
+sidebar_label: 对象对齐
 hide_table_of_contents: true
-slug: Objects_Snapping.html
+slug: 对象_对齐.html
 ---
 
-## How to snap draggable shapes to each other?
+## 如何使可拖动的形状互相对齐？
 
-This demo will demonstrate how to implement snapping of objects to all edges of the stage on to all edges of other objects.
+这个示例将演示如何实现对象在舞台的所有边缘和其他对象的所有边缘之间的对齐。
 
-Also I found another related demos on the internet that may be useful:
+此外，我在互联网上还找到了一些相关的示例，可能会很有用：
 
-1. Post: https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f
-2. Demo:https://codepen.io/pierrebleroux/pen/gGpvxJ
+1. 文章: https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f
+2. 示例: https://codepen.io/pierrebleroux/pen/gGpvxJ
 
-**Instruction:** try to drag and object. See how it snaps to other objects.
+**说明：** 尝试拖动一个对象。看看它是如何对齐到其他对象的。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -37,7 +37,7 @@ var stage = new Konva.Stage({
 var layer = new Konva.Layer();
 stage.add(layer);
 
-// first generate random rectangles
+// 首先生成随机矩形
 for (var i = 0; i < 5; i++) {
   layer.add(
     new Konva.Rect({
@@ -53,19 +53,19 @@ for (var i = 0; i < 5; i++) {
   );
 }
 
-// were can we snap our objects?
+// 我们可以在哪里对齐我们的对象？
 function getLineGuideStops(skipShape) {
-  // we can snap to stage borders and the center of the stage
+  // 我们可以对齐舞台边缘和舞台中心
   var vertical = [0, stage.width() / 2, stage.width()];
   var horizontal = [0, stage.height() / 2, stage.height()];
 
-  // and we snap over edges and center of each object on the canvas
+  // 我们还可以对齐画布上每个对象的边缘和中心
   stage.find('.object').forEach((guideItem) => {
     if (guideItem === skipShape) {
       return;
     }
     var box = guideItem.getClientRect();
-    // and we can snap to all edges of shapes
+    // 我们可以对齐形状的所有边缘
     vertical.push([box.x, box.x + box.width, box.x + box.width / 2]);
     horizontal.push([box.y, box.y + box.height, box.y + box.height / 2]);
   });
@@ -75,9 +75,9 @@ function getLineGuideStops(skipShape) {
   };
 }
 
-// what points of the object will trigger to snapping?
-// it can be just center of the object
-// but we will enable all edges and center
+// 对象的哪些点将触发对齐？
+// 它可以仅仅是对象的中心
+// 但是我们将启用所有边缘和中心
 function getObjectSnappingEdges(node) {
   var box = node.getClientRect();
   var absPos = node.absolutePosition();
@@ -120,7 +120,7 @@ function getObjectSnappingEdges(node) {
   };
 }
 
-// find all snapping possibilities
+// 查找所有对齐的可能性
 function getGuides(lineGuideStops, itemBounds) {
   var resultV = [];
   var resultH = [];
@@ -128,7 +128,7 @@ function getGuides(lineGuideStops, itemBounds) {
   lineGuideStops.vertical.forEach((lineGuide) => {
     itemBounds.vertical.forEach((itemBound) => {
       var diff = Math.abs(lineGuide - itemBound.guide);
-      // if the distance between guild line and object snap point is close we can consider this for snapping
+      // 如果导线和对象对齐点之间的距离很近，我们可以考虑这次对齐
       if (diff < GUIDELINE_OFFSET) {
         resultV.push({
           lineGuide: lineGuide,
@@ -156,7 +156,7 @@ function getGuides(lineGuideStops, itemBounds) {
 
   var guides = [];
 
-  // find closest snap
+  // 找到最近的对齐
   var minV = resultV.sort((a, b) => a.diff - b.diff)[0];
   var minH = resultH.sort((a, b) => a.diff - b.diff)[0];
   if (minV) {
@@ -211,18 +211,18 @@ function drawGuides(guides) {
 }
 
 layer.on('dragmove', function (e) {
-  // clear all previous lines on the screen
+  // 清除屏幕上所有之前的线
   layer.find('.guid-line').forEach((l) => l.destroy());
 
-  // find possible snapping lines
+  // 查找可能的对齐线
   var lineGuideStops = getLineGuideStops(e.target);
-  // find snapping points of current object
+  // 查找当前对象的对齐点
   var itemBounds = getObjectSnappingEdges(e.target);
 
-  // now find where can we snap current object
+  // 现在查找我们可以将当前对象对齐的位置
   var guides = getGuides(lineGuideStops, itemBounds);
 
-  // do nothing of no snapping
+  // 如果没有对齐则不做任何操作
   if (!guides.length) {
     return;
   }
@@ -230,7 +230,7 @@ layer.on('dragmove', function (e) {
   drawGuides(guides);
 
   var absPos = e.target.absolutePosition();
-  // now force object position
+  // 现在强制设置对象位置
   guides.forEach((lg) => {
     switch (lg.orientation) {
       case 'V': {
@@ -247,9 +247,9 @@ layer.on('dragmove', function (e) {
 });
 
 layer.on('dragend', function (e) {
-  // clear all previous lines on the screen
+  // 清除屏幕上所有之前的线
   layer.find('.guid-line').forEach((l) => l.destroy());
 });
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,13 +1,13 @@
 ---
-title: Drag and Drop Multiple Images with Border Highlighting
-sidebar_label: Image Border Highlighting
+title: 拖放多个图片与边框高亮显示
+sidebar_label: 图片边框高亮显示
 hide_table_of_contents: true
 slug: Image_Border_Highlighting.html
 ---
 
-This demo shows how to implement highlighting effects with images. When hovering over an image, the border disappears, and it reappears when you move the mouse away.
+本演示展示了如何实现图片的高亮效果。当鼠标悬停在图片上时，边框消失，当鼠标移开时，边框重新出现。
 
-**Instructions:** Hover over the images to hide their borders and drag them around the stage.
+**说明：** 将鼠标悬停在图片上以隐藏其边框，然后在舞台上拖动它们。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,7 +26,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create Darth Vader image
+// 创建达斯·维德图片
 const darthVaderImg = new Konva.Image({
   x: 20,
   y: 20,
@@ -38,7 +38,7 @@ const darthVaderImg = new Konva.Image({
 });
 layer.add(darthVaderImg);
 
-// Create Yoda image
+// 创建尤达图片
 const yodaImg = new Konva.Image({
   x: 240,
   y: 20,
@@ -50,21 +50,21 @@ const yodaImg = new Konva.Image({
 });
 layer.add(yodaImg);
 
-// Load Darth Vader image
+// 加载达斯·维德图片
 const imageObj1 = new Image();
 imageObj1.onload = function () {
   darthVaderImg.image(imageObj1);
 };
 imageObj1.src = 'https://konvajs.org/assets/darth-vader.jpg';
 
-// Load Yoda image
+// 加载尤达图片
 const imageObj2 = new Image();
 imageObj2.onload = function () {
   yodaImg.image(imageObj2);
 };
 imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
 
-// Use event delegation to update pointer style and borders
+// 使用事件委托更新指针样式和边框
 layer.on('mouseover', function (evt) {
   const shape = evt.target;
   document.body.style.cursor = 'pointer';
@@ -165,7 +165,7 @@ const layerRef = ref(null);
 const hoveredIndex = ref(null);
 const loadedImages = ref({});
 
-// Define image data
+// 定义图片数据
 const images = ref([
   {
     src: 'https://konvajs.org/assets/darth-vader.jpg',
@@ -183,7 +183,7 @@ const images = ref([
   }
 ]);
 
-// Load images
+// 加载图片
 onMounted(() => {
   images.value.forEach((img, index) => {
     const imageObj = new Image();
@@ -197,7 +197,7 @@ onMounted(() => {
   });
 });
 
-// Get configuration for each image
+// 获取每张图片的配置
 const getImageConfig = (img, index) => {
   const isHovered = hoveredIndex.value === index;
   
@@ -214,7 +214,7 @@ const getImageConfig = (img, index) => {
   };
 };
 
-// Mouse event handlers
+// 鼠标事件处理程序
 const handleMouseEnter = (index) => {
   hoveredIndex.value = index;
   document.body.style.cursor = 'pointer';
@@ -227,4 +227,4 @@ const handleMouseLeave = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

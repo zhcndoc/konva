@@ -1,11 +1,11 @@
 ---
-title: Elastic Stars
-sidebar_label: Elastic Stars
+title: 弹性星星
+sidebar_label: 弹性星星
 hide_table_of_contents: true
 slug: Elastic_Stars.html
 ---
 
-**Instructions:** Drag and drop the stars and observe the elastic drop on dragend. Refresh the page to randomize the stars again.
+**说明：** 拖动星星并观察在拖动结束时的弹性下落。刷新页面以随机化星星的位置。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -106,7 +106,7 @@ import { Stage, Layer, Star } from 'react-konva';
 const App = () => {
   const [stars, setStars] = useState([]);
   
-  // Generate initial stars
+  // 生成初始星星
   useEffect(() => {
     const initialStars = [];
     for (let n = 0; n < 10; n++) {
@@ -139,12 +139,12 @@ const App = () => {
   }, []);
   
   const handleDragStart = (e) => {
-    // Get index directly from the target
+    // 直接从目标获取索引
     const index = stars.findIndex(star => star.id === e.target.attrs.id);
     
     if (index === -1) return;
     
-    // Create a new array with the updated star
+    // 创建一个新的数组来更新星星
     const newStars = [...stars];
     newStars[index] = {
       ...newStars[index],
@@ -162,12 +162,12 @@ const App = () => {
   };
   
   const handleDragEnd = (e) => {
-    // Get index directly from the target
+    // 直接从目标获取索引
     const index = stars.findIndex(star => star.id === e.target.attrs.id);
     
     if (index === -1) return;
     
-    // Create a new array with the updated star
+    // 创建一个新的数组来更新星星
     const newStars = [...stars];
     newStars[index] = {
       ...newStars[index],
@@ -245,7 +245,7 @@ const stageConfig = {
 
 const stars = ref([]);
 
-// Generate initial stars
+// 生成初始星星
 onMounted(() => {
   const initialStars = [];
   
@@ -288,7 +288,7 @@ const handleDragStart = (e) => {
   
   if (starIndex === -1) return;
   
-  // Update the star's properties
+  // 更新星星的属性
   const star = {...stars.value[starIndex]};
   star.shadowOffset = {
     x: 15,
@@ -299,7 +299,7 @@ const handleDragStart = (e) => {
     y: star.startScale * 1.2
   };
   
-  // Update star in the array
+  // 更新数组中的星星
   stars.value[starIndex] = star;
 };
 
@@ -309,7 +309,7 @@ const handleDragEnd = (e) => {
   
   if (starIndex === -1) return;
   
-  // Update the star's properties for animation back
+  // 更新星星的属性以便动画回到初始状态
   const star = {...stars.value[starIndex]};
   star.shadowOffset = {
     x: 5,
@@ -320,7 +320,7 @@ const handleDragEnd = (e) => {
     y: star.startScale
   };
   
-  // Update star in the array
+  // 更新数组中的星星
   stars.value[starIndex] = star;
 };
 
@@ -330,15 +330,15 @@ const handleDragMove = (e) => {
   
   if (starIndex === -1) return;
   
-  // Update the star's position
+  // 更新星星的位置
   const star = {...stars.value[starIndex]};
   star.x = e.target.x();
   star.y = e.target.y();
   
-  // Update star in the array
+  // 更新数组中的星星
   stars.value[starIndex] = star;
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

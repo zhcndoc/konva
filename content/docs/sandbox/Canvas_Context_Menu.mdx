@@ -1,29 +1,29 @@
 ---
-title: How to show a context menu for HTML5 canvas shape?
-sidebar_label: Canvas Context Menu
+title: 如何为 HTML5 画布形状显示上下文菜单？
+sidebar_label: 画布上下文菜单
 hide_table_of_contents: true
 slug: Canvas_Context_Menu.html
 ---
 
-## Do you want to show a context menu for a canvas shape?
+## 你想为画布形状显示上下文菜单吗？
 
-To show a context menu we have to:
+要显示上下文菜单，我们需要：
 
-1. Listen to `contextmenu` event on canvas container (stage)
-2. Prevent default browser behavior, so we don't see native context menu
-3. Create our own context menu with `Konva` tools or regular html
+1. 监听画布容器（舞台）的 `contextmenu` 事件
+2. 阻止默认的浏览器行为，以便不显示原生的上下文菜单
+3. 使用 `Konva` 工具或常规 HTML 创建我们自己的上下文菜单
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**Instructions: double click on the stage to create a circle. Try right click (context menu) on shapes for a menu.**
+**说明：双击舞台以创建一个圆形。尝试在形状上右键单击（上下文菜单）以获取菜单。**
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// Create a div to use as a context menu
+// 创建一个 div 用作上下文菜单
 const menuNode = document.createElement('div');
 menuNode.id = 'menu';
 menuNode.style.display = 'none';
@@ -33,9 +33,9 @@ menuNode.style.backgroundColor = 'white';
 menuNode.style.boxShadow = '0 0 5px grey';
 menuNode.style.borderRadius = '3px';
 
-// Create buttons for the menu
+// 为菜单创建按钮
 const pulseButton = document.createElement('button');
-pulseButton.textContent = 'Pulse';
+pulseButton.textContent = '脉冲';
 pulseButton.style.width = '100%';
 pulseButton.style.backgroundColor = 'white';
 pulseButton.style.border = 'none';
@@ -43,14 +43,14 @@ pulseButton.style.margin = '0';
 pulseButton.style.padding = '10px';
 
 const deleteButton = document.createElement('button');
-deleteButton.textContent = 'Delete';
+deleteButton.textContent = '删除';
 deleteButton.style.width = '100%';
 deleteButton.style.backgroundColor = 'white';
 deleteButton.style.border = 'none';
 deleteButton.style.margin = '0';
 deleteButton.style.padding = '10px';
 
-// Add hover effects
+// 添加悬停效果
 pulseButton.addEventListener('mouseover', () => {
   pulseButton.style.backgroundColor = 'lightgray';
 });
@@ -65,12 +65,12 @@ deleteButton.addEventListener('mouseout', () => {
   deleteButton.style.backgroundColor = 'white';
 });
 
-// Add buttons to menu
+// 将按钮添加到菜单
 menuNode.appendChild(pulseButton);
 menuNode.appendChild(deleteButton);
 document.body.appendChild(menuNode);
 
-// Set up the stage
+// 设置舞台
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -83,7 +83,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// add default shape
+// 添加默认形状
 const shape = new Konva.Circle({
   x: stage.width() / 2,
   y: stage.height() / 2,
@@ -95,7 +95,7 @@ layer.add(shape);
 
 let currentShape;
 
-// Setup the menu functionality
+// 设置菜单功能
 pulseButton.addEventListener('click', () => {
   currentShape.to({
     scaleX: 2,
@@ -110,14 +110,14 @@ deleteButton.addEventListener('click', () => {
   currentShape.destroy();
 });
 
-// Hide menu on document click
+// 在文档点击时隐藏菜单
 window.addEventListener('click', () => {
   menuNode.style.display = 'none';
 });
 
-// Add double click event to create new shapes
+// 添加双击事件以创建新形状
 stage.on('dblclick dbltap', function () {
-  // add a new shape
+  // 添加一个新形状
   const newShape = new Konva.Circle({
     x: stage.getPointerPosition().x,
     y: stage.getPointerPosition().y,
@@ -128,16 +128,16 @@ stage.on('dblclick dbltap', function () {
   layer.add(newShape);
 });
 
-// Add context menu event
+// 添加上下文菜单事件
 stage.on('contextmenu', function (e) {
-  // prevent default behavior
+  // 防止默认行为
   e.evt.preventDefault();
   if (e.target === stage) {
-    // if we are on empty place of the stage we will do nothing
+    // 如果我们在舞台的空白区域，将不执行任何操作
     return;
   }
   currentShape = e.target;
-  // show menu
+  // 显示菜单
   menuNode.style.display = 'initial';
   const containerRect = stage.container().getBoundingClientRect();
   menuNode.style.top =
@@ -170,9 +170,9 @@ const App = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  // Create and cleanup context menu
+  // 创建和清理上下文菜单
   useEffect(() => {
-    // Hide menu on window click
+    // 在窗口点击时隐藏菜单
     const handleWindowClick = () => {
       setShowMenu(false);
     };
@@ -183,7 +183,7 @@ const App = () => {
     };
   }, []);
 
-  // Handle double click to create a new circle
+  // 处理双击以创建新圆形
   const handleDblClick = (e) => {
     const stage = e.target.getStage();
     const pointerPosition = stage.getPointerPosition();
@@ -198,7 +198,7 @@ const App = () => {
     setCircles([...circles, newCircle]);
   };
 
-  // Handle context menu for circles
+  // 处理圆形的上下文菜单
   const handleContextMenu = (e) => {
     e.evt.preventDefault();
     if (e.target === e.target.getStage()) {
@@ -219,7 +219,7 @@ const App = () => {
     e.cancelBubble = true;
   };
 
-  // Menu action handlers
+  // 菜单动作处理器
   const handlePulse = () => {
     const newCircles = circles.map(circle => {
       if (circle.id === selectedId) {
@@ -234,7 +234,7 @@ const App = () => {
     });
     setCircles(newCircles);
     
-    // Reset scale after animation
+    // 动画后重置缩放
     setTimeout(() => {
       const resetCircles = circles.map(circle => {
         if (circle.id === selectedId) {
@@ -257,7 +257,7 @@ const App = () => {
     setShowMenu(false);
   };
 
-  // Utility function for random color
+  // 随机颜色的实用函数
   const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -293,7 +293,7 @@ const App = () => {
         </Layer>
       </Stage>
       
-      {/* Context Menu */}
+      {/* 上下文菜单 */}
       {showMenu && (
         <div
           style={{
@@ -321,7 +321,7 @@ const App = () => {
             onMouseOut={(e) => e.target.style.backgroundColor = 'white'}
             onClick={handlePulse}
           >
-            Pulse
+            脉冲
           </button>
           <button
             style={{
@@ -336,7 +336,7 @@ const App = () => {
             onMouseOut={(e) => e.target.style.backgroundColor = 'white'}
             onClick={handleDelete}
           >
-            Delete
+            删除
           </button>
         </div>
       )}
@@ -375,7 +375,7 @@ export default App;
       </v-layer>
     </v-stage>
     
-    <!-- Context Menu -->
+    <!-- 上下文菜单 -->
     <div
       v-if="showMenu"
       :style="{
@@ -403,7 +403,7 @@ export default App;
         @mouseout="e => e.target.style.backgroundColor = 'white'"
         @click="handlePulse"
       >
-        Pulse
+        脉冲
       </button>
       <button
         :style="{
@@ -418,7 +418,7 @@ export default App;
         @mouseout="e => e.target.style.backgroundColor = 'white'"
         @click="handleDelete"
       >
-        Delete
+        删除
       </button>
     </div>
   </div>
@@ -433,7 +433,7 @@ const stageConfig = {
   height: window.innerHeight
 };
 
-// State for circles and context menu
+// 圆形和上下文菜单的状态
 const circles = ref([
   {
     id: 'initial-circle',
@@ -448,7 +448,7 @@ const menuPosition = ref({ x: 0, y: 0 });
 const showMenu = ref(false);
 const selectedId = ref(null);
 
-// Create and cleanup context menu
+// 创建和清理上下文菜单
 onMounted(() => {
   window.addEventListener('click', handleWindowClick);
 });
@@ -457,12 +457,12 @@ onUnmounted(() => {
   window.removeEventListener('click', handleWindowClick);
 });
 
-// Hide menu on window click
+// 在窗口点击时隐藏菜单
 const handleWindowClick = () => {
   showMenu.value = false;
 };
 
-// Handle double click to create a new circle
+// 处理双击以创建新圆形
 const handleDblClick = (e) => {
   const stage = e.target.getStage();
   const pointerPosition = stage.getPointerPosition();
@@ -477,7 +477,7 @@ const handleDblClick = (e) => {
   circles.value.push(newCircle);
 };
 
-// Handle context menu for circles
+// 处理圆形的上下文菜单
 const handleContextMenu = (e) => {
   e.evt.preventDefault();
   if (e.target === e.target.getStage()) {
@@ -498,7 +498,7 @@ const handleContextMenu = (e) => {
   e.cancelBubble = true;
 };
 
-// Menu action handlers
+// 菜单动作处理器
 const handlePulse = () => {
   circles.value = circles.value.map(circle => {
     if (circle.id === selectedId.value) {
@@ -511,7 +511,7 @@ const handlePulse = () => {
     return circle;
   });
   
-  // Reset scale after animation
+  // 动画后重置缩放
   setTimeout(() => {
     circles.value = circles.value.map(circle => {
       if (circle.id === selectedId.value) {
@@ -531,7 +531,7 @@ const handleDelete = () => {
   showMenu.value = false;
 };
 
-// Utility function for random color
+// 随机颜色的实用函数
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -543,4 +543,4 @@ const getRandomColor = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

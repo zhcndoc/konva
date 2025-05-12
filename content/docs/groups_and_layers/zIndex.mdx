@@ -1,46 +1,46 @@
 ---
-title: Understanding Node zIndex
+title: 理解节点 zIndex
 sidebar_label: zIndex
 hide_table_of_contents: true
 slug: zIndex.html
 ---
 
-## What is zIndex of a node?
+## 节点的 zIndex 是什么？
 
-You can get/set zIndex of a node in this way:
+你可以通过以下方式获取/设置一个节点的 zIndex：
 
 ```javascript
-// get
+// 获取
 const zIndex = shape.zIndex();
 
-// set
+// 设置
 shape.zIndex(1);
 ```
 
-zIndex is just the index of a node in its parent's children array. Please don't confuse `zIndex` in Konva with `z-index` in CSS.
+zIndex 只是一个节点在其父节点的子数组中的索引。请不要将 Konva 中的 `zIndex` 与 CSS 中的 `z-index` 混淆。
 
 ```javascript
 const group = new Konva.Group();
 const circle = new Konva.Circle({});
 group.add(circle);
 
-// it will log 0
+// 它将输出 0
 console.log(circle.zIndex());
 
-// the next line will not work because the group has only one child
+// 下一行代码将不起作用，因为 group 只有一个子节点
 circle.zIndex(1);
 
-// still logs 0
+// 仍然输出 0
 console.log(circle.zIndex());
 
-// for any node this equation will be true:
+// 对于任何节点，此等式将成立：
 console.log(circle.zIndex() === circle.getParent().children.indexOf(circle));
 ```
 
-You can't use `zIndex` to set absolute position of the node, like we do in CSS.
-Konva draws nodes in the strict order as they are defined in the nodes tree.
+你不能使用 `zIndex` 来设置节点的绝对位置，那样做和我们在 CSS 中的操作是不同的。
+Konva 按照在节点树中定义的严格顺序绘制节点。
 
-**Instructions: Try to change zIndex of shapes using the buttons. Notice how the order of shapes changes.**
+**说明：尝试使用按钮来更改图形的 zIndex。注意图形的顺序是如何变化的。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -61,7 +61,7 @@ height: height,
 
 const layer = new Konva.Layer();
 
-// first group
+// 第一个组
 const group1 = new Konva.Group();
 layer.add(group1);
 
@@ -82,7 +82,7 @@ fill: 'red',
 });
 group1.add(redCircle);
 
-// second group
+// 第二个组
 const group2 = new Konva.Group();
 layer.add(group2);
 
@@ -97,15 +97,15 @@ group2.add(greenRect);
 
 stage.add(layer);
 
-// create buttons
+// 创建按钮
 const btn1 = document.createElement('button');
-btn1.textContent = 'Move red circle to group2';
+btn1.textContent = '将红色圆圈移动到 group2';
 btn1.addEventListener('click', () => {
 redCircle.moveTo(group2);
 });
 
 const btn2 = document.createElement('button');
-btn2.textContent = 'Move red circle to group1';
+btn2.textContent = '将红色圆圈移动到 group1';
 btn2.addEventListener('click', () => {
 redCircle.moveTo(group1);
 });
@@ -126,10 +126,10 @@ const App = () => {
   return (
     <>
       <button onClick={() => setRedCircleGroup('group2')}>
-        Move red circle to group2
+        将红色圆圈移动到 group2
       </button>
       <button onClick={() => setRedCircleGroup('group1')}>
-        Move red circle to group1
+        将红色圆圈移动到 group1
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -181,8 +181,8 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <button @click="moveToGroup2">Move red circle to group2</button>
-    <button @click="moveToGroup1">Move red circle to group1</button>
+    <button @click="moveToGroup2">将红色圆圈移动到 group2</button>
+    <button @click="moveToGroup1">将红色圆圈移动到 group1</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-group>
@@ -244,5 +244,3 @@ const moveToGroup1 = () => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

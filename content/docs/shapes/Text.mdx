@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Text Tutorial
-sidebar_label: Text
+title: HTML5 canvas 文本教程
+sidebar_label: 文本
 hide_table_of_contents: true
 slug: /docs/shapes/Text.html
 ---
 
-To create text with `Konva`, we can instantiate a `Konva.Text()` object.
+要使用 `Konva` 创建文本，我们可以实例化一个 `Konva.Text()` 对象。
 
-For full list of properties and methods, see the [Text API Reference](/api/Konva.Text.html).
+有关属性和方法的完整列表，请参见 [文本 API 参考](/api/Konva.Text.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,11 +26,11 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Simple text
+// 简单文本
 const simpleText = new Konva.Text({
   x: stage.width() / 2,
   y: 15,
-  text: 'Simple Text',
+  text: '简单文本',
   fontSize: 30,
   fontFamily: 'Calibri',
   fill: 'green'
@@ -38,11 +38,11 @@ const simpleText = new Konva.Text({
 
 simpleText.offsetX(simpleText.width() / 2);
 
-// Complex text with background
+// 复杂文本与背景
 const complexText = new Konva.Text({
   x: 20,
   y: 60,
-  text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+  text: "复杂文本\n\n整个世界都是一个舞台，所有的男人和女人只是演员。他们有他们的退场和入场。",
   fontSize: 18,
   fontFamily: 'Calibri',
   fill: '#555',
@@ -76,9 +76,9 @@ layer.add(complexText);
 ```js live react
 import { Stage, Layer, Text, Rect } from 'react-konva';
 
-const text = `COMPLEX TEXT
+const text = `复杂文本
 
-All the world's a stage, and all the men and women merely players. They have their exits and their entrances.`;
+整个世界都是一个舞台，所有的男人和女人只是演员。他们有他们的退场和入场。`;
 const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -86,11 +86,11 @@ const App = () => {
         <Text
           x={window.innerWidth / 2}
           y={15}
-          text="Simple Text"
+          text="简单文本"
           fontSize={30}
           fontFamily="Calibri"
           fill="green"
-          offsetX={60} // Approximate half width
+          offsetX={60} // 近似半宽
         />
         <Rect
           x={20}
@@ -99,7 +99,7 @@ const App = () => {
           strokeWidth={5}
           fill="#ddd"
           width={300}
-          height={200} // Approximate height
+          height={200} // 近似高度
           shadowColor="black"
           shadowBlur={10}
           shadowOffsetX={10}
@@ -147,17 +147,17 @@ const stageSize = {
 const simpleTextConfig = {
   x: window.innerWidth / 2,
   y: 15,
-  text: 'Simple Text',
+  text: '简单文本',
   fontSize: 30,
   fontFamily: 'Calibri',
   fill: 'green',
-  offsetX: 60 // Approximate half width
+  offsetX: 60 // 近似半宽
 };
 
 const complexTextConfig = {
   x: 20,
   y: 60,
-  text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+  text: "复杂文本\n\n整个世界都是一个舞台，所有的男人和女人只是演员。他们有他们的退场和入场。",
   fontSize: 18,
   fontFamily: 'Calibri',
   fill: '#555',
@@ -173,7 +173,7 @@ const rectConfig = {
   strokeWidth: 5,
   fill: '#ddd',
   width: 300,
-  height: 200, // Approximate height
+  height: 200, // 近似高度
   shadowColor: 'black',
   shadowBlur: 10,
   shadowOffsetX: 10,
@@ -184,4 +184,4 @@ const rectConfig = {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Line Tutorial
-sidebar_label: Line - Simple Line
+title: HTML5 Canvas 线条教程
+sidebar_label: 线条 - 简单线条
 hide_table_of_contents: true
 slug: /docs/shapes/Line_-_Simple_Line.html
 ---
 
-To create a simple line with `Konva`, we can instantiate a `Konva.Line()` object.
+要使用 `Konva` 创建一条简单的线条，我们可以实例化一个 `Konva.Line()` 对象。
 
-For full list of properties and methods, see the [Line API Reference](/api/Konva.Line.html).
+有关属性和方法的完整列表，请参见 [Line API 参考](/api/Konva.Line.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -34,7 +34,7 @@ const redLine = new Konva.Line({
   lineJoin: 'round'
 });
 
-// line segments with a length of 33px with a gap of 10px
+// 线段长度为 33px，间隔为 10px
 const greenLine = new Konva.Line({
   points: [5, 70, 140, 23, 250, 60, 300, 20],
   stroke: 'green',
@@ -43,8 +43,8 @@ const greenLine = new Konva.Line({
   dash: [33, 10]
 });
 
-// line segments with a length of 29px with a gap of 20px
-// followed by a dot (0.001px) and another gap of 20px
+// 线段长度为 29px，间隔为 20px
+// 后跟一个点（0.001px）和另一个 20px 的间隔
 const blueLine = new Konva.Line({
   points: [5, 70, 140, 23, 250, 60, 300, 20],
   stroke: 'blue',
@@ -150,4 +150,4 @@ const blueLineConfig = {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

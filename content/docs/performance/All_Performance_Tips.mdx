@@ -1,61 +1,61 @@
 ---
-title: HTML5 Canvas All Konva performance tips list
-sidebar_label: All Performance Tips
+title: HTML5 Canvas 全部 Konva 性能优化技巧列表
+sidebar_label: 全部性能优化技巧
 hide_table_of_contents: true
 slug: All_Performance_Tips.html
 ---
 
-Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/consulting).
+不想把时间浪费在性能问题上？可以请求一份[性能评估](https://lavrton.com/consulting)。
 
-### Why this is important
+### 为什么这很重要
 
-The HTML5 canvas is efficient at what it does and internally `Konva` has many features that aim to provide great performance. However, when your project starts to grow in complexity, or when you just have a lot of shapes on the stage, there must inevitably be some negative performance impact.
+HTML5 canvas 在其功能范围内效率很高，`Konva` 内部也有许多旨在提供良好性能的功能。然而，当你的项目开始变得复杂，或者舞台上有大量形状时，性能必然会受到一定影响。
 
-### Optimization targets
+### 优化目标
 
-The optimizations here focus on two general rules:
+这里的优化聚焦于两个基本原则：
 
-* Compute as little as possible: all computation takes time to complete. Each individual computation may run in a tiny fraction of a second, but the thousands or millions of computations caused by your code, Konva, JavaScript, and the layers below that, will add up to something more observable by the human eye if that super-slick animation or effect is, in fact, jerky. 
+* 尽可能少计算：所有计算都需要时间完成。每一次计算可能只消耗极短时间，但成千上万甚至数百万次的计算——无论是你的代码、Konva、JavaScript，还是底层的图层——累计起来，如果那个超流畅的动画或效果出现卡顿，就能被肉眼察觉。
 
-* **Draw as little as possible**: this is important because all drawing has a performance cost. There are two categories of cost - firstly the computation of the drawing which we covered in the point above, and then the movement of the drawing from memory to the screen. Depending on the case, there may also be intermediate off-screen compositing or per-pixel processing. The rule is therefore do as little drawing as possible. 
+* **尽可能少绘制**：这是关键，因为所有绘制都有性能成本。成本可以分为两类——首先是绘制所需计算时间（上述提到的计算部分），其次是将绘制内容从内存移动到屏幕所需时间。某些情况下，还可能涉及中间的离屏合成或每像素处理。因此，原则是尽可能少绘制。
 
-### The Stage
+### 舞台（Stage）
 
-1. Optimise stage size - following the rule of 'draw as little as possible', try to avoid creating a large stage because moving all those bytes from memory to screen is going to have a negative impact. There are some tips [here](/docs/sandbox/Canvas_Scrolling.html) that offer alternative approaches to the mega-stage problem!
+1. 优化舞台大小 — 遵循“尽可能少绘制”原则，避免创建过大的舞台，因为从内存传输大量字节至屏幕会产生性能负担。这里有一些针对超大舞台问题的技巧[参考此处](/docs/sandbox/Canvas_Scrolling.html)！
 
-2. Set a viewport on mobile - Scaling images is a significant performance hit, so for mobile applications set viewport: `<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">` which will avoid unnecessary scaling of your Konva output.
+2. 在移动设备上设置视口 — 缩放图像会带来重大性能打击，因此在移动端应用中，设置视口标签：`<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">`，以避免 Konva 输出被不必要地缩放。
 
-3. Use `Konva.pixelRatio = 1` on retina devices - Konva automatically handles pixel ratio adjustments in order to render crisp drawings on all devices. But, just in case you have bad performance on retina devices, set `Konva.pixelRatio = 1` to reduce the scaling work Konva has to do. This setting might affect the output in some cases, so make sure that quality of the result is ok for you.
+3. 在视网膜设备上使用 `Konva.pixelRatio = 1` — Konva 会自动调整像素比例以保证在各种设备上绘制锐利图像。但如果视网膜设备性能不佳，可以设置 `Konva.pixelRatio = 1` 来减少 Konva 的缩放开销。此设置在某些情况下可能影响输出效果，请确保最终画质符合你的需求。
 
-### Layers
+### 图层（Layers）
 
-1. [Layer Management](/docs/performance/Layer_Management.html) - under the hood, each Konva layer is a separate HTML5 canvas element which gives some useful capabilities, including the ability to refresh only a layer that changed and so avoid the performance cost of refreshing the entire stage. But with great power great responsibility comes, and each layer has an incremental performance overhead so we should keep the number of layers to a minimum.  
+1. [图层管理](/docs/performance/Layer_Management.html) — 在底层，每个 Konva 图层相当于一个独立的 HTML5 canvas 元素，这带来了实用的能力，比如只刷新变更的图层以避免重绘整个舞台所消耗的性能。但强力带来责任，每个图层都会增加额外的性能开销，因此应将图层数量保持在较低水平。
 
-2. Use `layer.listening(false)` - Konva gives us mouse and touch event listeners on all the shapes we draw. But there is a performance cost for each one, and for a layer with many shapes Konva has to expend many cycles checking which listeners might be triggered. If you have a layer on which none of the shapes need to react to events, take this burden away by setting `layer.listening(false)`. See [Demo](/docs/sandbox/Animation_Stress_Test.html). There is a similar point in the shapes section.
+2. 使用 `layer.listening(false)` — Konva 会在所有绘制的形状上监听鼠标和触摸事件，但每个监听都会消耗性能。图层中形状数量多时，Konva 需要花费大量时间来检查哪些监听器可能被触发。如果图层上的形状都不需要响应事件，可以通过 `layer.listening(false)` 关闭该层的事件监听，减轻负担。示例见[演示](/docs/sandbox/Animation_Stress_Test.html)。形状部分也有类似建议。
 
-3. Optimise dragging costs - while you drag a shape across a layer that layer must be redrawn per cycle of the move event listener. To avoid this performance cost, move the shape to a dedicated layer while dragging, then move it back to original layer at drag end. See [Demo](/docs/sandbox/Drag_and_Drop_Stress_Test.html)
+3. 优化拖动性能 — 拖动形状时，相关图层需在每个拖动事件周期重绘，为避免此性能成本，可拖动时将形状移动至专用图层，拖动结束再将其移回原图层。示例见[演示](/docs/sandbox/Drag_and_Drop_Stress_Test.html)。
 
-### Shapes
+### 形状（Shapes）
 
-1. [Shape Caching](/docs/performance/Shape_Caching.html) - internally Konva makes an image of your shape and uses that when the shape has to be drawn. Drawing images avoids the overhead of composing the shape from its drawing instructions, and can increase performance impressively for complex shapes and groups. 
+1. [形状缓存](/docs/performance/Shape_Caching.html) — Konva 内部会创建形状的图像缓存，并在需要时直接绘制该缓存。绘制图像相较于从绘制指令重组形状来说开销更小，能显著提升复杂形状或组的性能。
 
-2. Keep the shapes tidy - each shape in your stage has a cost just to exist. To optimise performance, hide or remove from the layer any objects that become invisible / opacity = 0, or objects that go out of view.
+2. 保持形状整洁 — 舞台上的每个形状存在都会消耗性能。为优化性能，应隐藏或从图层中移除那些已不可见（opacity=0）或超出视野的对象。
 
-3. Use `shape.listening(false)` - as with layers (see point 7 above), Konva looks out for when events should be triggered for shapes, which has a performance cost. Telling a shape to stop listening for events reduces this cost, as explained at [Listening false](/docs/performance/Listening_False.html).
+3. 使用 `shape.listening(false)` — 同图层（见上文第 7 点），Konva 会监听形状事件，这存在性能成本。告知形状不监听事件可减少此开销，详见[关闭监听](/docs/performance/Listening_False.html)。
 
-4. Switch off perfect drawing - In some cases the result of drawing with the HTML5 canvas is not what you might have expected - see the demo for an example [Disable Perfect Drawing](/docs/performance/Disable_Perfect_Draw.html). Konva does extra work via its perfect drawing feature to put that right, but this comes with a performance cost. By setting `shape.perfectDrawEnabled(false)` this cost can be avoided, with no reduction in output quality, when a shape has fill, stroke and opacity.
+4. 关闭完美绘制 — 有时 HTML5 canvas 绘制结果可能不符合预期，详见示例[关闭完美绘制](/docs/performance/Disable_Perfect_Draw.html)。Konva 通过完美绘制功能做了额外工作以修正，但这带来性能成本。设置 `shape.perfectDrawEnabled(false)` 可避免此成本，且在形状有填充、描边和不透明度的情况下不会降低质量。
 
-5. [Optimize Stroke Drawing](/docs/performance/Optimize_Strokes.html) - To achieve drawing results that look as expected, Konva makes an extra internal drawing when a shape has both stroke and shadow. Avoid this performance burden by switching off the shadow that Konva adds for the stroke.
+5. [优化描边绘制](/docs/performance/Optimize_Strokes.html) — 为了实现预期绘制效果，当形状同时拥有描边和阴影时，Konva 会做额外的内部绘制。通过关闭 Konva 为描边添加的阴影，可以避免这一性能开销。
 
-### Animations
+### 动画（Animations）
 
-1. [Optimize Animation](/docs/performance/Optimize_Animation.html) - Avoiding unnecessary redraw costs for animation steps that fall between visual changes. 
+1. [优化动画](/docs/performance/Optimize_Animation.html) — 避免为无视觉变化的动画步骤执行不必要的重绘。
 
-### Memory
+### 内存（Memory）
 
-1. [Avoid Memory Leaks](/docs/performance/Avoid_Memory_Leaks.html) - Konva looks after a lot of cases where you might make memory leaks, but bringing shapes and tweens into the world and managing their exit is an area where you can help.
+1. [避免内存泄漏](/docs/performance/Avoid_Memory_Leaks.html) — Konva 已尽可能处理各种内存泄漏情况，但在创建形状和补间动画时，以及管理它们销毁时，你仍需要注意避免泄漏。
 
-Below is a demo showing some of these performance tips in action:
+下面有个示例演示了上述部分性能优化技巧：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -65,14 +65,14 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Create stage with good performance settings
+// 创建具有良好性能配置的舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: window.innerWidth,
   height: window.innerHeight,
 });
 
-// Create layers with performance optimizations
+// 创建带性能优化的图层
 const backgroundLayer = new Konva.Layer({ listening: false });
 const mainLayer = new Konva.Layer();
 const dragLayer = new Konva.Layer();
@@ -81,7 +81,7 @@ stage.add(backgroundLayer);
 stage.add(mainLayer);
 stage.add(dragLayer);
 
-// Create a shape with caching
+// 创建一个启用缓存的形状
 const star = new Konva.Star({
   x: 200,
   y: 200,
@@ -92,13 +92,13 @@ const star = new Konva.Star({
   stroke: 'black',
   strokeWidth: 4,
   draggable: true,
-  perfectDrawEnabled: false, // performance optimization
+  perfectDrawEnabled: false, // 性能优化
 });
 
-// Cache the shape for better performance
+// 缓存形状以提升性能
 star.cache();
 
-// Optimize dragging performance
+// 优化拖动性能
 star.on('dragstart', () => {
   star.moveTo(dragLayer);
 });
@@ -107,7 +107,7 @@ star.on('dragend', () => {
   star.moveTo(mainLayer);
 });
 
-// Create background with listening disabled
+// 创建关闭监听的背景形状
 const rect = new Konva.Rect({
   x: 0,
   y: 0,
@@ -131,7 +131,7 @@ const App = () => {
   const starRef = useRef(null);
 
   useEffect(() => {
-    // Cache the shape for better performance
+    // 缓存形状以提升性能
     if (starRef.current) {
       starRef.current.cache();
     }
@@ -262,7 +262,7 @@ const starLayer = ref('main');
 const starRef = ref(null);
 
 onMounted(() => {
-  // Cache the shape for better performance
+  // 缓存形状以提升性能
   if (starRef.value) {
     starRef.value.getNode().cache();
   }
@@ -278,4 +278,4 @@ const handleDragEnd = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

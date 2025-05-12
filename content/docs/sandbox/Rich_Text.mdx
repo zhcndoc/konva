@@ -1,26 +1,26 @@
 ---
-title: How to show rich html on canvas with Konva
-sidebar_label: Rich Text
+title: 如何在画布上使用 Konva 显示丰富的 HTML
+sidebar_label: 富文本
 hide_table_of_contents: true
 slug: Rich_Text.html
 ---
 
-## How to show complex styles (like bold) and enable rich text editing features?
+## 如何显示复杂样式（如粗体）并启用富文本编辑功能？
 
-Canvas's text API is very limited. [Konva.Text](/docs/shapes/Text.html) allows you to add many different styles, support multiline text, etc. But at the current moment it has limitations. You can't use different styles for different parts of `Konva.Text`. For that case you have to use several `Konva.Text` instances.
+Canvas 的文本 API 非常有限。[Konva.Text](/docs/shapes/Text.html) 允许您添加多种不同的样式，支持多行文本等。但目前它存在一些限制。您无法为 `Konva.Text` 的不同部分使用不同的样式。在这种情况下，您必须使用多个 `Konva.Text` 实例。
 
-If you want show complex styles on canvas we can do a hacky workaround. The idea is simple:
+如果您想在画布上显示复杂样式，我们可以使用一种 hacky 的变通方法。这个想法很简单：
 
-1. Create DOM element and put styled text in it
-2. Convert DOM element into image with [html2canvas](https://html2canvas.hertzen.com/).
-3. Use that image for `Konva.Image`.
+1. 创建一个 DOM 元素并在其中放入样式化文本
+2. 使用 [html2canvas](https://html2canvas.hertzen.com/) 将 DOM 元素转换为图像。
+3. 使用该图像作为 `Konva.Image`。
 
-Instructions: Try to type and format text in the editor above. The formatted text will be rendered on the canvas below as an image. You can drag the rendered text around. 
+说明：尝试在上面的编辑器中输入和格式化文本。格式化后的文本将作为图像呈现在下面的画布上。您可以拖动渲染的文本。
 
 ```js live vanilla
 import Konva from 'konva';
 
-// First we need to load Quill and html2canvas
+// 首先我们需要加载 Quill 和 html2canvas
 const loadScript = (src) => {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
@@ -38,18 +38,18 @@ const loadCSS = (href) => {
   document.head.appendChild(link);
 };
 
-// Create editor container
+// 创建编辑器容器
 const editorContainer = document.createElement('div');
 editorContainer.id = 'editor-container';
 editorContainer.style.height = '80px';
 editorContainer.innerHTML = `
-  That is <u>some</u> <span style="color: red"> styled text</span> on
-  <strong>canvas</strong>!
-  <h2>What do you think about it?</h2>
+  那是 <u>一些</u> <span style="color: red"> 样式化文本</span> 在
+  <strong>画布</strong>上！
+  <h2>你觉得怎么样？</h2>
 `;
 document.body.appendChild(editorContainer);
 
-// Load dependencies
+// 加载依赖
 Promise.all([
   loadScript('https://cdn.quilljs.com/1.3.6/quill.js'),
   loadScript('https://html2canvas.hertzen.com/dist/html2canvas.min.js'),
@@ -64,7 +64,7 @@ Promise.all([
         ['image', 'code-block'],
       ],
     },
-    placeholder: 'Compose an epic...',
+    placeholder: '撰写一篇史诗...',
     theme: 'snow',
   });
 
@@ -88,16 +88,16 @@ Promise.all([
   layer.add(shape);
 
   function renderText() {
-    // convert DOM into image
+    // 将 DOM 转换为图像
     html2canvas(document.querySelector('.ql-editor'), {
       backgroundColor: 'rgba(0,0,0,0)',
     }).then((canvas) => {
-      // show it inside Konva.Image
+      // 在 Konva.Image 中显示它
       shape.image(canvas);
     });
   }
 
-  // batch updates, so we don't render text too frequently
+  // 批量更新，以便我们不会频繁渲染文本
   let timeout = null;
   function requestTextUpdate() {
     if (timeout) {
@@ -109,11 +109,9 @@ Promise.all([
     }, 500);
   }
 
-  // render text on all changes
+  // 在所有更改上渲染文本
   quill.on('text-change', requestTextUpdate);
-  // make initial rendering
+  // 进行初始渲染
   renderText();
 });
 ```
-
-

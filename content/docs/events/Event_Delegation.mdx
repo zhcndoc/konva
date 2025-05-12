@@ -1,17 +1,13 @@
 ---
-title: HTML5 Canvas Event Delegation with Konva
-sidebar_label: Event Delegation
+title: HTML5 Canvas 事件代理与 Konva
+sidebar_label: 事件代理
 hide_table_of_contents: true
 slug: Event_Delegation.html
 ---
 
-To get the event target with Konva, we can access the `target` property
-of the Event object. This is particularly useful when using event delegation,
-in which we can bind an event handler to a parent node, and listen to events
-that occur on its children.
+要获取 Konva 中的事件目标，我们可以访问事件对象的 `target` 属性。这在使用事件代理时特别有用，在这种情况下我们可以将事件处理程序绑定到父节点，并监听其子节点上发生的事件。
 
-**Instructions: Click on the star and observe that the layer event binding
-correctly identifies the shape that was clicked on.**
+**说明：点击星星并观察图层事件绑定是否正确识别出被点击的形状。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -52,10 +48,10 @@ const star = new Konva.Star({
 });
 layer.add(star);
 
-// add event delegation
+// 添加事件代理
 layer.on('click', function (evt) {
   const shape = evt.target;
-  text.text('click on ' + shape.getClassName());
+  text.text('点击的是 ' + shape.getClassName());
 });
 ```
   </TabItem>
@@ -69,7 +65,7 @@ const App = () => {
 
   const handleLayerClick = (e) => {
     const shape = e.target;
-    setMessage('click on ' + shape.getClassName());
+    setMessage('点击的是 ' + shape.getClassName());
   };
 
   return (
@@ -144,9 +140,9 @@ const starConfig = {
 
 const handleLayerClick = (e) => {
   const shape = e.target;
-  message.value = 'click on ' + shape.getClassName();
+  message.value = '点击的是 ' + shape.getClassName();
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

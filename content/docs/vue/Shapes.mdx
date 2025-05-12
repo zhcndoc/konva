@@ -1,24 +1,24 @@
 ---
-title: Drawing canvas shapes with Vue
-sidebar_label: Shapes
+title: 使用 Vue 绘制画布形状
+sidebar_label: 形状
 hide_table_of_contents: true
 slug: Shapes.html
 ---
 
-All `vue-konva` components correspond to Konva components of the same name with the prefix 'v'. All the parameters available for Konva objects can be added as config in the prop for corresponding `vue-konva` components.
+所有 `vue-konva` 组件对应于同名的 Konva 组件，前缀为 'v'。与 Konva 对象可用的所有参数可以作为配置添加到对应的 `vue-konva` 组件的 prop 中。
 
-Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`. You can also create a [custom shape](/docs/vue/Custom_Shape.html).
+核心形状包括：`v-rect`、`v-circle`、`v-ellipse`、`v-line`、`v-image`、`v-text`、`v-text-path`、`v-star`、`v-label`、`v-path`、`v-regular-polygon`。您还可以创建一个 [自定义形状](/docs/vue/Custom_Shape.html)。
 
-To get more info about Konva you can read [Konva Overview](/docs/overview.html).
+有关 Konva 的更多信息，您可以阅读 [Konva 概述](/docs/overview.html)。
 
-Instructions: The demo shows various shapes with different styles and configurations.
+说明：演示显示了各种带有不同样式和配置的形状。
 
 ```js live vue
 <template>
   <v-stage :config="stageSize">
     <v-layer>
       <v-text :config="{
-        text: 'Some text on canvas',
+        text: '画布上的一些文字',
         fontSize: 15
       }"/>
       <v-rect :config="{
@@ -55,4 +55,4 @@ const stageSize = {
   width: window.innerWidth,
   height: window.innerHeight
 };
-</script> 
+</script>

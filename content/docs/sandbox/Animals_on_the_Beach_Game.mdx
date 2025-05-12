@@ -1,6 +1,6 @@
 ---
-title: Animals on the Beach Game
-sidebar_label: Animals on the Beach Game
+title: 海滩动物游戏
+sidebar_label: 海滩动物游戏
 hide_table_of_contents: true
 slug: Animals_on_the_Beach_Game.html
 ---
@@ -13,7 +13,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// create stage
+// 创建舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: 578,
@@ -25,7 +25,7 @@ const animalLayer = new Konva.Layer();
 const animalShapes = [];
 let score = 0;
 
-// create and load background image
+// 创建并加载背景图像
 const backgroundImage = new Image();
 backgroundImage.onload = function() {
   const backgroundKonvaImage = new Konva.Image({
@@ -40,7 +40,7 @@ backgroundImage.onload = function() {
 };
 backgroundImage.src = 'https://konvajs.org/assets/beach.png';
 
-// image positions
+// 图像位置
 const animals = {
   snake: {
     x: 10,
@@ -92,16 +92,16 @@ function isNearOutline(animal, outline) {
   }
 }
 
-// create message text
+// 创建消息文本
 const messageText = new Konva.Text({
-  text: 'Ahoy! Put the animals on the beach!',
+  text: '啊哈！把动物放在海滩上！',
   x: stage.width() / 2,
   y: 40,
   fontSize: 20,
   fontFamily: 'Calibri',
   fill: 'white',
   align: 'center',
-  // for center align we need to set offset
+  // 为了居中对齐，我们需要设置偏移
   offsetX: 200,
 });
 background.add(messageText);
@@ -132,9 +132,9 @@ function loadImages(sources, callback) {
 }
 
 function initStage(images) {
-  // create draggable animals
+  // 创建可拖拽的动物
   for (const key in animals) {
-    // anonymous function to induce scope
+    // 匿名函数以引入作用域
     (function () {
       const privKey = key;
       const anim = animals[key];
@@ -151,8 +151,8 @@ function initStage(images) {
       });
       
       /*
-       * check if animal is in the right spot and
-       * snap into place if it is
+       * 检查动物是否在正确的位置并
+       * 如果是，将其固定位置
        */
       animal.on('dragend', function () {
         const outline = outlines[privKey + '_black'];
@@ -164,24 +164,24 @@ function initStage(images) {
           animal.inRightPlace = true;
 
           if (++score >= 4) {
-            const text = 'You win! Enjoy your booty!';
+            const text = '你赢了！享受你的战利品！';
             updateMessage(text);
           }
 
-          // disable drag and drop
+          // 禁用拖放
           setTimeout(function () {
             animal.draggable(false);
           }, 50);
         }
       });
       
-      // make animal glow on mouseover
+      // 鼠标悬停时动物发光
       animal.on('mouseover', function () {
         animal.image(images[privKey + '_glow']);
         document.body.style.cursor = 'pointer';
       });
       
-      // return animal on mouseout
+      // 鼠标移出时返回原始状态
       animal.on('mouseout', function () {
         animal.image(images[privKey]);
         document.body.style.cursor = 'default';
@@ -196,9 +196,9 @@ function initStage(images) {
     })();
   }
 
-  // create animal outlines
+  // 创建动物轮廓
   for (const key in outlines) {
-    // anonymous function to induce scope
+    // 匿名函数以引入作用域
     (function () {
       const imageObj = images[key];
       const out = outlines[key];
@@ -217,7 +217,7 @@ function initStage(images) {
   stage.add(animalLayer);
 
   updateMessage(
-    'Ahoy! Put the animals on the beach!'
+    '啊哈！把动物放在海滩上！'
   );
 }
 
@@ -237,7 +237,7 @@ const sources = {
   giraffe_black: 'giraffe-black.png',
 };
 
-// Demo warning: You'll need local image files for this demo to work
+// 演示警告：你将需要本地图像文件以使此演示正常工作
 loadImages(sources, initStage);
 ```
   </TabItem>
@@ -328,7 +328,7 @@ const App = () => {
       <Layer>
         <Background />
         <Text
-          text={score >= 4 ? 'You win! Enjoy your booty!' : 'Ahoy! Put the animals on the beach!'}
+          text={score >= 4 ? '你赢了！享受你的战利品！' : '啊哈！把动物放在海滩上！'}
           x={578 / 2}
           y={40}
           fontSize={20}
@@ -368,7 +368,7 @@ export default App;
   <TabItem value="Vue">
 ```vue live vue
 <script>
-// Animal.vue component
+// Animal.vue 组件
 const Animal = {
   template: `<v-image
     :config="imageConfig"
@@ -447,7 +447,7 @@ const Animal = {
   }
 };
 
-// AnimalOutline.vue component
+// AnimalOutline.vue 组件
 const AnimalOutline = {
   template: `<v-image v-if="image" :config="imageConfig" />`,
   props: ['name', 'x', 'y'],
@@ -464,7 +464,7 @@ const AnimalOutline = {
   }
 };
 
-// Background.vue component
+// Background.vue 组件
 const Background = {
   template: `<v-image v-if="image" :config="imageConfig" />`,
   setup() {
@@ -487,7 +487,7 @@ const Background = {
       <Background />
       <v-text
         :config="{
-          text: score >= 4 ? 'You win! Enjoy your booty!' : 'Ahoy! Put the animals on the beach!',
+          text: score >= 4 ? '你赢了！享受你的战利品！' : '啊哈！把动物放在海滩上！',
           x: 578 / 2,
           y: 40,
           fontSize: 20,
@@ -543,4 +543,4 @@ const handleScore = () => score.value++;
   </TabItem>
 </Tabs>
 
-**Instructions:** Drag and drop the animals onto their silhouettes on the beach. When all animals are correctly placed, you win! 
+**说明：** 拖动并放动物到海滩上的轮廓上。当所有动物都正确放置时，你赢了！

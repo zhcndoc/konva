@@ -1,17 +1,17 @@
 ---
-title: HTML5 Canvas Hue, Saturation and Luminance filter Image Tutorial
+title: HTML5 Canvas 色相、饱和度和亮度滤镜图像教程
 sidebar_label: HSL
 hide_table_of_contents: true
 slug: HSL.html
 ---
 
-To apply filter to an `Konva.Node`, we have to cache it first with `cache()` function. Then apply filter with `filters()` function.
+要对 `Konva.Node` 应用滤镜，我们必须首先使用 `cache()` 函数缓存它。然后使用 `filters()` 函数应用滤镜。
 
-To change hue, saturation and luminance components of an image with Konva, we can use the `Konva.Filters.HSL`.
+要在 Konva 中更改图像的色相、饱和度和亮度组件，我们可以使用 `Konva.Filters.HSL`。
 
-**Instructions**: Slide the controls to change HSL values.
+**说明**：滑动控制以更改 HSL 值。
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用滤镜，请访问 [滤镜文档](/api/Konva.Filters.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -44,7 +44,7 @@ imageObj.onload = () => {
   image.cache();
   image.filters([Konva.Filters.HSL]);
   
-  // create sliders
+  // 创建滑动条
   const createSlider = (label, min, max, defaultValue, property) => {
     const container = document.createElement('div');
     container.style.position = 'absolute';
@@ -71,15 +71,15 @@ imageObj.onload = () => {
     return container;
   };
 
-  const hueSlider = createSlider('Hue', -180, 180, 0, 'hue');
+  const hueSlider = createSlider('色相', -180, 180, 0, 'hue');
   hueSlider.style.top = '20px';
   document.body.appendChild(hueSlider);
 
-  const saturationSlider = createSlider('Saturation', -2, 10, 0, 'saturation');
+  const saturationSlider = createSlider('饱和度', -2, 10, 0, 'saturation');
   saturationSlider.style.top = '45px';
   document.body.appendChild(saturationSlider);
 
-  const luminanceSlider = createSlider('Luminance', -2, 2, 0, 'luminance');
+  const luminanceSlider = createSlider('亮度', -2, 2, 0, 'luminance');
   luminanceSlider.style.top = '70px';
   document.body.appendChild(luminanceSlider);
 };
@@ -125,7 +125,7 @@ const App = () => {
       </Stage>
       <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
         <div>
-          Hue
+          色相
           <input
             type="range"
             min="-259"
@@ -135,7 +135,7 @@ const App = () => {
           />
         </div>
         <div>
-          Saturation
+          饱和度
           <input
             type="range"
             min="-2"
@@ -146,7 +146,7 @@ const App = () => {
           />
         </div>
         <div>
-          Luminance
+          亮度
           <input
             type="range"
             min="-2"
@@ -187,7 +187,7 @@ export default App;
     </v-stage>
     <div style="position: absolute; top: 20px; left: 20px">
       <div>
-        Hue
+        色相
         <input
           type="range"
           min="-259"
@@ -197,7 +197,7 @@ export default App;
         />
       </div>
       <div>
-        Saturation
+        饱和度
         <input
           type="range"
           min="-2"
@@ -208,7 +208,7 @@ export default App;
         />
       </div>
       <div>
-        Luminance
+        亮度
         <input
           type="range"
           min="-2"
@@ -246,6 +246,5 @@ watch(image, async (newImage) => {
 });
 </script>
 ```
-
-</TabItem>
+  </TabItem>
 </Tabs>

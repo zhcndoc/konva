@@ -1,16 +1,16 @@
 ---
-title: HTML5 Canvas Drop Events
-sidebar_label: Drop Events
+title: HTML5 Canvas 拖放事件
+sidebar_label: 拖放事件
 hide_table_of_contents: true
 slug: Drop_Events.html
 ---
 
-Konva does not support drop events. But you can write your own drop events detections.
-To detect drop target shape you have to move dragging object into another layer.
+Konva 不支持拖放事件。但你可以编写自己的拖放事件检测。
+要检测拖放目标形状，你必须将拖动的对象移动到另一个层中。
 
-In this example you can see implementation of `drop`, `dragenter`, `dragleave`, `dragover` events.
+在这个例子中，你可以看到 `drop`、`dragenter`、`dragleave`、`dragover` 事件的实现。
 
-**Instructions:** drag one shape over another. Or drag and drop one shape into another.
+**说明：** 拖动一个形状到另一个形状上。或拖动并放下一个形状到另一个形状中。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -38,7 +38,7 @@ layer.add(text);
 
 let previousShape;
 
-// create multiple stars
+// 创建多个星星
 for (let i = 0; i < 10; i++) {
   const star = new Konva.Star({
     x: stage.width() * Math.random(),
@@ -65,9 +65,9 @@ for (let i = 0; i < 10; i++) {
 
     if (previousShape && shape) {
       if (previousShape !== shape) {
-        // leave from old target
+        // 离开旧目标
         previousShape.fire('dragleave', { evt: e.evt }, true);
-        // enter new target
+        // 进入新目标
         shape.fire('dragenter', { evt: e.evt }, true);
         previousShape = shape;
       } else {
@@ -156,9 +156,9 @@ const App = () => {
 
     if (previousShapeRef.current && shape) {
       if (previousShapeRef.current !== shape) {
-        // leave from old target
+        // 离开旧目标
         previousShapeRef.current.fire('dragleave', { evt: e.evt }, true);
-        // enter new target
+        // 进入新目标
         shape.fire('dragenter', { evt: e.evt }, true);
         previousShapeRef.current = shape;
       } else {
@@ -318,9 +318,9 @@ const handleDragMove = (e) => {
 
   if (previousShape.value && shape) {
     if (previousShape.value !== shape) {
-      // leave from old target
+      // 离开旧目标
       previousShape.value.fire('dragleave', { evt: e.evt }, true);
-      // enter new target
+      // 进入新目标
       shape.fire('dragenter', { evt: e.evt }, true);
       previousShape.value = shape;
     } else {
@@ -373,4 +373,4 @@ const handleDrop = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

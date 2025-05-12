@@ -10,82 +10,74 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Object Oriented API',
+    title: '面向对象的 API',
     Svg: require('@site/static/assets/features/undraw_abstract_x68e.svg').default,
     description: (
       <>
-        Konva provides an object-oriented API with support for many shapes,
-        enabling intuitive and flexible canvas manipulation.
+        Konva 提供了面向对象的 API，支持多种形状，能够实现直观和灵活的画布操作。
       </>
     ),
   },
   {
-    title: 'Cross-Platform Support',
+    title: '跨平台支持',
     Svg: require('@site/static/assets/features/undraw_file_sync_ot38.svg').default,
     description: (
       <>
-        Konva offers seamless support for both desktop and mobile devices,
-        ensuring a consistent experience across platforms.
+        Konva 提供对桌面和移动设备的无缝支持，确保跨平台的一致体验。
       </>
     ),
   },
   {
-    title: 'Animations and Tweens',
+    title: '动画和补间',
     Svg: require('@site/static/assets/features/undraw_animating_1rgh.svg').default,
     description: (
       <>
-        Create smooth and dynamic animations with Konva's built-in animation
-        and tween capabilities for interactive canvas experiences.
+        利用 Konva 内置的动画与补间功能，打造流畅生动的动态效果，实现交互式画布体验。
       </>
     ),
   },
   {
-    title: 'Advanced Node Management',
+    title: '高级节点管理',
     Svg: require('@site/static/assets/features/undraw_fitting_pieces_cli3.svg').default,
     description: (
       <>
-        Konva supports node nesting, grouping, and event bubbling, allowing
-        for complex hierarchical structures and efficient event handling.
+        Konva 支持节点嵌套、分组和事件冒泡，允许复杂的层次结构和高效的事件处理。
       </>
     ),
   },
   {
-    title: 'High-Quality Exports',
+    title: '高质量导出',
     Svg: require('@site/static/assets/features/undraw_image_viewer_wxce.svg').default,
     description: (
       <>
-        Export your canvas creations as high-quality data URLs, image data,
-        or image objects for versatile use in various applications.
+        将您的画布创作导出为高质量的数据 URL、图像数据或图像对象，以便在各种应用中灵活使用。
       </>
     ),
   },
   {
-    title: 'Ready-to-Use Filters',
+    title: '即用型过滤器',
     Svg: require('@site/static/assets/features/undraw_options_2fvi.svg').default,
     description: (
       <>
-        Enhance your canvas with Konva's collection of pre-built filters,
-        adding visual effects and transformations with ease.
+        使用 Konva 的预构建滤镜集合增强您的画布，轻松添加视觉效果和变换。
       </>
     ),
   },
   {
-    title: 'Framework Integration',
+    title: '框架集成',
     Svg: require('@site/static/assets/features/undraw_voice_interface_eckp.svg').default,
     description: (
       <>
-        Seamlessly integrate Konva with popular web frameworks like React,
-        Vue, and Svelte for enhanced development workflows.
+        无缝集成 Konva 与流行的 web 框架，如 React、Vue 和 Svelte，以增强开发工作流程。
       </>
     ),
   },
   {
-    title: 'Drag and Drop Support',
+    title: '拖放支持',
     Svg: require('@site/static/assets/features/undraw_drag_5i9w.svg').default,
     description: (
       <>
-        Implement interactive drag and drop functionality effortlessly with
-        Konva's built-in support for enhanced user experiences.
+        轻松实现互动拖放功能，借助 Konva 内置的支持提升用户体验。
       </>
     ),
   },

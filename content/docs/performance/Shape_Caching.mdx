@@ -1,46 +1,42 @@
 ---
-title: HTML5 Canvas Shape Caching Performance Tip
-sidebar_label: Shape Caching
+title: HTML5 Canvas 形状缓存性能提示
+sidebar_label: 形状缓存
 hide_table_of_contents: true
 slug: Shape_Caching.html
 ---
 
-If you have a complex shape with many drawing operations, or if you're applying filters,
-you can improve performance by caching the shape. When you cache a shape, Konva will draw
-it onto an internal canvas buffer. After that, instead of redrawing the shape every time,
-Konva will simply use the cached version.
+如果您有一个复杂的形状，其中包含许多绘图操作，或者如果您正在应用过滤器，您可以通过缓存形状来提高性能。当您缓存一个形状时，Konva 会将其绘制到一个内部画布缓冲区。之后，Konva 将简单地使用缓存的版本，而不是每次都重绘该形状。
 
-This is particularly useful for:
-1. Complex shapes with many drawing operations
-2. Shapes with filters
-3. Shapes that don't change often but need to be redrawn frequently
+这在以下情况下特别有用：
+1. 具有许多绘图操作的复杂形状
+2. 带有过滤器的形状
+3. 不经常变化但需要频繁重新绘制的形状
 
-To cache a shape, simply call the `cache()` method. You can clear the cache with `clearCache()`.
+要缓存形状，只需调用 `cache()` 方法。您可以使用 `clearCache()` 清除缓存。
 
-## How caching works?
+## 缓存是如何工作的？
 
-When you call the `cache()` method on a shape, Konva:
-1. Creates an internal canvas buffer
-2. Draws the shape onto this buffer
-3. Stores this buffer for future use
+当您在形状上调用 `cache()` 方法时，Konva：
+1. 创建一个内部画布缓冲区
+2. 将形状绘制到该缓冲区
+3. 将该缓冲区存储以供将来使用
 
-After caching, instead of redrawing the shape every time it needs to be displayed, Konva simply uses the cached version from the buffer. This is much faster than redrawing the shape repeatedly.
+在缓存之后，而不是每次需要显示该形状时都进行重绘，Konva 将简单地使用缓冲区中的缓存版本。这比重复重绘形状要快得多。
 
-## Guidelines
+## 指南
 
-1. Don't cache simple shapes without filters. It may be faster to render it dirrectly, then from cached version.
-2. Every cached node creates several canvas buffers. So don't overuse it, as it will consume a lot of memory.
-3. It is better to cache groups of shapes, then to cache each shape individually.
-4. Remember to always measure performance with and without caching to see the actual difference.
+1. 不要缓存没有过滤器的简单形状。直接渲染它可能会更快，而不是从缓存版本中渲染。
+2. 每个缓存节点会创建几个画布缓冲区。因此不要过度使用，因为这会消耗大量内存。
+3. 更好地缓存形状组，而不是单独缓存每个形状。
+4. 记得始终测量带缓存和不带缓存的性能，以查看实际差异。
 
+下面是一个演示，显示了缓存和非缓存复杂形状之间的性能差异：
 
-Below is a demo showing the performance difference between cached and non-cached complex shapes:
-
-**Instructions:**
-- Click anywhere on the stage to add 1000 more circles
-- Toggle the checkbox to enable/disable caching
-- Watch the FPS counter to see the performance difference
-- The group of circles rotates continuously
+**说明：**
+- 点击舞台上的任何地方添加 1000 个更多的圆圈
+- 切换复选框以启用/禁用缓存
+- 观察 FPS 计数器以查看性能差异
+- 圆圈组不断旋转
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -59,14 +55,14 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create a group of circles
+// 创建一组圆圈
 const group = new Konva.Group({
   x: stage.width() / 2,
   y: stage.height() / 2,
 });
 layer.add(group);
 
-// Add initial circles
+// 添加初始圆圈
 const addCircles = (count) => {
   const radius = 300;
   for (let i = 0; i < count; i++) {
@@ -91,10 +87,10 @@ const addCircles = (count) => {
   }
 };
 
-// Add initial circles
+// 添加初始圆圈
 addCircles(5000);
 
-// Add FPS counter
+// 添加 FPS 计数器
 const fpsText = new Konva.Text({
   x: 10,
   y: 10,
@@ -107,7 +103,7 @@ const fpsText = new Konva.Text({
 });
 layer.add(fpsText);
 
-// Add circle count text
+// 添加圆圈数量文本
 const countText = new Konva.Text({
   x: 10,
   y: 40,
@@ -120,21 +116,21 @@ const countText = new Konva.Text({
 });
 layer.add(countText);
 
-// Create animation
+// 创建动画
 const anim = new Konva.Animation((frame) => {
   group.rotation(frame.time * 0.05);
   
-  // Update FPS counter
+  // 更新 FPS 计数器
   fpsText.text('FPS: ' + frame.frameRate.toFixed(1));
 }, layer);
 
-// Add click handler to add more circles
+// 添加点击处理程序以添加更多圆圈
 stage.on('click', () => {
   addCircles(1000);
   countText.text('Circles: ' + group.children.length);
 });
 
-// Add DOM checkbox
+// 添加 DOM 复选框
 const container = stage.container();
 const checkbox = document.createElement('input');
 checkbox.type = 'checkbox';
@@ -147,7 +143,7 @@ container.appendChild(checkbox);
 
 const label = document.createElement('label');
 label.htmlFor = 'cache-toggle';
-label.textContent = 'Enable Caching';
+label.textContent = '启用缓存';
 label.style.position = 'absolute';
 label.style.top = '70px';
 label.style.left = '30px';
@@ -156,7 +152,7 @@ label.style.textShadow = '0 0 5px black';
 label.style.zIndex = '100';
 container.appendChild(label);
 
-// Toggle caching
+// 切换缓存
 checkbox.addEventListener('change', () => {
   if (checkbox.checked) {
     group.cache();
@@ -181,16 +177,16 @@ const App = () => {
   const groupRef = useRef(null);
 
   useEffect(() => {
-    // Add initial circles
+    // 添加初始圆圈
     addCircles(5000);
 
-    // Setup animation
+    // 设置动画
     const anim = new Konva.Animation((frame) => {
       if (groupRef.current) {
         groupRef.current.rotation(frame.time * 0.05);
       }
       
-      // Update FPS counter
+      // 更新 FPS 计数器
       fpsTextRef.current.text('FPS: ' + frame.frameRate.toFixed(1));
     }, fpsTextRef.current.getLayer());
 
@@ -198,7 +194,7 @@ const App = () => {
     return () => anim.stop();
   }, []);
 
-  // Toggle caching
+  // 切换缓存
   useEffect(() => {
     if (groupRef.current) {
       if (isCached) {
@@ -209,7 +205,7 @@ const App = () => {
     }
   }, [isCached]);
 
-  // Add circles
+  // 添加圆圈
   const addCircles = (count) => {
     const newCircles = [];
     const radius = 300;
@@ -298,7 +294,7 @@ const App = () => {
             marginLeft: '10px'
           }}
         >
-          Enable Caching
+          启用缓存
         </label>
       </div>
     </>
@@ -359,7 +355,7 @@ export default App;
         for="cache-toggle"
         style="color: white; text-shadow: 0 0 5px black; margin-left: 10px"
       >
-        Enable Caching
+        启用缓存
       </label>
     </div>
 </template>
@@ -379,7 +375,7 @@ const fpsTextRef = ref(null);
 const groupRef = ref(null);
 const circles = ref([]);
 
-// Add circles
+// 添加圆圈
 const addCircles = (count) => {
   console.log('addCircles', count);
   const radius = 300;
@@ -408,7 +404,7 @@ const addCircles = (count) => {
   circles.value = [...circles.value, ...newCircles];
 };
 
-// Toggle caching
+// 切换缓存
 watch(isCached, (value) => {
   if (groupRef.value) {
     if (value) {
@@ -433,7 +429,7 @@ const fpsConfig = ref({
 let anim = null;
 
 onMounted(() => {
-  // Add initial circles
+  // 添加初始圆圈
   addCircles(5000);
 
   anim = new Konva.Animation((frame) => {
@@ -441,7 +437,7 @@ onMounted(() => {
       groupRef.value.getNode().rotation(frame.time * 0.05);
     }
     
-    // Update FPS counter
+    // 更新 FPS 计数器
     fpsTextRef.value.getNode().text('FPS: ' + frame.frameRate.toFixed(1));
   }, layerRef.value.getNode());
 
@@ -456,4 +452,4 @@ onUnmounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,15 +1,15 @@
 ---
-title: How to draw custom shapes with React?
-sidebar_label: Custom Shape
+title: 如何使用 React 绘制自定义形状？
+sidebar_label: 自定义形状
 hide_table_of_contents: true
 slug: Custom_Shape.html
 ---
 
-To create a custom shape with `react-konva`, we should use the `Shape` component.
+要使用 `react-konva` 创建自定义形状，我们应该使用 `Shape` 组件。
 
-When creating a custom shape, we need to define a drawing function that is passed to a Konva.Canvas renderer.
+在创建自定义形状时，我们需要定义一个绘制函数，该函数会传递给 Konva.Canvas 渲染器。
 
-We can use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handle filling, stroking, and applying shadows.
+我们可以使用该渲染器访问 HTML5 Canvas 上下文，并使用诸如 `context.fillStrokeShape(shape)` 等特定方法，该方法自动处理填充、描边和应用阴影。
 
 ```js live react
 import React from 'react';
@@ -31,7 +31,7 @@ const App = () => {
             context.quadraticCurveTo(width - 110, height - 70, width, height);
             context.closePath();
 
-            // (!) Konva specific method, it is very important
+            // (!) Konva 特定方法，非常重要
             context.fillStrokeShape(shape);
           }}
           fill="#00D2FF"
@@ -44,4 +44,4 @@ const App = () => {
 };
 
 export default App;
-``` 
+```

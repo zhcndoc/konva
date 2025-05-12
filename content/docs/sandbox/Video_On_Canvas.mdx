@@ -1,6 +1,6 @@
 ---
-title: How to display video on Canvas
-sidebar_label: Video On Canvas
+title: 如何在画布上显示视频
+sidebar_label: 画布上的视频
 hide_table_of_contents: true
 slug: Video_On_Canvas.html
 ---
@@ -8,27 +8,27 @@ slug: Video_On_Canvas.html
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# How to display video on Canvas
+# 如何在画布上显示视频
 
-To draw a video on a canvas, we can use a `<video>` DOM element similar to an `<img>` element, but we have to frequently redraw the layer. For this purpose, we can use `Konva.Animation`. As an alternative, you can use `requestAnimationFrame` and just call `layer.draw()`.
+要在画布上绘制视频，我们可以使用 `<video>` DOM 元素，类似于 `<img>` 元素，但我们必须频繁地重绘图层。为此，我们可以使用 `Konva.Animation`。作为替代方案，您可以使用 `requestAnimationFrame` 并仅调用 `layer.draw()`。
 
-> Also take a look at this post for additional information: [Case Study: Video Editor for Stream](https://lavrton.com/case-study-video-editor-for-stream/)
+> 另外，请查看这篇文章以获取更多信息: [案例研究: 流媒体视频编辑器](https://lavrton.com/case-study-video-editor-for-stream/)
 
-The demo below shows how to display a video on canvas with play/pause controls. You can also drag and drop the video around the canvas.
+下面的演示展示了如何在画布上使用播放/暂停控件显示视频。您还可以拖放视频。
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// create buttons
+// 创建按钮
 const playButton = document.createElement('button');
-playButton.textContent = 'Play';
+playButton.textContent = '播放';
 playButton.id = 'play';
 document.body.appendChild(playButton);
 
 const pauseButton = document.createElement('button');
-pauseButton.textContent = 'Pause';
+pauseButton.textContent = '暂停';
 pauseButton.id = 'pause';
 document.body.appendChild(pauseButton);
 
@@ -57,7 +57,7 @@ const image = new Konva.Image({
 layer.add(image);
 
 const text = new Konva.Text({
-  text: 'Loading video...',
+  text: '正在加载视频...',
   width: stage.width(),
   height: stage.height(),
   align: 'center',
@@ -66,12 +66,12 @@ const text = new Konva.Text({
 layer.add(text);
 
 const anim = new Konva.Animation(function () {
-  // do nothing, animation just needs to update the layer
+  // 什么也不做，动画只是需要更新图层
 }, layer);
 
-// update Konva.Image size when meta is loaded
+// 在元数据加载时更新 Konva.Image 大小
 video.addEventListener('loadedmetadata', function () {
-  text.text('Press PLAY...');
+  text.text('按下播放...');
   image.width(video.videoWidth);
   image.height(video.videoHeight);
 });
@@ -104,7 +104,7 @@ const App = () => {
     return element;
   });
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
-  const [status, setStatus] = useState('Loading video...');
+  const [status, setStatus] = useState('正在加载视频...');
   const animationRef = useRef(null);
   const layerRef = useRef(null);
 
@@ -122,7 +122,7 @@ const App = () => {
 
   useEffect(() => {
     const handleMetadata = () => {
-      setStatus('Press PLAY...');
+      setStatus('按下播放...');
       setVideoSize({
         width: videoElement.videoWidth,
         height: videoElement.videoHeight,
@@ -152,8 +152,8 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={handlePlay}>Play</button>
-      <button onClick={handlePause}>Pause</button>
+      <button onClick={handlePlay}>播放</button>
+      <button onClick={handlePause}>暂停</button>
       <Stage width={dimensions.width} height={dimensions.height}>
         <Layer ref={layerRef}>
           <Image
@@ -186,8 +186,8 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <button @click="handlePlay">Play</button>
-    <button @click="handlePause">Pause</button>
+    <button @click="handlePlay">播放</button>
+    <button @click="handlePause">暂停</button>
     <v-stage :config="stageConfig">
       <v-layer ref="layerRef">
         <v-image
@@ -223,7 +223,7 @@ export default {
     const width = ref(window.innerWidth);
     const height = ref(400);
     const layerRef = ref(null);
-    const status = ref('Loading video...');
+    const status = ref('正在加载视频...');
     const animation = ref(null);
     const videoElement = ref(document.createElement('video'));
     const videoSize = ref({ width: 0, height: 0 });
@@ -241,7 +241,7 @@ export default {
     };
 
     const handleMetadata = () => {
-      status.value = 'Press PLAY...';
+      status.value = '按下播放...';
       videoSize.value = {
         width: videoElement.value.videoWidth,
         height: videoElement.value.videoHeight,
@@ -294,12 +294,12 @@ export default {
   </TabItem>
 </Tabs>
 
-The demo shows how to:
-1. Create a video element and use it as the source for a Konva.Image
-2. Implement play/pause controls for the video
-3. Use Konva.Animation to continuously update the layer while the video is playing
-4. Make the video draggable on the canvas
-5. Display loading and play status messages
-6. Handle video metadata to set the correct dimensions
+演示展示了如何：
+1. 创建一个视频元素并将其用作 Konva.Image 的源
+2. 为视频实现播放/暂停控制
+3. 使用 Konva.Animation 在视频播放时连续更新图层
+4. 在画布上使视频可拖动
+5. 显示加载和播放状态信息
+6. 处理视频元数据以设置正确的尺寸
 
-Try playing the video and dragging it around the canvas. The video will continue playing while you move it. 
+尝试播放视频并将其拖动到画布上。视频会在您移动时继续播放。

@@ -1,22 +1,22 @@
 ---
-title: How to cache canvas shapes with Vue?
-sidebar_label: Cache
+title: 如何在 Vue 中缓存画布形状？
+sidebar_label: 缓存
 hide_table_of_contents: true
 slug: Cache.html
 ---
 
-If you want to cache a node in a Vue app, you need to have access to the Konva node and use the `node.cache()` function.
+如果你想在 Vue 应用中缓存一个节点，你需要访问 Konva 节点并使用 `node.cache()` 函数。
 
-To get access to a node you can use references and the `component.getNode()` method:
+要访问节点，你可以使用引用和 `component.getNode()` 方法：
 
 ```javascript
-// in template:
+// 在模板中：
 <v-group ref="group">
-// later in the code:
+// 在代码中稍后：
 this.$refs.group.getNode().cache();
 ```
 
-Instructions: Try to drag the whole stage. Then enable caching and try again. You should see much better performance with caching enabled.
+说明：尝试拖动整个舞台。然后启用缓存并再次尝试。你应该会看到启用缓存后性能大幅提升。
 
 ```js live vue
 <template>
@@ -48,7 +48,7 @@ Instructions: Try to drag the whole stage. Then enable caching and try again. Yo
       </v-layer>
     </v-stage>
     <div class="cache">
-      <input type="checkbox" @change="handleCacheChange"> cache shapes
+      <input type="checkbox" @change="handleCacheChange"> 缓存形状
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ export default {
     }
   },
   mounted() {
-    // Generate 300 random stars
+    // 生成 300 个随机星形
     for (let n = 0; n < 1000; n++) {
       this.list.push({
         id: Math.round(Math.random() * 10000).toString(),
@@ -100,4 +100,4 @@ export default {
   top: 0;
   left: 0;
 }
-</style> 
+</style>

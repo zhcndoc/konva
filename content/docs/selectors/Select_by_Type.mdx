@@ -1,12 +1,12 @@
 ---
-title: HTML5 Canvas Select Shape by Type Tutorial
-sidebar_label: Select by Type
+title: 使用 HTML5 Canvas HTML5 Canvas 按类型选择形状教程
+sidebar_label: 按类型选择
 hide_table_of_contents: true
 slug: Select_by_Type.html
 ---
 
-To select shapes by type with Konva, we can use the `find()` method with the name of the type or class name.
-The `find()` method returns an array of nodes that match the selector string.
+要使用 Konva 按类型选择形状，我们可以使用 `find()` 方法并传入类型名称或类名。  
+`find()` 方法返回与选择器字符串匹配的节点数组。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -25,7 +25,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create shapes of different types
+// 创建不同类型的图形
 const circle1 = new Konva.Circle({
   x: 50,
   y: stage.height() / 2,
@@ -52,10 +52,10 @@ layer.add(circle1);
 layer.add(circle2);
 layer.add(rect);
 
-// find all circles by type
+// 按类型查找所有圆形
 const circles = layer.find('Circle');
 circles.forEach(circle => {
-  // add animation to circles only
+  // 只给圆形添加动画
   circle.to({
     duration: 1,
     scale: { x: 1.5, y: 1.5 },
@@ -73,7 +73,7 @@ const App = () => {
   const layerRef = useRef(null);
   
   useEffect(() => {
-    // find all circles by type and animate them
+    // 按类型查找所有圆形并动画它们
     const circles = layerRef.current.find('Circle');
     circles.forEach(circle => {
       circle.to({
@@ -160,7 +160,7 @@ const rectConfig = {
 const layerRef = ref(null);
 
 onMounted(() => {
-  // find all circles by type and animate them
+  // 按类型查找所有圆形并动画它们
   const circles = layerRef.value.getNode().find('Circle');
   circles.forEach(circle => {
     circle.to({
@@ -173,4 +173,4 @@ onMounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,16 +1,13 @@
 ---
-title: HTML5 Canvas Cancel Event Bubble Propagation with Konva
-sidebar_label: Cancel Propagation
+title: 使用 Konva 取消 HTML5 Canvas 事件冒泡传播
+sidebar_label: 取消传播
 hide_table_of_contents: true
 slug: Cancel_Propagation.html
 ---
 
-To cancel event bubble propagation with Konva, we can set the `cancelBubble`
-property of the Event object to true.
+要使用 Konva 取消事件冒泡传播，我们可以将事件对象的 `cancelBubble` 属性设置为 true。
 
-**Instructions: Click on the circle to observe that only the circle event binding
-is handled because the event propagation was canceled when the circle event was triggered,
-therefore preventing the event object from bubbling upwards.**
+**说明：点击圆形以观察只有圆形事件绑定被处理，因为当圆形事件被触发时事件传播被取消，从而阻止了事件对象向上冒泡。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -39,13 +36,13 @@ const circle = new Konva.Circle({
 });
 
 circle.on('click', function (evt) {
-  alert('You clicked on the circle');
-  // stop event bubble
+  alert('您点击了圆形');
+  // 停止事件冒泡
   evt.cancelBubble = true;
 });
 
 layer.on('click', function () {
-  alert('You clicked on the layer');
+  alert('您点击了图层');
 });
 
 layer.add(circle);
@@ -57,13 +54,13 @@ import { Stage, Layer, Circle } from 'react-konva';
 
 const App = () => {
   const handleCircleClick = (e) => {
-    alert('You clicked on the circle');
-    // stop event bubble
+    alert('您点击了圆形');
+    // 停止事件冒泡
     e.cancelBubble = true;
   };
 
   const handleLayerClick = () => {
-    alert('You clicked on the layer');
+    alert('您点击了图层');
   };
 
   return (
@@ -115,15 +112,15 @@ const circleConfig = {
 };
 
 const handleCircleClick = (e) => {
-  alert('You clicked on the circle');
-  // stop event bubble
+  alert('您点击了圆形');
+  // 停止事件冒泡
   e.cancelBubble = true;
 };
 
 const handleLayerClick = () => {
-  alert('You clicked on the layer');
+  alert('您点击了图层');
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

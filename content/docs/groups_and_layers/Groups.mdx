@@ -1,17 +1,15 @@
 ---
-title: Shape Groups
-sidebar_label: Groups
+title: 形状组
+sidebar_label: 组
 hide_table_of_contents: true
 slug: Groups.html
 ---
 
-To group multiple shapes together with Konva, we can instantiate a `Konva.Group()` object and then add shapes to it with the `add()` method.
-Grouping shapes together is really handy when we want to transform multiple shapes together, e.g. if we want to move, rotate, or scale multiple shapes at once.
-Groups can also be added to other groups to create more complex Node trees.
+要使用 Konva 将多个形状组合在一起，我们可以实例化一个 `Konva.Group()` 对象，然后通过 `add()` 方法添加形状到该组中。将形状组合在一起在我们想要一起变换多个形状时非常方便，例如，如果我们想一次性移动、旋转或缩放多个形状。组也可以添加到其他组中，以创建更复杂的节点树。
 
-For a full list of attributes and methods, check out the [Konva.Group documentation](/api/Konva.Group.html).
+要查看完整属性和方法列表，请查看 [Konva.Group 文档](/api/Konva.Group.html)。
 
-**Instructions: Try to drag the group. Notice how all shapes move together.**
+**说明：尝试拖动该组。注意所有形状一起移动。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -62,7 +60,7 @@ group.add(rect);
 layer.add(group);
 stage.add(layer);
 
-````
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -97,8 +95,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

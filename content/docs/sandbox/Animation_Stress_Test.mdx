@@ -1,11 +1,11 @@
 ---
-title: Animation Stress Test
-sidebar_label: Animation Stress Test
+title: 动画压力测试
+sidebar_label: 动画压力测试
 hide_table_of_contents: true
 slug: Animation_Stress_Test.html
 ---
 
-This demo creates 300 rectangles with random sizes, positions, and colors, then animates them by rotating each rectangle. The animation performance is optimized by setting the `listening` property of the layer to `false`, which improves drawing performance as the rectangles won't be drawn onto the hit graph.
+此演示创建了300个具有随机大小、位置和颜色的矩形，然后通过旋转每个矩形来对它们进行动画处理。通过将图层的 `listening` 属性设置为 `false` 来优化动画性能，这样可以提高绘制性能，因为矩形将不会被绘制到命中图上。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -36,9 +36,9 @@ const stage = new Konva.Stage({
 });
 
 /*
- * setting the listening property to false will improve
- * drawing performance because the rectangles won't have to be
- * drawn onto the hit graph
+ * 将 listening 属性设置为 false 将改善
+ * 绘制性能，因为矩形不必被
+ * 绘制到命中图上
  */
 const layer = new Konva.Layer({
   listening: false,
@@ -102,14 +102,14 @@ const App = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
   
-  // State for rectangles
+  // 矩形的状态
   const [boxes, setBoxes] = useState([]);
   
-  // Animation ref to keep track of the animation
+  // 动画引用以跟踪动画
   const animRef = useRef(null);
   const layerRef = useRef(null);
   
-  // Generate random boxes
+  // 生成随机矩形
   useEffect(() => {
     const colors = [
       'red',
@@ -146,17 +146,17 @@ const App = () => {
         fill: color,
         stroke: 'black',
         strokeWidth: 4,
-        rotation: 0, // Initial rotation
+        rotation: 0, // 初始旋转
       });
     }
     
     setBoxes(newBoxes);
   }, [width, height]);
   
-  // Setup animation on mount
+  // 挂载时设置动画
   useEffect(() => {
     if (layerRef.current && boxes.length > 0) {
-      // Create animation
+      // 创建动画
       const angularSpeed = 100;
       
       animRef.current = new Konva.Animation((frame) => {
@@ -170,10 +170,10 @@ const App = () => {
         );
       }, layerRef.current.getLayer());
       
-      // Start animation
+      // 开始动画
       animRef.current.start();
       
-      // Cleanup on unmount
+      // 卸载时清理
       return () => {
         if (animRef.current) {
           animRef.current.stop();
@@ -238,7 +238,7 @@ const layer = ref(null);
 const boxes = ref([]);
 let animation = null;
 
-// Generate boxes with random properties
+// 生成具有随机属性的矩形
 onMounted(() => {
   const colors = [
     'red',
@@ -283,7 +283,7 @@ onMounted(() => {
   
   boxes.value = newBoxes;
   
-  // Start animation after boxes are created
+  // 创建完矩形后开始动画
   nextTick(() => {
     if (layer.value) {
       const angularSpeed = 100;
@@ -301,7 +301,7 @@ onMounted(() => {
   });
 });
 
-// Cleanup animation on unmount
+// 卸载时清理动画
 onUnmounted(() => {
   if (animation) {
     animation.stop();
@@ -312,4 +312,4 @@ onUnmounted(() => {
   </TabItem>
 </Tabs>
 
-**Instructions:** This demo shows the animation capability of Konva by rotating 300 rectangles simultaneously. Watch as the shapes rotate smoothly across the screen. 
+**说明：** 此演示展示了 Konva 的动画能力，通过同时旋转300个矩形。观看这些形状在屏幕上平滑旋转。

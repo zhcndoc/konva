@@ -1,16 +1,16 @@
 ---
-title: HTML5 Canvas Select Shape by id Tutorial
-sidebar_label: Select by id
+title: HTML5 Canvas 通过 id 选择形状的教程
+sidebar_label: 通过 id 选择
 hide_table_of_contents: true
 slug: Select_by_id.html
 ---
 
-To select a shape by id with Konva, we can use the `find()` method using the # selector.
-The `find()` method always returns an array of elements, even if we are expecting it to return one element.
-if you need only one element you can use `findOne()` method.
-The `find()` method works for any node, including the stage, layers, groups, and shapes.
+要使用 Konva 通过 id 选择形状，我们可以使用 `find()` 方法和 # 选择器。
+`find()` 方法始终返回一个元素数组，即使我们希望它返回单个元素。
+如果只需要一个元素，可以使用 `findOne()` 方法。
+`find()` 方法适用于任何节点，包括舞台、图层、组和形状。
 
-**Instructions:** press the "Activate Rectangle" button to select the rectangle by id and perform a transition. You can also drag and drop the rectangle.
+**说明：** 点击“激活矩形”按钮通过 id 选择矩形并执行过渡。您也可以拖动和放置矩形。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -29,7 +29,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create a rectangle with id
+// 创建一个带有 id 的矩形
 const rect = new Konva.Rect({
   x: stage.width() / 2 - 25,
   y: stage.height() / 2 - 25,
@@ -42,13 +42,13 @@ const rect = new Konva.Rect({
 
 layer.add(rect);
 
-// add button
+// 添加按钮
 const button = document.createElement('button');
-button.textContent = 'Activate Rectangle';
+button.textContent = '激活矩形';
 document.body.appendChild(button);
 
 button.addEventListener('click', () => {
-  // find rectangle by id and animate it
+  // 通过 id 查找矩形并对其进行动画处理
   const rectangle = layer.findOne('#myRect');
   rectangle.to({
     duration: 1,
@@ -72,7 +72,7 @@ const App = () => {
   const layerRef = useRef(null);
 
   const handleClick = () => {
-    // find rectangle by id and animate it
+    // 通过 id 查找矩形并对其进行动画处理
     const rectangle = layerRef.current.findOne('#myRect');
     rectangle.to({
       duration: 1,
@@ -92,7 +92,7 @@ const App = () => {
   return (
     <div>
       <button onClick={handleClick} style={{ marginBottom: '10px' }}>
-        Activate Rectangle
+        激活矩形
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer ref={layerRef}>
@@ -120,7 +120,7 @@ export default App;
 <template>
   <div>
     <button @click="handleClick" style="margin-bottom: 10px">
-      Activate Rectangle
+      激活矩形
     </button>
     <v-stage :config="stageSize">
       <v-layer ref="layerRef">
@@ -160,7 +160,7 @@ const rectConfig = ref({
 const layerRef = ref(null);
 
 const handleClick = () => {
-  // find rectangle by id and animate it
+  // 通过 id 查找矩形并对其进行动画处理
   const rectangle = layerRef.value.getNode().findOne('#myRect');
   rectangle.to({
     duration: 1,
@@ -179,4 +179,4 @@ const handleDragEnd = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

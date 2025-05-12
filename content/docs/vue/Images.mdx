@@ -1,13 +1,13 @@
 ---
-title: How to draw images on canvas with Vue?
-sidebar_label: Images
+title: 如何在 Canvas 上使用 Vue 绘制图片？
+sidebar_label: 图片
 hide_table_of_contents: true
 slug: Images.html
 ---
 
-For images, you can use the `useImage` hook from `vue-konva` to easily load and handle images in your components.
+对于图片，您可以使用 `vue-konva` 提供的 `useImage` 钩子，轻松在组件中加载并处理图片。
 
-Instructions: The demo shows how to load and display multiple images on the canvas.
+说明：此示例展示了如何在画布上加载并显示多张图片。
 
 ```js live vue
 <template>
@@ -48,4 +48,5 @@ const stageSize = {
 
 const [yodaImage] = useImage('https://konvajs.org/assets/yoda.jpg');
 const [vaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg');
-</script> 
+</script>
+```

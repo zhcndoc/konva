@@ -1,16 +1,14 @@
 ---
-title: HTML5 Canvas Simple Clipping tutorial
-sidebar_label: Simple Clipping
+title: HTML5 Canvas 简单裁剪教程
+sidebar_label: 简单裁剪
 hide_table_of_contents: true
 slug: Clipping_Regions.html
 ---
 
-To draw things inside of clipping regions with Konva, we can set the `clip`
-property of a group or a layer.
-Clipping regions are defined by an `x`, `y`, `width`, and `height`.  In this tutorial,
-we'll draw blobs inside of a rectangular clipping region applied to a group.
+使用 Konva 在裁剪区域内绘制内容的方法是，我们可以设置组或图层的 `clip` 属性。
+裁剪区域由 `x`、`y`、`width` 和 `height` 定义。在本教程中，我们将在应用到组的矩形裁剪区域内绘制 blob。
 
-For more complex cases take a look into clipping function. [Clipping Function](/docs/clipping/Clipping_Function.html)
+对于更复杂的情况，可以查看裁剪函数。[裁剪函数]( /docs/clipping/Clipping_Function.html )
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -20,14 +18,14 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// First we need to create stage
+// 首先需要创建舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: window.innerWidth,
   height: window.innerHeight,
 });
 
-// Then create layer
+// 然后创建图层
 const layer = new Konva.Layer();
 
 const group = new Konva.Group({
@@ -50,10 +48,10 @@ for (let i = 0; i < 20; i++) {
   group.add(blob);
 }
 
-// add the shape to the layer
+// 将组添加到图层
 layer.add(group);
 
-// add the layer to the stage
+// 将图层添加到舞台
 stage.add(layer);
 ```
   </TabItem>

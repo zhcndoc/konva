@@ -1,17 +1,17 @@
 ---
-title: HTML5 Canvas Set Shape Opacity Tutorial
-sidebar_label: Opacity
+title: HTML5 Canvas 设置形状不透明度教程
+sidebar_label: 不透明度
 hide_table_of_contents: true
 slug: Opacity.html
 ---
 
-To set a shape opacity with Konva, we can set the `opacity` property when we instantiate the node, or we can use the `opacity()` method.
+要使用 Konva 设置形状的不透明度，我们可以在实例化节点时设置 `opacity` 属性，或者我们可以使用 `opacity()` 方法。
 
-Shapes can have an opacity value between 0 and 1, where 0 is fully transparent, and 1 is fully opaque.  Unless otherwise specified, all shapes are defaulted with an opacity value of 1.
+形状的透明度值范围在 0 到 1 之间，其中 0 完全透明，1 完全不透明。除非另有说明，所有形状默认的不透明度值为 1。
 
-If you want to apply transparency for several shapes without seen overlapping areas, take a look into [Transparent Group Demo](/docs/sandbox/Transparent_Group.html)
+如果您想为多个形状应用透明度而不看到重叠区域，请查看 [透明组演示](/docs/sandbox/Transparent_Group.html)
 
-Instructions: Mouseover the pentagon to change its opacity.
+操作说明：将鼠标悬停在五边形上以改变其不透明度。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -51,10 +51,10 @@ pentagon.on('mouseout', function () {
     this.opacity(0.5);
 });
 
-// add the shape to the layer
+// 将形状添加到图层
 layer.add(pentagon);
 
-// add the layer to the stage
+// 将图层添加到舞台
 stage.add(layer);
 ```
 

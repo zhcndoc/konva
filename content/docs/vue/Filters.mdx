@@ -1,14 +1,14 @@
 ---
-title: How to apply canvas filters with Vue and Konva?
-sidebar_label: Filters
+title: 如何在 Vue 和 Konva 中应用画布滤镜？
+sidebar_label: 滤镜
 hide_table_of_contents: true
 slug: Filters.html
 ---
 
-To apply filters you need to cache `Konva.Node` manually. You can do it in the `mounted()` hook.
-You will need to recache nodes every time you update their styles.
+要应用滤镜，您需要手动缓存 `Konva.Node`。您可以在 `mounted()` 钩子中完成这项工作。
+每次您更新样式时，都需要重新缓存节点。
 
-Instructions: Move your mouse over the rectangle to see color changes with noise filter applied.
+说明：将鼠标移动到矩形上以查看应用噪声滤镜的颜色变化。
 
 ```js live vue
 <template>
@@ -51,15 +51,16 @@ export default {
   methods: {
     handleMouseMove() {
       this.color = Konva.Util.getRandomColor();
-      // recache after changing properties
+      // 在更改属性后重新缓存
       const rectNode = this.$refs.rect.getNode();
       rectNode.cache();
     }
   },
   mounted() {
-    // initial cache
+    // 初始缓存
     const rectNode = this.$refs.rect.getNode();
     rectNode.cache();
   }
 };
-</script> 
+</script>
+```

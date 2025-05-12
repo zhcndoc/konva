@@ -1,13 +1,13 @@
 ---
-title: Using labels with Svelte
-sidebar_label: Labels
+title: 使用标签与 Svelte
+sidebar_label: 标签
 hide_table_of_contents: true
 slug: Labels.html
 ---
 
-Creating a label is a multi-step process in Konva, as a Label instance needs to contain a Tag and Text instance to function. In svelte-konva the Tag and Text components can be easily nested inside the Label component to automatically create a correct Label without having to wire things up manually.
+在 Konva 中创建标签是一个多步骤的过程，因为一个标签实例需要包含一个 Tag 和一个 Text 实例才能正常工作。在 svelte-konva 中，Tag 和 Text 组件可以很容易地嵌套在 Label 组件内部，从而自动创建一个正确的标签，而无需手动连接组件。
 
-**Instructions:** Hover over the circles to show the tooltips.
+**说明：** 将鼠标悬停在圆圈上以显示工具提示。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/labels?file=/src/App.svelte" 

@@ -1,17 +1,17 @@
 ---
-title: HTML5 Canvas Shape Resize With Ratio Preserved
-sidebar_label: Keep Ratio
+title: HTML5 Canvas 图形缩放比例保持
+sidebar_label: 保持比例
 hide_table_of_contents: true
 slug: Keep_Ratio.html
 ---
 
-By default when you resize with corner anchors (`top-left`, `top-right`, `bottom-left` or `bottom-right`) Transformer will save ratio of a node.
+默认情况下，当你使用角点锚点（`top-left`，`top-right`，`bottom-left` 或 `bottom-right`）进行缩放时，Transformer 会保存节点的比例。
 
-You can set `keepRatio` to `false` if you don't need that behavior.
+如果你不需要此行为，可以将 `keepRatio` 设置为 `false`。
 
-Even if you set `keepRatio` to `false` you can hold `SHIFT` to still keep ratio.
+即使你将 `keepRatio` 设为 `false，按住 `SHIFT` 键仍然可以保持比例。
 
-**Instructions: Try to resize texts.**
+**说明：试着调整文本的大小。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -36,7 +36,7 @@ stage.add(layer);
 const text = new Konva.Text({
 x: 50,
 y: 50,
-text: 'keep ratio by default',
+text: '默认保持比例',
 fontSize: 20,
 draggable: true,
 width: 200,
@@ -46,7 +46,7 @@ layer.add(text);
 const text2 = new Konva.Text({
 x: 50,
 y: 150,
-text: 'no ratio, but hold shift to keep ratio',
+text: '没有比例，但按住Shift保持比例',
 fontSize: 20,
 draggable: true,
 width: 200,
@@ -64,7 +64,7 @@ keepRatio: false,
 });
 layer.add(tr2);
 
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -88,7 +88,7 @@ const App = () => {
         <Text
           x={50}
           y={50}
-          text="keep ratio by default"
+          text="默认保持比例"
           fontSize={20}
           draggable
           width={200}
@@ -99,7 +99,7 @@ const App = () => {
         <Text
           x={50}
           y={150}
-          text="no ratio, but hold shift to keep ratio"
+          text="没有比例，但按住Shift保持比例"
           fontSize={20}
           draggable
           width={200}
@@ -112,8 +112,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```` 
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -122,7 +121,7 @@ export default App;
     <v-layer>
       <v-text :config="text1Config" ref="text1Ref" />
       <v-transformer :config="tr1Config" ref="tr1Ref" />
-      
+
       <v-text :config="text2Config" ref="text2Ref" />
       <v-transformer :config="tr2Config" ref="tr2Ref" />
     </v-layer>
@@ -140,7 +139,7 @@ const stageSize = {
 const text1Config = {
   x: 50,
   y: 50,
-  text: 'keep ratio by default',
+  text: '默认保持比例',
   fontSize: 20,
   draggable: true,
   width: 200
@@ -149,7 +148,7 @@ const text1Config = {
 const text2Config = {
   x: 50,
   y: 150,
-  text: 'no ratio, but hold shift to keep ratio',
+  text: '没有比例，但按住Shift保持比例',
   fontSize: 20,
   draggable: true,
   width: 200
@@ -175,5 +174,3 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

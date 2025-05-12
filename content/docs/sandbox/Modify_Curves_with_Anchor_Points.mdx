@@ -1,15 +1,15 @@
 ---
-title: Modify Curves with Anchor Points
-sidebar_label: Modify Curves with Anchors
+title: 使用锚点修改曲线
+sidebar_label: 使用锚点修改曲线
 hide_table_of_contents: true
 slug: Modify_Curves_with_Anchor_Points.html
 ---
 
-# How to modify line points with anchors?
+# 如何使用锚点修改曲线点？
 
-This demo shows how to create interactive curves (quadratic and Bezier) that can be modified by dragging their anchor points. This technique is commonly used in vector graphic editors and gives users the ability to create and adjust custom curves.
+本演示展示了如何创建可以通过拖动锚点进行修改的交互式曲线（抛物线和贝塞尔曲线）。这种技术通常用于矢量图形编辑器，使用户能够创建和调整自定义曲线。
 
-**Instructions:** Use your mouse or finger to drag and drop the anchor points to modify the curvature of the quadratic curve (red) and the Bezier curve (blue).
+**说明：** 使用鼠标或手指拖动锚点，以修改抛物线（红色）和贝塞尔曲线（蓝色）的曲率。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -22,7 +22,7 @@ import Konva from 'konva';
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// Create stage and layer
+// 创建舞台和图层
 const stage = new Konva.Stage({
   container: 'container',
   width: width,
@@ -32,7 +32,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Function to build anchor point
+// 构建锚点的函数
 function buildAnchor(x, y) {
   const anchor = new Konva.Circle({
     x: x,
@@ -45,7 +45,7 @@ function buildAnchor(x, y) {
   });
   layer.add(anchor);
 
-  // Add hover styling
+  // 添加悬停样式
   anchor.on('mouseover', function () {
     document.body.style.cursor = 'pointer';
     this.strokeWidth(4);
@@ -56,7 +56,7 @@ function buildAnchor(x, y) {
     this.strokeWidth(2);
   });
 
-  // Update curves when anchor is moved
+  // 当锚点移动时更新曲线
   anchor.on('dragmove', function () {
     updateDottedLines();
   });
@@ -64,7 +64,7 @@ function buildAnchor(x, y) {
   return anchor;
 }
 
-// Function to update dashed line points (showing control points)
+// 更新虚线点（显示控制点）的函数
 function updateDottedLines() {
   const q = quad;
   const b = bezier;
@@ -72,7 +72,7 @@ function updateDottedLines() {
   const quadLinePath = layer.findOne('#quadLinePath');
   const bezierLinePath = layer.findOne('#bezierLinePath');
 
-  // Update control point lines for quadratic curve
+  // 更新抛物线的控制点线
   quadLinePath.points([
     q.start.x(),
     q.start.y(),
@@ -82,7 +82,7 @@ function updateDottedLines() {
     q.end.y(),
   ]);
 
-  // Update control point lines for bezier curve
+  // 更新贝塞尔曲线的控制点线
   bezierLinePath.points([
     b.start.x(),
     b.start.y(),
@@ -95,7 +95,7 @@ function updateDottedLines() {
   ]);
 }
 
-// Create quadratic curve with custom shape
+// 创建具有自定义形状的抛物线
 const quadraticLine = new Konva.Shape({
   stroke: 'red',
   strokeWidth: 4,
@@ -113,7 +113,7 @@ const quadraticLine = new Konva.Shape({
 });
 layer.add(quadraticLine);
 
-// Create bezier curve with custom shape
+// 创建具有自定义形状的贝塞尔曲线
 const bezierLine = new Konva.Shape({
   stroke: 'blue',
   strokeWidth: 5,
@@ -133,7 +133,7 @@ const bezierLine = new Konva.Shape({
 });
 layer.add(bezierLine);
 
-// Create dashed line to show control points for quadratic curve
+// 创建虚线以显示抛物线的控制点
 const quadLinePath = new Konva.Line({
   dash: [10, 10, 0, 10],
   strokeWidth: 3,
@@ -145,7 +145,7 @@ const quadLinePath = new Konva.Line({
 });
 layer.add(quadLinePath);
 
-// Create dashed line to show control points for bezier curve
+// 创建虚线以展示贝塞尔曲线的控制点
 const bezierLinePath = new Konva.Line({
   dash: [10, 10, 0, 10],
   strokeWidth: 3,
@@ -157,14 +157,14 @@ const bezierLinePath = new Konva.Line({
 });
 layer.add(bezierLinePath);
 
-// Create anchor points for the quadratic curve
+// 为抛物线创建锚点
 const quad = {
   start: buildAnchor(60, 30),
   control: buildAnchor(240, 110),
   end: buildAnchor(80, 160),
 };
 
-// Create anchor points for the bezier curve
+// 为贝塞尔曲线创建锚点
 const bezier = {
   start: buildAnchor(280, 20),
   control1: buildAnchor(530, 40),
@@ -172,7 +172,7 @@ const bezier = {
   end: buildAnchor(300, 150),
 };
 
-// Update the control point lines
+// 更新控制点线
 updateDottedLines();
 ```
   </TabItem>
@@ -311,17 +311,17 @@ export default ModifyCurvesDemo;
 <template>
   <v-stage :config="stageConfig">
     <v-layer>
-      <!-- Quadratic Curve -->
+      <!-- 抛物线 -->
       <v-shape :config="quadraticConfig" />
       
-      <!-- Bezier Curve -->
+      <!-- 贝塞尔曲线 -->
       <v-shape :config="bezierConfig" />
       
-      <!-- Control Lines -->
+      <!-- 控制线 -->
       <v-line :config="quadLineConfig" />
       <v-line :config="bezierLineConfig" />
       
-      <!-- Anchor Points for Quadratic Curve -->
+      <!-- 抛物线的锚点 -->
       <v-circle
         v-for="(point, name) in quadPoints"
         :key="`quad-${name}`"
@@ -339,7 +339,7 @@ export default ModifyCurvesDemo;
         @mouseleave="handleMouseLeave(`quad-${name}`, e)"
       />
       
-      <!-- Anchor Points for Bezier Curve -->
+      <!-- 贝塞尔曲线的锚点 -->
       <v-circle
         v-for="(point, name) in bezierPoints"
         :key="`bezier-${name}`"
@@ -363,7 +363,7 @@ export default ModifyCurvesDemo;
 <script setup>
 import { ref, reactive, computed } from 'vue';
 
-// Stage configuration
+// 舞台配置
 const stageConfig = {
   width: window.innerWidth,
   height: window.innerHeight
@@ -371,14 +371,14 @@ const stageConfig = {
 
 const hoveredPoint = ref(null);
 
-// Anchor points for quadratic curve
+// 抛物线的锚点
 const quadPoints = reactive({
   start: { x: 60, y: 30 },
   control: { x: 240, y: 110 },
   end: { x: 80, y: 160 }
 });
 
-// Anchor points for bezier curve
+// 贝塞尔曲线的锚点
 const bezierPoints = reactive({
   start: { x: 280, y: 20 },
   control1: { x: 530, y: 40 },
@@ -386,7 +386,7 @@ const bezierPoints = reactive({
   end: { x: 300, y: 150 }
 });
 
-// Configuration for quadratic curve
+// 抛物线的配置
 const quadraticConfig = computed(() => ({
   stroke: 'red',
   strokeWidth: 4,
@@ -401,7 +401,7 @@ const quadraticConfig = computed(() => ({
   }
 }));
 
-// Configuration for bezier curve
+// 贝塞尔曲线的配置
 const bezierConfig = computed(() => ({
   stroke: 'blue',
   strokeWidth: 5,
@@ -417,7 +417,7 @@ const bezierConfig = computed(() => ({
   }
 }));
 
-// Configuration for quadratic curve control lines
+// 抛物线控制线的配置
 const quadLineConfig = computed(() => ({
   points: [
     quadPoints.start.x, quadPoints.start.y,
@@ -431,7 +431,7 @@ const quadLineConfig = computed(() => ({
   opacity: 0.3
 }));
 
-// Configuration for bezier curve control lines
+// 贝塞尔曲线控制线的配置
 const bezierLineConfig = computed(() => ({
   points: [
     bezierPoints.start.x, bezierPoints.start.y,
@@ -446,7 +446,7 @@ const bezierLineConfig = computed(() => ({
   opacity: 0.3
 }));
 
-// Handle mouse events for hover effects
+// 处理鼠标悬停效果的事件
 const handleMouseEnter = (pointId, e) => {
   const stage = e.target.getStage();
   stage.container().style.cursor = 'pointer';
@@ -459,13 +459,13 @@ const handleMouseLeave = (pointId, e) => {
   hoveredPoint.value = null;
 };
 
-// Handle drag for quadratic curve points
+// 处理抛物线锚点拖动结束
 const handleQuadDragEnd = (e, pointName) => {
   quadPoints[pointName].x = e.target.x();
   quadPoints[pointName].y = e.target.y();
 };
 
-// Handle drag for bezier curve points
+// 处理贝塞尔曲线锚点拖动结束
 const handleBezierDragEnd = (e, pointName) => {
   bezierPoints[pointName].x = e.target.x();
   bezierPoints[pointName].y = e.target.y();
@@ -473,4 +473,4 @@ const handleBezierDragEnd = (e, pointName) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

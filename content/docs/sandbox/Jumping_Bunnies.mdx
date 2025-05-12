@@ -1,19 +1,19 @@
 ---
-title: Jumping Bunnies Performance Stress Test
-sidebar_label: Jumping Bunnies
+title: 跳跃兔子性能压力测试
+sidebar_label: 跳跃兔子
 hide_table_of_contents: true
 slug: Jumping_Bunnies.html
 ---
 
-## Performance stress test with bouncing bunnies
+## 跳跃兔子性能压力测试
 
-This demo showcases the performance of moving many `Konva.Image` objects at the same time. It's adapted from the [Bunnymark demo](https://www.goodboydigital.com/pixijs/bunnymark/) of the [PixiJS framework](https://www.pixijs.com/).
+本演示展示了同时移动许多 `Konva.Image` 对象的性能。这是基于 [PixiJS 框架](https://www.goodboydigital.com/pixijs/bunnymark/)的 [Bunnymark 演示](https://www.goodboydigital.com/pixijs/bunnymark/)进行的改编。
 
-Note: You may notice that the `Konva` version is slower than the original `PixiJS` version. This is because PixiJS is highly optimized for WebGL rendering and this specific type of animation. While Konva continues to optimize its internals, remember that this demo doesn't represent the performance of typical applications made with Konva.
+注意：您可能会注意到，`Konva` 版本的性能比原始的 `PixiJS` 版本慢。这是因为 PixiJS 对WebGL渲染和此类动画进行了高度优化。而 Konva 仍在不断优化其内部实现，请记住此演示并不代表使用 Konva 构建的典型应用的性能。
 
-For applications with a very large number of animated objects, you might consider using [Native Canvas Access](/docs/sandbox/Native_Context_Access.html) or even a different framework. Choose the right tool for your specific application needs.
+对于具有大量动画对象的应用，您可以考虑使用 [Native Canvas 访问](/docs/sandbox/Native_Context_Access.html) 或甚至其他框架。根据您的具体应用需求选择合适的工具。
 
-**Instructions:** Click or touch the canvas to add more bunnies. The counter will show how many bunnies are currently animating.
+**操作指南：** 点击或触摸画布以添加更多兔子。计数器将显示当前正在动画的兔子数量。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -23,7 +23,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Set up stage and layer
+// 设置舞台和图层
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -36,7 +36,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.FastLayer();
 stage.add(layer);
 
-// Create stats and counter display
+// 创建状态显示和计数器
 const counterDiv = document.createElement('div');
 counterDiv.style.position = 'absolute';
 counterDiv.style.top = '50px';
@@ -46,32 +46,32 @@ counterDiv.style.padding = '5px';
 counterDiv.innerHTML = '0 BUNNIES';
 document.getElementById('container').appendChild(counterDiv);
 
-// Define variables
+// 定义变量
 const bunnys = [];
 const GRAVITY = 0.75;
 const maxX = width;
 const minX = 0;
 const maxY = height;
 const minY = 0;
-const startBunnyCount = 100; // Starting with fewer bunnies for better initial performance
-const amount = 10; // Add this many bunnies at a time
+const startBunnyCount = 100; // 初始较少兔子以提升初始性能
+const amount = 10; // 每次添加的兔子数量
 let isAdding = false;
 let count = 0;
 let wabbitTexture;
 
-// Load the bunny image
+// 载入兔子图片
 wabbitTexture = new Image();
 wabbitTexture.onload = function() {
   addBunnies(startBunnyCount);
   counterDiv.innerHTML = startBunnyCount + ' BUNNIES';
   count = startBunnyCount;
   
-  // Start animation loop
+  // 开始动画循环
   requestAnimationFrame(update);
 };
 wabbitTexture.src = 'https://konvajs.org/assets/bunny.png';
 
-// Add event listeners
+// 添加事件监听
 stage.on('mousedown touchstart', function() {
   isAdding = true;
 });
@@ -80,7 +80,7 @@ stage.on('mouseup touchend', function() {
   isAdding = false;
 });
 
-// Function to add bunnies
+// 添加兔子函数
 function addBunnies(num) {
   for (let i = 0; i < num; i++) {
     const bunny = new Konva.Image({
@@ -99,16 +99,16 @@ function addBunnies(num) {
   }
 }
 
-// Animation update function
+// 动画更新函数
 function update() {
-  // Add more bunnies if mouse is down
+  // 如果鼠标按下，添加更多兔子
   if (isAdding) {
     addBunnies(amount);
     count += amount;
     counterDiv.innerHTML = count + ' BUNNIES';
   }
 
-  // Update all bunnies
+  // 更新所有兔子位置
   for (let i = 0; i < bunnys.length; i++) {
     const bunny = bunnys[i];
     let x = bunny.x();
@@ -118,7 +118,7 @@ function update() {
     y += bunny.speedY;
     bunny.speedY += GRAVITY;
 
-    // Bounce off the edges
+    // 边界反弹
     if (x > maxX - wabbitTexture.width) {
       bunny.speedX *= -1;
       x = maxX - wabbitTexture.width;
@@ -153,22 +153,22 @@ import { Stage, FastLayer, Image } from 'react-konva';
 import { useImage } from 'react-konva-utils';
 
 const BunnyMark = () => {
-  // Constants
+  // 常量定义
   const width = window.innerWidth;
   const height = window.innerHeight;
   const GRAVITY = 0.75;
   const START_COUNT = 100;
   const ADD_AMOUNT = 10;
   
-  // State and refs
+  // 状态和引用
   const [count, setCount] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
   const layerRef = useRef(null);
   const bunniesRef = useRef([]);
-  const bunnyNodesRef = useRef([]); // Store references to the actual Konva nodes
+  const bunnyNodesRef = useRef([]); // 存储实际 Konva 节点的引用
   const [bunnyImage] = useImage('https://konvajs.org/assets/bunny.png');
   
-  // Create a bunny with position and velocity
+  // 创建一个兔子对象（位置和速度）
   const createBunny = (x, y) => ({
     x,
     y,
@@ -176,14 +176,14 @@ const BunnyMark = () => {
     speedY: Math.random() * 10 - 5
   });
   
-  // Store references to Konva image nodes
+  // 存储节点引用
   const storeNodeRef = (index, node) => {
     if (node) {
       bunnyNodesRef.current[index] = node;
     }
   };
   
-  // Initialize bunnies when image loads
+  // 图片加载完成后初始化兔子
   useEffect(() => {
     if (!bunnyImage) return;
     
@@ -197,14 +197,14 @@ const BunnyMark = () => {
     setCount(START_COUNT);
   }, [bunnyImage]);
   
-  // Animation loop
+  // 动画更新循环
   useEffect(() => {
     if (!bunnyImage) return;
     
     let animationFrameId;
     
     const update = () => {
-      // Add more bunnies if needed
+      // 如果需要，添加更多兔子
       if (isAdding) {
         const currentLength = bunniesRef.current.length;
         const newBunnies = Array(ADD_AMOUNT).fill(0).map(() => 
@@ -215,20 +215,20 @@ const BunnyMark = () => {
         );
         
         bunniesRef.current = [...bunniesRef.current, ...newBunnies];
-        // Extend the nodes array to accommodate new bunnies
+        // 扩展节点数组以容纳新兔子
         bunnyNodesRef.current = [...bunnyNodesRef.current, ...new Array(ADD_AMOUNT)];
         setCount(prevCount => prevCount + ADD_AMOUNT);
       }
       
-      // Update all bunnies - DIRECT NODE MANIPULATION FOR PERFORMANCE
-      // This avoids expensive React re-renders for position updates
+      // 更新所有兔子位置 - 使用直接节点操作以提升性能
+      // 避免频繁React重渲染
       bunniesRef.current.forEach((bunny, i) => {
-        // Update data model
+        // 更新模型数据
         bunny.x += bunny.speedX;
         bunny.y += bunny.speedY;
         bunny.speedY += GRAVITY;
         
-        // Bounce off edges
+        // 边界反弹
         if (bunny.x > width - bunnyImage.width) {
           bunny.speedX *= -1;
           bunny.x = width - bunnyImage.width;
@@ -248,7 +248,7 @@ const BunnyMark = () => {
           bunny.y = 0;
         }
         
-        // Direct node update if we have a reference (much faster than React updates)
+        // 直接更新节点（替代 react 的频繁重绘）
         const node = bunnyNodesRef.current[i];
         if (node) {
           node.x(bunny.x);
@@ -256,7 +256,7 @@ const BunnyMark = () => {
         }
       });
       
-      // Batch draw the layer once instead of updating each node individually
+      // 一次批量绘制图层，避免逐个节点调用
       if (layerRef.current) {
         layerRef.current.getLayer().batchDraw();
       }
@@ -271,11 +271,11 @@ const BunnyMark = () => {
     };
   }, [isAdding, bunnyImage]);
   
-  // Handle mouse/touch events
+  // 触摸/鼠标事件处理
   const handleDown = () => setIsAdding(true);
   const handleUp = () => setIsAdding(false);
   
-  if (!bunnyImage) return <div>Loading bunny image...</div>;
+  if (!bunnyImage) return <div>加载兔子图片中...</div>;
   
   return (
     <>
@@ -358,34 +358,34 @@ export default BunnyMark;
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 
-// Stage setup with fixed dimensions
+// 舞台配置
 const stageConfig = {
   width: window.innerWidth,
   height: window.innerHeight
 };
 
-// Refs
+// 引用
 const layerRef = ref(null);
 const bunnyImage = ref(null);
 const bunnies = ref([]);
 const count = ref(0);
 const isAdding = ref(false);
 const animationFrameId = ref(null);
-const bunnyNodesMap = ref({}); // Store references to Konva nodes by index
+const bunnyNodesMap = ref({}); // 存储Konva节点引用（索引对应）
 
-// Constants
+// 常量
 const GRAVITY = 0.75;
 const START_COUNT = 100;
 const ADD_AMOUNT = 10;
 
-// Store references to Konva image nodes
+// 存储Konva图像节点引用
 const storeNodeRef = (index, el) => {
   if (el) {
     bunnyNodesMap.value[index] = el;
   }
 };
 
-// Create a bunny with position and velocity
+// 创建一个具有位置和速度的兔子
 const createBunny = (x, y) => ({
   x,
   y,
@@ -393,9 +393,9 @@ const createBunny = (x, y) => ({
   speedY: Math.random() * 10 - 5
 });
 
-// Animation update function - Using direct node manipulation for performance
+// 动画更新函数 - 使用直接节点操作提升性能
 const update = () => {
-  // Add more bunnies if needed
+  // 如果需要，添加更多兔子
   if (isAdding.value) {
     const newBunnies = Array(ADD_AMOUNT)
       .fill(0)
@@ -406,20 +406,19 @@ const update = () => {
         )
       );
     
-    // Update the reactive array only once for the new bunnies
+    // 通过 push 方式添加新兔子，避免频繁修改数组
     bunnies.value.push(...newBunnies);
     count.value += ADD_AMOUNT;
   }
   
-  // Update all bunnies - DIRECT NODE MANIPULATION FOR PERFORMANCE
-  // This avoids expensive Vue reactivity for position updates
+  // 更新所有兔子位置 - 直接操作节点，性能更优
   bunnies.value.forEach((bunny, index) => {
-    // Update data model
+    // 更新模型数据
     bunny.x += bunny.speedX;
     bunny.y += bunny.speedY;
     bunny.speedY += GRAVITY;
     
-    // Bounce off edges
+    // 边界反弹
     if (bunny.x > stageConfig.width - bunnyImage.value.width) {
       bunny.speedX *= -1;
       bunny.x = stageConfig.width - bunnyImage.value.width;
@@ -439,10 +438,10 @@ const update = () => {
       bunny.y = 0;
     }
     
-    // Direct node update if we have a reference (much faster than Vue reactivity)
+    // 如果有引用，直接更新节点（比 Vue 频繁重绘快很多）
     const node = bunnyNodesMap.value[index];
     if (node) {
-      // Get the Konva node and update position directly
+      // 获取 Konva 节点并直接设置位置
       const konvaNode = node.getNode();
       if (konvaNode) {
         konvaNode.x(bunny.x);
@@ -451,7 +450,7 @@ const update = () => {
     }
   });
   
-  // Batch draw the layer once instead of updating each node individually
+  // 一次性批量重绘图层，避免逐个调用节点
   if (layerRef.value) {
     layerRef.value.getNode().batchDraw();
   }
@@ -459,14 +458,14 @@ const update = () => {
   animationFrameId.value = requestAnimationFrame(update);
 };
 
-// Load the bunny image
+// 图片加载
 onMounted(() => {
   const img = new Image();
   img.src = 'https://konvajs.org/assets/bunny.png';
   img.onload = () => {
     bunnyImage.value = img;
     
-    // Add initial bunnies
+    // 添加初始兔子
     const initialBunnies = Array(START_COUNT)
       .fill(0)
       .map(() => 
@@ -479,10 +478,11 @@ onMounted(() => {
     bunnies.value = initialBunnies;
     count.value = START_COUNT;
     
-    // Start animation
+    // 启动动画
     animationFrameId.value = requestAnimationFrame(update);
   };
   
+  // 组件卸载时取消动画循环
   onUnmounted(() => {
     if (animationFrameId.value) {
       cancelAnimationFrame(animationFrameId.value);
@@ -491,5 +491,5 @@ onMounted(() => {
 });
 </script>
 ```
-  </TabItem>
-</Tabs> 
+</TabItem>
+</Tabs>

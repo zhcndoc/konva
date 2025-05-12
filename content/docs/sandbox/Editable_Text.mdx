@@ -1,17 +1,17 @@
 ---
-title: Text editing in HTML5 canvas with Konva
-sidebar_label: Editable Text
+title: 在 HTML5 canvas 中使用 Konva 进行文本编辑
+sidebar_label: 可编辑文本
 hide_table_of_contents: true
 slug: Editable_Text.html
 ---
 
-User can't directly edit `Konva.Text` content for [many reasons](https://www.w3.org/TR/2dcontext/#best-practices). In fact canvas API is not designed for such purpose.
-It is possible to emulate text editing on canvas (by drawing blinking cursor, emulate selection, etc).
-Konva has not support for such case. We recommend to edit the user input outside of your canvas with native DOM elements such as `input` or `textarea`.
+用户无法直接编辑 `Konva.Text` 内容，原因有很多。实际上，canvas API 并不为此目的而设计。
+可以在 canvas 上模拟文本编辑（通过绘制闪烁光标、模拟选择等）。
+Konva 并不支持这种情况。我们建议使用本地 DOM 元素（如 `input` 或 `textarea`）在 canvas 外部编辑用户输入。
 
-If you want to enable full rich text editing features see [Rich Text Demo](/docs/sandbox/Rich_Text.html).
+如果您想启用完整的富文本编辑功能，请参见 [富文本演示](/docs/sandbox/Rich_Text.html)。
 
-**Instructions: Double click on text to edit it. Type something. Press Enter or click outside to save changes.**
+**说明：双击文本以编辑。输入内容。按 Enter 或点击外部以保存更改。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -33,7 +33,7 @@ const layer = new Konva.Layer();
 stage.add(layer);
 
 const textNode = new Konva.Text({
-text: 'Some text here',
+text: '一些文本',
 x: 50,
 y: 80,
 fontSize: 20,
@@ -152,7 +152,7 @@ window.addEventListener('click', handleOutsideClick);
 });
 });
 
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```jsx live react
@@ -177,7 +177,7 @@ const TextEditor = ({ textNode, onClose, onChange }) => {
       y: textPosition.y,
     };
 
-    // Match styles with the text node
+    // 匹配文本节点的样式
     textarea.value = textNode.text();
     textarea.style.position = 'absolute';
     textarea.style.top = `${areaPosition.y}px`;
@@ -217,7 +217,7 @@ const TextEditor = ({ textNode, onClose, onChange }) => {
       }
     };
 
-    // Add event listeners
+    // 添加事件监听器
     const handleKeyDown = (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -263,7 +263,7 @@ const TextEditor = ({ textNode, onClose, onChange }) => {
 };
 
 const EditableText = () => {
-  const [text, setText] = useState('Some text here');
+  const [text, setText] = useState('一些文本');
   const [isEditing, setIsEditing] = useState(false);
   const [textWidth, setTextWidth] = useState(200);
   const textRef = useRef();
@@ -381,7 +381,7 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const text = ref('Some text here');
+const text = ref('一些文本');
 const textWidth = ref(200);
 const isEditing = ref(false);
 const textNode = ref(null);

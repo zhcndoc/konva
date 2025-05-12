@@ -1,22 +1,19 @@
 ---
-title: HTML5 Canvas Fire Event with Konva
-sidebar_label: Fire Events
+title: HTML5 Canvas 通过 Konva 触发事件
+sidebar_label: 触发事件
 hide_table_of_contents: true
 slug: Fire_Events.html
 ---
 
+要通过 Konva 触发事件，我们可以使用 `fire()` 方法。  
+这使我们能够以编程方式触发事件，如 `click`、`mouseover`、`mousemove` 等，也可以触发自定义事件，如 foo 和 bar。
 
+> **注意**：虽然可以使用自定义事件，但一般来说，使用内置交互事件（如 `click`、`mouseover`、`mousemove` 等）会更好。自定义事件可能会使代码更难维护和调试。
 
-To fire events with Konva, we can use the `fire()` method.
-This enables us to programmatically fire events like `click`, `mouseover`,
-`mousemove`, etc., and also fire custom events, like foo and bar.
-
-> **Note**: While custom events are possible, it's generally better to use built-in interaction events like `click`, `mouseover`, `mousemove`, etc. Custom events can make code harder to maintain and debug.
-
-import Tabs from "@theme/Tabs";
+import Tabs from "@theme/Tabs";  
 import TabItem from "@theme/TabItem";
 
-<Tabs>
+<Tabs>  
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
@@ -46,7 +43,7 @@ circle.on('customEvent', function (evt) {
 
 // add button to trigger custom event
 const button = document.createElement('button');
-button.innerHTML = 'Fire Custom Event';
+button.innerHTML = '触发自定义事件';
 button.style.position = 'absolute';
 button.style.top = '10px';
 button.style.left = '10px';
@@ -91,7 +88,7 @@ const App = () => {
           zIndex: 1
         }}
       >
-        Fire Custom Event
+        触发自定义事件
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -122,7 +119,7 @@ export default App;
       @click="fireCustomEvent"
       style="position: absolute; top: 10px; left: 10px; z-index: 1"
     >
-      Fire Custom Event
+      触发自定义事件
     </button>
     <v-stage :config="stageSize">
       <v-layer>
@@ -167,4 +164,4 @@ const fireCustomEvent = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

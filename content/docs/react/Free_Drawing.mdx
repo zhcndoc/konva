@@ -1,22 +1,22 @@
 ---
-title: How to implement free drawing on canvas with React?
-sidebar_label: Free Drawing
+title: 如何在 React 中实现自由绘图功能？
+sidebar_label: 自由绘图
 hide_table_of_contents: true
 slug: Free_Drawing.html
 ---
 
-This demo shows how to implement a free drawing app the "React way" with full vector representation.
+该演示展示了如何以“React 方式”实现一个自由绘图应用，并且具有完整的矢量表示。
 
-Such an implementation should work well for many whiteboard apps. It allows you to simply add [undo/redo functions](/docs/react/Undo-Redo.html) and save the full state to the backend.
+这样的实现应该适用于许多白板应用。它允许你简单地添加 [撤销/重做功能](/docs/react/Undo-Redo.html) 并将完整状态保存到后端。
 
-Note: It will get slower if you have too many lines in the state. So you will have to do some extra optimizations if you want to enable drawings of hundreds or thousands of lines.
+注意：如果状态中有太多的线条，它会变得更慢。因此，如果你想启用数百或数千条线的绘图，你将需要进行一些额外的优化。
 
-The demo shows how to:
-1. Track drawing state using `React.useRef` for performance
-2. Store lines as vector data in React state
-3. Handle mouse/touch events for drawing
-4. Implement both pen and eraser tools using `globalCompositeOperation`
-5. Create smooth lines with rounded caps and tension 
+该演示展示了如何：
+1. 使用 `React.useRef` 跟踪绘图状态以提高性能
+2. 将线条作为矢量数据存储在 React 状态中
+3. 处理鼠标/触摸事件进行绘图
+4. 使用 `globalCompositeOperation` 实现笔和橡皮擦工具
+5. 创建具有圆角和张力的平滑线条
 
 ```js live react
 import React from 'react';
@@ -34,17 +34,17 @@ const App = () => {
   };
 
   const handleMouseMove = (e) => {
-    // no drawing - skipping
+    // 没有绘图 - 跳过
     if (!isDrawing.current) {
       return;
     }
     const stage = e.target.getStage();
     const point = stage.getPointerPosition();
     let lastLine = lines[lines.length - 1];
-    // add point
+    // 添加点
     lastLine.points = lastLine.points.concat([point.x, point.y]);
 
-    // replace last
+    // 替换最后一条线
     lines.splice(lines.length - 1, 1, lastLine);
     setLines(lines.concat());
   };
@@ -61,8 +61,8 @@ const App = () => {
           setTool(e.target.value);
         }}
       >
-        <option value="pen">Pen</option>
-        <option value="eraser">Eraser</option>
+        <option value="pen">笔</option>
+        <option value="eraser">橡皮擦</option>
       </select>
       <Stage
         width={window.innerWidth}
@@ -75,7 +75,7 @@ const App = () => {
         onTouchEnd={handleMouseUp}
       >
         <Layer>
-          <Text text="Just start drawing" x={5} y={30} />
+          <Text text="开始绘图吧" x={5} y={30} />
           {lines.map((line, i) => (
             <Line
               key={i}
@@ -98,4 +98,3 @@ const App = () => {
 
 export default App;
 ```
-

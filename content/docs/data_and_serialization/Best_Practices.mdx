@@ -1,46 +1,47 @@
 ---
-title: Save and Load HTML5 Canvas Stage Best Practices
-sidebar_label: Best Practices
+title: 保存和加载 HTML5 Canvas 舞台的最佳实践
+sidebar_label: 最佳实践
 hide_table_of_contents: true
 slug: Best_Practices.html
 ---
 
-## What is the best way to save/load full stage content and how to implement undo/redo?
+## 保存/加载完整舞台内容的最佳方式是什么？如何实现撤销/重做？
 
-If you want to save/load simple canvas content you can use the built-in `Konva` methods: `node.toJSON()` and `Node.create(json)`.
-See [simple](/docs/data_and_serialization/Simple_Load.html) and [complex](/docs/data_and_serialization/Complex_Load.html) demos.
+如果你想保存/加载简单的画布内容，可以使用内置的 `Konva` 方法：`node.toJSON()` 和 `Node.create(json)`。
+请参见 [简单示例](/docs/data_and_serialization/Simple_Load.html) 和 [复杂示例](/docs/data_and_serialization/Complex_Load.html)。
 
-But those methods are useful only in very small apps. In bigger apps it is VERY hard to use those methods. Why? Because the tree structure is usually very complex in larger apps, you may have a lot of event listeners, images, filters, etc. That data is not serializable into JSON (or it is very hard to do that).
+但这些方法只适用于非常小的应用。在较大的应用程序中，使用这些方法非常困难。为什么？因为树结构通常非常复杂，你可能会有许多事件监听器、图片、滤镜等等。这些数据无法序列化成 JSON（或者说很难做到）。
 
-Also it is very common that nodes in a tree have a lot information that is not directly related to the state of your app, but just used to describe visual view of your app.
+此外，树中的节点常常包含大量信息，这些信息并不直接关系到应用的状态，而只是用来描述应用的视觉视图。
 
-For instance, let's think we have a game, that draws several balls in canvas. The balls are not just circles, but the complex visual groups of objects with shadows and texts inside them (like "Made in China"). Now let's think you want to serialize state of your app and use it somewhere else. Like send to another computer or implement undo/redo. Almost all the visual information (shadows, texts, sizes) is not critical and may be you don't need to save it. Because all balls have the same shadows, sizes, etc. But what is critical? In that case it is just a number of balls and their coordinates. You need to save/load only that information. It will be just a simple array:
+举个例子，假设我们有一个游戏，在画布中绘制几个球。这些球不仅仅是圆形，而是带有阴影和文字（比如“Made in China”）的复杂视觉对象组。现在假设你想序列化应用状态并在别处使用，比如发送到另一台电脑或实现撤销/重做功能。几乎所有的视觉信息（阴影、文字、大小）都不是关键，可能不需要保存。因为所有的球的阴影、大小等都是一样的。但关键是什么？在这种情况下，就是球的数量和它们的坐标。你只需要保存/加载这些信息。它就只是一个简单的数组：
 
 ```javascript
 var state = [{x: 10, y: 10}, { x: 160, y: 1041}]
 ```
 
-Now when you have that information, you need to have a function, that can create the whole canvas structure.
-If you want to update your canvas, for instance, you want to create a new ball, you don't need to create a new canvas node directly (like creating new instance of `Konva.Circle`), you just need to push a new object into a state and update (or recreate) canvas.
+现在你拥有这些信息，需要一个能够创建整个画布结构的函数。
+如果你想更新画布，比如创建一个新球，不需要直接创建新的画布节点（比如实例化新的 `Konva.Circle`），只需要把新对象加入状态数组，然后更新（或者重建）画布。
 
-In that case you don't need to care about image loading, filters, event listeners, etc in saving/loading phases. Because you do all these actions in your `create` or `update` functions.
+这样，你不需要在保存/加载阶段考虑图片加载、滤镜、事件监听等问题。
+因为这些操作都在你的 `create` 或 `update` 函数中完成。
 
-You would better understand what I am talking about if you know how many modern frameworks work (like `React`, `Vue`, `Angular` and many other).
+如果你熟悉许多现代框架（如 `React`、`Vue`、`Angular` 等），会更容易理解我的意思。
 
-Also take a look into these demos to have a better idea:
-1. [Undo/redo with react](/docs/react/Undo-Redo.html)
-1. [Save/load with Vue](/docs/vue/Save-Load.html)
+此外，请看看这些示例，帮助你更好理解：
+1. [基于 React 的撤销/重做](/docs/react/Undo-Redo.html)
+1. [基于 Vue 的保存/加载](/docs/vue/Save-Load.html)
 
-How to implement that `create` and `update` functions? It depends. From my point of view it will be easier to use frameworks that can do that job for you, like [react-konva](/docs/react/index.html).
+如何实现 `create` 和 `update` 函数？这要视情况而定。依我看，使用能帮你完成这项工作的框架会更简单，比如 [react-konva](/docs/react/index.html)。
 
-If you don't want to use such frameworks you need to think in terms of your own app. Here I will try to make a small demo to give you an idea.
+如果你不想使用这类框架，需要针对你的应用来设计。这里我会写个简单的演示给你一个思路。
 
-The super naive method is to implement just one function `create(state)` that will do all the complex job of loading.
-If you have some changes in your app you just need to destroy the canvas and create a new one. But the drawback of such approach is possibly a bad performance.
+最简单粗暴的方法是实现一个 `create(state)` 函数，做所有复杂的加载任务。
+如果应用有更改，就销毁旧画布，再创建新画布。但这种方式可能性能较差。
 
-A bit smarter implementation is to create two functions `create(state)` and `update(state)`. `create` will make instances of all required objects, attach events and load images. `update` will update properties of nodes. If number of objects is changed - destroy all and create from scratch. If only some properties changed - call `update`.
+稍微智能一点的做法是实现两个函数：`create(state)` 和 `update(state)`。`create` 负责实例化所有对象、绑定事件和加载图片。`update` 负责更新节点属性。如果对象数量改变，就销毁全部并重新创建；如果只改动了某些属性，就调用 `update`。
 
-**Instructions:** In that demo we will have a bunch of images with filters, and you can add more, move them, apply a new filter by clicking on images and use undo/redo.
+**说明：** 该示例中，我们将有一组带滤镜的图片，你可以添加图片、移动它们，通过点击应用不同滤镜，并使用撤销/重做功能。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -50,7 +51,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Initial state
+// 初始状态
 let state = {
   images: [
     { x: 50, y: 50, filter: 'none' },
@@ -58,7 +59,7 @@ let state = {
   ]
 };
 
-// History for undo/redo
+// 撤销/重做历史记录
 const history = [JSON.stringify(state)];
 let historyStep = 0;
 
@@ -71,12 +72,12 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create container
+// 创建容器
 const container = document.createElement('div');
 container.style.position = 'relative';
 document.body.appendChild(container);
 
-// Create button container
+// 创建按钮容器
 const buttonContainer = document.createElement('div');
 buttonContainer.style.position = 'absolute';
 buttonContainer.style.top = '10px';
@@ -84,30 +85,30 @@ buttonContainer.style.left = '10px';
 buttonContainer.style.zIndex = '10';
 container.appendChild(buttonContainer);
 
-// Create UI buttons
+// 创建 UI 按钮
 const addButton = document.createElement('button');
-addButton.textContent = 'Add Image';
+addButton.textContent = '添加图片';
 addButton.style.margin = '0 5px';
 buttonContainer.appendChild(addButton);
 
 const undoButton = document.createElement('button');
-undoButton.textContent = 'Undo';
+undoButton.textContent = '撤销';
 undoButton.style.margin = '0 5px';
 buttonContainer.appendChild(undoButton);
 
 const redoButton = document.createElement('button');
-redoButton.textContent = 'Redo';
+redoButton.textContent = '重做';
 redoButton.style.margin = '0 5px';
 buttonContainer.appendChild(redoButton);
 
-// Move stage container into our container
+// 将舞台容器移动到我们的容器中
 const stageContainer = document.getElementById('container');
 container.appendChild(stageContainer);
 stageContainer.style.position = 'absolute';
 stageContainer.style.top = '0';
 stageContainer.style.left = '0';
 
-// Load image
+// 加载图片
 const imageObj = new Image();
 imageObj.src = 'https://konvajs.org/assets/lion.png';
 
@@ -166,7 +167,7 @@ function saveHistory() {
   history.push(JSON.stringify(state));
 }
 
-// Add event listeners
+// 绑定事件监听器
 addButton.addEventListener('click', () => {
   state.images.push({
     x: Math.random() * stage.width(),
@@ -277,9 +278,9 @@ const App = () => {
         left: 10, 
         zIndex: 10 
       }}>
-        <button style={{ margin: '0 5px' }} onClick={handleAdd}>Add Image</button>
-        <button style={{ margin: '0 5px' }} onClick={handleUndo}>Undo</button>
-        <button style={{ margin: '0 5px' }} onClick={handleRedo}>Redo</button>
+        <button style={{ margin: '0 5px' }} onClick={handleAdd}>添加图片</button>
+        <button style={{ margin: '0 5px' }} onClick={handleUndo}>撤销</button>
+        <button style={{ margin: '0 5px' }} onClick={handleRedo}>重做</button>
       </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -312,9 +313,9 @@ export default App;
 <template>
   <div style="position: relative">
     <div style="position: absolute; top: 10px; left: 10px; z-index: 10">
-      <button style="margin: 0 5px" @click="handleAdd">Add Image</button>
-      <button style="margin: 0 5px" @click="handleUndo">Undo</button>
-      <button style="margin: 0 5px" @click="handleRedo">Redo</button>
+      <button style="margin: 0 5px" @click="handleAdd">添加图片</button>
+      <button style="margin: 0 5px" @click="handleUndo">撤销</button>
+      <button style="margin: 0 5px" @click="handleRedo">重做</button>
     </div>
     <v-stage :config="stageSize">
       <v-layer>
@@ -410,11 +411,11 @@ const handleRedo = () => {
   images.value = JSON.parse(history.value[historyStep.value]);
 };
 
-// Initialize history when image is loaded
+// 图片加载完成时初始化历史记录
 if (lionImage.value) {
   history.value = [JSON.stringify(images.value)];
 }
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,11 +1,11 @@
 ---
-title: HTML5 Canvas Canvas Multi-Event Binding Tutorial
-sidebar_label: Multi Event
+title: HTML5 Canvas Canvas 多事件绑定教程
+sidebar_label: 多事件
 hide_table_of_contents: true
 slug: Multi_Event.html
 ---
 
-To bind multiple events to a single handler with Konva, we can use the `on()` method and pass in a space delimited string containing multiple event types.
+在 Konva 中，要为单个处理函数绑定多个事件，可以使用 `on()` 方法，并传入一个以空格分隔的多个事件类型字符串。
 
 ```js
 shape.on('mouseover mousedown mouseup', function (e) {
@@ -13,7 +13,7 @@ shape.on('mouseover mousedown mouseup', function (e) {
 });
 ```
 
-**Instructions: Mouseover, mousedown, and mouseup over the circle to observe that the function bound to the circle is executed for each event.**
+**操作说明：在圆形上执行 mouseover、mousedown 和 mouseup 事件，以观察绑定在圆形上的函数在每个事件触发时都会执行。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -154,4 +154,4 @@ const handleMultiEvent = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

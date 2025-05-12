@@ -1,16 +1,13 @@
 ---
-title: Load HTML5 Canvas Stage from JSON Tutorial
-sidebar_label: Complex Load
+title: 从 JSON 加载 HTML5 Canvas 阶段教程
+sidebar_label: 复杂加载
 hide_table_of_contents: true
 slug: Complex_Load.html
 ---
 
-To load a complex stage that originally contained images and event bindings using Konva,
-we need to create a stage node using `Konva.Node.create()`, and then set the
-images and event handlers with the help of selectors using the `find()` method.
-Images and event handlers must be manually set because they aren't serializable.
+要使用 Konva 加载一个最初包含图像和事件绑定的复杂舞台，我们需要使用 `Konva.Node.create()` 创建一个舞台节点，然后借助选择器使用 `find()` 方法设置图像和事件处理程序。图像和事件处理程序必须手动设置，因为它们不可序列化。
 
-**That methods works for small apps. For more complex cases take a look into [Best Practices](/docs/data_and_serialization/Best_Practices.html)**
+**该方法适用于小型应用。对于更复杂的情况，请查看 [最佳实践](/docs/data_and_serialization/Best_Practices.html)**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -20,23 +17,23 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// JSON string from a previous save
+// 来自先前保存的 JSON 字符串
 const json = '{"attrs":{"width":578,"height":200},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4},"className":"RegularPolygon"}]}]}';
 
-// create node using json string
+// 使用 JSON 字符串创建节点
 const stage = Konva.Node.create(json, 'container');
 
-// get reference to the hexagon
+// 获取六边形的引用
 const hexagon = stage.findOne('RegularPolygon');
 
-// bind events
+// 绑定事件
 hexagon.on('click', () => {
   hexagon.fill(Konva.Util.getRandomColor());
 });
 ```
   </TabItem>
   <TabItem value="React">
-**Note:** Using `Konva.Node.create()` directly in React is an anti-pattern. In React applications, we should manage state separately from the view. Instead of deserializing entire node structures, we should load the data that defines our shapes and let React components handle the rendering. The example below demonstrates how to load shape data as state in React:
+**注意：** 在 React 中直接使用 `Konva.Node.create()` 是一种反模式。在 React 应用中，我们应该将状态与视图分开管理。我们应该加载定义形状的数据，让 React 组件处理渲染，而不是反序列化整个节点结构。下面的示例演示了如何在 React 中将形状数据作为状态加载：
 
 ```js live react
 import { Stage, Layer, RegularPolygon } from 'react-konva';
@@ -47,17 +44,17 @@ const App = () => {
   const [shapeData, setShapeData] = useState(null);
   
   useEffect(() => {
-    // Simulating loading JSON data from storage or API
+    // 模拟从存储或 API 加载 JSON 数据
     const loadData = () => {
-      // This would typically come from localStorage, API, etc.
+      // 这通常来自 localStorage、API 等
       const jsonString = '{"hexagon":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4}}';
       
       try {
-        // Parse the JSON into a JavaScript object
+        // 将 JSON 解析为 JavaScript 对象
         const data = JSON.parse(jsonString);
         setShapeData(data);
       } catch (error) {
-        console.error('Error parsing JSON:', error);
+        console.error('解析 JSON 时出错：', error);
       }
     };
     
@@ -76,8 +73,8 @@ const App = () => {
     }
   };
   
-  // Don't render until we have data
-  if (!shapeData) return <div>Loading...</div>;
+  // 在我们拥有数据之前不渲染
+  if (!shapeData) return <div>加载中...</div>;
   
   return (
     <Stage width={578} height={200}>
@@ -95,7 +92,7 @@ export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
-**Note:** Using `Konva.Node.create()` directly in Vue is an anti-pattern. In Vue applications, we should manage state with reactive data separately from the view. Instead of deserializing entire node structures, we should load the data that defines our shapes and let Vue components handle the rendering. The example below demonstrates how to load shape data as reactive state in Vue:
+**注意：** 在 Vue 中直接使用 `Konva.Node.create()` 是一种反模式。在 Vue 应用中，我们应该使用响应式数据独立于视图来管理状态。我们应该加载定义形状的数据，并让 Vue 组件处理渲染，而不是反序列化整个节点结构。下面的示例演示了如何在 Vue 中将形状数据作为响应式状态加载：
 
 ```js live vue
 <template>
@@ -108,7 +105,7 @@ export default App;
         />
       </v-layer>
     </v-stage>
-    <div v-else>Loading...</div>
+    <div v-else>加载中...</div>
   </div>
 </template>
 
@@ -124,17 +121,17 @@ const stageSize = {
 const shapeData = ref(null);
 
 onMounted(() => {
-  // Simulating loading JSON data from storage or API
+  // 模拟从存储或 API 加载 JSON 数据
   const loadData = () => {
-    // This would typically come from localStorage, API, etc.
+    // 这通常来自 localStorage、API 等
     const jsonString = '{"hexagon":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4}}';
     
     try {
-      // Parse the JSON into a JavaScript object
+      // 将 JSON 解析为 JavaScript 对象
       const data = JSON.parse(jsonString);
       shapeData.value = data;
     } catch (error) {
-      console.error('Error parsing JSON:', error);
+      console.error('解析 JSON 时出错：', error);
     }
   };
   
@@ -155,4 +152,4 @@ const handleClick = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

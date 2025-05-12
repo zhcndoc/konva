@@ -1,15 +1,15 @@
 ---
-title: HTML5 Canvas Blend mode with globalCompositeOperation Tutorial
-sidebar_label: Blend Mode
+title: HTML5 Canvas 混合模式与 globalCompositeOperation 教程
+sidebar_label: 混合模式
 hide_table_of_contents: true
 slug: Blend_Mode.html
 ---
 
-[globalCompositeOperation Documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation).
+[globalCompositeOperation 文档](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)。
 
-With Konva framework you can set globalCompositeOperation or blending mode operations with `globalCompositeOperation` property.
+使用 Konva 框架，您可以通过 `globalCompositeOperation` 属性设置 globalCompositeOperation 或混合模式操作。
 
-**Instructions**: Drag the red rectangle over the green text to see the XOR blending effect.
+**说明**：拖动红色矩形覆盖绿色文本，以查看异或混合效果。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -28,7 +28,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 
 const text = new Konva.Text({
-  text: 'Text Shadow!',
+  text: '文本阴影！',
   fontFamily: 'Calibri',
   fontSize: 40,
   x: 20,
@@ -62,7 +62,7 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          text="Text Shadow!"
+          text="文本阴影！"
           fontFamily="Calibri"
           fontSize={40}
           x={20}
@@ -106,7 +106,7 @@ const stageSize = {
 };
 
 const textConfig = {
-  text: 'Text Shadow!',
+  text: '文本阴影！',
   fontFamily: 'Calibri',
   fontSize: 40,
   x: 20,

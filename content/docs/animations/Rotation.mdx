@@ -1,17 +1,15 @@
 ---
-title: Rotation Animation tutorial
-sidebar_label: Rotation
+title: 旋转动画教程
+sidebar_label: 旋转
 hide_table_of_contents: true
 slug: Rotation.html
 ---
 
-To animate a shape's rotation with Konva, we can create a new animation with
-`Konva.Animation`, and define a function which modifies the shape's rotation with each animation frame.
+要使用 Konva 动画一个形状的旋转，我们可以使用 `Konva.Animation` 创建一个新动画，并定义一个在每帧动画中修改形状旋转的函数。
 
-In this tutorial, we'll rotate a blue rectangle about the top left corner,
-a yellow rectangle about its center, and a red rectangle about an outside point.
+在本教程中，我们将围绕左上角旋转一个蓝色矩形，围绕中心旋转一个黄色矩形，以及围绕外部点旋转一个红色矩形。
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+有关完整的属性和方法列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -30,7 +28,7 @@ height: window.innerHeight,
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// blue rectangle - rotate around top-left corner
+// 蓝色矩形 - 围绕左上角旋转
 const blueRect = new Konva.Rect({
 x: 50,
 y: 50,
@@ -45,7 +43,7 @@ y: 0,
 },
 });
 
-// yellow rectangle - rotate around center
+// 黄色矩形 - 围绕中心旋转
 const yellowRect = new Konva.Rect({
 x: 200,
 y: 50,
@@ -60,7 +58,7 @@ y: 25,
 },
 });
 
-// red rectangle - rotate around point outside shape
+// 红色矩形 - 围绕形状外部点旋转
 const redRect = new Konva.Rect({
 x: 350,
 y: 50,
@@ -89,7 +87,7 @@ redRect.rotate(angleDiff);
 
 anim.start();
 
-````
+````  
   </TabItem>
   <TabItem value="React">
 ```js live react

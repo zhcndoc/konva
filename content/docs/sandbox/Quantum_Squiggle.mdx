@@ -1,11 +1,11 @@
 ---
-title: Oscillating Blobs
-sidebar_label: Oscillating Blobs
+title: 振荡 blobs
+sidebar_label: 振荡 blobs
 hide_table_of_contents: true
 slug: Quantum_Squiggle.html
 ---
 
-**Instructions: Refresh the page to generate new blobs. You can also drag and drop the blobs as they animate.**
+**说明：刷新页面以生成新的 blobs。您也可以在它们动画时拖动和放置 blobs。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,9 +27,9 @@ var layer = new Konva.Layer();
 var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 var blobs = [];
 
-// create 6 blobs
+// 创建 6 个 blobs
 for (var n = 0; n < 6; n++) {
-  // build array of random points
+  // 构建随机点数组
   var points = [];
   for (var i = 0; i < 5; i++) {
     points.push(stage.width() * Math.random());
@@ -81,7 +81,7 @@ const App = () => {
   const [tension, setTension] = useState(0);
 
   useEffect(() => {
-    // Generate initial blobs
+    // 生成初始 blobs
     const newBlobs = COLORS.map((color) => {
       const points = [];
       for (let i = 0; i < 5; i++) {
@@ -191,7 +191,7 @@ const blobs = ref([]);
 const tension = ref(0);
 
 onMounted(() => {
-  // Generate initial blobs
+  // 生成初始 blobs
   blobs.value = COLORS.map(color => {
     const points = [];
     for (let i = 0; i < 5; i++) {

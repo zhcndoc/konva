@@ -1,15 +1,15 @@
 ---
-title: HTML5 Canvas Drag, Drop, and Resize Images Demo
-sidebar_label: Image Resize
+title: HTML5 Canvas 拖动、放置和调整图像大小演示
+sidebar_label: 图像调整大小
 hide_table_of_contents: true
 slug: Image_Resize.html
 ---
 
-This demo shows how to manually implement resizing of images with anchors at the corners. The images can be both dragged and resized.
+本演示展示了如何手动实现带有角部锚点的图像调整大小功能。图像既可以拖动也可以调整大小。
 
-Note: We also have a built-in method for such cases with the special `Konva.Transformer` node. Take a look at the [Select and Transform demo](/docs/select_and_transform/Basic_demo.html) for an easier approach.
+注意：我们还提供了一个内置的方法用于这种情况，即特殊的 `Konva.Transformer` 节点。请查看 [选择和变换演示](/docs/select_and_transform/Basic_demo.html) 以获取更简单的方法。
 
-**Instructions:** Drag the images to move them. Click and drag the corner anchors to resize.
+**说明：** 拖动图像以移动它们。点击并拖动角部锚点以调整大小。
 
 
 ```js live vanilla
@@ -27,7 +27,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Function to update image size based on anchor movement
+// 根据锚点移动更新图像大小的函数
 function update(activeAnchor) {
   const group = activeAnchor.getParent();
 
@@ -40,7 +40,7 @@ function update(activeAnchor) {
   const anchorX = activeAnchor.x();
   const anchorY = activeAnchor.y();
 
-  // Update anchor positions based on which anchor was moved
+  // 根据哪个锚点被移动来更新锚点位置
   switch (activeAnchor.getName()) {
     case 'topLeft':
       topRight.y(anchorY);
@@ -60,10 +60,10 @@ function update(activeAnchor) {
       break;
   }
 
-  // Position image at top-left corner
+  // 将图像位置放置在左上角
   image.position(topLeft.position());
 
-  // Update image dimensions
+  // 更新图像尺寸
   const width = topRight.x() - topLeft.x();
   const height = bottomLeft.y() - topLeft.y();
   if (width && height) {
@@ -72,7 +72,7 @@ function update(activeAnchor) {
   }
 }
 
-// Function to add resize anchors to a group
+// 为一个组添加调整大小锚点的函数
 function addAnchor(group, x, y, name) {
   const anchor = new Konva.Circle({
     x: x,
@@ -86,7 +86,7 @@ function addAnchor(group, x, y, name) {
     dragOnTop: false,
   });
 
-  // Add event listeners for resize behavior
+  // 添加事件监听器以实现调整大小的行为
   anchor.on('dragmove', function () {
     update(this);
   });
@@ -100,7 +100,7 @@ function addAnchor(group, x, y, name) {
     group.draggable(true);
   });
   
-  // Add hover styling
+  // 添加悬停样式
   anchor.on('mouseover', function () {
     document.body.style.cursor = 'pointer';
     this.strokeWidth(4);
@@ -114,7 +114,7 @@ function addAnchor(group, x, y, name) {
   group.add(anchor);
 }
 
-// Create Darth Vader Group with Image and anchors
+// 创建达斯·维德组及其图像和锚点
 const darthVaderImg = new Konva.Image({
   width: 200,
   height: 137,
@@ -129,13 +129,13 @@ const darthVaderGroup = new Konva.Group({
 layer.add(darthVaderGroup);
 darthVaderGroup.add(darthVaderImg);
 
-// Add anchors at the corners
+// 在角落添加锚点
 addAnchor(darthVaderGroup, 0, 0, 'topLeft');
 addAnchor(darthVaderGroup, 200, 0, 'topRight');
 addAnchor(darthVaderGroup, 200, 137, 'bottomRight');
 addAnchor(darthVaderGroup, 0, 137, 'bottomLeft');
 
-// Create Yoda Group with Image and anchors
+// 创建尤达组及其图像和锚点
 const yodaImg = new Konva.Image({
   width: 93,
   height: 104,
@@ -150,13 +150,13 @@ const yodaGroup = new Konva.Group({
 layer.add(yodaGroup);
 yodaGroup.add(yodaImg);
 
-// Add anchors at the corners
+// 在角落添加锚点
 addAnchor(yodaGroup, 0, 0, 'topLeft');
 addAnchor(yodaGroup, 93, 0, 'topRight');
 addAnchor(yodaGroup, 93, 104, 'bottomRight');
 addAnchor(yodaGroup, 0, 104, 'bottomLeft');
 
-// Load the images
+// 加载图像
 const imageObj1 = new Image();
 imageObj1.onload = function () {
   darthVaderImg.image(imageObj1);
@@ -169,4 +169,3 @@ imageObj2.onload = function () {
 };
 imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
 ```
-  

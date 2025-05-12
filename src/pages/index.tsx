@@ -250,7 +250,7 @@ function AnimatedSubtitle() {
   return (
     <div className={styles.animatedSubtitle}>
       <p className="hero__subtitle">
-        The ultimate bridge between your{' '}
+        你的{' '}
         <span className={styles.frameworkWrapper}>
           <span
             className={clsx(
@@ -263,7 +263,7 @@ function AnimatedSubtitle() {
             {framework.name}
           </span>
         </span>{' '}
-        app and canvas graphics
+        应用与 Canvas 画布之间的终极桥梁
       </p>
     </div>
   );
@@ -274,7 +274,7 @@ function KonvaUsersSection() {
     <section className={styles.usersSection}>
       <div className="container">
         <div className={styles.usersHeader}>
-          <h2>Show case</h2>
+          <h2>展示案例</h2>
         </div>
         <div className={styles.usersGrid}>
           {konvaUsers.map((user) => (
@@ -300,7 +300,7 @@ function KonvaUsersSection() {
             href="https://github.com/konvajs/konva/discussions/1169"
             className={styles.addApp}
           >
-            Do you want to add your app here?
+            您想在这里添加您的应用吗？
           </a>
         </div>
       </div>
@@ -407,7 +407,7 @@ function HomepageHeader() {
             className="button button--secondary button--lg"
             to="/docs/index.html"
           >
-            Get started
+            开始使用
           </Link>
         </div>
       </div>
@@ -420,9 +420,9 @@ function CompaniesSection() {
     <section className={styles.companiesSection}>
       <div className="container">
         <div className={styles.companiesHeader}>
-          <h2>Trusted by teams worldwide</h2>
+          <h2>受到全球团队的信任</h2>
           {/* <p>Join thousands of developers and companies already using Konva</p> */}
-          <p>The most popular 2D canvas framework based on npm downloads</p>
+          <p>基于 npm 下载量的最受欢迎的 2D 画布框架</p>
         </div>
         <div className={styles.companiesGrid}>
           {companyList.map((company) => (
@@ -447,7 +447,7 @@ function CompaniesSection() {
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout description="Konva is 2d Canvas JavaScript framework for drawings shapes, animations, node nesting, layering, filtering, event handling, drag and drop and much more.">
+    <Layout description="Konva 是一个用于绘制形状、动画、节点嵌套、分层、过滤、事件处理、拖放等功能的 2D Canvas JavaScript 框架。">
       <HomepageHeader />
       <main>
         <CompaniesSection />

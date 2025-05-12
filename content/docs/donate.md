@@ -1,24 +1,24 @@
 ---
 sidebar_position: 4
-title: How to support and donate to Konva project?
-sidebar_label: Donate
+title: 如何支持和捐赠给 Konva 项目？
+sidebar_label: 捐赠
 slug: donate.html
 ---
 
-Hello, my name is Anton. I am core maintainer of `Konva` framework.
+你好，我的名字是 Anton。我是 `Konva` 框架的核心维护者。
 
-**If you want to support development of `Konva` and all its ecosystem tools like `react-konva` and `vue-konva` you can use:**
+**如果你想支持 `Konva` 的开发以及它的生态工具如 `react-konva` 和 `vue-konva`，你可以使用：**
 
 - [Patreon](https://www.patreon.com/lavrton)
 - [Open Collective](https://opencollective.com/konva)
 - [GitHub Sponsor](https://github.com/sponsors/lavrton)
 
-I am spending a large amount of time to support `Konva` users and develop new versions with bugs fixes and new features.
+我花费大量时间来支持 `Konva` 用户，并开发带有错误修复和新功能的新版本。
 
-If you are making money, by using `Konva` in your project, it makes sense to support `Konva` development. By doing this you will make sure that you have a good quality and maintained framework.
+如果你在项目中使用 `Konva` 获取了收益，支持 `Konva` 的开发是有意义的。通过这样做，你可以确保你拥有一个质量良好且被维护的框架。
 
-Even if you are not making money from your project but `Konva` saved you a lot of time, it will be very kind to support it.
+即使你的项目没有盈利，但 `Konva` 为你节省了大量时间，支持它也是非常可行的。
 
-### Your company is using Konva?
+### 你的公司在使用 Konva 吗？
 
-It may be hard for many developers to make a financial donation. But if you are using `konva` as part of your work in the company, talk to your managers to support the project. Well-supported project is a good value for the company.
+对许多开发者来说，进行经济捐赠可能很困难。但如果你在公司工作中使用 `konva`，请和你的经理谈谈支持该项目。得到良好支持的项目对公司来说是一个好价值。

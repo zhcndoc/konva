@@ -1,15 +1,15 @@
 ---
-title: How to implement undo/redo on canvas with React?
-sidebar_label: Undo/Redo
+title: 如何在 React 中实现画布的撤销/重做功能？
+sidebar_label: 撤销/重做
 hide_table_of_contents: true
 slug: Undo-Redo.html
 ---
 
-To implement undo/redo functionality with React you don't need to use Konva's serialization and deserialization methods.
+要在 React 中实现撤销/重做功能，您不需要使用 Konva 的序列化和反序列化方法。
 
-You just need to save a history of all the state changes within your app. There are many ways to do this. It may be simpler to do that if you use immutable structures.
+您只需要保存应用程序中所有状态更改的历史记录。有很多方法可以做到这一点。如果使用不可变结构，可能会更简单。
 
-Instructions: Try to move the square by dragging it. Then use the "undo" and "redo" buttons to revert or replay your actions.
+说明：尝试通过拖动移动正方形。然后使用“撤销”和“重做”按钮来撤销或重放您的操作。
 
 ```js live react
 import React, { Component } from 'react';
@@ -18,7 +18,7 @@ import { Stage, Layer, Rect, Text } from 'react-konva';
 
 const App = () => {
   const [position, setPosition] = React.useState({ x: 20, y: 20 });
-  // We use refs to keep history to avoid unnecessary re-renders
+  // 我们使用 refs 来保持历史记录，以避免不必要的重新渲染
   const history = React.useRef([{ x: 20, y: 20 }]);
   const historyStep = React.useRef(0);
 
@@ -41,13 +41,13 @@ const App = () => {
   };
 
   const handleDragEnd = (e) => {
-    // Remove all states after current step
+    // 在当前步骤之后移除所有状态
     history.current = history.current.slice(0, historyStep.current + 1);
     const pos = {
       x: e.target.x(),
       y: e.target.y(),
     };
-    // Push the new state
+    // 添加新状态
     history.current = history.current.concat([pos]);
     historyStep.current += 1;
     setPosition(pos);
@@ -56,8 +56,8 @@ const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Text text="undo" onClick={handleUndo} />
-        <Text text="redo" x={40} onClick={handleRedo} />
+        <Text text="撤销" onClick={handleUndo} />
+        <Text text="重做" x={40} onClick={handleRedo} />
         <Rect
           x={position.x}
           y={position.y}

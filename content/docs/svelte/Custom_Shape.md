@@ -1,15 +1,15 @@
 ---
-title: How to draw custom canvas shape with Svelte?
-sidebar_label: Custom Shape
+title: 如何使用 Svelte 绘制自定义画布形状？
+sidebar_label: 自定义形状
 hide_table_of_contents: true
 slug: Custom_Shape.html
 ---
 
-To create a custom shape with `svelte-konva`, we should use `Shape` component.
+要用 `svelte-konva` 创建自定义形状，应该使用 `Shape` 组件。
 
-When creating a custom shape, we need to define a drawing function that is passed a Konva.Canvas renderer.
+在创建自定义形状时，我们需要定义一个绘制函数，该函数会接收一个 Konva.Canvas 渲染器。
 
-We can use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handles filling, stroking, and applying shadows.
+我们可以使用渲染器访问 HTML5 Canvas 的上下文，以及调用诸如 `context.fillStrokeShape(shape)` 之类的特殊方法，这些方法可以自动处理填充、描边和阴影效果。
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/custom_shape?file=/src/App.svelte" 

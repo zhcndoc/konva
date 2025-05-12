@@ -1,28 +1,25 @@
 ---
-title: HTML5 Canvas Simple Drag Bounds Tutorial
-sidebar_label: Simple Drag Bounds
+title: HTML5 Canvas 简单拖拽边界教程
+sidebar_label: 简单拖拽边界
 hide_table_of_contents: true
 slug: Simple_Drag_Bounds.html
 ---
 
-To restrict the movement of shapes being dragged and dropped with Konva,
-we can use the `dragmove` event and overrides the drag and drop position inside of it.
+要限制使用 Konva 拖拽和放置的形状的运动，我们可以使用 `dragmove` 事件并在其中重写拖拽和放置位置。
 
-This event can be used to constrain the drag and drop movement in all kinds of ways, such as constraining the motion horizontally, vertically, diagonally, or radially, or even constrain the node
-to stay inside of a box, circle, or any other path.
+这个事件可以用于以各种方式约束拖拽和放置的运动，例如限制水平方向、垂直方向、对角线或径向的运动，甚至可以限制节点保持在一个框、圆或任何其他路径内。
 
 ```js
 shape.on('dragmove', () => {
-  // lock position of the shape on x axis
-  // keep y position as is
+  // 锁定形状在 x 轴上的位置
+  // 保持 y 位置不变
   shape.x(0);
 });
 ```
 
-_Tip: you can use `shape.absolutePosition()` method to get/set absolute position of a node, instead of relative `x` and `y`._
+_提示：你可以使用 `shape.absolutePosition()` 方法获取/设置节点的绝对位置，而不是相对的 `x` 和 `y`。_
 
-**Instructions:** Drag and drop the the horizontal text and observe that it can only
-move horizontally. Drag and drop the vertical text and observe that it can only move vertically.
+**说明：** 拖拽水平文本并观察它只能水平移动。拖拽垂直文本并观察它只能垂直移动。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -44,28 +41,28 @@ stage.add(layer);
 const horizontalText = new Konva.Text({
   x: 50,
   y: 50,
-  text: 'Drag me horizontally',
+  text: '水平拖拽我',
   fontSize: 16,
   draggable: true,
   fill: 'black',
 });
 
 horizontalText.on('dragmove', function () {
-  // horizontal only
+  // 仅水平拖拽
   this.y(50);
 });
 
 const verticalText = new Konva.Text({
   x: 200,
   y: 50,
-  text: 'Drag me vertically',
+  text: '垂直拖拽我',
   fontSize: 16,
   draggable: true,
   fill: 'black',
 });
 
 verticalText.on('dragmove', function () {
-  // vertical only
+  // 仅垂直拖拽
   this.x(200);
 });
 
@@ -92,7 +89,7 @@ const App = () => {
         <Text
           x={50}
           y={50}
-          text="Drag me horizontally"
+          text="水平拖拽我"
           fontSize={16}
           draggable
           fill="black"
@@ -101,7 +98,7 @@ const App = () => {
         <Text
           x={200}
           y={50}
-          text="Drag me vertically"
+          text="垂直拖拽我"
           fontSize={16}
           draggable
           fill="black"
@@ -141,7 +138,7 @@ const stageSize = {
 const horizontalTextConfig = {
   x: 50,
   y: 50,
-  text: 'Drag me horizontally',
+  text: '水平拖拽我',
   fontSize: 16,
   draggable: true,
   fill: 'black'
@@ -150,7 +147,7 @@ const horizontalTextConfig = {
 const verticalTextConfig = {
   x: 200,
   y: 50,
-  text: 'Drag me vertically',
+  text: '垂直拖拽我',
   fontSize: 16,
   draggable: true,
   fill: 'black'
@@ -166,4 +163,4 @@ const handleVerticalDragMove = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -1,13 +1,13 @@
 ---
-title: Deep Style Konva Transformer
-sidebar_label: Complex Transformer Styling
+title: 深层样式 Konva 变换器
+sidebar_label: 复杂变换器样式
 hide_table_of_contents: true
 slug: Transformer_Complex_Styling.html
 ---
 
-You can use `anchorStyleFunc` property of `Konva.Transformer` to have deeper control on styling of anchors.
+您可以使用 `Konva.Transformer` 的 `anchorStyleFunc` 属性对锚点样式进行更深入的控制。
 
-Also take a look into [Transformer Styling](/docs/select_and_transform/Transformer_Styling.html) for simpler use cases.
+同时，您可以查看 [变换器样式](/docs/select_and_transform/Transformer_Styling.html) 以了解更简单的用例。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -43,16 +43,16 @@ layer.add(rect);
 const tr = new Konva.Transformer({
 nodes: [rect],
 anchorStyleFunc: (anchor) => {
-// make all anchors circles
+// 使所有锚点成为圆形
 anchor.cornerRadius(50);
-// make all anchors red
+// 使所有锚点变为红色
 anchor.fill('red');
 
-    // make right-middle bigger
+    // 使右中锚点更大
     if (anchor.hasName('middle-right')) {
       anchor.scale({ x: 2, y: 2 });
     }
-    // make top-left invisible
+    // 使左上锚点不可见
     if (anchor.hasName('top-left')) {
       anchor.scale({ x: 0, y: 0 });
     }
@@ -61,7 +61,7 @@ anchor.fill('red');
 });
 layer.add(tr);
 
-````
+````  
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -92,16 +92,16 @@ const App = () => {
         <Transformer
           ref={trRef}
           anchorStyleFunc={(anchor) => {
-            // make all anchors circles
+            // 使所有锚点成为圆形
             anchor.cornerRadius(50);
-            // make all anchors red
+            // 使所有锚点变为红色
             anchor.fill('red');
 
-            // make right-middle bigger
+            // 使右中锚点更大
             if (anchor.hasName('middle-right')) {
               anchor.scale({ x: 2, y: 2 });
             }
-            // make top-left invisible
+            // 使左上锚点不可见
             if (anchor.hasName('top-left')) {
               anchor.scale({ x: 0, y: 0 });
             }
@@ -153,16 +153,16 @@ const rectConfig = {
 
 const transformerConfig = {
   anchorStyleFunc: (anchor) => {
-    // make all anchors circles
+    // 使所有锚点成为圆形
     anchor.cornerRadius(50);
-    // make all anchors red
+    // 使所有锚点变为红色
     anchor.fill('red');
 
-    // make right-middle bigger
+    // 使右中锚点更大
     if (anchor.hasName('middle-right')) {
       anchor.scale({ x: 2, y: 2 });
     }
-    // make top-left invisible
+    // 使左上锚点不可见
     if (anchor.hasName('top-left')) {
       anchor.scale({ x: 0, y: 0 });
     }
@@ -181,5 +181,3 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

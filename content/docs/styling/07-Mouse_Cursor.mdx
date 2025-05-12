@@ -1,13 +1,13 @@
 ---
-title: HTML5 Canvas Change Mouse Cursor Style
-sidebar_label: Mouse Cursor
+title: HTML5 Canvas 更改鼠标光标样式
+sidebar_label: 鼠标光标
 hide_table_of_contents: true
 slug: Mouse_Cursor.html
 ---
 
-To change mouse cursor with Konva framework you just need to listen events, where do you need to change the cursor, and apply new styles manually for Stage container.
+使用 Konva 框架更改鼠标光标只需监听事件，在需要更改光标的地方，手动为 Stage 容器应用新的样式。
 
-**Instructions:** Mouseover each pentagon and see how cursor is changing
+**说明:** 鼠标移到每个五边形上，观察光标的变化
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -87,10 +87,9 @@ layer.add(pentagon3);
 import { Stage, Layer, RegularPolygon } from 'react-konva';
 import { useState } from 'react';
 
-// Separate component for polygon that changes cursor directly
+// 单独的多边形组件，直接更改光标
 const SpecialPolygon = ({ x, y }) => {
-  // We use e.target approach here because this component doesn't have
-  // access to the Stage's cursor state from the parent component
+  // 这里使用 e.target 方式，因为该组件无法从父组件访问 Stage 的光标状态
   const handleMouseOver = (e) => {
     e.target.getStage().container().style.cursor = 'pointer';
   };

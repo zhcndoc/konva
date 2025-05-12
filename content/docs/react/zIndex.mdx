@@ -1,23 +1,23 @@
 ---
-title: How to change the zIndex of nodes with React?
+title: 如何在 React 中更改节点的 zIndex？
 sidebar_label: zIndex
 hide_table_of_contents: true
 slug: zIndex.html
 ---
 
-## How to change the zIndex and reorder components in `react-konva`?
+## 如何在 `react-konva` 中更改 zIndex 和重新排列组件？
 
-When you are working with `Konva` directly you have many methods to change the order of nodes like `node.zIndex(5)`, `node.moveToTop()`, etc. [Tutorial](/docs/groups_and_layers/Layering.html).
+当你直接使用 `Konva` 时，有很多方法可以更改节点的顺序，例如 `node.zIndex(5)`、`node.moveToTop()` 等等。[教程](/docs/groups_and_layers/Layering.html)。
 
-But it is not recommended to use these methods when you are working with the React framework.
+但是，当你使用 React 框架时，不推荐使用这些方法。
 
-`react-konva` is strictly follows the order of the nodes exactly as you described them in your component. So instead of changing the zIndex manually, you just need to update the state of the app correctly.
+`react-konva` 严格按照你在组件中描述的节点顺序。因此，不需要手动更改 zIndex，只需正确更新应用程序的状态即可。
 
-Don't use the `zIndex` for your canvas components.
+不要在你的画布组件中使用 `zIndex`。
 
-If you want to temporarily move a node into another container, for example when you want to show an overlay, take a look into the [Canvas Portal demo](/docs/react/Canvas_Portal.html).
+如果你想暂时将一个节点移动到另一个容器中，例如在你想显示一个覆盖层时，可以查看 [Canvas Portal demo](/docs/react/Canvas_Portal.html)。
 
-**Instructions: Try to drag a circle. See how it goes to the top. We are doing this by manipulating the state so that componet render returns the correct order.**
+**说明：试着拖动一个圆圈。看看它是如何移动到最上面的。我们通过操控状态来做到这一点，以便组件渲染返回正确的顺序。**
 
 ```js live react
 import React, { Component } from 'react';
@@ -45,9 +45,9 @@ const App = () => {
     const itemsCopy = items.slice();
     const item = itemsCopy.find((i) => i.id === id);
     const index = itemsCopy.indexOf(item);
-    // remove from the list:
+    // 从列表中移除:
     itemsCopy.splice(index, 1);
-    // add to the top
+    // 添加到顶部
     itemsCopy.push(item);
     setItems(itemsCopy);
   };
@@ -57,7 +57,7 @@ const App = () => {
     const itemsCopy = items.slice();
     const item = items.find((i) => i.id === id);
     const index = items.indexOf(item);
-    // update item position
+    // 更新项的位置
     itemsCopy[index] = {
       ...item,
       x: e.target.x(),
@@ -88,4 +88,4 @@ const App = () => {
 };
 
 export default App;
-``` 
+```

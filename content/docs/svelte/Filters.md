@@ -1,15 +1,15 @@
 ---
-title: How to apply canvas filters with Svelte and Konva?
-sidebar_label: Filters
+title: 如何使用 Svelte 和 Konva 应用画布滤镜？
+sidebar_label: 滤镜
 hide_table_of_contents: true
 slug: Filters.html
 ---
 
-To apply filters you need to cache `Konva.Node` manually. You can do this initially in the `onMount()` method.
+要应用滤镜，你需要手动缓存 `Konva.Node`。你可以在 `onMount()` 方法中首次完成此操作。
 
-In case you dynamically change the style of the nodes you need to recache them manually for the changes to take effect on the canvas. This can be done by calling the `cache()` method on the affected nodes directly after a change (like in the demo) or in the `afterUpdate()` method to automatically recache the node on each state change in the component.
+如果你动态更改节点的样式，则需要手动重新缓存它们，以使更改在画布上生效。这可以通过在更改后直接调用受影响节点的 `cache()` 方法（如在演示中所示）或在 `afterUpdate()` 方法中完成，以便在组件的每个状态更改中自动重新缓存节点。
 
-**Instructions:** hover over the rectangle to see the changes
+**说明：** 将鼠标悬停在矩形上以查看更改
 
 <iframe 
   src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/filters?file=/src/App.svelte" 

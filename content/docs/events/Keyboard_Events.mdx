@@ -1,20 +1,20 @@
 ---
-title: HTML5 Canvas Keyboard events with Konva
-sidebar_label: Keyboard Events
+title: HTML5 Canvas 键盘事件与 Konva
+sidebar_label: 键盘事件
 hide_table_of_contents: true
 slug: Keyboard_Events.html
 ---
 
-There are no built-in keyboard events like `keydown` or `keyup` in Konva.
+Konva 中没有内置的键盘事件，比如 `keydown` 或 `keyup`。
 
-### But how to listen keydown or keyup events on canvas?
+### 但是如何在画布上监听 keydown 或 keyup 事件？
 
-You can easily add them by two ways:
+你可以通过两种方式轻松添加它们：
 
-1. Listen global events on `window` object
-2. Or make stage container focusable with `tabIndex` property and listen events on it.
+1. 监听 `window` 对象上的全局事件
+2. 或者通过 `tabIndex` 属性使舞台容器可聚焦，并在其上监听事件。
 
-**Instructions: click on stage to focus it, move a shape with arrows**
+**说明：点击舞台以聚焦它，使用箭头键移动形状**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -43,15 +43,15 @@ const circle = new Konva.Circle({
 });
 layer.add(circle);
 
-// make stage container focusable
+// 使舞台容器可聚焦
 stage.container().tabIndex = 1;
-// focus it
-// also stage will be in focus on its click
+// 聚焦它
+// 点击舞台时也会聚焦
 stage.container().focus();
 
 const DELTA = 4;
 
-// add keyboard events
+// 添加键盘事件
 stage.container().addEventListener('keydown', (e) => {
   if (e.keyCode === 37) {
     circle.x(circle.x() - DELTA);
@@ -82,9 +82,9 @@ const App = () => {
 
   useEffect(() => {
     const container = stageRef.current.container();
-    // make it focusable
+    // 使其可聚焦
     container.tabIndex = 1;
-    // focus it
+    // 聚焦它
     container.focus();
   }, []);
 
@@ -92,16 +92,16 @@ const App = () => {
     const DELTA = 4;
     
     switch (e.keyCode) {
-      case 37: // left
+      case 37: // 左
         setPosition(pos => ({ ...pos, x: pos.x - DELTA }));
         break;
-      case 38: // up
+      case 38: // 上
         setPosition(pos => ({ ...pos, y: pos.y - DELTA }));
         break;
-      case 39: // right
+      case 39: // 右
         setPosition(pos => ({ ...pos, x: pos.x + DELTA }));
         break;
-      case 40: // down
+      case 40: // 下
         setPosition(pos => ({ ...pos, y: pos.y + DELTA }));
         break;
       default:
@@ -173,9 +173,9 @@ const circleConfig = computed(() => ({
 
 onMounted(() => {
   const container = stageRef.value.getNode().container();
-  // make it focusable
+  // 使其可聚焦
   container.tabIndex = 1;
-  // focus it
+  // 聚焦它
   container.focus();
 });
 
@@ -183,16 +183,16 @@ const handleKeyDown = (e) => {
   const DELTA = 4;
   
   switch (e.keyCode) {
-    case 37: // left
+    case 37: // 左
       position.value.x -= DELTA;
       break;
-    case 38: // up
+    case 38: // 上
       position.value.y -= DELTA;
       break;
-    case 39: // right
+    case 39: // 右
       position.value.x += DELTA;
       break;
-    case 40: // down
+    case 40: // 下
       position.value.y += DELTA;
       break;
     default:
@@ -203,4 +203,4 @@ const handleKeyDown = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

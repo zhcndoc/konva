@@ -1,6 +1,6 @@
 ---
-title: How to apply canvas filters with React and Konva?
-sidebar_label: Filters
+title: 如何在 React 和 Konva 中应用画布滤镜？
+sidebar_label: 滤镜
 hide_table_of_contents: true
 slug: Filters.html
 ---
@@ -8,10 +8,10 @@ slug: Filters.html
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-To apply filters to a Konva node, you need to:
-1. Cache the node using `node.cache()`
-2. Apply filters using the `filters` prop
-3. Re-cache the node when its properties change
+要对 Konva 节点应用滤镜，您需要：
+1. 使用 `node.cache()` 缓存节点
+2. 使用 `filters` 属性应用滤镜
+3. 在节点的属性更改时重新缓存节点
 
 ```js live react
 import React from 'react';
@@ -19,15 +19,15 @@ import Konva from 'konva';
 import { Stage, Layer, Rect, Image } from 'react-konva';
 import useImage from 'use-image';
 
-// Example of functional component with image filter
+// 图像滤镜的函数组件示例
 const FilterImage = () => {
   const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
   const imageRef = React.useRef();
 
-  // when image is loaded we need to cache the shape
+  // 当图像加载时，我们需要缓存形状
   React.useEffect(() => {
     if (image) {
-      // you many need to reapply cache on some props changes like shadow, stroke, etc.
+      // 需要在某些属性更改时（如阴影、描边等）重新应用缓存
       imageRef.current.cache();
     }
   }, [image]);
@@ -44,8 +44,8 @@ const FilterImage = () => {
   );
 };
 
-// Example of class component with noise filter
-// Try to click on rect to see color updates
+// 带有噪声滤镜的类组件示例
+// 尝试单击矩形以查看颜色更新
 const FilterRect = () => {
   const [color, setColor] = React.useState('green');
   const rectRef = React.useRef();
@@ -58,7 +58,7 @@ const FilterRect = () => {
 
   const handleClick = () => {
     setColor(Konva.Util.getRandomColor());
-    // recache shape when we updated it
+    // 更新形状时重新缓存
     rectRef.current.cache();
   };
 

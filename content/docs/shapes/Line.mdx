@@ -1,18 +1,18 @@
 ---
-title: HTML5 canvas Line Tutorial
-sidebar_label: Line
+title: HTML5 canvas 线条教程
+sidebar_label: 线条
 hide_table_of_contents: true
 slug: /docs/shapes/Line.html
 ---
 
-To create line shapes with `Konva`, we can instantiate a `Konva.Line()` object. Lines can be configured in different ways to create various shapes like simple lines, splines, blobs, and polygons.
+使用 `Konva` 创建线条形状时，可以实例化一个 `Konva.Line()` 对象。线条可以通过不同配置创建各种形状，如简单线条、样条曲线、blob 和多边形。
 
-For full list of properties and methods, see the [Line API Reference](/api/Konva.Line.html).
+欲查看完整属性和方法列表，请参考 [Line API 参考](/api/Konva.Line.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## Simple Line
+## 简单线条
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -36,7 +36,7 @@ const redLine = new Konva.Line({
   lineJoin: 'round'
 });
 
-// dashed line
+// 虚线
 const greenLine = new Konva.Line({
   points: [5, 70, 140, 23, 250, 60, 300, 20],
   stroke: 'green',
@@ -118,9 +118,9 @@ const greenLineConfig = {
   </TabItem>
 </Tabs>
 
-## Spline (Curved Line)
+## 样条曲线（弯曲线条）
 
-To create a curved line, add the `tension` property:
+要创建弯曲的线条，添加 `tension` 属性：
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -201,9 +201,9 @@ const lineConfig = {
   </TabItem>
 </Tabs>
 
-## Polygon
+## 多边形
 
-To create a polygon, set the `closed` property to true:
+要创建多边形，将 `closed` 属性设置为 true：
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -281,9 +281,9 @@ const polygonConfig = {
   </TabItem>
 </Tabs>
 
-## Blob
+## Blob（流体形状）
 
-To create a blob, combine `closed` and `tension` properties:
+要创建 blob，结合使用 `closed` 和 `tension` 属性：
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -362,4 +362,4 @@ const blobConfig = {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

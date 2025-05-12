@@ -1,21 +1,19 @@
 ---
-title: HTML5 Canvas Brighten Image Filter Tutorial
-sidebar_label: Brighten
+title: HTML5 Canvas 图像亮度滤镜教程
+sidebar_label: 亮度调整
 hide_table_of_contents: true
 slug: Brighten.html
 ---
 
-To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
-function. Then apply filter with `filters()` function.
+要对 `Konva.Image` 应用滤镜，必须先使用 `cache()` 函数缓存它，然后使用 `filters()` 函数应用滤镜。
 
-To brighten or darken an image with Konva, we can use the `Konva.Filters.Brighten`
-filter and set the brightness amount with the `brightness` property.
-The `brightness` property can be set to any integer between -1 and 1.
-Negative values darken the image, and positive values brighten the image.
+在 Konva 中调整图像亮度或暗度，可以使用 `Konva.Filters.Brighten` 滤镜，并通过 `brightness` 属性设置亮度值。
+`brightness` 属性可以设置为 -1 到 1 之间的任意整数值。
+负值会使图像变暗，正值会使图像变亮。
 
-**Instructions**: Slide the control to adjust the brightness
+**操作说明**：滑动控制条以调整亮度
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用滤镜，请访问 [滤镜文档](/api/Konva.Filters.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";

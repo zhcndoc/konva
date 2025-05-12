@@ -1,20 +1,20 @@
 ---
-title: Style Konva Transformer
-sidebar_label: Styling
+title: Konva 变换器样式
+sidebar_label: 样式
 hide_table_of_contents: true
 slug: Transformer_Styling.html
 ---
 
-You can adjust styles of `Konva.Transformer` for your web app. You can change stroke, size and fill of all anchors.
-Also you can change stroke color and size of border.
+您可以为您的网页应用程序调整 `Konva.Transformer` 的样式。您可以更改所有锚点的轮廓、大小和填充。
+同时，您也可以更改边框的颜色和大小。
 
-Also take a look into [Complex Transformer Styling](/docs/select_and_transform/Transformer_Complex_Styling.html) for fine tuning.
+此外，您可以查看 [复杂变换器样式](/docs/select_and_transform/Transformer_Complex_Styling.html) 以进行精细调整。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生" default>
 ```js live vanilla
 import Konva from 'konva';
 
@@ -43,20 +43,20 @@ layer.add(rect);
 
 const tr = new Konva.Transformer({
 nodes: [rect],
-// add border
+// 添加边框
 borderStroke: '#000',
 borderStrokeWidth: 3,
-// add anchors
+// 添加锚点
 anchorFill: '#fff',
 anchorStroke: '#000',
 anchorStrokeWidth: 2,
 anchorSize: 20,
-// make all anchors look like circles
+// 使所有锚点看起来像圆形
 anchorCornerRadius: 50,
 });
 layer.add(tr);
 
-````
+```` 
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -160,5 +160,3 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

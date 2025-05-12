@@ -1,11 +1,11 @@
 ---
-title: Star Spinner
-sidebar_label: Star Spinner
+title: 星星旋转器
+sidebar_label: 星星旋转器
 hide_table_of_contents: true
 slug: Star_Spinner.html
 ---
 
-**Instructions: Spin the star with your mouse.**
+**说明：用你的鼠标旋转星星。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -15,7 +15,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// disable degree mode to use radians
+// 禁用度数模式，转为使用弧度
 Konva.angleDeg = false;
 
 const stage = new Konva.Stage({
@@ -44,7 +44,7 @@ const star = new Konva.Star({
   opacity: 0.8,
 });
 
-// custom properties
+// 自定义属性
 star.lastRotation = 0;
 star.angularVelocity = 6;
 star.controlled = false;
@@ -56,7 +56,7 @@ star.on('mousedown touchstart', function () {
 
 animatedLayer.add(star);
 
-// add center point
+// 添加中心点
 const center = new Konva.Circle({
   x: stage.width() / 2,
   y: stage.height() / 2,
@@ -66,7 +66,7 @@ const center = new Konva.Circle({
 
 animatedLayer.add(center);
 
-// add listeners to container
+// 添加事件监听到舞台
 stage.on('mouseup touchend', function () {
   star.controlled = false;
 });
@@ -84,11 +84,12 @@ stage.on('mousemove touchmove', function () {
   }
 });
 
+// 添加图层到舞台
 stage.add(animatedLayer);
 
-// animation
+// 动画函数
 function animate(frame) {
-  // 20% slow down per second
+  // 每秒减慢20%
   const angularFriction = 0.2;
   const angularVelocityChange =
     (star.angularVelocity * frame.timeDiff * (1 - angularFriction)) / 1000;
@@ -106,7 +107,7 @@ function animate(frame) {
 
 const anim = new Konva.Animation(animate, animatedLayer);
 
-// wait one second and then spin the star
+// 等待一秒后开始旋转星星
 setTimeout(function () {
   anim.start();
 }, 1000);
@@ -125,10 +126,10 @@ const App = () => {
   const angularVelocityRef = useRef(6);
 
   useEffect(() => {
-    // disable degree mode to use radians
+    // 禁用度数模式，转为使用弧度
     Konva.angleDeg = false;
 
-    // start animation after 1 second
+    // 一秒后开始动画
     const timeout = setTimeout(() => {
       if (!starRef.current) return;
 
@@ -138,7 +139,7 @@ const App = () => {
         const star = starRef.current;
         if (!star) return;
 
-        // 20% slow down per second
+        // 每秒减慢20%
         const angularFriction = 0.2;
         const angularVelocityChange =
           (angularVelocityRef.current * frame.timeDiff * (1 - angularFriction)) / 1000;
@@ -263,7 +264,7 @@ export default App;
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-// disable degree mode to use radians
+// 禁用度数模式，转为使用弧度
 Konva.angleDeg = false;
 
 const stageSize = {
@@ -305,13 +306,13 @@ const centerConfig = {
 let anim = null;
 
 onMounted(() => {
-  // start animation after 1 second
+  // 一秒后开始动画
   setTimeout(() => {
     const star = starRef.value.getNode();
     const layer = layerRef.value.getNode();
 
     anim = new Konva.Animation((frame) => {
-      // 20% slow down per second
+      // 每秒减慢20%
       const angularFriction = 0.2;
       const angularVelocityChange =
         (angularVelocity.value * frame.timeDiff * (1 - angularFriction)) / 1000;

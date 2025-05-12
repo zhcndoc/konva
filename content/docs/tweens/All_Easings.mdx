@@ -1,22 +1,32 @@
 ---
-title: More Easing Functions Tutorial
-sidebar_label: All Easings
+title: 更多缓动函数教程
+sidebar_label: 所有缓动
 hide_table_of_contents: true
 slug: All_Easings.html
 ---
 
-This tutorial demonstrates all of the easing function sets provided by Konva, including:
+本教程演示了 Konva 提供的所有缓动函数集，包括：
 
-- `Linear`
-- `Ease`
-- `Back`
-- `Elastic`
-- `Bounce`
-- `Strong`
+- `线性`
+- `缓入`
+- `缓出`
+- `缓入缓出`
+- `回弹缓入`
+- `回弹缓出`
+- `回弹缓入缓出`
+- `弹性缓入`
+- `弹性缓出`
+- `弹性缓入缓出`
+- `反弹缓入`
+- `反弹缓出`
+- `反弹缓入缓出`
+- `强缓入`
+- `强缓出`
+- `强缓入缓出`
 
-For all available easings go to [Easings Documentation](/api/Konva.Easings.html).
+有关所有可用的缓动，请参见 [缓动文档](/api/Konva.Easings.html)。
 
-**Instructions: Press "Play" to transition all of the text nodes with different easing functions.**
+**说明：点击 "播放" 来使用不同的缓动函数过渡所有文本节点。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -81,9 +91,9 @@ easing: Konva.Easings[easing],
 
 stage.add(layer);
 
-// create button
+// 创建按钮
 const button = document.createElement('button');
-button.textContent = 'Play';
+button.textContent = '播放';
 button.style.position = 'absolute';
 button.style.top = '0px';
 button.style.left = '0px';
@@ -94,8 +104,7 @@ tween.play();
 });
 });
 document.body.appendChild(button);
-
-````
+````  
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -145,7 +154,7 @@ const App = () => {
 
   return (
     <>
-      <button onClick={handlePlay}>Play</button>
+      <button onClick={handlePlay}>播放</button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           {easings.map((easing, i) => (
@@ -167,14 +176,14 @@ const App = () => {
 };
 
 export default App;
-````
+````  
 
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <button @click="handlePlay">Play</button>
+    <button @click="handlePlay">播放</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-text
@@ -251,5 +260,3 @@ const handlePlay = () => {
   </TabItem>
 </Tabs>
 ```
-
-</rewritten_file>

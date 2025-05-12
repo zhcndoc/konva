@@ -1,27 +1,26 @@
 ---
-title: HTML5 Canvas Mask Image Filter Tutorial
-sidebar_label: Mask
+title: HTML5 Canvas 蒙版图像过滤器教程
+sidebar_label: 蒙版
 hide_table_of_contents: true
 slug: Mask.html
 ---
 
-To apply filter to an `Konva.Image`, we have to cache it first with `cache()` function. Then apply filter with `filters()` function.
+要对 `Konva.Image` 应用过滤器，我们必须先使用 `cache()` 函数对其进行缓存。然后使用 `filters()` 函数应用过滤器。
 
-To mask the colors of an image with Konva, we can use the
-`Konva.Filters.Mask` filter.
+要使用 Konva 对图像的颜色进行蒙版，我们可以使用 `Konva.Filters.Mask` 过滤器。
 
-The `Konva.Filters.Mask` filter attempts to remove the background from an image. It works by:
-1. Sampling the color of the four corners of the image.
-2. If the corner colors are similar (within the `threshold`), it assumes this color represents the background.
-3. It then creates a mask where pixels similar to the identified background color become transparent, and other pixels remain opaque.
-4. This mask is refined using image processing techniques (like erosion and dilation) to remove noise and smooth edges.
-5. Finally, the refined mask is applied to the image's alpha channel.
+`Konva.Filters.Mask` 过滤器尝试从图像中去除背景。它的工作原理如下：
+1. 采样图像四个角的颜色。
+2. 如果角的颜色相似（在 `threshold` 范围内），则假设该颜色代表背景。
+3. 然后，它创建一个蒙版，其中与已识别的背景颜色相似的像素变为透明，其他像素保持不变。
+4. 使用图像处理技术（如侵蚀和膨胀）来精炼这个蒙版，以去除噪声和平滑边缘。
+5. 最后，将精炼后的蒙版应用到图像的 alpha 通道。
 
-The `threshold` property (ranging from 0 to 255) controls how similar a pixel's color must be to the background color to be masked out. A lower threshold means only colors very close to the background will be removed, while a higher threshold will remove a wider range of colors.
+`threshold` 属性（范围从 0 到 255）控制像素的颜色必须与背景颜色相似到什么程度才能被遮罩。较低的阈值意味着只有与背景非常接近的颜色会被删除，而较高的阈值则会删除更广泛的颜色。
 
-**Instructions**: Slide the control to adjust the mask threshold.
+**说明**：滑动控制以调整蒙版阈值。
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用过滤器，请访问 [过滤器文档](/api/Konva.Filters.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -169,9 +168,9 @@ const [image] = useImage('https://konvajs.org/assets/space.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {
-    // wait for the next DOM update
+    // 等待下一个 DOM 更新
     await nextTick();
-    // now the image component is fully updated
+    // 现在图像组件已完全更新
     imageNode.value.getNode().cache();
   }
 });

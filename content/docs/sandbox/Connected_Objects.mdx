@@ -1,13 +1,13 @@
 ---
-title: Connect objects HTML5 canvas with Konva
-sidebar_label: Connected Objects
+title: 使用 Konva 连接 HTML5 画布中的对象
+sidebar_label: 连接对象
 hide_table_of_contents: true
 slug: Connected_Objects.html
 ---
 
-## How to connect two objects with a line or arrow?
+## 如何用线或箭头连接两个对象？
 
-`Konva` can't connect two objects with a line and update its position automatically. You have to update a line manually as you need it. Usually we need to update line position when a user drag one of the connected objects. In simple cases it can be done like this:
+`Konva` 不能自动连接两个对象并更新其位置。您必须手动更新线的位置。通常，当用户拖动连接的对象之一时，我们需要更新线的位置。在简单的情况下，可以像这样完成：
 
 ```javascript
 const obj1 = new Konva.Circle({ ...obj1Props })
@@ -23,12 +23,12 @@ function updateLine() {
 }
 ```
 
-But in this demo we will create a more complex case with the state of the app and many connected objects.
+但是在这个演示中，我们将创建一个更复杂的案例，涉及应用程序的状态和多个连接的对象。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**Instructions: try to drag circles to see how the connections update.**
+**说明：尝试拖动圆圈，查看连接如何更新。**
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -47,7 +47,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// function to generate a list of "targets" (circles)
+// 生成“目标”（圆圈）列表的函数
 function generateTargets() {
   const number = 10;
   const result = [];
@@ -63,7 +63,7 @@ function generateTargets() {
 
 const targets = generateTargets();
 
-// function to generate arrows between targets
+// 生成目标之间的箭头的函数
 function generateConnectors() {
   const number = 10;
   const result = [];
@@ -99,7 +99,7 @@ function getConnectorPoints(from, to) {
 
 const connectors = generateConnectors();
 
-// update all objects on the canvas from the state of the app
+// 从应用程序的状态更新画布上的所有对象
 function updateObjects() {
   targets.forEach((target) => {
     const node = layer.findOne('#' + target.id);
@@ -119,7 +119,7 @@ function updateObjects() {
   });
 }
 
-// generate nodes for the app
+// 为应用程序生成节点
 connectors.forEach((connect) => {
   const line = new Konva.Arrow({
     stroke: 'black',
@@ -140,11 +140,11 @@ targets.forEach((target) => {
   layer.add(node);
 
   node.on('dragmove', () => {
-    // mutate the state
+    // 修改状态
     target.x = node.x();
     target.y = node.y();
 
-    // update nodes from the new state
+    // 根据新状态更新节点
     updateObjects();
   });
 });
@@ -158,7 +158,7 @@ import { useState, useEffect } from 'react';
 import { Stage, Layer, Circle, Arrow } from 'react-konva';
 
 const App = () => {
-  // Generate initial targets
+  // 生成初始目标
   const generateTargets = () => {
     const number = 10;
     const result = [];
@@ -174,7 +174,7 @@ const App = () => {
     return result;
   };
 
-  // Generate connectors between targets
+  // 生成目标之间的连接器
   const generateConnectors = (targets) => {
     const number = 10;
     const result = [];
@@ -237,7 +237,7 @@ const App = () => {
           if (!fromNode || !toNode) return null;
 
           const points = getConnectorPoints(fromNode, toNode);
-          
+
           return (
             <Arrow
               key={connector.id}
@@ -297,7 +297,7 @@ const stageConfig = {
   height: window.innerHeight
 };
 
-// Generate initial targets
+// 生成初始目标
 const generateTargets = () => {
   const number = 10;
   const result = [];
@@ -313,7 +313,7 @@ const generateTargets = () => {
   return result;
 };
 
-// Generate connectors between targets
+// 生成目标之间的连接器
 const generateConnectors = (targets) => {
   const number = 10;
   const result = [];

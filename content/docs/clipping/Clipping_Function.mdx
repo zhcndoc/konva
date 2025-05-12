@@ -1,15 +1,13 @@
 ---
-title: Clipping Functions Tutorial
-sidebar_label: Clipping Functions
+title: 裁剪函数教程
+sidebar_label: 裁剪函数
 hide_table_of_contents: true
 slug: Clipping_Function.html
 ---
 
-## How to clip nodes in the layer?
+## 如何在图层中裁剪节点？
 
-To draw things inside of complex clipping regions with Konva, we can set the `clipFunc`
-property of a group, a layer.
-In this tutorial, we'll draw blobs inside of a two circles clipping region applied to a group.
+要在复杂裁剪区域内绘制内容，可以设置组或图层的 `clipFunc` 属性。在本教程中，我们将在应用于组的两个圆的裁剪区域内绘制 blobs。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -19,14 +17,14 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// First we need to create stage
+// 首先，我们需要创建舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: window.innerWidth,
   height: window.innerHeight,
 });
 
-// Then create layer
+// 然后创建图层
 const layer = new Konva.Layer();
 
 const group = new Konva.Group({
@@ -48,10 +46,10 @@ for (let i = 0; i < 20; i++) {
   group.add(blob);
 }
 
-// add the shape to the layer
+// 将形状添加到图层中
 layer.add(group);
 
-// add the layer to the stage
+// 将图层添加到舞台上
 stage.add(layer);
 ```
   </TabItem>

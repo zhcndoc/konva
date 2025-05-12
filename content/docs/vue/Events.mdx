@@ -1,15 +1,15 @@
 ---
-title: How to listen to events on canvas shapes with Vue and Konva?
-sidebar_label: Events
+title: 如何使用 Vue 和 Konva 监听画布形状上的事件？
+sidebar_label: 事件
 hide_table_of_contents: true
 slug: Events.html
 ---
 
-With `vue-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+使用 `vue-konva`，您可以轻松监听用户输入事件（`click`、`dblclick`、`mouseover`、`tap`、`dbltap`、`touchstart` 等等）以及拖放事件（`dragstart`、`dragmove`、`dragend`）。
 
-For the full list of events take a look at the [on() method documentation](/api/Konva.Node.html#on).
+有关事件的完整列表，请查看 [on() 方法文档](/api/Konva.Node.html#on)。
 
-Instructions: Move your mouse over the triangle to see coordinates. Move the mouse out to see the mouseout event.
+说明：将鼠标移到三角形上以查看坐标。将鼠标移出以查看 mouseout 事件。
 
 ```js live vue
 <template>
@@ -59,7 +59,7 @@ export default {
       this.text = message;
     },
     handleMouseOut(event) {
-      this.writeMessage('Mouseout triangle');
+      this.writeMessage('鼠标移出三角形');
     },
     handleMouseMove(event) {
       const mousePos = this.$refs.stage.getNode().getPointerPosition();
@@ -69,4 +69,4 @@ export default {
     }
   }
 };
-</script> 
+</script>

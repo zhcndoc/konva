@@ -1,19 +1,19 @@
 ---
-title: HTML5 Canvas How to avoid Memory leaks Tip
-sidebar_label: Avoid Memory Leaks
+title: HTML5 Canvas 如何避免内存泄漏提示
+sidebar_label: 避免内存泄漏
 hide_table_of_contents: true
 slug: Avoid_Memory_Leaks.html
 ---
 
-### Deleting shapes
+### 删除形状
 
-There are two very close methods `remove()` and `destroy()`. If you need to completely delete a node you should `destroy()` it. The `destroy()` method deletes all references to node from the KonvaJS engine. If you are going to reuse a node you should `remove()` it then later you can add it again to any container.
+有两种非常相似的方法 `remove()` 和 `destroy()`。如果你需要完全删除一个节点，你应该使用 `destroy()`。`destroy()` 方法会删除 KonvaJS 引擎中对节点的所有引用。如果你打算再次使用该节点，你可以先使用 `remove()`，然后你可以将其添加回任何容器。
 
-### Tweening
+### 动画过渡
 
-When you are using `Konva.Tween` instance you have to destroy it after usage.
+当你使用 `Konva.Tween` 实例时，你必须在使用后将其销毁。
 
-Here's a demo showing proper memory management:
+以下是一个关于正确内存管理的演示：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -32,7 +32,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Create circle
+// 创建圆形
 const circle = new Konva.Circle({
   x: 100,
   y: 100,
@@ -42,44 +42,44 @@ const circle = new Konva.Circle({
 
 layer.add(circle);
 
-// Add buttons
+// 添加按钮
 const addButton = document.createElement('button');
-addButton.textContent = 'Add Circle';
+addButton.textContent = '添加圆形';
 document.body.appendChild(addButton);
 
 const removeButton = document.createElement('button');
-removeButton.textContent = 'Remove Circle';
+removeButton.textContent = '移除圆形';
 document.body.appendChild(removeButton);
 
 const animateButton = document.createElement('button');
-animateButton.textContent = 'Animate';
+animateButton.textContent = '动画';
 document.body.appendChild(animateButton);
 
-// Handle adding/removing
+// 处理添加/移除
 addButton.addEventListener('click', () => {
   layer.add(circle);
 });
 
 removeButton.addEventListener('click', () => {
-  // Just remove from layer, can be added back
+  // 只是从图层中移除，可以再添加回去
   circle.remove();
 });
 
 animateButton.addEventListener('click', () => {
-  // Using to() method which auto-destroys the tween
+  // 使用 to() 方法，该方法会自动销毁动画
   circle.to({
     x: Math.random() * stage.width(),
     y: Math.random() * stage.height(),
     duration: 1
   });
   
-  // If using Tween directly, make sure to destroy it
+  // 如果直接使用 Tween，请确保销毁它
   const tween = new Konva.Tween({
     node: circle,
     rotation: 360,
     duration: 1,
     onFinish: function() {
-      // Clean up the tween
+      // 清理动画
       tween.destroy();
     }
   }).play();
@@ -105,21 +105,21 @@ const App = () => {
   };
 
   const handleAnimate = () => {
-    // Update position
+    // 更新位置
     setPosition({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight
     });
     
-    // Update rotation
+    // 更新旋转角度
     setRotation(rotation + 360);
   };
 
   return (
     <div>
-      <button onClick={handleAdd} style={{ marginRight: '10px' }}>Add Circle</button>
-      <button onClick={handleRemove} style={{ marginRight: '10px' }}>Remove Circle</button>
-      <button onClick={handleAnimate}>Animate</button>
+      <button onClick={handleAdd} style={{ marginRight: '10px' }}>添加圆形</button>
+      <button onClick={handleRemove} style={{ marginRight: '10px' }}>移除圆形</button>
+      <button onClick={handleAnimate}>动画</button>
       
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -145,9 +145,9 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <button @click="handleAdd" style="margin-right: 10px">Add Circle</button>
-    <button @click="handleRemove" style="margin-right: 10px">Remove Circle</button>
-    <button @click="handleAnimate">Animate</button>
+    <button @click="handleAdd" style="margin-right: 10px">添加圆形</button>
+    <button @click="handleRemove" style="margin-right: 10px">移除圆形</button>
+    <button @click="handleAnimate">动画</button>
     
     <v-stage :config="stageSize">
       <v-layer>
@@ -189,16 +189,16 @@ const handleRemove = () => {
 };
 
 const handleAnimate = () => {
-  // Update position
+  // 更新位置
   position.value = {
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight
   };
   
-  // Update rotation
+  // 更新旋转角度
   rotation.value += 360;
   
-  // Update config
+  // 更新配置
   circleConfig.value = {
     ...circleConfig.value,
     x: position.value.x,
@@ -209,4 +209,4 @@ const handleAnimate = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

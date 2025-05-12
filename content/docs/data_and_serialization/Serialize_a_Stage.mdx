@@ -1,13 +1,13 @@
 ---
-title: HTML5 Canvas Stage Serialization Tutorial
-sidebar_label: Serialize Stage
+title: HTML5 Canvas 阶段序列化教程
+sidebar_label: 序列化阶段
 hide_table_of_contents: true
 slug: Serialize_a_Stage.html
 ---
 
-To serialize a stage with Konva, we can use the `toJSON()` method.
-The `toJSON()` method will return a JSON string that contains all of the node's attributes.
-Note that event handlers and images are not serializable.
+要使用 Konva 序列化一个阶段，我们可以使用 `toJSON()` 方法。
+`toJSON()` 方法将返回一个包含所有节点属性的 JSON 字符串。
+请注意，事件处理程序和图像是不可序列化的。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -17,7 +17,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// Create wrapper with relative positioning
+// 创建具有相对定位的封装
 const stage = new Konva.Stage({
   container: 'container',
   width: 400,
@@ -38,9 +38,9 @@ const circle = new Konva.Circle({
 
 layer.add(circle);
 
-// Add button on top of stage
+// 在舞台上方添加按钮
 const button = document.createElement('button');
-button.textContent = 'Serialize Stage';
+button.textContent = '序列化阶段';
 button.style.position = 'absolute';
 button.style.top = '10px';
 button.style.left = '10px';
@@ -49,12 +49,12 @@ document.body.appendChild(button);
 button.addEventListener('click', () => {
   const json = stage.toJSON();
   console.log(json);
-  alert('Stage serialized! Check the console for the JSON string.');
+  alert('阶段已序列化！请检查控制台以获取 JSON 字符串。');
 });
 ```
   </TabItem>
   <TabItem value="React">
-**Note:** While directly serializing the stage works in React, it's generally considered an anti-pattern. In React applications, you should manage your application state separately and serialize that state instead of the stage.
+**注意：** 尽管在 React 中直接序列化阶段可行，但通常被认为是反模式。在 React 应用程序中，您应该单独管理应用程序状态，并序列化该状态，而不是序列化阶段。
 
 ```js live react
 import { Stage, Layer, Circle } from 'react-konva';
@@ -72,10 +72,10 @@ const App = () => {
   });
 
   const handleSerialize = () => {
-    // In a real app, prefer saving app state, not stage JSON
+    // 在实际应用程序中，优先保存应用状态，而不是阶段 JSON
     const json = JSON.stringify({ shapes: [circle] });
-    console.log('Serialized state:', json);
-    alert('State serialized! Check the console for the JSON string.');
+    console.log('序列化状态：', json);
+    alert('状态已序列化！请检查控制台以获取 JSON 字符串。');
   };
 
   return (
@@ -89,7 +89,7 @@ const App = () => {
           zIndex: 1 
         }}
       >
-        Serialize
+        序列化
       </button>
       
       <Stage width={400} height={400} ref={stageRef}>
@@ -115,7 +115,7 @@ export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
-**Note:** While directly serializing the stage works in Vue, it's generally considered an anti-pattern. In Vue applications, you should manage your application state with reactive data and serialize that state instead of the stage.
+**注意：** 尽管在 Vue 中直接序列化阶段可行，但通常被认为是反模式。在 Vue 应用程序中，您应该使用响应式数据管理应用程序状态，并序列化该状态，而不是序列化阶段。
 
 ```js live vue
 <template>
@@ -124,7 +124,7 @@ export default App;
       @click="handleSerialize"
       style="position: absolute; top: 10px; left: 10px; z-index: 1"
     >
-      Serialize
+      序列化
     </button>
     
     <v-stage :config="stageSize">
@@ -157,10 +157,10 @@ const circle = ref({
 });
 
 const handleSerialize = () => {
-  // In a real app, prefer saving app state, not stage JSON
+  // 在实际应用程序中，优先保存应用状态，而不是阶段 JSON
   const json = JSON.stringify({ shapes: [circle.value] });
-  console.log('Serialized state:', json);
-  alert('State serialized! Check the console for the JSON string.');
+  console.log('序列化状态：', json);
+  alert('状态已序列化！请检查控制台以获取 JSON 字符串。');
 };
 
 const handleDragEnd = (e) => {
@@ -174,4 +174,4 @@ const handleDragEnd = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

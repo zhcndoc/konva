@@ -1,12 +1,12 @@
 ---
-title: HTML5 Canvas Select Shape by Name Tutorial
-sidebar_label: Select by Name
+title: 使用 Konva 通过名称选择 HTML5 Canvas 形状教程
+sidebar_label: 按名称选择
 hide_table_of_contents: true
 slug: Select_by_Name.html
 ---
 
-To select shapes by name with Konva, we can use the `find()` method using the `.` selector.
-The `find()` method returns an array of nodes that match the selector string.
+要用 Konva 按名称选择形状，我们可以使用 `find()` 方法结合 `.` 选择器。
+`find()` 方法返回匹配选择器字符串的节点数组。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -25,7 +25,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// create shapes with names
+// 创建具有名称的形状
 const circle1 = new Konva.Circle({
   x: 50,
   y: stage.height() / 2,
@@ -55,10 +55,10 @@ layer.add(circle1);
 layer.add(circle2);
 layer.add(rect);
 
-// find all circles by name
+// 按名称查找所有圆形
 const circles = layer.find('.myCircle');
 circles.forEach(circle => {
-  // add animation to circles only
+  // 仅对圆形添加动画
   circle.to({
     duration: 1,
     rotation: 360,
@@ -76,7 +76,7 @@ const App = () => {
   const layerRef = useRef(null);
   
   useEffect(() => {
-    // find all circles by name and animate them
+    // 查找所有名称为 myCircle 的圆形并进行动画
     const circles = layerRef.current.find('.myCircle');
     circles.forEach(circle => {
       circle.to({
@@ -169,7 +169,7 @@ const rectConfig = {
 const layerRef = ref(null);
 
 onMounted(() => {
-  // find all circles by name and animate them
+  // 查找所有名称为 myCircle 的圆形并动画
   const circles = layerRef.value.getNode().find('.myCircle');
   circles.forEach(circle => {
     circle.to({
@@ -182,4 +182,4 @@ onMounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

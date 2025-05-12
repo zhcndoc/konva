@@ -1,14 +1,13 @@
 ---
-title: HTML5 Canvas Drag and Drop a Group Tutorial
-sidebar_label: Drag a Group
+title: HTML5 Canvas 拖拽一组的教程
+sidebar_label: 拖拽一组
 hide_table_of_contents: true
 slug: Drag_a_Group.html
 ---
 
-To drag and drop groups with Konva, we can set the `draggable` property
-of the config object to `true` when the group is instantiated, or we can use the `draggable()` method.
+要使用 Konva 拖拽和放置组，我们可以在实例化组时将配置对象的 `draggable` 属性设置为 `true`，或者使用 `draggable()` 方法。
 
-Note: remember, dragging a group, do not change the `x` and `y` properties of any of the children nodes. Instead properties of group itself are changed.
+注意：在拖拽一组时，请不要改变任何子节点的 `x` 和 `y` 属性。相反，改变的是组本身的属性。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -145,7 +144,7 @@ const rectConfig = {
 
 const textConfig = {
   y: 50,
-  text: 'Draggable group',
+  text: '可拖拽的组',
   fontSize: 16,
   fontFamily: 'Calibri',
   fill: 'black'
@@ -163,4 +162,4 @@ const handleMouseOut = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

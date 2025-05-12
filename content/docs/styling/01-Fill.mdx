@@ -1,15 +1,15 @@
 ---
-title: HTML5 Canvas Set Fill Tutorial
-sidebar_label: Fill
+title: HTML5 Canvas 填充教程
+sidebar_label: 填充
 hide_table_of_contents: true
 slug: Fill.html
 ---
 
-To fill a shape with Konva, we can set the fill property when we instantiate a shape, or we can use the `fill()` method.
+为了用 Konva 填充形状，我们可以在实例化形状时设置 fill 属性，或者使用 `fill()` 方法。
 
-Konva supports colors, patterns, linear gradients, and radial gradients.
+Konva 支持颜色、图案、线性渐变和径向渐变。
 
-Instructions: Mouseover each pentagon to change its fill. You can also drag and drop the shapes.
+说明：将鼠标悬停在每个五边形上以更改其填充。您还可以拖放这些形状。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -24,7 +24,7 @@ function loadImages(sources, callback) {
   var images = {};
   var loadedImages = 0;
   var numImages = 0;
-  // get num of sources
+  // 获取资源数量
   for (var src in sources) {
     numImages++;
   }
@@ -101,7 +101,7 @@ function draw(images) {
   });
 
   /*
-    * bind listeners
+    * 绑定监听器
     */
   colorPentagon.on('mouseover touchstart', function () {
     this.fill('blue');
@@ -128,7 +128,7 @@ function draw(images) {
   });
 
   linearGradPentagon.on('mouseout touchend', function () {
-    // set multiple properties at once with setAttrs
+    // 使用 setAttrs 同时设置多个属性
     this.setAttrs({
       fillLinearGradientStartPoint: { x: -50, y: -50 },
       fillLinearGradientEndPoint: { x: 50, y: 50 },
@@ -148,7 +148,7 @@ function draw(images) {
   });
 
   radialGradPentagon.on('mouseout touchend', function () {
-    // set multiple properties at once with setAttrs
+    // 使用 setAttrs 同时设置多个属性
     this.setAttrs({
       fillRadialGradientStartPoint: 0,
       fillRadialGradientStartRadius: 0,

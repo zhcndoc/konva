@@ -1,19 +1,19 @@
 ---
-title: HTML5 Canvas Pointer Events Tutorial
-sidebar_label: Pointer Events
+title: HTML5 Canvas 指针事件教程
+sidebar_label: 指针事件
 hide_table_of_contents: true
 slug: Pointer_Events.html
 ---
 
-Pointer events can be useful to handle both mobile and desktop events with one handler.
+指针事件可以帮助我们用一个处理程序处理移动设备和桌面设备的事件。
 
-To bind pointer event handlers to shapes with Konva, we can use the `on()` method.
-The `on()` method requires an event type and a function to be executed when the event occurs.
-Konva supports `pointerdown`, `pointermove`, `pointerup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`, `pointerleave`, `pointerclick`, `pointerdblclick` events.
+要将指针事件处理程序绑定到 Konva 中的形状，我们可以使用 `on()` 方法。
+`on()` 方法需要一个事件类型和在事件发生时要执行的函数。
+Konva 支持 `pointerdown`、`pointermove`、`pointerup`、`pointercancel`、`pointerover`、`pointerenter`、`pointerout`、`pointerleave`、`pointerclick`、`pointerdblclick` 事件。
 
-_Note: This example works on both mobile and desktop devices._
+_注意：此示例在移动设备和桌面设备上均可工作。_
 
-**Instructions: move your mouse/finger across the triangle to see pointer coordinates.**
+**说明：移动你的鼠标/手指穿过三角形以查看指针坐标。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -168,4 +168,4 @@ const handlePointerOut = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

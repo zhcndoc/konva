@@ -1,18 +1,17 @@
 ---
-title: HTML5 Canvas Solarize filter Image Tutorial
-sidebar_label: Solarize
+title: HTML5 Canvas 太阳化滤镜图像教程
+sidebar_label: 太阳化
 hide_table_of_contents: true
 slug: Solarize.html
 ---
 
-To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
-function. Then apply filter with `filters()` function.
+要对 `Konva.Image` 应用滤镜，首先必须使用 `cache()` 函数对其进行缓存。然后使用 `filters()` 函数应用滤镜。
 
-To apply a solarize effect to an image with Konva, we can use the `Konva.Filters.Solarize`.
+要对图像应用太阳化效果，可以使用 `Konva.Filters.Solarize`。
 
-**Instructions**: Slide the control to change threshold value.
+**说明**：移动滑动条以更改阈值。
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+有关所有可用滤镜，请访问 [滤镜文档](/api/Konva.Filters.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -46,14 +45,14 @@ imageObj.onload = () => {
   image.filters([Konva.Filters.Solarize]);
   image.threshold(0.5);
 
-  // create slider
+  // 创建滑动条
   const container = document.createElement('div');
   container.style.position = 'absolute';
   container.style.top = '20px';
   container.style.left = '20px';
   
   const text = document.createElement('span');
-  text.textContent = 'Threshold: ';
+  text.textContent = '阈值: ';
   container.appendChild(text);
   
   const slider = document.createElement('input');

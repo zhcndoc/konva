@@ -1,36 +1,36 @@
 ---
-title: Getting started with Vue and Canvas via Konva
-sidebar_label: Getting Started
+title: 使用 Konva 开始使用 Vue 和 Canvas
+sidebar_label: 开始使用
 hide_table_of_contents: true
 slug: index.html
 ---
 
-## How to use canvas with Vue?
+## 如何在 Vue 中使用 canvas？
 
 ![VueKonva Logo](https://raw.githubusercontent.com/konvajs/vue-konva/master/vue-konva.png)
 
-Vue Konva is a JavaScript library for drawing complex canvas graphics using Vue.
+Vue Konva 是一个用于通过 Vue 绘制复杂 Canvas 图形的 JavaScript 库。
 
-It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+它提供了对 [Konva 框架](https://konvajs.org/) 的声明性和响应式绑定。
 
-All `vue-konva` components correspond to `Konva` components of the same name with the prefix 'v-'. All the parameters available for `Konva` objects can be added as `config` in the prop for corresponding `vue-konva` components.
+所有 `vue-konva` 组件都对应于同名的 `Konva` 组件，前缀为 'v-'。所有可用于 `Konva` 对象的参数可以作为 `config` 添加到相应 `vue-konva` 组件的属性中。
 
-Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`.
-Also you can create [custom shapes](/docs/vue/Custom_Shape.html).
+核心图形包括：`v-rect`、`v-circle`、`v-ellipse`、`v-line`、`v-image`、`v-text`、`v-text-path`、`v-star`、`v-label`、`v-path`、`v-regular-polygon`。
+你还可以创建 [自定义形状](/docs/vue/Custom_Shape.html)。
 
-To get more info about `Konva` you can read [Konva Overview](/docs/overview.html).
+要获得有关 `Konva` 的更多信息，可以阅读 [Konva 概述](/docs/overview.html)。
 
-## Quick Start
+## 快速开始
 
-[Vue.js](https://vuejs.org) version 3 is required.
+需要 Vue.js 版本 3。
 
-### 1. Install via npm
+### 1. 通过 npm 安装
 
 ```bash
 npm install vue-konva konva --save
 ```
 
-### 2. Import and use VueKonva
+### 2. 导入并使用 VueKonva
 
 ```js
 import { createApp } from 'vue';
@@ -42,9 +42,9 @@ app.use(VueKonva);
 app.mount('#app');
 ```
 
-### 3. Use in your components
+### 3. 在组件中使用
 
-Instructions: Try to drag the stars. They will scale up while being dragged and return to normal size when released.
+说明：尝试拖动星星。它们在被拖动时会放大，并在释放时恢复到正常大小。
 
 ```js live vue
 <template>
@@ -94,9 +94,9 @@ const list = ref([]);
 const dragItemId = ref(null);
 
 const handleDragstart = (e) => {
-  // save drag element:
+  // 保存拖动的元素：
   dragItemId.value = e.target.id();
-  // move current element to the top:
+  // 将当前元素移动到顶部：
   const item = list.value.find(i => i.id === dragItemId.value);
   const index = list.value.indexOf(item);
   list.value.splice(index, 1);
@@ -121,7 +121,7 @@ onMounted(() => {
 </script>
 ```
 
-### Or use a CDN
+### 或者使用 CDN
 
 ```html
 <html>
@@ -138,13 +138,13 @@ onMounted(() => {
         </v-layer>
       </v-stage>
     </div>
-    <!--1. Link Vue Javascript & Konva-->
+    <!--1. 链接 Vue Javascript 和 Konva-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/konva@9/konva.min.js"></script>
-    <!--2. Link VueKonva Javascript (Plugin automatically installed)-->
+    <!--2. 链接 VueKonva Javascript（插件自动安装）-->
     <script src="https://unpkg.com/vue-konva@3/umd/vue-konva.min.js"></script>
     <script>
-      // 3. Create the Vue instance
+      // 3. 创建 Vue 实例
       const { createApp, ref } = Vue;
       
       const app = createApp({
@@ -175,4 +175,4 @@ onMounted(() => {
     </script>
   </body>
 </html>
-``` 
+```

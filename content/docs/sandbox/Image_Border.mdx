@@ -1,23 +1,23 @@
 ---
-title: Border for Image around Non Transparent parts
-sidebar_label: Image Border
+title: 围绕非透明部分的图像边框
+sidebar_label: 图像边框
 hide_table_of_contents: true
 slug: Image_Border.html
 ---
 
-## How to draw a stroke around image with alpha channel?
+## 如何在具有 alpha 通道的图像周围绘制边框？
 
-This demo demonstrates how to use custom filters with the Konva framework to create a border that follows the contour of an image with an alpha channel.
+此演示展示了如何使用 Konva 框架的自定义滤镜创建一个跟随带有 alpha 通道的图像轮廓的边框。
 
-Since following a contour precisely is a complex task, we'll use a technique with blurred shadow as a border foundation. The filter replaces transparent/blurred pixels with our solid color that we want for the border.
+由于准确跟随轮廓是一项复杂的任务，我们将使用模糊阴影作为边框基础的技术。该滤镜用我们希望用于边框的实心颜色替换透明/模糊的像素。
 
-**Instructions:** Observe the image with a custom border that follows its non-transparent parts.
+**说明：** 观察带有自定义边框的图像，该边框跟随其非透明部分。
 
 
 ```js live vanilla
 import Konva from 'konva';
 
-// Create stage
+// 创建舞台
 const stage = new Konva.Stage({
   container: 'container',
   width: window.innerWidth,
@@ -27,11 +27,11 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// Define variables for our custom filter
+// 定义我们的自定义滤镜的变量
 let canvas = document.createElement('canvas');
 let tempCanvas = document.createElement('canvas');
 
-// Make all pixels opaque 100% (except pixels that are 100% transparent)
+// 使所有像素变为不透明 100%（除了不透明像素）
 function removeTransparency(canvas) {
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -48,35 +48,35 @@ function removeTransparency(canvas) {
   return canvas;
 }
 
-// Define our custom Border filter
+// 定义我们的自定义边框滤镜
 function Border(imageData) {
   const nPixels = imageData.data.length;
   const size = this.getAttr('borderSize') || 0;
 
-  // Set correct dimensions for canvases
+  // 设置画布的正确尺寸
   canvas.width = imageData.width;
   canvas.height = imageData.height;
 
   tempCanvas.width = imageData.width;
   tempCanvas.height = imageData.height;
 
-  // Draw original shape into temp canvas
+  // 将原始形状绘制到临时画布中
   tempCanvas.getContext('2d').putImageData(imageData, 0, 0);
 
-  // Remove alpha channel because it will affect shadow (transparent shapes have smaller shadow)
+  // 移除 alpha 通道，因为它会影响阴影（透明形状的阴影较小）
   removeTransparency(tempCanvas);
 
   const ctx = canvas.getContext('2d');
   const color = this.getAttr('borderColor') || 'black';
 
-  // Use shadow as border
+  // 使用阴影作为边框
   ctx.save();
   ctx.shadowColor = color;
   ctx.shadowBlur = size;
   ctx.drawImage(tempCanvas, 0, 0);
   ctx.restore();
 
-  // Get image data of [original image + shadow]
+  // 获取 [原始图像 + 阴影] 的图像数据
   const tempImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   const SMOOTH_MIN_THRESHOLD = 3;
@@ -86,7 +86,7 @@ function Border(imageData) {
   const offset = 3;
 
   for (let i = 3; i < nPixels; i += 4) {
-    // Skip opaque pixels
+    // 跳过不透明像素
     if (imageData.data[i] === 255) {
       continue;
     }
@@ -107,17 +107,17 @@ function Border(imageData) {
     tempImageData.data[i] = val;
   }
 
-  // Draw resulting image (original + shadow without opacity) into canvas
+  // 将生成的图像（原始 + 无不透明度阴影）绘制到画布上
   ctx.putImageData(tempImageData, 0, 0);
 
-  // Fill whole image with color (after that shadow is colored)
+  // 用颜色填充整幅图像（之后阴影着色）
   ctx.save();
   ctx.globalCompositeOperation = 'source-in';
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.restore();
 
-  // Copy colored shadow into original imageData
+  // 将着色阴影复制到原始图像数据中
   const newImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   const indexesToProcess = [];
@@ -141,13 +141,13 @@ function Border(imageData) {
       hasTransparentOnBottomRight ||
       hasTransparentOnBottomLeft;
 
-    // Skip pixels presented in original image
+    // 跳过原始图像中的像素
     if (imageData.data[i] === 255 || (imageData.data[i] && !hasTransparentAround)) {
       continue;
     }
     
     if (!newImageData.data[i]) {
-      // Skip transparent pixels
+      // 跳过透明像素
       continue;
     }
     
@@ -165,7 +165,7 @@ function Border(imageData) {
   }
 }
 
-// Load image and apply filter
+// 加载图像并应用滤镜
 Konva.Image.fromURL('https://konvajs.org/assets/lion.png', function (image) {
   layer.add(image);
   image.setAttrs({
@@ -179,4 +179,3 @@ Konva.Image.fromURL('https://konvajs.org/assets/lion.png', function (image) {
   image.cache();
 });
 ```
-  
