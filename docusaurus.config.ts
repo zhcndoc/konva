@@ -208,10 +208,6 @@ const config: Config = {
               label: 'Twitter',
               href: 'https://twitter.com/lavrton',
             },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/konvajs/konva',
-            },
           ],
         },
         {
@@ -229,10 +225,15 @@ const config: Config = {
               label: 'Svelte',
               href: '/docs/svelte/index.html',
             },
-            // {
-            //   label: 'Blog',
-            //   to: '/blog',
-            // },
+          ],
+        },
+        {
+          title: 'Products',
+          items: [
+            {
+              label: 'Design Editor SDK',
+              href: 'https://polotno.com',
+            },
           ],
         },
       ],
