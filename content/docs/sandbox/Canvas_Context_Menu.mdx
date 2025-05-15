@@ -139,11 +139,10 @@ stage.on('contextmenu', function (e) {
   currentShape = e.target;
   // show menu
   menuNode.style.display = 'initial';
-  const containerRect = stage.container().getBoundingClientRect();
   menuNode.style.top =
-    containerRect.top + stage.getPointerPosition().y + 4 + 'px';
+    stage.getPointerPosition().y + 4 + 'px';
   menuNode.style.left =
-    containerRect.left + stage.getPointerPosition().x + 4 + 'px';
+    stage.getPointerPosition().x + 4 + 'px';
 });
 ```
   </TabItem>
@@ -206,12 +205,11 @@ const App = () => {
     }
     
     const stage = e.target.getStage();
-    const containerRect = stage.container().getBoundingClientRect();
     const pointerPosition = stage.getPointerPosition();
     
     setMenuPosition({
-      x: containerRect.left + pointerPosition.x + 4,
-      y: containerRect.top + pointerPosition.y + 4
+      x: pointerPosition.x + 4,
+      y: pointerPosition.y + 4
     });
     
     setShowMenu(true);
@@ -485,12 +483,11 @@ const handleContextMenu = (e) => {
   }
   
   const stage = e.target.getStage();
-  const containerRect = stage.container().getBoundingClientRect();
   const pointerPosition = stage.getPointerPosition();
   
   menuPosition.value = {
-    x: containerRect.left + pointerPosition.x + 4,
-    y: containerRect.top + pointerPosition.y + 4
+    x: pointerPosition.x + 4,
+    y: pointerPosition.y + 4
   };
   
   showMenu.value = true;
