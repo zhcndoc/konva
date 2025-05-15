@@ -27,7 +27,7 @@ import Konva from 'konva';
 const menuNode = document.createElement('div');
 menuNode.id = 'menu';
 menuNode.style.display = 'none';
-menuNode.style.position = 'absolute';
+menuNode.style.position = 'fixed';
 menuNode.style.width = '60px';
 menuNode.style.backgroundColor = 'white';
 menuNode.style.boxShadow = '0 0 5px grey';
@@ -139,10 +139,11 @@ stage.on('contextmenu', function (e) {
   currentShape = e.target;
   // show menu
   menuNode.style.display = 'initial';
+  const containerRect = stage.container().getBoundingClientRect();
   menuNode.style.top =
-    stage.getPointerPosition().y + 4 + 'px';
+    containerRect.top + stage.getPointerPosition().y + 4 + 'px';
   menuNode.style.left =
-    stage.getPointerPosition().x + 4 + 'px';
+    containerRect.left + stage.getPointerPosition().x + 4 + 'px';
 });
 ```
   </TabItem>
@@ -205,11 +206,12 @@ const App = () => {
     }
     
     const stage = e.target.getStage();
+    const containerRect = stage.container().getBoundingClientRect();
     const pointerPosition = stage.getPointerPosition();
     
     setMenuPosition({
-      x: pointerPosition.x + 4,
-      y: pointerPosition.y + 4
+      x: containerRect.left + pointerPosition.x + 4,
+      y: containerRect.top + pointerPosition.y + 4
     });
     
     setShowMenu(true);
@@ -295,7 +297,7 @@ const App = () => {
       {showMenu && (
         <div
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: menuPosition.y,
             left: menuPosition.x,
             width: '60px',
@@ -377,7 +379,7 @@ export default App;
     <div
       v-if="showMenu"
       :style="{
-        position: 'absolute',
+        position: 'fixed',
         top: menuPosition.y + 'px',
         left: menuPosition.x + 'px',
         width: '60px',
@@ -483,11 +485,12 @@ const handleContextMenu = (e) => {
   }
   
   const stage = e.target.getStage();
+  const containerRect = stage.container().getBoundingClientRect();
   const pointerPosition = stage.getPointerPosition();
   
   menuPosition.value = {
-    x: pointerPosition.x + 4,
-    y: pointerPosition.y + 4
+    x: containerRect.left + pointerPosition.x + 4,
+    y: containerRect.top + pointerPosition.y + 4
   };
   
   showMenu.value = true;
