@@ -27,7 +27,7 @@ import Konva from 'konva';
 const menuNode = document.createElement('div');
 menuNode.id = 'menu';
 menuNode.style.display = 'none';
-menuNode.style.position = 'absolute';
+menuNode.style.position = 'fixed';
 menuNode.style.width = '60px';
 menuNode.style.backgroundColor = 'white';
 menuNode.style.boxShadow = '0 0 5px grey';
@@ -297,7 +297,7 @@ const App = () => {
       {showMenu && (
         <div
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: menuPosition.y,
             left: menuPosition.x,
             width: '60px',
@@ -379,7 +379,7 @@ export default App;
     <div
       v-if="showMenu"
       :style="{
-        position: 'absolute',
+        position: 'fixed',
         top: menuPosition.y + 'px',
         left: menuPosition.x + 'px',
         width: '60px',
