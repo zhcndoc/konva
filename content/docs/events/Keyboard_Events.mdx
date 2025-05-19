@@ -75,22 +75,19 @@ import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
   const stageRef = useRef();
+  const containerRef = useRef();
   const [position, setPosition] = useState({
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
   });
 
   useEffect(() => {
-    const container = stageRef.current.container();
-    // make it focusable
-    container.tabIndex = 1;
-    // focus it
-    container.focus();
+    // focus the div on mount
+    containerRef.current.focus();
   }, []);
 
   const handleKeyDown = (e) => {
     const DELTA = 4;
-    
     switch (e.keyCode) {
       case 37: // left
         setPosition(pos => ({ ...pos, x: pos.x - DELTA }));
@@ -111,23 +108,28 @@ const App = () => {
   };
 
   return (
-    <Stage
-      width={window.innerWidth}
-      height={window.innerHeight}
-      ref={stageRef}
+    <div
+      ref={containerRef}
+      tabIndex={0}
       onKeyDown={handleKeyDown}
     >
-      <Layer>
-        <Circle
-          x={position.x}
-          y={position.y}
-          radius={50}
-          fill="red"
-          stroke="black"
-          strokeWidth={4}
-        />
-      </Layer>
-    </Stage>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        ref={stageRef}
+      >
+        <Layer>
+          <Circle
+            x={position.x}
+            y={position.y}
+            radius={50}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+          />
+        </Layer>
+      </Stage>
+    </div>
   );
 };
 
@@ -137,21 +139,24 @@ export default App;
   <TabItem value="Vue">
 ```html live vue
 <template>
-  <v-stage
-    :config="stageSize"
-    ref="stageRef"
+  <div
+    ref="containerRef"
+    tabindex="0"
     @keydown="handleKeyDown"
   >
-    <v-layer>
-      <v-circle :config="circleConfig" />
-    </v-layer>
-  </v-stage>
+    <v-stage :config="stageSize" ref="stageRef">
+      <v-layer>
+        <v-circle :config="circleConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 
 const stageRef = ref(null);
+const containerRef = ref(null);
 const position = ref({
   x: window.innerWidth / 2,
   y: window.innerHeight / 2,
@@ -172,16 +177,16 @@ const circleConfig = computed(() => ({
 }));
 
 onMounted(() => {
-  const container = stageRef.value.getNode().container();
-  // make it focusable
-  container.tabIndex = 1;
-  // focus it
-  container.focus();
+  // focus the div on mount
+  containerRef.value.focus();
 });
+
+const focusDiv = () => {
+  containerRef.value.focus();
+};
 
 const handleKeyDown = (e) => {
   const DELTA = 4;
-  
   switch (e.keyCode) {
     case 37: // left
       position.value.x -= DELTA;
