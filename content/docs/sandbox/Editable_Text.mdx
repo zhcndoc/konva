@@ -112,6 +112,7 @@ textarea.focus();
 function removeTextarea() {
 textarea.parentNode.removeChild(textarea);
 window.removeEventListener('click', handleOutsideClick);
+window.removeEventListener('touchstart', handleOutsideClick);
 textNode.show();
 tr.show();
 tr.forceUpdate();
@@ -476,6 +477,7 @@ const handleTextDblClick = () => {
   }
   setTimeout(() => {
     window.addEventListener('click', handleOutsideClick);
+    window.addEventListener('touchstart', handleOutsideClick);
   });
 };
 
