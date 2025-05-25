@@ -181,6 +181,7 @@ const initialRectangles = [
     fill: 'red',
     id: 'rect1',
     name: 'rect',
+    rotation: 0,
   },
   {
     x: 250,
@@ -190,8 +191,42 @@ const initialRectangles = [
     fill: 'green',
     id: 'rect2',
     name: 'rect',
+    rotation: 0,
   },
 ];
+
+// Helper functions for calculating bounding boxes of rotated rectangles
+const degToRad = (angle) => (angle / 180) * Math.PI;
+
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (element) => {
+  const { x, y, width, height, rotation = 0 } = element;
+  const rad = degToRad(rotation);
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
 
 const App = () => {
   const [rectangles, setRectangles] = useState(initialRectangles);
@@ -317,12 +352,7 @@ const App = () => {
 
     const selected = rectangles.filter(rect => {
       // Check if rectangle intersects with selection box
-      return Konva.Util.haveIntersection(selBox, {
-        x: rect.x,
-        y: rect.y,
-        width: rect.width,
-        height: rect.height,
-      });
+      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
     });
     
     setSelectedIds(selected.map(rect => rect.id));
@@ -346,13 +376,13 @@ const App = () => {
 
   const handleTransformEnd = (e) => {
     // Find which rectangle(s) were transformed
-    const nodes = transformerRef.current.nodes();
+    const id = e.target.id();
+    const node = e.target;
     
-    const newRects = [...rectangles];
-    
-    // Update each transformed node
-    nodes.forEach(node => {
-      const id = node.id();
+    setRectangles(prevRects => {
+      const newRects = [...prevRects];
+      
+      // Update each transformed node
       const index = newRects.findIndex(r => r.id === id);
       
       if (index !== -1) {
@@ -370,11 +400,12 @@ const App = () => {
           y: node.y(),
           width: Math.max(5, node.width() * scaleX),
           height: Math.max(node.height() * scaleY),
+          rotation: node.rotation(),
         };
       }
+      
+      return newRects;
     });
-    
-    setRectangles(newRects);
   };
 
   return (
@@ -398,6 +429,7 @@ const App = () => {
             height={rect.height}
             fill={rect.fill}
             name={rect.name}
+            rotation={rect.rotation}
             draggable
             ref={node => {
               if (node) {
@@ -405,6 +437,7 @@ const App = () => {
               }
             }}
             onDragEnd={handleDragEnd}
+            onTransformEnd={handleTransformEnd}
           />
         ))}
         
@@ -418,7 +451,7 @@ const App = () => {
             }
             return newBox;
           }}
-          onTransformEnd={handleTransformEnd}
+          
         />
         
         {/* Selection rectangle */}
@@ -505,6 +538,7 @@ const rectangles = ref([
     height: 90,
     fill: 'red',
     id: 'rect1',
+    rotation: 0,
   },
   {
     x: 250,
@@ -513,6 +547,7 @@ const rectangles = ref([
     height: 90,
     fill: 'green',
     id: 'rect2',
+    rotation: 0,
   },
 ]);
 
@@ -529,6 +564,39 @@ const selectionRectangle = reactive({
   x2: 0,
   y2: 0
 });
+
+// Helper functions for calculating bounding boxes of rotated rectangles
+const degToRad = (angle) => (angle / 180) * Math.PI;
+
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (element) => {
+  const { x, y, width, height, rotation = 0 } = element;
+  const rad = degToRad(rotation);
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
 
 // Update transformer nodes when selection changes
 watch(selectedIds, () => {
@@ -627,12 +695,7 @@ const handleMouseUp = () => {
 
   const selected = rectangles.value.filter(rect => {
     // Check if rectangle intersects with selection box
-    return Konva.Util.haveIntersection(selBox, {
-      x: rect.x,
-      y: rect.y,
-      width: rect.width,
-      height: rect.height,
-    });
+    return Konva.Util.haveIntersection(selBox, getClientRect(rect));
   });
   
   selectedIds.value = selected.map(rect => rect.id);
@@ -663,6 +726,7 @@ const handleTransformEnd = (e, index) => {
     y: node.y(),
     width: Math.max(5, node.width() * scaleX),
     height: Math.max(node.height() * scaleY),
+    rotation: node.rotation(),
   };
   rectangles.value = rects;
 };
