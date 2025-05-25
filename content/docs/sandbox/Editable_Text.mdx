@@ -90,11 +90,11 @@ textarea.style.overflow = 'hidden';
 textarea.style.background = 'none';
 textarea.style.outline = 'none';
 textarea.style.resize = 'none';
-textarea.style.lineHeight = textNode.lineHeight();
+textarea.style.lineHeight = textNode.lineHeight().toString();
 textarea.style.fontFamily = textNode.fontFamily();
 textarea.style.transformOrigin = 'left top';
 textarea.style.textAlign = textNode.align();
-textarea.style.color = textNode.fill();
+textarea.style.color = textNode.fill().toString();
 
 const rotation = textNode.rotation();
 let transform = '';
@@ -112,12 +112,13 @@ textarea.focus();
 function removeTextarea() {
 textarea.parentNode.removeChild(textarea);
 window.removeEventListener('click', handleOutsideClick);
+window.removeEventListener('touchstart', handleOutsideClick);
 textNode.show();
 tr.show();
 tr.forceUpdate();
 }
 
-function setTextareaWidth(newWidth) {
+function setTextareaWidth(newWidth = 0) {
 if (!newWidth) {
 newWidth = textNode.placeholder.length * textNode.fontSize();
 }
@@ -125,11 +126,11 @@ textarea.style.width = newWidth + 'px';
 }
 
 textarea.addEventListener('keydown', function (e) {
-if (e.keyCode === 13 && !e.shiftKey) {
+if (e.key === 'Enter' && !e.shiftKey) {
 textNode.text(textarea.value);
 removeTextarea();
 }
-if (e.keyCode === 27) {
+if (e.key === 'Escape') {
 removeTextarea();
 }
 });
@@ -452,11 +453,11 @@ const handleTextDblClick = () => {
   }
 
   textarea.addEventListener('keydown', function (e) {
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       text.value = textarea.value;
       removeTextarea();
     }
-    if (e.keyCode === 27) {
+    if (e.key === 'Escape') {
       removeTextarea();
     }
   });
@@ -476,6 +477,7 @@ const handleTextDblClick = () => {
   }
   setTimeout(() => {
     window.addEventListener('click', handleOutsideClick);
+    window.addEventListener('touchstart', handleOutsideClick);
   });
 };
 
