@@ -307,7 +307,7 @@ function createInput(metric, pos, size) {
   });
 
   input.addEventListener('keyup', function (e) {
-    if (e.keyCode === 13) {
+    if (e.key === 'Enter') {
       document.body.removeChild(wrap);
     }
   });
@@ -1134,7 +1134,7 @@ const createInputOverlay = (metric, pos, size) => {
   };
 
   const handleKeyUp = (e) => {
-    if (e.keyCode === 13) {
+    if (e.key === 'Enter') {
       document.body.removeChild(wrap);
     }
   };
