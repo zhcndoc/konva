@@ -1,0 +1,9 @@
+[[headers]]
+  for = "/*" # Apply to all files
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+[[redirects]]
+  from = "/docs/svelte"
+  to = "/docs/svelte/index.html"
+  status = 301
+  force = true
