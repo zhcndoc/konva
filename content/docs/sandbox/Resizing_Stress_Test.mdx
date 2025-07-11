@@ -189,7 +189,7 @@ import Konva from 'konva';
 
 const App = () => {
   const [shapes, setShapes] = useState([]);
-  const [selectedShapes, setSelectedShapes] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [selectionRect, setSelectionRect] = useState({
     visible: false,
     x1: 0,
@@ -197,203 +197,123 @@ const App = () => {
     x2: 0,
     y2: 0,
   });
-  
+  const [groupKey, setGroupKey] = useState(0);
+
   const groupRef = useRef();
   const trRef = useRef();
-  const layerRef = useRef();
-  const topLayerRef = useRef();
   const selectionRectRef = useRef();
-  
-  // 生成初始形状
+
+  // 一次生成 10,000 个形状
   useEffect(() => {
-    const initialShapes = [];
+    const items = [];
     for (let i = 0; i < 10000; i++) {
-      initialShapes.push({
+      items.push({
         id: i,
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
         radius: 10,
         fill: Konva.Util.getRandomColor(),
-        stroke: null,
-        name: 'shape',
       });
     }
-    setShapes(initialShapes);
+    setShapes(items);
   }, []);
 
+  // 附加/分离变换器及缓存操作
   useEffect(() => {
-    if (selectedShapes.length > 0 && groupRef.current) {
+    if (selectedIds.length && groupRef.current) {
       trRef.current.nodes([groupRef.current]);
       groupRef.current.cache();
     } else {
       trRef.current.nodes([]);
-      if (groupRef.current) {
-        groupRef.current.clearCache();
-      }
+      if (groupRef.current) groupRef.current.clearCache();
     }
-  }, [selectedShapes]);
+  }, [selectedIds]);
+
+  // 实用函数：应用组变换到形状并提交到 React 状态
+  const applyGroupTransform = () => {
+    if (!selectedIds.length || !groupRef.current) return;
+
+    const transform = groupRef.current.getAbsoluteTransform();
+    const { scaleX } = transform.decompose();
+
+    setShapes((prev) =>
+      prev.map((shape) => {
+        if (!selectedIds.includes(shape.id)) return shape;
+        const pos = transform.point({ x: shape.x, y: shape.y });
+        return {
+          ...shape,
+          x: pos.x,
+          y: pos.y,
+          radius: shape.radius * scaleX,
+        };
+      })
+    );
+  };
+
+  const pointerPos = (e) => e.target.getStage().getPointerPosition();
 
   const handleMouseDown = (e) => {
-    // 如果在变换器上或组上按下鼠标则不执行任何操作
-    const clickedOnTransformer = e.target.getParent() === trRef.current;
-    const clickedOnGroup = e.target.parent === groupRef.current;
-    
-    if (clickedOnTransformer || clickedOnGroup) {
+    // 忽略变换器或组上的点击
+    if (e.target.getParent() === trRef.current || e.target.parent === groupRef.current) {
       return;
     }
-    
-    const pointerPos = e.target.getStage().getPointerPosition();
-    setSelectionRect({
-      visible: true,
-      x1: pointerPos.x,
-      y1: pointerPos.y,
-      x2: pointerPos.x,
-      y2: pointerPos.y,
-    });
 
-    // 将旧选择移回原始图层
-    if (groupRef.current && selectedShapes.length > 0) {
-      const updatedShapes = [...shapes];
-      const transform = groupRef.current.getAbsoluteTransform();
-      
-      selectedShapes.forEach(selectedShape => {
-        const shapeIndex = updatedShapes.findIndex(s => s.id === selectedShape.id);
-        if (shapeIndex !== -1) {
-          const shape = updatedShapes[shapeIndex];
-          const absPos = transform.point({ x: shape.x, y: shape.y });
-          const scale = transform.decompose().scaleX;
-          
-          updatedShapes[shapeIndex] = {
-            ...shape,
-            x: absPos.x,
-            y: absPos.y,
-            radius: shape.radius * scale,
-            stroke: null
-          };
-        }
-      });
-      
-      setShapes(updatedShapes);
-      setSelectedShapes([]);
+    // 完成之前的选中（如果有）
+    applyGroupTransform();
+    if (selectedIds.length) {
+      setSelectedIds([]);
+      setGroupKey((k) => k + 1); // 重置组，以便新变换使用
     }
 
-    // 重置组转换
-    if (groupRef.current) {
-      groupRef.current.setAttrs({
-        x: 0,
-        y: 0,
-        scaleX: 1,
-        scaleY: 1,
-        rotation: 0,
-      });
-      groupRef.current.clearCache();
-    }
+    const p = pointerPos(e);
+    setSelectionRect({ visible: true, x1: p.x, y1: p.y, x2: p.x, y2: p.y });
   };
 
   const handleMouseMove = (e) => {
-    if (!selectionRect.visible) {
-      return;
-    }
-    
-    const pointerPos = e.target.getStage().getPointerPosition();
-    setSelectionRect({
-      ...selectionRect,
-      x2: pointerPos.x,
-      y2: pointerPos.y,
-    });
+    if (!selectionRect.visible) return;
+    const p = pointerPos(e);
+    setSelectionRect((prev) => ({ ...prev, x2: p.x, y2: p.y }));
   };
 
   const handleMouseUp = (e) => {
-    if (!selectionRect.visible) {
-      return;
-    }
-    
-    // 用超时隐藏选择矩形，以便我们可以在点击事件中检查
-    setTimeout(() => {
-      setSelectionRect({
-        ...selectionRect,
-        visible: false,
-      });
-    });
+    if (!selectionRect.visible) return;
 
-    var shapes = e.target.getStage().find('.shape');
-    // 手动创建框，而不是使用 getClientRect()
-    var box = {
+    setTimeout(() => setSelectionRect((prev) => ({ ...prev, visible: false })), 0);
+
+    const stage = e.target.getStage();
+    const nodes = stage.find('.shape');
+
+    const box = {
       x: Math.min(selectionRect.x1, selectionRect.x2),
       y: Math.min(selectionRect.y1, selectionRect.y2),
       width: Math.abs(selectionRect.x2 - selectionRect.x1),
-      height: Math.abs(selectionRect.y2 - selectionRect.y1)
+      height: Math.abs(selectionRect.y2 - selectionRect.y1),
     };
 
-    // 为了更好的性能，移除所有子元素
-    layerRef.current.removeChildren();
-
-    // 然后检查交集并将所有形状添加到正确的容器中
-    shapes.forEach((shape) => {
-      var intersected = Konva.Util.haveIntersection(
-        box,
-        shape.getClientRect()
-      );
-      if (intersected) {
-        groupRef.current.add(shape);
-        shape.stroke('blue');
-      } else {
-        layerRef.current.add(shape);
-        shape.stroke(null);
+    const ids = [];
+    nodes.forEach((node) => {
+      if (Konva.Util.haveIntersection(box, node.getClientRect())) {
+        ids.push(Number(node.id()));
       }
     });
 
-    if (groupRef.current.children.length) {
-      trRef.current.nodes([groupRef.current]);
-      groupRef.current.cache();
-    } else {
-      trRef.current.nodes([]);
-      groupRef.current.clearCache();
-    }
+    setSelectedIds(ids);
   };
 
-  const handleClick = (e) => {
-    // 如果我们正在用矩形选择，则不执行任何操作
-    if (selectionRect.visible) {
-      return;
-    }
+  const handleStageClick = (e) => {
+    // 忽略绘制选区矩形时的点击
+    if (selectionRect.visible) return;
 
-    // 如果点击空白区域 - 移除所有选择
     if (e.target === e.target.getStage()) {
-      if (groupRef.current && selectedShapes.length > 0) {
-        const updatedShapes = [...shapes];
-        const transform = groupRef.current.getAbsoluteTransform();
-        
-        selectedShapes.forEach(selectedShape => {
-          const shapeIndex = updatedShapes.findIndex(s => s.id === selectedShape.id);
-          if (shapeIndex !== -1) {
-            const shape = updatedShapes[shapeIndex];
-            const absPos = transform.point({ x: shape.x, y: shape.y });
-            const scale = transform.decompose().scaleX;
-            
-            updatedShapes[shapeIndex] = {
-              ...shape,
-              x: absPos.x,
-              y: absPos.y,
-              radius: shape.radius * scale,
-              stroke: null
-            };
-          }
-        });
-        
-        setShapes(updatedShapes);
+      // 点击空白区域：应用变换并清除选中
+      applyGroupTransform();
+      if (selectedIds.length) {
+        setSelectedIds([]);
+        setGroupKey((k) => k + 1);
       }
-      
-      setSelectedShapes([]);
-      trRef.current.nodes([]);
-      if (groupRef.current) {
-        groupRef.current.clearCache();
-      }
-      return;
     }
   };
 
-  // 计算选择矩形属性
   const selectionRectProps = {
     fill: 'rgba(0,0,255,0.5)',
     visible: selectionRect.visible,
@@ -401,7 +321,7 @@ const App = () => {
     y: Math.min(selectionRect.y1, selectionRect.y2),
     width: Math.abs(selectionRect.x2 - selectionRect.x1),
     height: Math.abs(selectionRect.y2 - selectionRect.y1),
-    ref: selectionRectRef
+    ref: selectionRectRef,
   };
 
   return (
@@ -414,41 +334,41 @@ const App = () => {
       onTouchMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onTouchEnd={handleMouseUp}
-      onClick={handleClick}
-      onTap={handleClick}
+      onClick={handleStageClick}
+      onTap={handleStageClick}
     >
-      <Layer ref={layerRef}>
-        {shapes.filter(shape => !selectedShapes.find(s => s.id === shape.id)).map(shape => (
-          <Circle
-            key={shape.id}
-            id={shape.id.toString()}
-            x={shape.x}
-            y={shape.y}
-            radius={shape.radius}
-            fill={shape.fill}
-            stroke={shape.stroke}
-            name="shape"
-          />
-        ))}
-      </Layer>
-      <Layer ref={topLayerRef}>
-        <Group
-          ref={groupRef}
-          draggable
-        >
-          {selectedShapes.map(shape => (
+      <Layer>
+        {shapes
+          .filter((s) => !selectedIds.includes(s.id))
+          .map((shape) => (
             <Circle
               key={shape.id}
-              id={shape.id.toString()}
+              id={String(shape.id)}
               x={shape.x}
               y={shape.y}
               radius={shape.radius}
               fill={shape.fill}
-              stroke="blue"
-              strokeWidth={2}
               name="shape"
             />
           ))}
+      </Layer>
+      <Layer>
+        <Group key={groupKey} ref={groupRef} draggable>
+          {shapes
+            .filter((s) => selectedIds.includes(s.id))
+            .map((shape) => (
+              <Circle
+                key={shape.id}
+                id={String(shape.id)}
+                x={shape.x}
+                y={shape.y}
+                radius={shape.radius}
+                fill={shape.fill}
+                stroke="blue"
+                strokeWidth={2}
+                name="shape"
+              />
+            ))}
         </Group>
         <Transformer ref={trRef} />
         <Rect {...selectionRectProps} />
