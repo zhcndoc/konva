@@ -208,10 +208,6 @@ const config: Config = {
               label: 'Twitter',
               href: 'https://twitter.com/lavrton',
             },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/konvajs/konva',
-            },
           ],
         },
         {
@@ -229,10 +225,15 @@ const config: Config = {
               label: 'Svelte',
               href: '/docs/svelte/index.html',
             },
-            // {
-            //   label: 'Blog',
-            //   to: '/blog',
-            // },
+          ],
+        },
+        {
+          title: 'Products',
+          items: [
+            {
+              label: 'Design Editor SDK',
+              href: 'https://polotno.com',
+            },
           ],
         },
       ],
@@ -244,12 +245,17 @@ const config: Config = {
     },
     algolia: {
       // The application ID provided by Algolia
-      appId: 'GGPOY1E1YM',
+      appId: '8J5ZKQ6RXR',
 
       // Public API key: it is safe to commit it
-      apiKey: '85c8716bb7c8a1b811b0217c46e2b4e2',
+      apiKey: '39701ff696d6af9cd08aac8cc98926d2',
 
-      indexName: 'new-konvajs',
+      indexName: 'konvajs',
+      // Optional: see doc section bellow
+      contextualSearch: false,
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
     },
   } satisfies Preset.ThemeConfig,
 };

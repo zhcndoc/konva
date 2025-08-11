@@ -320,7 +320,6 @@ export default App;
     <v-stage :config="stageConfig">
       <v-layer>
         <v-image
-          v-if="image"
           ref="imageRef"
           :config="{
             image: image,
@@ -433,7 +432,7 @@ function getCrop(image, size, clipPosition = 'center-middle') {
   };
 }
 
-const { image } = useImage('https://konvajs.org/assets/darth-vader.jpg');
+const [ image ] = useImage('https://konvajs.org/assets/darth-vader.jpg');
 
 const crop = computed(() => {
   if (!image.value) return {};
@@ -469,5 +468,5 @@ watch(image, () => {
 });
 </script>
 ```
-  </TabItem>
+</TabItem>
 </Tabs>
