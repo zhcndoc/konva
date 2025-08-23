@@ -225,6 +225,10 @@ const config: Config = {
               label: 'Svelte',
               href: '/docs/svelte/index.html',
             },
+            {
+              label: 'Angular',
+              href: '/docs/angular/index.html',
+            },
           ],
         },
         {

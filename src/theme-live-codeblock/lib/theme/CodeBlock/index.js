@@ -78,6 +78,53 @@ root.render(<App />);`,
   );
 };
 
+export const AngularKonva = ({ code }) => {
+  return (
+    <Sandpack
+      template="angular"
+      options={{
+        editorHeight: 400, // default - 300
+      }}
+      customSetup={{
+        dependencies: {
+          '@angular/animations': '^20.0.0',
+          '@angular/common': '^20.0.0',
+          '@angular/compiler': '^20.0.0',
+          '@angular/core': '^20.0.0',
+          '@angular/forms': '^20.0.0',
+          '@angular/platform-browser': '^20.0.0',
+          '@angular/router': '^20.0.0',
+          konva: '^9.3.22',
+          'ng2-konva': '10.0.0-2',
+          rxjs: '^7.8.2',
+          tslib: '^2.8.1',
+        },
+      }}
+      files={{
+        'src/main.ts': {
+          code: `
+import 'zone.js';
+import { Component } from '@angular/core';
+import '@angular/compiler';
+import { bootstrapApplication } from '@angular/platform-browser';
+import  App from './app/app.component';
+import './styles.css';
+
+  bootstrapApplication(App);
+          `,
+        },
+        'src/app/app.component.ts': {
+          code,
+        },
+        'src/styles.css': {
+          code: `body, html { margin: 0; padding: 0; }`,
+          hidden: true,
+        },
+      }}
+    />
+  );
+};
+
 export const VueKonva = ({ code }) => {
   return (
     <Sandpack
@@ -173,6 +220,9 @@ const withLiveEditor = (Component) => {
     }
     if (props.live && props.metastring.includes('svelte')) {
       return <SvelteKonva {...props} code={props.children} />;
+    }
+    if (props.live && props.metastring.includes('angular')) {
+      return <AngularKonva {...props} code={props.children} />;
     }
     return <Component {...props} />;
   }

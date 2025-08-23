@@ -1,0 +1,98 @@
+---
+title: Angular Konva Z-Index Tutorial
+sidebar_label: Z-Index
+hide_table_of_contents: true
+slug: zIndex.html
+---
+
+To control the layering order of shapes with `Konva` in Angular, you can use the `ng2-konva`.
+
+The demo shows how to:
+1. Create an array of circle shapes with random positions and colors
+2. Handle drag events to update the visual order of shapes
+3. Maintain the correct stacking order by manipulating the array order
+4. Follow Angular's change detection system for state management
+
+**Instructions**: Try to drag a circle. When you start dragging, it will automatically move to the top of the stack. This is achieved by manipulating the array of circles in our data, not by manually changing zIndex.
+
+```js live angular
+import { Component, OnInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        @for (item of items; track trackById($index, item)) {
+          <ko-circle
+            [config]="item"
+            (dragstart)="handleDragstart($event.event)"
+            (dragend)="handleDragend()"
+          ></ko-circle>
+        }
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  
+  public items: CircleConfig[] = [];
+  private dragItemId: string | null = null;
+
+  ngOnInit() {
+    this.generateItems();
+  }
+
+  private generateItems(): void {
+    const newItems: CircleConfig[] = [];
+    for (let i = 0; i < 10; i++) {
+      newItems.push({
+        x: Math.random() * this.configStage.width!,
+        y: Math.random() * this.configStage.height!,
+        radius: 50,
+        id: "node-" + i,
+        fill: this.getRandomColor(),
+        draggable: true
+      });
+    }
+    this.items = newItems;
+  }
+
+  private getRandomColor(): string {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  public handleDragstart(event: any): void {
+    // save drag element:
+    this.dragItemId = event.target.id();
+    // move current element to the top by rearranging the items array:
+    const item = this.items.find(i => i.id === this.dragItemId);
+    if (item) {
+      const index = this.items.indexOf(item);
+      this.items.splice(index, 1);
+      this.items.push(item);
+    }
+  }
+
+  public handleDragend(): void {
+    this.dragItemId = null;
+  }
+
+  public trackById(index: number, item: CircleConfig): string {
+    return item.id as string;
+  }
+}
+

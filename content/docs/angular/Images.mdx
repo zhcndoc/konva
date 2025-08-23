@@ -1,0 +1,58 @@
+---
+title: Angular Konva Images Tutorial
+sidebar_label: Images
+hide_table_of_contents: true
+slug: Images.html
+---
+
+To display images with `Konva` in Angular, you can use the `ng2-konva` library with the `Image` component.
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+## Images Example
+
+```js live angular
+import { Component, OnInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { ImageConfig } from 'konva/lib/shapes/Image';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-image [config]="configImage"></ko-image>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configImage: ImageConfig = {
+    x: 50,
+    y: 50,
+    image: null,
+    width: 100,
+    height: 100
+  };
+  public image: any = null;
+
+  ngOnInit() {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      this.image = imageObj;
+      this.configImage = { ...this.configImage, image: imageObj };
+    };
+    imageObj.src = 'https://konvajs.org/assets/yoda.jpg';
+  }
+}
+``` 

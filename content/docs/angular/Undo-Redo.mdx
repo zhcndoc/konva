@@ -1,0 +1,100 @@
+---
+title: Angular Konva Undo-Redo Tutorial
+sidebar_label: Undo-Redo
+hide_table_of_contents: true
+slug: Undo-Redo.html
+---
+
+To implement undo-redo functionality with `Konva` in Angular, you can use the `ng2-konva` library with state management to track changes.
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+## Undo-Redo Example
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { RectConfig } from 'konva/lib/shapes/Rect';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div>
+      <button (click)="undo()" [disabled]="!canUndo()">Undo</button>
+      <button (click)="redo()" [disabled]="!canRedo()">Redo</button>
+      <ko-stage [config]="configStage">
+        <ko-layer>
+          <ko-rect 
+            [config]="configRect"
+            (dragend)="handleDragEnd($event.event)"
+          ></ko-rect>
+        </ko-layer>
+      </ko-stage>
+    </div>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  private history: RectConfig[] = [];
+  private currentIndex: number = -1;
+
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configRect: RectConfig = {
+    x: 100,
+    y: 100,
+    width: 100,
+    height: 100,
+    fill: 'red',
+    draggable: true
+  };
+
+  constructor() {
+    this.saveState();
+  }
+
+  private saveState(): void {
+    // Remove any states after current index
+    this.history = this.history.slice(0, this.currentIndex + 1);
+    
+    // Add current state
+    this.history.push({ ...this.configRect });
+    this.currentIndex++;
+  }
+
+  public handleDragEnd(event: any): void {
+    this.configRect.x = event.target.x();
+    this.configRect.y = event.target.y();
+    this.saveState();
+  }
+
+  public undo(): void {
+    if (this.canUndo()) {
+      this.currentIndex--;
+      this.configRect = { ...this.history[this.currentIndex] };
+    }
+  }
+
+  public redo(): void {
+    if (this.canRedo()) {
+      this.currentIndex++;
+      this.configRect = { ...this.history[this.currentIndex] };
+    }
+  }
+
+  public canUndo(): boolean {
+    return this.currentIndex > 0;
+  }
+
+  public canRedo(): boolean {
+    return this.currentIndex < this.history.length - 1;
+  }
+}
+```

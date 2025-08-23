@@ -1,0 +1,75 @@
+---
+title: Angular Konva Events Tutorial
+sidebar_label: Events
+hide_table_of_contents: true
+slug: Events.html
+---
+
+To handle events with `Konva` in Angular, you can use the `ng2-konva` library event bindings.
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+## Events Example
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { RegularPolygonConfig } from 'konva/lib/shapes/RegularPolygon';
+import { TextConfig } from 'konva/lib/shapes/Text';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-regular-polygon
+          [config]="configTriangle"
+          (mousemove)="handleMouseMove($event.event)"
+          (mouseout)="handleMouseOut()"
+        ></ko-regular-polygon>
+        <ko-text [config]="configText"></ko-text>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configTriangle: RegularPolygonConfig = {
+    x: 80,
+    y: 120,
+    sides: 3,
+    radius: 80,
+    fill: '#00D2FF',
+    stroke: 'black',
+    strokeWidth: 4
+  };
+  public configText: TextConfig = {
+    x: 10,
+    y: 10,
+    fontFamily: 'Calibri',
+    fontSize: 24,
+    text: 'hello',
+    fill: 'black'
+  };
+
+  public handleMouseMove(event: any): void {
+    const mousePos = event.target.getStage().getPointerPosition();
+    const x = mousePos.x - 190;
+    const y = mousePos.y - 40;
+    this.configText = { ...this.configText, text: 'x: ' + x + ', y: ' + y };
+  }
+
+  public handleMouseOut(): void {
+    this.configText = { ...this.configText, text: 'Mouseout triangle' };
+  }
+}
+``` 
