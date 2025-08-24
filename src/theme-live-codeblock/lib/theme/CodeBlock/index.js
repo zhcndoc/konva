@@ -134,7 +134,7 @@ export const VueKonva = ({ code }) => {
       }}
       customSetup={{
         dependencies: {
-          'vue-konva': '3.2.2',
+          'vue-konva': '3.2.4',
           konva: '10.0.0-0',
         },
       }}
