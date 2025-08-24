@@ -17,7 +17,7 @@ export const Vanilla = ({ code }) => {
       template="vanilla"
       customSetup={{
         dependencies: {
-          konva: 'latest',
+          konva: '10.0.0-0',
         },
       }}
       files={{
@@ -50,7 +50,7 @@ export const ReactKonva = ({ code, metastring }) => {
           'react-dom': '^18',
           'react-konva': '^18',
           'react-konva-utils': 'latest',
-          konva: 'latest',
+          konva: '10.0.0-0',
           'use-image': 'latest',
           ...deps,
         },
@@ -94,7 +94,7 @@ export const AngularKonva = ({ code }) => {
           '@angular/forms': '^20.0.0',
           '@angular/platform-browser': '^20.0.0',
           '@angular/router': '^20.0.0',
-          konva: '^9.3.22',
+          konva: '10.0.0-0',
           'ng2-konva': '10.0.0-2',
           rxjs: '^7.8.2',
           tslib: '^2.8.1',
@@ -135,7 +135,7 @@ export const VueKonva = ({ code }) => {
       customSetup={{
         dependencies: {
           'vue-konva': '3.2.2',
-          konva: 'latest',
+          konva: '10.0.0-0',
         },
       }}
       files={{
@@ -171,7 +171,7 @@ const SvelteKonva = ({ code }) => {
       customSetup={{
         dependencies: {
           'svelte-konva': 'latest',
-          konva: 'latest',
+          konva: '10.0.0-0',
           svelte: '^4.0.0',
         },
       }}
