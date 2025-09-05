@@ -73,7 +73,7 @@ imageObj.onload = () => {
   container.appendChild(slider);
   document.body.appendChild(container);
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -85,7 +85,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const [threshold, setThreshold] = useState(0.5);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -168,7 +168,7 @@ const stageSize = {
 
 const threshold = ref(0.5);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

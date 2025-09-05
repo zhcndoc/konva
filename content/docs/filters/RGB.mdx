@@ -87,7 +87,7 @@ imageObj.onload = () => {
   blueSlider.style.top = '70px';
   document.body.appendChild(blueSlider);
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -101,7 +101,7 @@ const App = () => {
   const [red, setRed] = useState(100);
   const [green, setGreen] = useState(100);
   const [blue, setBlue] = useState(100);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -236,7 +236,7 @@ const red = ref(100);
 const green = ref(100);
 const blue = ref(100);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

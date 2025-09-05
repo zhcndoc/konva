@@ -1,16 +1,25 @@
 ---
-title: HTML5 Canvas Pixelate filter Image Tutorial
-sidebar_label: Pixelate
+title: HTML5 Canvas Brightness Image Filter Tutorial
+sidebar_label: Brightness
 hide_table_of_contents: true
-slug: Pixelate.html
+slug: Brightness.html
 ---
 
-To apply filter to an `Konva.Node`, we have to cache it first with `cache()`
+**Note**: This filter was introduced in Konva 10.0.0 to replace the `Brighten` filter. The `Brighten` filter is still available for backward compatibility, but it is deprecated and will be removed in the future.
+New filter renders closer to CSS `filter: brightness(0.5);`
+
+To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
 function. Then apply filter with `filters()` function.
 
-To change pixelate effect of an image with Konva, we can use the `Konva.Filters.Pixelate`.
+To brighten or darken an image with Konva, we can use the `Konva.Filters.Brightness`
+filter and set the brightness amount with the `brightness` property.
+The `brightness` property can be set to any number from 0 to 2, where:
+- 0 creates a completely black image
+- 1 is the original image (no change)
+- Values greater than 1 brighten the image
+- 2 creates a very bright image
 
-**Instructions**: Slide the control to change pixel size value.
+**Instructions**: Slide the control to adjust the brightness
 
 For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
@@ -22,10 +31,13 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
+const width = window.innerWidth;
+const height = window.innerHeight;
+
 const stage = new Konva.Stage({
   container: 'container',
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
@@ -43,35 +55,28 @@ imageObj.onload = () => {
   layer.add(image);
 
   image.cache();
-  image.filters([Konva.Filters.Pixelate]);
-  image.pixelSize(8);
+  image.filters([Konva.Filters.Brightness]);
+  image.brightness(1.5);
 
-  // create slider
-  const container = document.createElement('div');
-  container.style.position = 'absolute';
-  container.style.top = '20px';
-  container.style.left = '20px';
-  
-  const text = document.createElement('span');
-  text.textContent = 'Pixel Size: ';
-  container.appendChild(text);
-  
   const slider = document.createElement('input');
   slider.type = 'range';
-  slider.min = '2';
-  slider.max = '32';
-  slider.step = '1';
-  slider.value = image.pixelSize();
-  slider.style.width = '200px';
-  
+  slider.min = '0';
+  slider.max = '2';
+  slider.step = '0.1';
+  slider.value = image.brightness();
+
+  slider.style.position = 'absolute';
+  slider.style.top = '20px';
+  slider.style.left = '20px';
+
   slider.addEventListener('input', (e) => {
-    const value = parseInt(e.target.value);
-    image.pixelSize(value);
+    const value = parseFloat(e.target.value);
+    image.brightness(value);
   });
-  
-  container.appendChild(slider);
-  document.body.appendChild(container);
+
+  document.body.appendChild(slider);
 };
+
 imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
@@ -83,7 +88,7 @@ import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
-  const [pixelSize, setPixelSize] = useState(8);
+  const [brightness, setBrightness] = useState(1.5);
   const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
@@ -103,18 +108,18 @@ const App = () => {
             y={50}
             image={image}
             draggable
-            filters={[Konva.Filters.Pixelate]}
-            pixelSize={pixelSize}
+            filters={[Konva.Filters.Brightness]}
+            brightness={brightness}
           />
         </Layer>
       </Stage>
       <input
         type="range"
-        min="2"
-        max="32"
-        step="1"
-        value={pixelSize}
-        onChange={(e) => setPixelSize(parseInt(e.target.value))}
+        min="0"
+        max="2"
+        step="0.1"
+        value={brightness}
+        onChange={(e) => setBrightness(parseFloat(e.target.value))}
         style={{ position: 'absolute', top: '20px', left: '20px' }}
       />
     </>
@@ -137,18 +142,18 @@ export default App;
             y: 50,
             image: image,
             draggable: true,
-            filters: [Konva.Filters.Pixelate],
-            pixelSize: pixelSize,
+            filters: [Konva.Filters.Brightness],
+            brightness: brightness,
           }"
         />
       </v-layer>
     </v-stage>
     <input
       type="range"
-      min="2"
-      max="32"
-      step="1"
-      :value="pixelSize"
+      min="0"
+      max="2"
+      step="0.1"
+      :value="brightness"
       @input="handleSlider"
       style="position: absolute; top: 20px; left: 20px"
     />
@@ -165,7 +170,7 @@ const stageSize = {
   height: window.innerHeight,
 };
 
-const pixelSize = ref(8);
+const brightness = ref(1.5);
 const imageNode = ref(null);
 const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
@@ -177,9 +182,9 @@ watch(image, async (newImage) => {
 });
 
 const handleSlider = (e) => {
-  pixelSize.value = parseInt(e.target.value);
+  brightness.value = parseFloat(e.target.value);
 };
 </script>
 ```
-  </TabItem>
+</TabItem>
 </Tabs>
