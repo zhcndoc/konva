@@ -1,0 +1,183 @@
+---
+title: 通过 Konva 使用 Angular 和 Canvas 入门
+sidebar_label: Angular
+hide_table_of_contents: true
+slug: index.html
+---
+
+## 如何在 Angular 中使用 Canvas？
+
+`ng2-konva` 是一个用于在 [Angular](https://angular.io/) 中绘制复杂 Canvas 图形的 JavaScript 库。它为 [Konva 框架](https://konvajs.org/) 提供声明式和响应式绑定。
+
+[Github 仓库](https://github.com/konvajs/ng2-konva)
+
+这是一个让 [Angular](https://angular.io/) 能够与 HTML5 canvas 库协同工作的尝试。目标是拥有类似普通 Angular 的声明式标记以及类似的数据流模型。
+
+所有 `ng2-konva` 组件都对应带有前缀 'ko-' 的同名 `Konva` 组件。所有可用于 `Konva` 对象的参数都可以作为 `config` 属性绑定添加到相应的 `ng2-konva` 组件中。
+
+核心形状包括：`ko-rect`，`ko-circle`，`ko-ellipse`，`ko-line`，`ko-image`，`ko-text`，`ko-text-path`，`ko-star`，`ko-label`，`ko-path`，`ko-regular-polygon`。
+你也可以创建[自定义形状](/docs/angular/Custom_Shape.html)。
+
+想了解更多关于 `Konva` 的信息，可以阅读 [Konva 概览](/docs/overview.html)。
+
+## 快速开始
+
+需要使用 [Angular](https://angular.io/) 20 及以上版本。
+
+### 1. 通过 npm 安装
+
+```bash
+npm install ng2-konva konva --save
+```
+
+### 2. 导入并使用 ng2-konva
+
+```ts
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  // ... 其他配置
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 50,
+    fill: 'red',
+  };
+}
+```
+
+### 3. 在你的组件中使用
+
+**说明**：尝试拖动星星。它们在拖动时会放大，释放后恢复正常大小。
+
+```js live angular
+import { Component, OnInit, viewChild } from '@angular/core';
+import Konva from 'konva';
+import { StarConfig } from 'konva/lib/shapes/Star';
+import { StageConfig } from 'konva/lib/Stage';
+import {
+  CoreShapeComponent,
+  NgKonvaEventObject,
+  StageComponent,
+} from 'ng2-konva';
+
+type ExtStartConfig = StarConfig & { startScale: number };
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        @for (config of starConfigs; track trackConfig($index, config)) {
+          <ko-star
+            (dragstart)="handleDragstart($event.event)"
+            (dragend)="handleDragend($event.event)"
+            [config]="config"
+          />
+        }
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class StarExampleComponent implements OnInit {
+  public width = 800;
+  public height = 800;
+  public starConfigs: ExtStartConfig[] = [];
+
+  public configStage: Partial<StageConfig> = {
+    width: this.width,
+    height: this.height,
+  };
+
+  public handleDragstart(
+    event: NgKonvaEventObject<MouseEvent>,
+  ): void {
+    const shape = event.target;
+
+    this.starConfigs = this.starConfigs.map((conf) => {
+      if ( conf.name !== shape.name()) {
+        return conf;
+      }
+      return {
+        ...conf,
+        shadowOffsetX: 15,
+        shadowOffsetY: 15,
+        scaleX: conf.startScale * 1.2,
+        scaleY: conf.startScale * 1.2,
+      };
+    });
+    this.starConfigs = [
+      ...this.starConfigs.filter((conf) => conf.name !== shape.name()),
+      this.starConfigs.find((conf) => conf.name === shape.name())!,
+    ];
+  }
+
+  public handleDragend(
+    event: NgKonvaEventObject<MouseEvent>,
+  ): void {
+    const shape = event.target;
+    this.starConfigs = this.starConfigs.map((conf) => {
+      if (conf.name !== shape.name()) {
+        return conf;
+      }
+      return {
+        ...conf,
+        x: shape.x(),
+        y: shape.y(),
+        scaleX: conf.startScale,
+        scaleY: conf.startScale,
+      };
+    });
+  }
+
+  trackConfig(index: number, config: ExtStartConfig): string | undefined {
+    return config.name;
+  }
+
+  public ngOnInit(): void {
+    for (let n = 0; n < 100; n++) {
+      const scale = Math.random();
+      this.starConfigs.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        rotation: Math.random() * 180,
+        numPoints: 5,
+        innerRadius: 30,
+        outerRadius: 50,
+        fill: '#89b717',
+        opacity: 0.8,
+        draggable: true,
+        scaleX: scale,
+        scaleY: scale,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffsetX: 5,
+        shadowOffsetY: 5,
+        shadowOpacity: 0.6,
+        startScale: scale,
+        name: n.toString(),
+      });
+    }
+  }
+}
+```
+
+完整属性和方法列表，请参阅 [Konva API 参考](/api/Konva.html)。

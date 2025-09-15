@@ -123,4 +123,51 @@ const arcConfig = {
 </Stage>
 ```
   </TabItem>
+  <TabItem value="Angular">
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  // NgKonvaEventObject,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+        <ko-layer>
+          <ko-circle
+            [config]="configCircle"
+            (click)="handleClick($event.event)"
+          ></ko-circle>
+        </ko-layer>
+      </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 70,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true,
+  };
+
+  public handleClick(event: any): void {
+    console.log('Hello Circle', event);
+  }
+}
+```
+  </TabItem>
 </Tabs>

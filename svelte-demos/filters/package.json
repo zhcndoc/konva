@@ -15,7 +15,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "konva": "^9.2.0",
+    "konva": "10.0.0-0",
     "svelte-konva": "^0.3.1"
   },
   "keywords": [

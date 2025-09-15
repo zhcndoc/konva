@@ -271,6 +271,14 @@ sprite.frameRate(2);
 
 ## Inherited Methods
 
+### getContext()
+
+**Inherited from:** [Konva.Shape#getContext](/api/Konva.Shape.html#getcontext)
+
+### getCanvas()
+
+**Inherited from:** [Konva.Shape#getCanvas](/api/Konva.Shape.html#getcanvas)
+
 ### hasShadow()
 
 returns whether or not a shadow will be rendered
@@ -550,6 +558,28 @@ var lineCap = shape.lineCap();
 
 // set line cap
 shape.lineCap('round');
+```
+
+### miterLimit(miterLimit)
+
+get/set miterLimit.
+
+**Parameters:**
+
+- `miterLimit` (Number)
+
+**Returns:** `Number` 
+
+**Inherited from:** [Konva.Shape#miterLimit](/api/Konva.Shape.html#miterlimit)
+
+**Example:**
+
+```javascript
+// get miter limit
+var miterLimit = shape.miterLimit();
+
+// set miter limit
+shape.miterLimit(10);
 ```
 
 ### sceneFunc(drawFunc)
@@ -2038,7 +2068,7 @@ get ancestors
 
 ```javascript
 shape.getAncestors().forEach(function(node) {
-  console.log(node.getId());
+  console.log(node.id());
 })
 ```
 
@@ -3221,11 +3251,11 @@ shape.preventDefault(false);
 
 ### filters(filters)
 
-get/set filters.  Filters are applied to cached canvases
+get/set filters. Supports function filters, CSS filter strings, or mixed arrays. CSS filters are applied using native browser performance when possible, function filters use ImageData manipulation. CSS filters automatically fall back to function filters in unsupported browsers.
 
 **Parameters:**
 
-- `filters` (Array): array of filters
+- `filters` (Array): array of filter functions and/or CSS filter strings
 
 **Returns:** `Array` 
 
@@ -3237,16 +3267,19 @@ get/set filters.  Filters are applied to cached canvases
 // get filters
 var filters = node.filters();
 
-// set a single filter
-node.cache();
-node.filters([Konva.Filters.Blur]);
+// set CSS filters only (no caching required, uses native performance)
+node.filters(['blur(5px)', 'brightness(1.2)', 'contrast(1.5)']);
 
-// set multiple filters
+// set function filters only (caching required)
+node.cache();
+node.filters([Konva.Filters.Blur, Konva.Filters.Sepia, Konva.Filters.Invert]);
+
+// mix CSS and function filters (caching required, uses fallback strategy)
 node.cache();
 node.filters([
-  Konva.Filters.Blur,
-  Konva.Filters.Sepia,
-  Konva.Filters.Invert
+  'blur(3px)',           // CSS filter
+  Konva.Filters.Invert,  // function filter
+  'brightness(1.5)'      // CSS filter
 ]);
 ```
 

@@ -1,0 +1,55 @@
+---
+title: Angular Konva 过滤器教程
+sidebar_label: 过滤器
+hide_table_of_contents: true
+slug: Filters.html
+---
+
+要在 Angular 中使用 `Konva` 应用过滤器，可以使用 `ng2-konva` 库的 `filters` 属性。
+
+有关属性和方法的完整列表，请参阅[Konva API 参考](/api/Konva.html)。
+
+## 过滤器示例
+
+```js live angular
+import { Component, ViewChild } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+import * as Konva from 'konva';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle #circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  @ViewChild('circle') circle!: any;
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 150,
+    y: 150,
+    radius: 50,
+    fill: 'red',
+    filters: [Konva.Filters.Blur],
+    blurRadius: 15
+  };
+
+  ngAfterViewInit() {
+    this.circle.getNode().cache({ offset: 10 });
+  }
+}
+```

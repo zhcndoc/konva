@@ -1,19 +1,23 @@
 ---
 title: HTML5 Canvas 图像亮度滤镜教程
-sidebar_label: 亮度调整
+sidebar_label: 亮度调整 (Deprecated)
 hide_table_of_contents: true
 slug: Brighten.html
 ---
 
-要对 `Konva.Image` 应用滤镜，必须先使用 `cache()` 函数缓存它，然后使用 `filters()` 函数应用滤镜。
+**注意**：此过滤器已弃用，将在未来删除。请改用 `Brightness` 过滤器。
 
-在 Konva 中调整图像亮度或暗度，可以使用 `Konva.Filters.Brighten` 滤镜，并通过 `brightness` 属性设置亮度值。
-`brightness` 属性可以设置为 -1 到 1 之间的任意整数值。
+要将过滤器应用于 `Konva.Image`，我们必须先使用 `cache()` 函数进行缓存。然后使用 `filters()` 函数应用过滤器。
+
+要使用 Konva 使图像变亮或变暗，我们可以使用 `Konva.Filters.Brighten` 过滤器，并通过 `brightness` 属性设置亮度值。
+
+`brightness` 属性可以设置为 -1 到 1 之间的任何整数。
+
 负值会使图像变暗，正值会使图像变亮。
 
-**操作说明**：滑动控制条以调整亮度
+**说明**：滑动控制以调整亮度
 
-有关所有可用滤镜，请访问 [滤镜文档](/api/Konva.Filters.html)。
+有关所有可用过滤器，请访问 [过滤器文档](/api/Konva.Filters.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -69,7 +73,7 @@ imageObj.onload = () => {
   document.body.appendChild(slider);
 };
 
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -81,7 +85,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const [brightness, setBrightness] = useState(0.3);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -164,7 +168,7 @@ const stageSize = {
 
 const brightness = ref(0.3);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

@@ -42,7 +42,7 @@ imageObj.onload = () => {
   image.cache();
   image.filters([Konva.Filters.Invert]);
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -53,7 +53,7 @@ import { useRef, useEffect } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const stageSize = {
 };
 
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

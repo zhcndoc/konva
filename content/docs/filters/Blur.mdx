@@ -66,7 +66,7 @@ imageObj.onload = () => {
   document.body.appendChild(slider);
 };
 
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -80,7 +80,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const [blurRadius, setBlurRadius] = useState(10);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ const stageSize = {
 
 const blurRadius = ref(10);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

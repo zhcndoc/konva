@@ -295,6 +295,7 @@ export default App;
     :config="stageConfig"
     @touchmove="handleTouchMove"
     @touchend="handleTouchEnd"
+    @dragend="handleDragEnd"
   >
     <v-layer>
       <v-regular-polygon
@@ -427,6 +428,13 @@ const handleTouchMove = (e) => {
 const handleTouchEnd = () => {
   lastDist.value = 0;
   lastCenter.value = null;
+};
+
+const handleDragEnd = (e) => {
+  dragStopped.value = false;
+  // Ensure stage position is synchronized with our reactive state
+  const stage = e.target.getStage();
+  stagePos.value = { x: stage.x(), y: stage.y() };
 };
 </script>
 ```

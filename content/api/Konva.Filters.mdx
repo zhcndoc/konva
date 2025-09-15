@@ -41,6 +41,22 @@ node.filters([Konva.Filters.Brighten]);
 node.brightness(0.8);
 ```
 
+### Brightness(imageData) {#Brightness}
+
+Brightness Filter. CSS-compatible brightness filter that uses multiplicative approach.
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Brightness]);
+node.brightness(1.5); // 50% brighter (CSS-compatible)
+```
+
 ### Contrast(imageData) {#Contrast}
 
 Contrast Filter.
@@ -59,7 +75,7 @@ node.contrast(10);
 
 ### Emboss(imageData) {#Emboss}
 
-Emboss Filter. Pixastic Lib - Emboss filter - v0.1.0 Copyright (c) 2008 Jacob Seidelin, jseidelin@nihilogic.dk, http://blog.nihilogic.dk/ License: [http://www.pixastic.com/lib/license.txt]
+Emboss Filter.
 
 **Parameters:**
 
@@ -266,7 +282,7 @@ node.filters([Konva.Filters.Sepia]);
 
 ### Solarize(imageData) {#Solarize}
 
-Solarize Filter Pixastic Lib - Solarize filter - v0.1.0 Copyright (c) 2008 Jacob Seidelin, jseidelin@nihilogic.dk, http://blog.nihilogic.dk/ License: [http://www.pixastic.com/lib/license.txt]
+Solarize Filter
 
 **Parameters:**
 

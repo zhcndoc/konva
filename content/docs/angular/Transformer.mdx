@@ -1,0 +1,77 @@
+---
+title: Angular Konva 变换器教程
+sidebar_label: 变换器
+hide_table_of_contents: true
+slug: Transformer.html
+---
+
+在 Angular 中使用 `Konva` 的变换器时，可以使用 `ng2-konva` 库中的 `Transformer` 组件来实现形状的选中和变换功能。
+
+有关完整的属性和方法列表，请参阅 [Konva API 参考](/api/Konva.html)。
+
+## 变换器示例
+
+```js live angular
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { RectConfig } from 'konva/lib/shapes/Rect';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage" (click)="handleStageClick($event.event)">
+      <ko-layer>
+        <ko-rect
+          #rect
+          [config]="configRect"
+          (click)="handleShapeClick()"
+        ></ko-rect>
+        <ko-transformer #transformer></ko-transformer>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements AfterViewInit {
+  @ViewChild('rect') rect!: any;
+  @ViewChild('transformer') transformer!: any;
+
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configRect: RectConfig = {
+    x: 100,
+    y: 100,
+    width: 100,
+    height: 100,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true
+  };
+
+  ngAfterViewInit() {
+    this.transformer.getNode().nodes([this.rect.getNode()]);
+  }
+
+  public handleStageClick(event: any): void {
+    if (!event) {
+      // TODO: 目前 ng2-konva 存在一个 bug，点击事件中未传递事件对象
+      return;
+    }
+    if (event.target === event.target.getStage()) {
+      this.transformer.getNode().nodes([]);
+    }
+  }
+
+  public handleShapeClick(): void {
+    this.transformer.getNode().nodes([this.rect.getNode()]);
+  }
+}
+```

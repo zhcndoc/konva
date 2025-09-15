@@ -1,0 +1,56 @@
+---
+title: Angular Konva 自定义形状教程
+sidebar_label: 自定义形状
+hide_table_of_contents: true
+slug: Custom_Shape.html
+---
+
+要在 Angular 中使用 `Konva` 创建自定义形状，可以使用 `ng2-konva` 库中的 `Custom` 组件。
+
+有关完整属性和方法列表，请参见 [Konva API 参考](/api/Konva.html)。
+
+## 自定义形状示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { ShapeConfig } from 'konva/lib/shapes/Shape';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-shape [config]="configShape"></ko-shape>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configShape: ShapeConfig = {
+    x: 100,
+    y: 100,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 2,
+    sceneFunc: (context: any, shape: any) => {
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(100, 0);
+      context.lineTo(50, 100);
+      context.closePath();
+      context.fillStrokeShape(shape);
+    }
+  };
+}
+```

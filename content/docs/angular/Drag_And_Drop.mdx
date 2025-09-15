@@ -1,0 +1,57 @@
+---
+title: Angular Konva 拖放教程
+sidebar_label: 拖放
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
+---
+
+要在 Angular 中使用 `Konva` 实现拖放功能，可以使用 `ng2-konva` 库配合 `draggable` 属性和事件处理器。
+
+有关属性和方法的完整列表，请参阅 [Konva API 参考](/api/Konva.html)。
+
+## 拖放示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle
+          [config]="configCircle"
+          (dragstart)="handleDragstart($event)"
+        ></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 70,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true,
+  };
+
+  public handleDragstart(event: any): void {
+    event.target.moveToTop();
+  }
+}
+```

@@ -1,0 +1,58 @@
+---
+title: Angular Konva 图片教程
+sidebar_label: 图片
+hide_table_of_contents: true
+slug: Images.html
+---
+
+要在 Angular 中使用 `Konva` 显示图片，可以使用 `ng2-konva` 库中的 `Image` 组件。
+
+有关完整的属性和方法列表，请参阅 [Konva API 参考](/api/Konva.html)。
+
+## 图片示例
+
+```js live angular
+import { Component, OnInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { ImageConfig } from 'konva/lib/shapes/Image';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-image [config]="configImage"></ko-image>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configImage: ImageConfig = {
+    x: 50,
+    y: 50,
+    image: null,
+    width: 100,
+    height: 100
+  };
+  public image: any = null;
+
+  ngOnInit() {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      this.image = imageObj;
+      this.configImage = { ...this.configImage, image: imageObj };
+    };
+    imageObj.src = 'https://konvajs.org/assets/yoda.jpg';
+  }
+}
+```

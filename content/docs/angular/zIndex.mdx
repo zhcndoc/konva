@@ -1,0 +1,98 @@
+---
+title: Angular Konva Z-Index 教程
+sidebar_label: Z-Index
+hide_table_of_contents: true
+slug: zIndex.html
+---
+
+要在 Angular 中使用 `Konva` 控制形状的层叠顺序，可以使用 `ng2-konva`。
+
+这个演示展示了如何：
+1. 创建一组随机位置和颜色的圆形
+2. 处理拖拽事件以更新形状的视觉顺序
+3. 通过操作数组顺序保持正确的堆叠顺序
+4. 遵循 Angular 的变更检测机制进行状态管理
+
+**操作说明**：尝试拖拽一个圆形。开始拖拽时，该圆形会自动移动到顶层。这是通过操作数据中的圆形数组实现的，而不是手动更改 zIndex。
+
+```js live angular
+import { Component, OnInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        @for (item of items; track trackById($index, item)) {
+          <ko-circle
+            [config]="item"
+            (dragstart)="handleDragstart($event.event)"
+            (dragend)="handleDragend()"
+          ></ko-circle>
+        }
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  
+  public items: CircleConfig[] = [];
+  private dragItemId: string | null = null;
+
+  ngOnInit() {
+    this.generateItems();
+  }
+
+  private generateItems(): void {
+    const newItems: CircleConfig[] = [];
+    for (let i = 0; i < 10; i++) {
+      newItems.push({
+        x: Math.random() * this.configStage.width!,
+        y: Math.random() * this.configStage.height!,
+        radius: 50,
+        id: "node-" + i,
+        fill: this.getRandomColor(),
+        draggable: true
+      });
+    }
+    this.items = newItems;
+  }
+
+  private getRandomColor(): string {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  public handleDragstart(event: any): void {
+    // 保存正在拖拽的元素：
+    this.dragItemId = event.target.id();
+    // 通过重新排列 items 数组，将当前元素移到最上层：
+    const item = this.items.find(i => i.id === this.dragItemId);
+    if (item) {
+      const index = this.items.indexOf(item);
+      this.items.splice(index, 1);
+      this.items.push(item);
+    }
+  }
+
+  public handleDragend(): void {
+    this.dragItemId = null;
+  }
+
+  public trackById(index: number, item: CircleConfig): string {
+    return item.id as string;
+  }
+}
+```

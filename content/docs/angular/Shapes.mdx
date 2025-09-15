@@ -1,0 +1,76 @@
+---
+title: Angular Konva 形状教程
+sidebar_label: 形状
+hide_table_of_contents: true
+slug: Shapes.html
+---
+
+要在 Angular 中使用 `Konva` 创建形状，可以使用 `ng2-konva` 库的组件。
+
+有关属性和方法的完整列表，请参阅 [Konva API 参考](/api/Konva.html)。
+
+## 形状示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { TextConfig } from 'konva/lib/shapes/Text';
+import { RectConfig } from 'konva/lib/shapes/Rect';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+import { LineConfig } from 'konva/lib/shapes/Line';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-text [config]="configText"></ko-text>
+        <ko-rect [config]="configRect"></ko-rect>
+        <ko-circle [config]="configCircle"></ko-circle>
+        <ko-line [config]="configLine"></ko-line>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configText: TextConfig = {
+    text: '画布上的一些文字',
+    fontSize: 15
+  };
+  public configRect: RectConfig = {
+    x: 20,
+    y: 50,
+    width: 100,
+    height: 100,
+    fill: 'red',
+    shadowBlur: 10
+  };
+  public configCircle: CircleConfig = {
+    x: 200,
+    y: 100,
+    radius: 50,
+    fill: 'green'
+  };
+  public configLine: LineConfig = {
+    x: 20,
+    y: 200,
+    points: [0, 0, 100, 0, 100, 100],
+    tension: 0.5,
+    closed: true,
+    stroke: 'black',
+    fillLinearGradientStartPoint: { x: -50, y: -50 },
+    fillLinearGradientEndPoint: { x: 50, y: 50 },
+    fillLinearGradientColorStops: [0, 'red', 1, 'yellow']
+  };
+}
+```

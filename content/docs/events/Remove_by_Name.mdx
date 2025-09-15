@@ -49,6 +49,9 @@ button1.innerHTML = '移除第一个监听器';
 button1.style.position = 'absolute';
 button1.style.top = '0';
 button1.style.left = '0';
+button1.onclick = function() {
+  circle.off('click.event1');
+};
 document.getElementById('container').appendChild(button1);
 
 const button2 = document.createElement('button');
@@ -56,5 +59,8 @@ button2.innerHTML = '移除第二个监听器';
 button2.style.position = 'absolute';
 button2.style.top = '30px';
 button2.style.left = '0';
+button2.onclick = function() {
+  circle.off('click.event2');
+};
 document.getElementById('container').appendChild(button2);
 ```

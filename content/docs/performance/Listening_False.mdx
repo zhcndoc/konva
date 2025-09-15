@@ -84,21 +84,21 @@ layer.add(text);
 import { Stage, Layer, Circle, Text } from 'react-konva';
 import { useState } from 'react';
 
+// 生成圆圈数据
+const listeningCircles = Array.from({ length: 100 }, (_, i) => ({
+  id: i,
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+}));
+
+const nonListeningCircles = Array.from({ length: 1000 }, (_, i) => ({
+  id: i + 100,
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+}));
+
 const App = () => {
   const [hoveredId, setHoveredId] = useState(null);
-  
-  // 生成圆圈数据
-  const listeningCircles = Array.from({ length: 100 }, (_, i) => ({
-    id: i,
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-  }));
-  
-  const nonListeningCircles = Array.from({ length: 1000 }, (_, i) => ({
-    id: i + 100,
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-  }));
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -133,7 +133,7 @@ const App = () => {
         <Text
           x={10}
           y={10}
-          text="蓝色圆圈（100）有事件监听（悬停它们）\n绿色圆圈（1000）没有监听（更好的性能）"
+          text={"蓝色圆圈（100）有事件监听（悬停它们）\n绿色圆圈（1000）没有监听（更好的性能）"}
           fontSize={16}
           fill="black"
         />

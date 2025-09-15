@@ -81,7 +81,7 @@ imageObj.onload = () => {
   angleSlider.style.top = '45px';
   document.body.appendChild(angleSlider);
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -94,7 +94,7 @@ import useImage from 'use-image';
 const App = () => {
   const [angle, setAngle] = useState(0);
   const [power, setPower] = useState(3);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -212,7 +212,7 @@ const stageSize = {
 const sides = ref(6);
 const angle = ref(0);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {
