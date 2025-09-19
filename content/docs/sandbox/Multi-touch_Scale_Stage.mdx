@@ -92,13 +92,15 @@ stage.on('touchmove', function (e) {
       stage.stopDrag();
     }
 
+    const rect = stage.container().getBoundingClientRect();
+
     const p1 = {
-      x: touch1.clientX,
-      y: touch1.clientY,
+      x: touch1.clientX - rect.left,
+      y: touch1.clientY - rect.top,
     };
     const p2 = {
-      x: touch2.clientX,
-      y: touch2.clientY,
+      x: touch2.clientX - rect.left,
+      y: touch2.clientY - rect.top,
     };
 
     if (!lastCenter) {
