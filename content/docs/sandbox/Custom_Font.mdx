@@ -9,15 +9,15 @@ slug: Custom_Font.html
 
 If you want to use custom font for `Konva.Text` you just need to:
 1. Add font style to your page
-2. Set `fontFamily` attribute to required font-face.
+2. Set `fontFamily` attribute to required font-face **when font is loaded**
 
 But there is one important thing here. When you set font for DOM elements (like `div` or `span`) browsers will automatically update that elements when font is loaded. But it doesn't work the same for canvas text. You need to redraw canvas again.
 
 **Note:** For older browsers that don't support the native Font Loading API, you can use a width measurement approach - measure text width with fallback font, then periodically check if the custom font width differs (indicating it's loaded).
 
-### **Instructions**
+### Loading font
 
-Use this minimal async function that combines the native Font Loading API with a reliable width-measurement fallback and timing guard:
+You may use this async function that combines the native Font Loading API with a reliable width-measurement fallback and timing guard:
 
 ```javascript
 const loadedFonts = {};
