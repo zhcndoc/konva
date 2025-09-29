@@ -262,6 +262,8 @@ const config: Config = {
       // Optional: see doc section bellow
       contextualSearch: false,
 
+      askAi: 'MpZOQRawnahp',
+
       // Optional: Algolia search parameters
       searchParameters: {},
     },
