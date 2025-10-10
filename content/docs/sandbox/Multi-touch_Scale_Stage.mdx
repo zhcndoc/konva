@@ -254,6 +254,13 @@ const App = () => {
     setLastCenter(null);
   };
 
+  const handleDragEnd = (e) => {
+    setDragStopped(false);
+    // Ensure stage position is synchronized with our reactive state
+    const stage = e.target.getStage();
+    setStagePos({ x: stage.x(), y: stage.y() });
+  };
+
   return (
     <Stage
       width={window.innerWidth}
@@ -265,6 +272,7 @@ const App = () => {
       scaleY={stageScale.y}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onDragEnd={handleDragEnd}
     >
       <Layer>
         <RegularPolygon
