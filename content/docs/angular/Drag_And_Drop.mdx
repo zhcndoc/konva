@@ -1,0 +1,57 @@
+---
+title: Angular Konva Drag and Drop Tutorial
+sidebar_label: Drag and Drop
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
+---
+
+To implement drag and drop with `Konva` in Angular, you can use the `ng2-konva` library with the `draggable` property and event handlers.
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+## Drag and Drop Example
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle
+          [config]="configCircle"
+          (dragstart)="handleDragstart($event)"
+        ></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 70,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true,
+  };
+
+  public handleDragstart(event: any): void {
+    event.target.moveToTop();
+  }
+}
+```

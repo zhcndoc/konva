@@ -1,4 +1,0 @@
-[[headers]]
-  for = "/*" # Apply to all files
-  [headers.values]
-    Access-Control-Allow-Origin = "*"

@@ -1,0 +1,77 @@
+---
+title: Angular Konva Transformer Tutorial
+sidebar_label: Transformer
+hide_table_of_contents: true
+slug: Transformer.html
+---
+
+To use transformers with `Konva` in Angular, you can use the `ng2-konva` library with the `Transformer` component to enable shape selection and transformation.
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+## Transformer Example
+
+```js live angular
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { RectConfig } from 'konva/lib/shapes/Rect';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage" (click)="handleStageClick($event.event)">
+      <ko-layer>
+        <ko-rect
+          #rect
+          [config]="configRect"
+          (click)="handleShapeClick()"
+        ></ko-rect>
+        <ko-transformer #transformer></ko-transformer>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements AfterViewInit {
+  @ViewChild('rect') rect!: any;
+  @ViewChild('transformer') transformer!: any;
+
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configRect: RectConfig = {
+    x: 100,
+    y: 100,
+    width: 100,
+    height: 100,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true
+  };
+
+  ngAfterViewInit() {
+    this.transformer.getNode().nodes([this.rect.getNode()]);
+  }
+
+  public handleStageClick(event: any): void {
+    if (!event) {
+      // TODO: there is currently a bug in ng2-konva where the event is not passed in the click event
+      return;
+    }
+    if (event.target === event.target.getStage()) {
+      this.transformer.getNode().nodes([]);
+    }
+  }
+
+  public handleShapeClick(): void {
+    this.transformer.getNode().nodes([this.rect.getNode()]);
+  }
+}
+```

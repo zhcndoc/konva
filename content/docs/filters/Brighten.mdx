@@ -1,9 +1,11 @@
 ---
 title: HTML5 Canvas Brighten Image Filter Tutorial
-sidebar_label: Brighten
+sidebar_label: Brighten (Deprecated)
 hide_table_of_contents: true
 slug: Brighten.html
 ---
+
+**Note**: This filter is deprecated and will be removed in the future. Use the `Brightness` filter instead.
 
 To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
 function. Then apply filter with `filters()` function.
@@ -71,7 +73,7 @@ imageObj.onload = () => {
   document.body.appendChild(slider);
 };
 
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -83,7 +85,7 @@ import useImage from 'use-image';
 
 const App = () => {
   const [brightness, setBrightness] = useState(0.3);
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -166,7 +168,7 @@ const stageSize = {
 
 const brightness = ref(0.3);
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 watch(image, async (newImage) => {
   if (newImage) {

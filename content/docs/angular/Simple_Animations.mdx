@@ -1,0 +1,70 @@
+---
+title: Angular Konva Simple Animations Tutorial
+sidebar_label: Simple Animations
+hide_table_of_contents: true
+slug: Simple_Animations.html
+---
+
+To create simple animations with `Konva` in Angular, you can use the `ng2-konva` library with the `Animation` component or manual animation loops.
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+## Simple Animation Example
+
+```js live angular
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+import * as Konva from 'konva';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle #circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit, OnDestroy {
+  @ViewChild('circle') circle!: any;
+  private animation: any = null;
+
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 50,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4
+  };
+
+  ngAfterViewInit() {
+    const circle = this.circle.getNode();
+    this.animation = new Konva.Animation((frame: any) => {
+      const time = frame.time;
+      const x = 100 + Math.sin(time / 1000) * 100;
+      circle.x(x);
+    }, circle.getLayer());
+
+    this.animation.start();
+  }
+
+  ngOnDestroy() {
+    if (this.animation) {
+      this.animation.stop();
+    }
+  }
+}
+``` 

@@ -1,0 +1,107 @@
+---
+title: Node.js Setup
+sidebar_label: Setup
+hide_table_of_contents: true
+slug: nodejs-setup
+---
+
+Konva can be used in Node.js environments for server-side rendering, image processing, and canvas operations. This guide will help you set up Konva in your Node.js project.
+
+## Konva Version 10+
+
+Konva v10+ dropped default support for Node.js environment. You now need to explicitly import a canvas backend.
+
+### Installation
+
+Konva v10+ offers two backend options for Node.js:
+
+**Canvas Backend (Default)**:
+```bash
+npm install konva canvas
+```
+
+**Skia Backend (Better Performance)**:
+```bash
+npm install konva skia-canvas
+```
+
+
+### Usage
+
+Import Konva and your chosen backend:
+
+**Canvas Backend**:
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend';
+```
+
+**Skia Backend**:
+```js
+import Konva from 'konva';
+import 'konva/skia-backend';
+```
+
+**Complete Example**:
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend'; // or 'konva/skia-backend'
+
+// Create a stage
+const stage = new Konva.Stage({
+  container: 'container', // This will be ignored in Node.js
+  width: 800,
+  height: 600
+});
+
+// ... the rest of your konva code
+
+// Export as data URL
+const dataURL = stage.toDataURL();
+```
+
+
+## Konva Version ≤ 9 (Legacy)
+
+For older versions of Konva, the setup was simpler:
+
+### Installation
+
+```bash
+npm install konva
+```
+
+### Setup
+
+```js
+const Konva = require('konva');
+
+// Create a stage
+const stage = new Konva.Stage({
+  container: 'container', // This will be ignored in Node.js
+  width: 800,
+  height: 600
+});
+
+// ... the rest of your konva code
+
+// Export as data URL
+const dataURL = stage.toDataURL();
+```
+
+## Server-Side Rendering Considerations
+
+When using Konva in Node.js, keep in mind:
+
+1. **No DOM**: Konva doesn't require a DOM, making it perfect for server-side rendering
+2. **Canvas Export**: Use `stage.toDataURL()` to export your canvas as an image
+3. **Memory Management**: Be mindful of memory usage when processing multiple canvases
+4. **Performance**: Konva performs well in Node.js environments for batch operations
+5. **SSR Frameworks**: For Next.js and other SSR frameworks, consider using client-side only rendering for canvas content
+
+## Common Use Cases
+
+- **Image Generation**: Create dynamic images for emails, reports, or social media
+- **Chart Generation**: Generate charts and graphs server-side
+- **Document Processing**: Add graphics to PDFs or other documents
+- **Batch Processing**: Process multiple images or graphics in parallel

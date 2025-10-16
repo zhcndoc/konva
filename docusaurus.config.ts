@@ -146,6 +146,10 @@ const config: Config = {
               label: 'Svelte',
               to: '/docs/svelte/index.html',
             },
+            {
+              label: 'Angular',
+              to: '/docs/angular/index.html',
+            },
           ],
         },
         {
@@ -225,6 +229,10 @@ const config: Config = {
               label: 'Svelte',
               href: '/docs/svelte/index.html',
             },
+            {
+              label: 'Angular',
+              href: '/docs/angular/index.html',
+            },
           ],
         },
         {
@@ -253,6 +261,8 @@ const config: Config = {
       indexName: 'konvajs',
       // Optional: see doc section bellow
       contextualSearch: false,
+
+      askAi: 'MpZOQRawnahp',
 
       // Optional: Algolia search parameters
       searchParameters: {},

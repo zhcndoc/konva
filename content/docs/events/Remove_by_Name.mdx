@@ -53,6 +53,9 @@ button1.innerHTML = 'Remove first listener';
 button1.style.position = 'absolute';
 button1.style.top = '0';
 button1.style.left = '0';
+button1.onclick = function() {
+  circle.off('click.event1');
+};
 document.getElementById('container').appendChild(button1);
 
 const button2 = document.createElement('button');
@@ -60,5 +63,8 @@ button2.innerHTML = 'Remove second listener';
 button2.style.position = 'absolute';
 button2.style.top = '30px';
 button2.style.left = '0';
+button2.onclick = function() {
+  circle.off('click.event2');
+};
 document.getElementById('container').appendChild(button2);
 ```

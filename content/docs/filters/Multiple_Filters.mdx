@@ -126,7 +126,7 @@ imageObj.onload = () => {
     image.filters(activeFilters);
   }
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
 imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
@@ -178,7 +178,7 @@ const App = () => {
     contrast: { active: false, value: 50 },
   });
 
-  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
   useEffect(() => {
@@ -281,7 +281,7 @@ const stageSize = {
 };
 
 const imageNode = ref(null);
-const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 
 const filters = ref({
   blur: { active: false, value: 10 },

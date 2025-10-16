@@ -1,0 +1,184 @@
+---
+title: Getting started with Angular and Canvas via Konva
+sidebar_label: Angular
+hide_table_of_contents: true
+slug: index.html
+---
+
+## How to use canvas with Angular?
+
+`ng2-konva` is a JavaScript library for drawing complex canvas graphics using [Angular](https://angular.io/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+
+[Github Repo](https://github.com/konvajs/ng2-konva)
+
+It is an attempt to make [Angular](https://angular.io/) work with the HTML5 canvas library. The goal is to have a similar declarative markup as normal Angular and also a similar data-flow model.
+
+All `ng2-konva` components correspond to `Konva` components of the same name with the prefix 'ko-'. All the parameters available for `Konva` objects can be added as `config` in the property binding for corresponding `ng2-konva` components.
+
+Core shapes are: `ko-rect`, `ko-circle`, `ko-ellipse`, `ko-line`, `ko-image`, `ko-text`, `ko-text-path`, `ko-star`, `ko-label`, `ko-path`, `ko-regular-polygon`.
+Also you can create [custom shapes](/docs/angular/Custom_Shape.html).
+
+To get more info about `Konva` you can read [Konva Overview](/docs/overview.html).
+
+## Quick Start
+
+[Angular](https://angular.io/) version 20+ is required.
+
+### 1. Install via npm
+
+```bash
+npm install ng2-konva konva --save
+```
+
+### 2. Import and use ng2-konva
+
+```ts
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  // ... other config
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 50,
+    fill: 'red',
+  };
+}
+```
+
+
+### 3. Use in your components
+
+**Instructions**: Try to drag the stars. They will scale up while being dragged and return to normal size when released.
+
+```js live angular
+import { Component, OnInit, viewChild } from '@angular/core';
+import Konva from 'konva';
+import { StarConfig } from 'konva/lib/shapes/Star';
+import { StageConfig } from 'konva/lib/Stage';
+import {
+  CoreShapeComponent,
+  NgKonvaEventObject,
+  StageComponent,
+} from 'ng2-konva';
+
+type ExtStartConfig = StarConfig & { startScale: number };
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        @for (config of starConfigs; track trackConfig($index, config)) {
+          <ko-star
+            (dragstart)="handleDragstart($event.event)"
+            (dragend)="handleDragend($event.event)"
+            [config]="config"
+          />
+        }
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class StarExampleComponent implements OnInit {
+  public width = 800;
+  public height = 800;
+  public starConfigs: ExtStartConfig[] = [];
+
+  public configStage: Partial<StageConfig> = {
+    width: this.width,
+    height: this.height,
+  };
+
+  public handleDragstart(
+    event: NgKonvaEventObject<MouseEvent>,
+  ): void {
+    const shape = event.target;
+
+    this.starConfigs = this.starConfigs.map((conf) => {
+      if ( conf.name !== shape.name()) {
+        return conf;
+      }
+      return {
+        ...conf,
+        shadowOffsetX: 15,
+        shadowOffsetY: 15,
+        scaleX: conf.startScale * 1.2,
+        scaleY: conf.startScale * 1.2,
+      };
+    });
+    this.starConfigs = [
+      ...this.starConfigs.filter((conf) => conf.name !== shape.name()),
+      this.starConfigs.find((conf) => conf.name === shape.name())!,
+    ];
+  }
+
+  public handleDragend(
+    event: NgKonvaEventObject<MouseEvent>,
+  ): void {
+    const shape = event.target;
+    this.starConfigs = this.starConfigs.map((conf) => {
+      if (conf.name !== shape.name()) {
+        return conf;
+      }
+      return {
+        ...conf,
+        x: shape.x(),
+        y: shape.y(),
+        scaleX: conf.startScale,
+        scaleY: conf.startScale,
+      };
+    });
+  }
+
+  trackConfig(index: number, config: ExtStartConfig): string | undefined {
+    return config.name;
+  }
+
+  public ngOnInit(): void {
+    for (let n = 0; n < 100; n++) {
+      const scale = Math.random();
+      this.starConfigs.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        rotation: Math.random() * 180,
+        numPoints: 5,
+        innerRadius: 30,
+        outerRadius: 50,
+        fill: '#89b717',
+        opacity: 0.8,
+        draggable: true,
+        scaleX: scale,
+        scaleY: scale,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffsetX: 5,
+        shadowOffsetY: 5,
+        shadowOpacity: 0.6,
+        startScale: scale,
+        name: n.toString(),
+      });
+    }
+  }
+}
+```
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html). 
