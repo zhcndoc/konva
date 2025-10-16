@@ -1,24 +1,14 @@
 ---
-title: How to draw custom canvas shape with Svelte?
+title: How to draw a custom canvas shape with Svelte?
 sidebar_label: Custom Shape
 hide_table_of_contents: true
 slug: Custom_Shape.html
 ---
 
-To create a custom shape with `svelte-konva`, we should use `Shape` component.
+To create a custom shape with `svelte-konva`, you should use the `Shape` component.
 
-When creating a custom shape, we need to define a drawing function that is passed a Konva.Canvas renderer.
+When creating a custom shape, you need to define a drawing function that is passed a `Konva.Canvas` renderer.
 
-We can use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handles filling, stroking, and applying shadows.
+You can then use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handles filling, stroking, and applying shadows.
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/custom_shape?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/custom_shape?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

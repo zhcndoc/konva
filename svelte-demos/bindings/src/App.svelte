@@ -1,50 +1,55 @@
 <script>
+    import { onMount } from "svelte";
     import { Stage, Layer, Ring } from "svelte-konva";
 
-    let yellowRingConfig = {
+    const stageConfig = $state({
+        width: 0,
+        height: 0,
+    });
+
+    const yellowRingConfig = $state({
         x: 150,
         y: 150,
         innerRadius: 80,
         outerRadius: 120,
         fill: "yellow",
         draggable: true,
-    };
+    });
 
-    let redRingConfig = {
+    const redRingConfig = $state({
         x: 350,
         y: 150,
         innerRadius: 80,
         outerRadius: 120,
         fill: "red",
         draggable: true,
-    };
+    });
 
-    const greenRingConfig = {
+    const greenRingConfig = $state({
         x: 250,
         y: 350,
         innerRadius: 80,
         outerRadius: 120,
         fill: "green",
         draggable: true,
-    };
+    });
 
-    let redRingConfigActual = {
-        x: redRingConfig.x,
-        y: redRingConfig.y,
-    };
-
-    function getActualConfigValues() {
-        redRingConfigActual.x = redRingConfig.x;
-        redRingConfigActual.y = redRingConfig.y;
-    }
+    onMount(() => {
+        stageConfig.width = window.innerWidth;
+        stageConfig.height = window.innerHeight;
+    });
 </script>
 
 <div>
-    <Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+    <Stage {...stageConfig}>
         <Layer>
-            <Ring bind:config={yellowRingConfig} />
-            <Ring config={redRingConfig} on:dragend={getActualConfigValues} />
-            <Ring config={greenRingConfig} staticConfig />
+            <Ring
+                {...yellowRingConfig}
+                bind:x={yellowRingConfig.x}
+                bind:y={yellowRingConfig.y}
+            />
+            <Ring {...redRingConfig} />
+            <Ring {...greenRingConfig} staticConfig />
         </Layer>
     </Stage>
 
@@ -53,8 +58,7 @@
             <b>yellow ring (bound):</b> x: {yellowRingConfig.x}, y: {yellowRingConfig.y}
         </p>
         <p>
-            <b>red ring (not bound):</b> reactive x: {redRingConfig.x}, reactive
-            y: {redRingConfig.y}, actual x: {redRingConfigActual.x}, actual y: {redRingConfigActual.y}
+            <b>red ring (not bound):</b> x: {redRingConfig.x}, y: {redRingConfig.y}
         </p>
         <p>
             <b>green ring (staticConfig):</b> x: {greenRingConfig.x}, y: {greenRingConfig.y}

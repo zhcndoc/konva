@@ -7,15 +7,9 @@ slug: index.html
 
 ## How to use canvas with Svelte?
 
-`svelte-konva` is a JavaScript library for drawing complex canvas graphics using Svelte.
+[svelte-konva](https://github.com/konvajs/svelte-konva) is a JavaScript library for drawing complex canvas graphics using Svelte. It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/). All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as individual props for corresponding `svalte-konva` components.
 
-GitHub: https://github.com/konvajs/svelte-konva
-
-It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
-
-All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as `config` prop for corresponding `svalte-konva` components.
-
-To get more info about `Konva` you can read [Konva Overview](https://konvajs.org/docs/overview.html).
+In order to use svelte-konva a basic understanding of `Konva` is required. You can consult the [Konva overview](https://konvajs.org/docs/overview.html) for that.
 
 ## Quick Start
 
@@ -32,21 +26,11 @@ npm i svelte-konva konva
   import { Stage, Layer, Rect } from 'svelte-konva';
 </script>
 
-<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
   <Layer>
-    <Rect config={{ x: 100, y: 100, width: 400, height: 200, fill: 'blue' }} />
+    <Rect x={100} y={100} width={400} height={200} fill="blue" />
   </Layer>
 </Stage>
 ```
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/basic_demo?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/basic_demo?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

@@ -1,24 +1,19 @@
 <script>
     import { Stage, Layer, Text } from "svelte-konva";
 
-    let isDragging = false;
-
-    let config = {
-        text: "Draggable Text",
-        x: 50,
-        y: 50,
-        draggable: true,
-    };
-
-    $: config.fill = isDragging ? "green" : "black";
+    let isDragging = $state(false);
 </script>
 
-<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
         <Text
-            {config}
-            on:dragstart={() => (isDragging = true)}
-            on:dragend={() => (isDragging = false)}
+            text="Draggable Text"
+            x={50}
+            y={50}
+            fill={isDragging ? "green" : "black"}
+            draggable
+            ondragstart={() => (isDragging = true)}
+            ondragend={() => (isDragging = false)}
         />
     </Layer>
 </Stage>

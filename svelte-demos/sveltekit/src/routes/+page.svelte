@@ -2,17 +2,10 @@
 	import Counter from "./Counter.svelte";
 	import welcome from "$lib/images/svelte-welcome.webp";
 	import welcome_fallback from "$lib/images/svelte-welcome.png";
-	import type KonvaCanvas from "$lib/canvas/KonvaCanvas.svelte";
-	import { onMount } from "svelte";
+	import KonvaCanvas from "$lib/canvas/KonvaCanvas.svelte";
+  	import { browser } from "$app/environment";
 
-	let count = 10;
-
-	let MyCanvas: typeof KonvaCanvas;
-
-	onMount(async () => {
-		// Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
-		MyCanvas = (await import("$lib/canvas/KonvaCanvas.svelte")).default;
-	});
+	let count = $state(10);
 </script>
 
 <svelte:head>
@@ -41,8 +34,9 @@
 
 	<Counter bind:count />
 
-	<!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block -->
-	<svelte:component this={MyCanvas} starCount={count} />
+	{#if browser}
+		<KonvaCanvas starCount={count} />
+	{/if}
 </section>
 
 <style>
