@@ -33,14 +33,15 @@ With `svelte-konva` you can easily listen to user input events (`click`, `dblcli
 For the full list of events take a look into [on() method documentation](/api/Konva.Node.html#on).
 
 ## Bubbling
+
 Konva events bubble up by default. To prevent this you can set the `cancelBubble` property of the Konva event to `true`:
 
 ```js
-  function handleClick(e) {
-    // Cancel bubbling
-    e.cancelBubble = true;
-  }
+function handleClick(e) {
+  // Cancel bubbling
+  e.cancelBubble = true;
+}
 ```
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/events?file=/src/App.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/events?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 ```

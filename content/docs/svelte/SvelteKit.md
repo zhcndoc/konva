@@ -29,15 +29,15 @@ _MyCanvas.svelte_
 
 ```html
 <script>
-  import { Stage, Layer, Rect } from 'svelte-konva';
-  import OtherComponentUsingSvelteKonva from './OtherComponentUsingSvelteKonva.svelte';
+  import { Stage, Layer, Rect } from "svelte-konva";
+  import OtherComponentUsingSvelteKonva from "./OtherComponentUsingSvelteKonva.svelte";
 
   const rectangleConfig = {
     /*...*/
   };
 </script>
 
-<Stage width={1000} height={1000}>
+<Stage width="{1000}" height="{1000}">
   <Layer>
     <Rect {...rectangleConfig} />
 
@@ -52,7 +52,7 @@ _+page.svelte_
 
 ```html
 <script>
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   // typescript:
   // import type MyCanvasComponent from '$lib/MyCanvas.svelte';
 
@@ -62,7 +62,7 @@ _+page.svelte_
 
   onMount(async () => {
     // Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
-    MyCanvas = (await import('$lib/MyCanvas.svelte')).default;
+    MyCanvas = (await import("$lib/MyCanvas.svelte")).default;
   });
 </script>
 
@@ -71,7 +71,7 @@ _+page.svelte_
 
   <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
   {#if MyCanvas}
-    <MyCanvas someProp="SomeString" />
+  <MyCanvas someProp="SomeString" />
   {/if}
 </div>
 ```
@@ -95,14 +95,13 @@ _+page.svelte_
 
   <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
   {#if MyCanvas}
-    <MyCanvas someProp="SomeString" />
+  <MyCanvas someProp="SomeString" />
   {/if}
 </div>
 ```
 
 Currently vite-plugin-iso-import cannot automatically fix intellisense inside .svelte files with TypeScript. Consult the [README](https://www.npmjs.com/package/vite-plugin-iso-import) for a workaround to this problem. Or have a look at the demo below.
 
-
 Instructions: Each page available in this SvelteKit App is rendered differently containing a `svelte-konva` canvas. Both dynamic import approaches are shown. Dynamic loading using `onMount()` on the prerendered page and dynamic loading with [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) on the SSR page. Try to inspect the network requests made on each navigation to understand the different approaches of rendering in SvelteKit.
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
