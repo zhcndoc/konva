@@ -1,9 +1,12 @@
 <script lang="ts">
+	import { browser } from "$app/environment";
 	import Counter from "../Counter.svelte";
-	import KonvaCanvas from "$lib/canvas/KonvaCanvas.svelte?client"; // Client-side only import
+	import type KonvaCanvas from "$lib/canvas/KonvaCanvas.svelte";
 
-	// Set component variable to null if page is rendered in SSR, otherwise use client-side only import
-	let MyCanvas = import.meta.env.SSR ? null : KonvaCanvas;
+	// Only import the component on the client-side (browser = true) otherwise return an empty promise
+	const MyCanvas: Promise<typeof KonvaCanvas> = browser
+		? import("$lib/canvas/KonvaCanvas.svelte").then((module) => module.default)
+		: new Promise(() => {});
 
 	let count = $state(10);
 </script>
@@ -27,10 +30,14 @@
 
 	<Counter bind:count />
 
-	<!-- Use your dynamically imported svelte-konva canvas component once it becomes defined -->
-	{#if MyCanvas}
-		<MyCanvas starCount={count} />
-	{/if}
+	<!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
+	{#await MyCanvas}
+		<p>Loading...</p>
+	{:then Component}
+		<Component starCount={count} />
+	{:catch error}
+		<p>Something went wrong: {error.message}</p>
+	{/await}
 </section>
 
 <style>

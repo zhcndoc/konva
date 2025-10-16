@@ -57,7 +57,7 @@
 
         if (!item) return;
 
-        item.component.handle.moveToTop();
+        item.component.node.moveToTop();
     };
 
     let handleDragEnd = (e: KonvaDragTransformEvent) => {
