@@ -31,7 +31,7 @@
         dragItemId = e.target.id();
         // move current element to the top:
         const item = list.find((i) => i.id === dragItemId);
-        item.component.handle.moveToTop();
+        item.component.node.moveToTop();
     };
     let handleDragEnd = () => {
         dragItemId = null;

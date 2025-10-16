@@ -7,7 +7,7 @@ slug: Custom_Shape.html
 
 To create a custom shape with `svelte-konva`, you should use the `Shape` component.
 
-When creating a custom shape, you need to define a drawing function that is passed a Konva.Canvas renderer.
+When creating a custom shape, you need to define a drawing function that is passed a `Konva.Canvas` renderer.
 
 You can then use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handles filling, stroking, and applying shadows.
 

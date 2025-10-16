@@ -22,9 +22,9 @@
     $effect(() => {
         if (group) {
             if (shouldCache) {
-                group.handle.cache();
+                group.node.cache();
             } else {
-                group.handle.clearCache();
+                group.node.clearCache();
             }
         }
     });

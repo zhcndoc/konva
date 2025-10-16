@@ -5,7 +5,7 @@ hide_table_of_contents: true
 slug: Events.html
 ---
 
-With `svelte-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+With `svelte-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`). For this you can pass a callback function to the prop named `on<Konva event name>` which is then called by svelte-konva every time the event is fired. You can also access the Konva event payload object inside the callback function as its argument.
 
 ```js
 <script>

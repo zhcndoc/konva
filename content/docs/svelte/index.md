@@ -7,15 +7,9 @@ slug: index.html
 
 ## How to use canvas with Svelte?
 
-`svelte-konva` is a JavaScript library for drawing complex canvas graphics using Svelte.
+[svelte-konva](https://github.com/konvajs/svelte-konva) is a JavaScript library for drawing complex canvas graphics using Svelte. It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/). All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as individual props for corresponding `svalte-konva` components.
 
-GitHub: https://github.com/konvajs/svelte-konva
-
-It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
-
-All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as `config` prop for corresponding `svalte-konva` components.
-
-To get more info about `Konva` you can read [Konva Overview](https://konvajs.org/docs/overview.html).
+In order to use svelte-konva a basic understanding of `Konva` is required. You can consult the [Konva overview](https://konvajs.org/docs/overview.html) for that.
 
 ## Quick Start
 

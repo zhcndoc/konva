@@ -72,21 +72,21 @@
         if (!transformer) return;
 
         // here we need to manually attach or detach Transformer node
-        const stage = transformer.handle.getStage();
+        const stage = transformer.node.getStage();
 
         const selectedNode = stage.findOne("." + selectedShapeName);
 
         // do nothing if selected node is already attached
-        if (selectedNode === transformer.handle.node()) {
+        if (selectedNode === transformer.node.node()) {
             return;
         }
 
         if (selectedNode) {
             // attach to another node
-            transformer.handle.nodes([selectedNode]);
+            transformer.node.nodes([selectedNode]);
         } else {
             // remove transformer
-            transformer.handle.nodes([]);
+            transformer.node.nodes([]);
         }
     }
 </script>

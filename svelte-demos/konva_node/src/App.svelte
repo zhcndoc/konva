@@ -19,8 +19,8 @@
     }
 
     function handleStageClick() {
-        // Now access the konva node using the handle property
-        pulseShape(circle.handle);
+        // Now access the konva node using the node property
+        pulseShape(circle.node);
     }
 
     function handleCircleClick(e) {

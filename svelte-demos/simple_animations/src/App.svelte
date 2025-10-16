@@ -1,7 +1,7 @@
 <script>
     import { Stage, Layer, Rect, RegularPolygon } from "svelte-konva";
     import Konva from "konva";
-    import { tick, onMount } from "svelte";
+    import { onMount } from "svelte";
 
     let stage;
     let rect;
@@ -11,18 +11,15 @@
         const amplitude = 100;
         const period = 5000; // ms
 
-        // Wait for all handles to become defined
-        await tick();
-
-        const centerX = stage.handle().getWidth() / 2;
+        const centerX = stage.node.getWidth() / 2;
 
         // example of Konva.Animation
         const anim = new Konva.Animation(function (frame) {
-            hexagon.handle.setX(
+            hexagon.node.setX(
                 amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
                     centerX,
             );
-        }, hexagon.handle.getLayer());
+        }, hexagon.node.getLayer());
 
         anim.start();
     });

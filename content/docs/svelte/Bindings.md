@@ -15,7 +15,7 @@ In most cases this default behavior of svelte-konva listening to the `dragend` a
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
 
-  // x and y values will not be synced with actual position after dragend
+  // x and y values will not be synced with actual position after dragend even if bound
   const config = { x: 100, y: 100, width: 400, height: 200, fill: 'blue', draggable: true };
 </script>
 

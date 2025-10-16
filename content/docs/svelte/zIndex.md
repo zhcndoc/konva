@@ -5,7 +5,7 @@ hide_table_of_contents: true
 slug: zIndex.html
 ---
 
-When working with other Konva-Wrappers like `vue-konva` or `react-konva` you might be used to the data order representing the drawing order of the components on the canvas. In svelte-konva such a functionality is currently not implemented as it is not possible to implement in Svelte 3 right now.
+When working with other Konva-Wrappers like `vue-konva` or `react-konva` you might be used to the data order representing the drawing order of the components on the canvas. In svelte-konva such a functionality is currently not implemented.
 
 Instead you should use the Konva native functions to perform dynamic reordering of components on the canvas like `node.zIndex(5)`, `node.moveToTop()`, etc. [Tutorial](/docs/groups_and_layers/Layering.html).
 
