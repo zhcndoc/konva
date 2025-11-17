@@ -5,17 +5,17 @@ hide_table_of_contents: true
 slug: Bindings.html
 ---
 
-Svelte-Konva is able to keep certain props in sync with the internal state of Konva (position, rotation, scale, ...) after `dragend` and `transformend` events in case the prop is bound.
+Svelte-Konva 能够在 `dragend` 和 `transformend` 事件后，将某些属性与 Konva 的内部状态（位置、旋转、缩放等）保持同步，前提是该属性被绑定。
 
 ### 禁用自动同步
 
-In most cases this default behavior of svelte-konva listening to the `dragend` and `transformend` events is what you want. In some cases this might not be beneficial though (mainly for performance reasons). In such cases you can opt out of this behavior by passing the `staticConfig` prop to the component, in which case svelte-konva will not listen to those events and update the bound props:
+在大多数情况下，svelte-konva 默认监听 `dragend` 和 `transformend` 事件的行为是你想要的。但在某些情况下（主要是出于性能考虑），这种行为可能并不利于你。在这种情况下，你可以通过向组件传递 `staticConfig` 属性来选择退出该行为。这样 svelte-konva 将不会监听这些事件，也不会更新绑定的属性：
 
 ```
 <script>
   import { Stage, Layer, Rect } from 'svelte-konva';
 
-  // x and y values will not be synced with actual position after dragend even if bound
+  // 即使绑定了，x 和 y 值在 dragend 后也不会与实际位置同步
   const config = { x: 100, y: 100, width: 400, height: 200, fill: 'blue', draggable: true };
 </script>
 
@@ -26,8 +26,8 @@ In most cases this default behavior of svelte-konva listening to the `dragend` a
 </Stage>
 ```
 
-Keep in mind that svelte-konva will evaluate the `staticConfig` prop only once during component initialization. Changing the `staticConfig` prop after the component has been initialized will not have any effect.
+请记住，svelte-konva 只会在组件初始化时评估一次 `staticConfig` 属性。组件初始化后更改 `staticConfig` 属性不会产生任何效果。
 
-Drag the different rings and observe the reactive changes triggered by Svelte. Note that only the bound ring (yellow) changes the coordinates on `dragend` automatically.
+拖动不同的环，并观察由 Svelte 触发的响应式变化。注意，只有绑定的环（黄色）会在 `dragend` 时自动更改坐标。
 
 <iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/bindings?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
