@@ -13,14 +13,14 @@ slug: zIndex.html
 
 svelte-konva 会遵循组件的初始顺序来绘制形状在画布上。这在你不需要在运行时动态改变顺序的情况下工作良好。当使用 Svelte 的 if-blocks 来显示/隐藏某些组件时，你应该了解以下警告。考虑以下示例：
 
-```js
-<Stage bind:config={stageConfig}>
+```
+<Stage {...stageConfig}>
     <Layer>
-        <Rect bind:config={rectConfig} />
+        <Rect {...rectConfig} />
         {#if showRing}
-            <Ring bind:config={ringConfig}/>
+            <Ring {...ringConfig} />
         {/if}
-        <Circle bind:config={circleConfig} />
+        <Circle {...circleConfig} />
     </Layer>
 </Stage>
 ```

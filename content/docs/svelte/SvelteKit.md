@@ -5,21 +5,30 @@ hide_table_of_contents: true
 slug: SvelteKit.html
 ---
 
-通常情况下，svelte-konva 是一个仅限客户端的库。在使用 SvelteKit 时，如果在预渲染和服务器端渲染 (SSR) 组件中使用 svelte-konva/Konva 功能，需要特别小心。预渲染和 SSR 在 Node.js 环境中发生，这使得 Konva 需要 [canvas](https://www.npmjs.com/package/canvas) 库，因为 Konva 也可以在 Node.js 环境中使用。当你在这种情况下使用 svelte-konva 时，你可能会遇到以下错误：
+一般情况下，svelte-konva 是一个仅限客户端的库。在使用 SvelteKit 时，如果在预渲染和服务器端渲染（SSR）组件中使用 svelte-konva/Konva 功能，需要特别小心。预渲染和 SSR 在 Node.js 环境中进行。如果你在这种环境下使用任何 svelte-konva 功能，服务器端会抛出错误：
 
-> 错误：无法找到模块 'canvas'
+> 错误：svelte-konva：该库只能在浏览器环境中使用，但当前在服务器环境中使用。
 
 有多种解决这个问题的方法：
 
-### 安装 canvas：
+### 将 svelte-konva 组件包裹在浏览器环境检查中
 
-最简单的解决方案是安装 canvas：
+一个粗略的解决方案是将所有 svelte-konva 代码包裹在 SvelteKit 的浏览器环境检查中。只建议在项目较小时使用，因为大量 if 块会很快变得混乱。对于较大的项目，请使用下面介绍的动态导入方法。
 
-```npm
-npm i canvas
+```html
+<script>
+  import { browser } from "$app/environment";
+  import { Stage, Layer, Rect } from "svelte-konva";
+</script>
+
+{#if browser}
+<Stage width="{1000}" height="{1000}">
+  <Layer>
+    <Rect x="{100}" y="{100}" width="{400}" height="{200}" fill="blue" />
+  </Layer>
+</Stage>
+{/if}
 ```
-
-这将满足 Konva 的 canvas 依赖，因此你可以在预渲染和 SSR 的 SvelteKit 页面中使用 svelte-konva 组件。不过，这个解决方案有点麻烦，因为你现在安装了一个你并不真正需要的软件包，这会增加不必要的开销。替代地，可以使用以下解决方案之一：
 
 ### 动态导入你的 svelte-konva 画布：
 
@@ -27,34 +36,32 @@ npm i canvas
 
 _MyCanvas.svelte_
 
-```js
+```html
 <script>
-  import { Stage, Layer, Rect } from 'svelte-konva';
-  import OtherComponentUsingSvelteKonva from './OtherComponentUsingSvelteKonva.svelte';
+  import { Stage, Layer, Rect } from "svelte-konva";
+  import OtherComponentUsingSvelteKonva from "./OtherComponentUsingSvelteKonva.svelte";
 
   const rectangleConfig = {
     /*...*/
   };
 </script>
 
-<Stage config={{ width: 1000, height: 1000 }}>
+<Stage width="{1000}" height="{1000}">
   <Layer>
-    <Rect bind:config={rectangleConfig} />
+    <Rect {...rectangleConfig} />
 
     <OtherComponentUsingSvelteKonva />
   </Layer>
 </Stage>
 ```
 
-要在 SvelteKit 的预渲染/SSR 页面中使用此组件，您可以在 `onMount()` 中动态导入它，并使用 `<svelte:component>` 渲染它：
+要在 SvelteKit 的预渲染/SSR 页面中使用此组件，您可以在 `onMount()` 中动态导入它，并在定义后使用 `<svelte:component>` 渲染：
 
 _+page.svelte_
 
-```js
+```html
 <script>
-  import { onMount } from 'svelte';
-  // typescript:
-  // import type MyCanvasComponent from '$lib/MyCanvas.svelte';
+  import { browser } from "$app/environment";
 
   let MyCanvas;
   // typescript:

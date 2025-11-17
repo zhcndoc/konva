@@ -76,18 +76,18 @@ ratio = 0;
 }
 circle.fillLinearGradientColorStops([
 0,
-'红色',
+'red',
 ratio,
-'黄色',
+'yellow',
 1,
-'蓝色',
+'blue',
 ]);
 }, layer);
 anim.start();
 setTimeout(() => anim.stop(), 2000);
 });
 
-````  
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -130,11 +130,11 @@ const App = () => {
       }
       circle.fillLinearGradientColorStops([
         0,
-        '红色',
+        'red',
         ratio,
-        '黄色',
+        'yellow',
         1,
-        '蓝色',
+        'blue',
       ]);
     }, circle.getLayer());
     anim.start();
@@ -151,8 +151,8 @@ const App = () => {
           radius={70}
           fillLinearGradientStartPoint={{ x: -50, y: -50 }}
           fillLinearGradientEndPoint={{ x: 50, y: 50 }}
-          fillLinearGradientColorStops={[0, '红色', 1, '黄色']}
-          stroke="黑色"
+          fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+          stroke="black"
           strokeWidth={4}
           draggable
           onClick={handleClick}
@@ -164,8 +164,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -197,8 +196,8 @@ const circleConfig = {
   radius: 70,
   fillLinearGradientStartPoint: { x: -50, y: -50 },
   fillLinearGradientEndPoint: { x: 50, y: 50 },
-  fillLinearGradientColorStops: [0, '红色', 1, '黄色'],
-  stroke: '黑色',
+  fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
+  stroke: 'black',
   strokeWidth: 4,
   draggable: true
 };
@@ -239,11 +238,11 @@ const handleClick = () => {
     }
     circle.fillLinearGradientColorStops([
       0,
-      '红色',
+      'red',
       ratio,
-      '黄色',
+      'yellow',
       1,
-      '蓝色',
+      'blue',
     ]);
   }, layerRef.value.getNode());
   anim.start();

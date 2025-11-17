@@ -1,58 +1,55 @@
 <script>
+    import { onMount } from "svelte";
     import { Stage, Layer, Group, Star } from "svelte-konva";
 
-    let group;
-    let shouldCache = false;
+    let group = $state();
+    let shouldCache = $state(false);
 
-    const list = [];
+    const list = $state([]);
 
-    for (let n = 0; n < 300; n++) {
-        list.push({
-            id: n.toString(),
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            rotation: Math.random() * 180,
-            scale: Math.random(),
-        });
-    }
-
-    $: if (group) {
-        if (shouldCache) {
-            group.cache();
-        } else {
-            group.clearCache();
+    onMount(() => {
+        for (let n = 0; n < 500; n++) {
+            list.push({
+                id: n.toString(),
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                rotation: Math.random() * 180,
+                scale: Math.random(),
+            });
         }
-    }
+    });
+
+    $effect(() => {
+        if (group) {
+            if (shouldCache) {
+                group.node.cache();
+            } else {
+                group.node.clearCache();
+            }
+        }
+    });
 </script>
 
 <div>
-    <Stage
-        config={{
-            width: window.innerWidth,
-            height: window.innerHeight,
-            draggable: true,
-        }}
-    >
+    <Stage width={window.innerWidth} height={window.innerHeight} draggable>
         <Layer>
-            <Group bind:handle={group}>
+            <Group bind:this={group}>
                 {#each list as item}
                     <Star
-                        config={{
-                            x: item.x,
-                            y: item.y,
-                            rotation: item.rotation,
-                            id: item.id,
-                            numPoints: 5,
-                            innerRadius: 30,
-                            outerRadius: 50,
-                            fill: "#89b717",
-                            opacity: 0.8,
-                            shadowColor: "black",
-                            shadowBlur: 10,
-                            shadowOpacity: 0.6,
-                            scaleX: item.scale,
-                            scaleY: item.scale,
-                        }}
+                        x={item.x}
+                        y={item.y}
+                        rotation={item.rotation}
+                        id={item.id}
+                        numPoints={5}
+                        innerRadius={30}
+                        outerRadius={50}
+                        fill="#89b717"
+                        opacity={0.8}
+                        shadowColor="black"
+                        shadowBlur={10}
+                        shadowOpacity={0.6}
+                        scaleX={item.scale}
+                        scaleY={item.scale}
                     />
                 {/each}
             </Group>

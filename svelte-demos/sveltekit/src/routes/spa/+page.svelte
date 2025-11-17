@@ -2,12 +2,12 @@
     import Counter from "../Counter.svelte";
     import MyCanvas from "$lib/canvas/KonvaCanvas.svelte"; // Normal import
 
-    let count = 10;
+    let count = $state(10);
 </script>
 
 <svelte:head>
-    <title>SSR</title>
-    <meta name="description" content="svelte-konva in SSR pages" />
+    <title>SPA</title>
+    <meta name="description" content="svelte-konva in SPA pages" />
 </svelte:head>
 
 <section>

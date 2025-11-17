@@ -92,13 +92,15 @@ stage.on('touchmove', function (e) {
       stage.stopDrag();
     }
 
+    const rect = stage.container().getBoundingClientRect();
+
     const p1 = {
-      x: touch1.clientX,
-      y: touch1.clientY,
+      x: touch1.clientX - rect.left,
+      y: touch1.clientY - rect.top,
     };
     const p2 = {
-      x: touch2.clientX,
-      y: touch2.clientY,
+      x: touch2.clientX - rect.left,
+      y: touch2.clientY - rect.top,
     };
 
     if (!lastCenter) {
@@ -199,13 +201,15 @@ const App = () => {
         setDragStopped(true);
       }
 
+      const rect = stage.container().getBoundingClientRect();
+
       const p1 = {
-        x: touch1.clientX,
-        y: touch1.clientY,
+        x: touch1.clientX - rect.left,
+        y: touch1.clientY - rect.top,
       };
       const p2 = {
-        x: touch2.clientX,
-        y: touch2.clientY,
+        x: touch2.clientX - rect.left,
+        y: touch2.clientY - rect.top,
       };
 
       if (!lastCenter) {
@@ -250,6 +254,13 @@ const App = () => {
     setLastCenter(null);
   };
 
+  const handleDragEnd = (e) => {
+    setDragStopped(false);
+    // Ensure stage position is synchronized with our reactive state
+    const stage = e.target.getStage();
+    setStagePos({ x: stage.x(), y: stage.y() });
+  };
+
   return (
     <Stage
       width={window.innerWidth}
@@ -261,6 +272,7 @@ const App = () => {
       scaleY={stageScale.y}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onDragEnd={handleDragEnd}
     >
       <Layer>
         <RegularPolygon
@@ -379,13 +391,15 @@ const handleTouchMove = (e) => {
       dragStopped.value = true;
     }
 
+    const rect = stage.container().getBoundingClientRect();
+
     const p1 = {
-      x: touch1.clientX,
-      y: touch1.clientY,
+      x: touch1.clientX - rect.left,
+      y: touch1.clientY - rect.top,
     };
     const p2 = {
-      x: touch2.clientX,
-      y: touch2.clientY,
+      x: touch2.clientX - rect.left,
+      y: touch2.clientY - rect.top,
     };
 
     if (!lastCenter.value) {

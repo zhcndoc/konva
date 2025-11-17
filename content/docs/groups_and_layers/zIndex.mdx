@@ -54,9 +54,9 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
@@ -66,19 +66,19 @@ const group1 = new Konva.Group();
 layer.add(group1);
 
 const blackRect = new Konva.Rect({
-x: 10,
-y: 10,
-width: 100,
-height: 100,
-fill: 'black',
+  x: 10,
+  y: 10,
+  width: 100,
+  height: 100,
+  fill: 'black',
 });
 group1.add(blackRect);
 
 const redCircle = new Konva.Circle({
-x: 80,
-y: 80,
-radius: 40,
-fill: 'red',
+  x: 80,
+  y: 80,
+  radius: 40,
+  fill: 'red',
 });
 group1.add(redCircle);
 
@@ -87,11 +87,11 @@ const group2 = new Konva.Group();
 layer.add(group2);
 
 const greenRect = new Konva.Rect({
-x: 50,
-y: 50,
-width: 100,
-height: 100,
-fill: 'green',
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: 'green',
 });
 group2.add(greenRect);
 
@@ -101,19 +101,18 @@ stage.add(layer);
 const btn1 = document.createElement('button');
 btn1.textContent = '将红色圆圈移动到 group2';
 btn1.addEventListener('click', () => {
-redCircle.moveTo(group2);
+  redCircle.moveTo(group2);
 });
 
 const btn2 = document.createElement('button');
 btn2.textContent = '将红色圆圈移动到 group1';
 btn2.addEventListener('click', () => {
-redCircle.moveTo(group1);
+  redCircle.moveTo(group1);
 });
 
 document.body.appendChild(btn1);
 document.body.appendChild(btn2);
-
-````
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -174,8 +173,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -243,4 +241,3 @@ const moveToGroup1 = () => {
 ```
   </TabItem>
 </Tabs>
-```

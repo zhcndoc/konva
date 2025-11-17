@@ -13,7 +13,7 @@ slug: Shapes.html
 想了解更多关于 Konva 的信息，可以阅读 [Konva 概览](/docs/overview.html)。
 
 <iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/shapes?file=/src/App.svelte" 
+  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/shapes?file=/src/App.svelte" 
   style={{
     width: "100%",
     height: "800px",

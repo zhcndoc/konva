@@ -5,7 +5,7 @@ hide_table_of_contents: true
 slug: Resize_Snaps.html
 ---
 
-在某些应用程序中，您可能希望在一些特定值附近进行调整大小吸附。吸附使形状在给定值附近“粘性”，并像四舍五入一样工作。
+在某些应用程序中，您可能希望在一些特定值附近进行调整大小吸附。吸附使形状在给定值附近“粘性”，并像四舍五入一样工作。  
 您可以使用 [anchorDragBoundFunc](https://konvajs.org/api/Konva.Transformer.html#anchorDragBoundFunc__anchor) 方法控制锚点位置的行为。
 
 ```js
@@ -32,9 +32,9 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
@@ -42,47 +42,47 @@ stage.add(layer);
 
 // 创建引导线
 const horizontalLine = new Konva.Line({
-points: [0, height / 2, width, height / 2],
-stroke: '#000',
-strokeWidth: 1,
-dash: [4, 4],
+  points: [0, height / 2, width, height / 2],
+  stroke: '#000',
+  strokeWidth: 1,
+  dash: [4, 4],
 });
 layer.add(horizontalLine);
 
 const verticalLine = new Konva.Line({
-points: [width / 2, 0, width / 2, height],
-stroke: '#000',
-strokeWidth: 1,
-dash: [4, 4],
+  points: [width / 2, 0, width / 2, height],
+  stroke: '#000',
+  strokeWidth: 1,
+  dash: [4, 4],
 });
 layer.add(verticalLine);
 
 const rect = new Konva.Rect({
-x: 60,
-y: 60,
-width: 100,
-height: 100,
-fill: 'red',
-draggable: true,
+  x: 60,
+  y: 60,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  draggable: true,
 });
 layer.add(rect);
 
 const tr = new Konva.Transformer({
-nodes: [rect],
-anchorDragBoundFunc: function (oldPos, newPos) {
-const dist = Math.sqrt(Math.pow(newPos.x - width / 2, 2));
-if (dist < 10) {
-return {
-...newPos,
-x: width / 2,
-};
-}
-return newPos;
-},
+  nodes: [rect],
+  anchorDragBoundFunc: function (oldPos, newPos) {
+    const dist = Math.sqrt(Math.pow(newPos.x - width / 2, 2));
+    if (dist < 10) {
+      return {
+        ...newPos,
+        x: width / 2,
+      };
+    }
+    return newPos;
+  },
 });
 layer.add(tr);
 
-````  
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -140,8 +140,7 @@ const App = () => {
 };
 
 export default App;
-````
-
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

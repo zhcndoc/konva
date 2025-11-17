@@ -44,22 +44,16 @@ const config: Config = {
       async: true,
       'data-uuid': 'db9e320b-6d6c-49c4-ba5c-b29e6d5fc91c',
     },
-    // {
-    //   src: 'https://crawlchat.app/embed.js',
-    //   id: 'crawlchat-script',
-    //   'data-id': '67d221efb4b9de65095a2579',
-    //   'data-ask-ai': 'true',
-    //   'data-ask-ai-background-color': 'rgba(5, 132, 206, 1)',
-    //   'data-ask-ai-color': '#ffffff',
-    //   'data-ask-ai-text': 'Ask AI',
-    //   'data-ask-ai-position': 'br',
-    //   'data-ask-ai-radius': '20px',
-    // },
     {
-      src: '/js/ask-ai.js',
-      id: 'ask-ai-script',
-      async: true,
-      defer: true,
+      src: 'https://crawlchat.app/embed.js',
+      id: 'crawlchat-script',
+      'data-id': '67d221efb4b9de65095a2579',
+      'data-ask-ai': 'true',
+      'data-ask-ai-background-color': 'rgba(5, 132, 206, 1)',
+      'data-ask-ai-color': '#ffffff',
+      'data-ask-ai-text': 'Ask AI',
+      'data-ask-ai-position': 'br',
+      'data-ask-ai-radius': '20px',
     },
   ],
 
@@ -260,6 +254,8 @@ const config: Config = {
       indexName: 'konvajs',
       // Optional: see doc section bellow
       contextualSearch: false,
+
+      askAi: 'MpZOQRawnahp',
 
       // Optional: Algolia search parameters
       searchParameters: {},

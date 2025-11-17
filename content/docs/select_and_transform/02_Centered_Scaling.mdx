@@ -65,9 +65,20 @@ layer.add(tr2);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import { useRef, useEffect } from 'react'
 import { Stage, Layer, Text, Transformer } from 'react-konva';
 
 const App = () => {
+  const text1Ref = useRef()
+  const text2Ref = useRef()
+  const tr1Ref = useRef()
+  const tr2Ref = useRef()
+  
+  useEffect(() => {
+    tr1Ref.current.nodes([text1Ref.current]);
+    tr2Ref.current.nodes([text2Ref.current]);
+  }, []);
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
@@ -78,8 +89,9 @@ const App = () => {
           fontSize={30}
           draggable
           width={200}
+          ref={text1Ref}
         />
-        <Transformer centeredScaling />
+        <Transformer centeredScaling ref={tr1Ref} />
         <Text
           x={50}
           y={180}
@@ -87,8 +99,9 @@ const App = () => {
           fontSize={30}
           draggable
           width={200}
+          ref={text2Ref}
         />
-        <Transformer />
+        <Transformer ref={tr2Ref} />
       </Layer>
     </Stage>
   );
@@ -128,7 +141,7 @@ const textConfig1 = {
 const textConfig2 = {
   x: 50,
   y: 180,
-  text: '简单文本', 
+  text: '简单文本',
   fontSize: 30,
   draggable: true,
   width: 200

@@ -26,7 +26,7 @@ slug: All_Easings.html
 
 有关所有可用的缓动，请参见 [缓动文档](/api/Konva.Easings.html)。
 
-**说明：点击 "播放" 来使用不同的缓动函数过渡所有文本节点。**
+**说明：点击“播放”来使用不同的缓动函数过渡所有文本节点。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -40,53 +40,53 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
 
 const easings = [
-'Linear',
-'EaseIn',
-'EaseOut',
-'EaseInOut',
-'BackEaseIn',
-'BackEaseOut',
-'BackEaseInOut',
-'ElasticEaseIn',
-'ElasticEaseOut',
-'ElasticEaseInOut',
-'BounceEaseIn',
-'BounceEaseOut',
-'BounceEaseInOut',
-'StrongEaseIn',
-'StrongEaseOut',
-'StrongEaseInOut',
+  'Linear',
+  'EaseIn',
+  'EaseOut',
+  'EaseInOut',
+  'BackEaseIn',
+  'BackEaseOut',
+  'BackEaseInOut',
+  'ElasticEaseIn',
+  'ElasticEaseOut',
+  'ElasticEaseInOut',
+  'BounceEaseIn',
+  'BounceEaseOut',
+  'BounceEaseInOut',
+  'StrongEaseIn',
+  'StrongEaseOut',
+  'StrongEaseInOut',
 ];
 
 const tweens = [];
 
 easings.forEach((easing, i) => {
-const text = new Konva.Text({
-x: 50,
-y: 30 + i * 25,
-text: easing,
-fontSize: 16,
-fontFamily: 'Calibri',
-fill: 'black',
-});
-layer.add(text);
+  const text = new Konva.Text({
+    x: 50,
+    y: 30 + i * 25,
+    text: easing,
+    fontSize: 16,
+    fontFamily: 'Calibri',
+    fill: 'black',
+  });
+  layer.add(text);
 
-tweens.push(
-new Konva.Tween({
-node: text,
-duration: 2,
-x: width - 200,
-easing: Konva.Easings[easing],
-})
-);
+  tweens.push(
+    new Konva.Tween({
+      node: text,
+      duration: 2,
+      x: width - 200,
+      easing: Konva.Easings[easing],
+    })
+  );
 });
 
 stage.add(layer);
@@ -98,12 +98,13 @@ button.style.position = 'absolute';
 button.style.top = '0px';
 button.style.left = '0px';
 button.addEventListener('click', () => {
-tweens.forEach((tween) => {
-tween.reset();
-tween.play();
-});
+  tweens.forEach((tween) => {
+    tween.reset();
+    tween.play();
+  });
 });
 document.body.appendChild(button);
+
 ````  
   </TabItem>
   <TabItem value="React">

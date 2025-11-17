@@ -5,7 +5,7 @@ hide_table_of_contents: true
 slug: Force_Update.html
 ---
 
-`Konva.Transformer` 会自动跟踪附加节点的属性。
+`Konva.Transformer` 会自动跟踪附加节点的属性。  
 因此，它会自动采用自己的属性。
 
 但是在某些情况下，`Konva.Transformer` 无法做到这一点。目前，`Konva.Transformer` 不能追踪 `Konva.Group` 节点内部的深层变化。在这种情况下，您需要使用 `forceUpdate` 方法来重置变换工具。
@@ -73,7 +73,7 @@ rect.width(text.width());
 tr.forceUpdate();
 });
 
-````  
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -128,7 +128,7 @@ const App = () => {
 };
 
 export default App;
-````  
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

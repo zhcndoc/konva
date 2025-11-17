@@ -5,11 +5,11 @@ hide_table_of_contents: true
 slug: Keep_Ratio.html
 ---
 
-默认情况下，当你使用角点锚点（`top-left`，`top-right`，`bottom-left` 或 `bottom-right`）进行缩放时，Transformer 会保存节点的比例。
+默认情况下，当你使用角点锚点（`top-left`，`top-right`，`bottom-left` 或 `bottom-right`）进行缩放时，Transformer 会保持节点的比例。
 
 如果你不需要此行为，可以将 `keepRatio` 设置为 `false`。
 
-即使你将 `keepRatio` 设为 `false，按住 `SHIFT` 键仍然可以保持比例。
+即使你将 `keepRatio` 设置为 `false`，按住 `SHIFT` 键仍然可以保持比例。
 
 **说明：试着调整文本的大小。**
 
@@ -25,46 +25,45 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-container: 'container',
-width: width,
-height: height,
+  container: 'container',
+  width: width,
+  height: height,
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
 const text = new Konva.Text({
-x: 50,
-y: 50,
-text: '默认保持比例',
-fontSize: 20,
-draggable: true,
-width: 200,
+  x: 50,
+  y: 50,
+  text: '默认保持比例',
+  fontSize: 20,
+  draggable: true,
+  width: 200,
 });
 layer.add(text);
 
 const text2 = new Konva.Text({
-x: 50,
-y: 150,
-text: '没有比例，但按住Shift保持比例',
-fontSize: 20,
-draggable: true,
-width: 200,
+  x: 50,
+  y: 150,
+  text: '没有比例，但按住Shift保持比例',
+  fontSize: 20,
+  draggable: true,
+  width: 200,
 });
 layer.add(text2);
 
 const tr = new Konva.Transformer({
-nodes: [text],
+  nodes: [text],
 });
 layer.add(tr);
 
 const tr2 = new Konva.Transformer({
-nodes: [text2],
-keepRatio: false,
+  nodes: [text2],
+  keepRatio: false,
 });
 layer.add(tr2);
-
-```` 
+```
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -112,7 +111,7 @@ const App = () => {
 };
 
 export default App;
-```` 
+```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -169,8 +168,6 @@ onMounted(() => {
   tr2Ref.value.getNode().nodes([text2Ref.value.getNode()]);
 });
 </script>
-
 ```
   </TabItem>
 </Tabs>
-```

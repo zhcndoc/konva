@@ -5,19 +5,81 @@ hide_table_of_contents: true
 slug: Custom_Font.html
 ---
 
-## 如何在 HTML5 画布上绘制外部字体?
+## 如何在 html5 画布上绘制外部字体？
 
-如果您想在 `Konva.Text` 中使用自定义字体，只需执行以下步骤：
+如果您想为 `Konva.Text` 使用自定义字体，只需要：
 1. 将字体样式添加到您的页面
-2. 将 `fontFamily` 属性设置为所需的字体面。
+2. 在字体加载完成后将 `fontFamily` 属性设置为所需的字体面
 
-但这里有一个重要的事情。当您为 DOM 元素（如 `div` 或 `span`）设置字体时，浏览器会在字体加载后自动更新这些元素。但这对于画布文本则不起作用。您需要再次重绘画布。
+但这里有一个重要的事情。当您为 DOM 元素（如 `div` 或 `span`）设置字体时，浏览器会在字体加载后自动更新这些元素。但对于画布文本并不是这样。您需要再次重绘画布。
 
-### 现代方法：CSS 字体加载 API
+**注意：** 对于不支持原生字体加载 API 的老旧浏览器，您可以使用宽度测量方法——用回退字体测量文本宽度，然后周期性检查自定义字体宽度是否发生变化（表明字体已加载）。
 
-检测字体何时加载的最现代方法是使用 [CSS 字体加载 API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API)，它在所有现代浏览器中都得到了支持。
+### 加载字体
 
-该 API 提供了一种干净、基于 Promise 的方式来加载和检测字体，而无需任何黑客或变通方法。
+您可以使用这个异步函数，它结合了原生字体加载 API 和可靠的宽度测量回退以及超时保护：
+
+```javascript
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        // 轻微延迟，避免偶发的度量竞态
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {
+      // 忽略错误，使用轮询回退
+    }
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000; // 最多等待6秒
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(
+    `加载字体 "${fontName}" 超时。请确认字体族名称是否正确？`
+  );
+}
+```
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,65 +89,94 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// 建立我们的舞台
-const width = window.innerWidth;
-const height = window.innerHeight;
+const loadedFonts = {};
 
-const stage = new Konva.Stage({
-  container: 'container',
-  width: width,
-  height: height,
-});
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
 
-const layer = new Konva.Layer();
-stage.add(layer);
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-// 添加一个默认字体的文本节点
-const text = new Konva.Text({
-  x: 50,
-  y: 50,
-  fontSize: 40,
-  text: '带有自定义字体的文本。',
-  width: 250,
-  // 开始使用默认字体
-  fontFamily: 'Arial'
-});
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
 
-// 添加另一个文本帮助调试字体加载
-const debugText = new Konva.Text({
-  x: 50,
-  y: 0,
-  fontSize: 16,
-  text: '加载字体...',
-  fill: 'green'
-});
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
 
-layer.add(text);
-layer.add(debugText);
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
 
-// 首先，通过样式表链接加载字体（更可靠）
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`加载字体 "${fontName}" 超时。`);
+}
+
+// 通过样式表链接加载字体
 const fontLink = document.createElement('link');
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
 fontLink.rel = 'stylesheet';
 document.head.appendChild(fontLink);
 
-// 使用浏览器的字体加载机制检测何时准备好
-document.fonts.ready.then(() => {
-  // 检查我们的字体是否被加载
-  if (document.fonts.check('1em Kavivanar')) {
-    text.fontFamily('Kavivanar');
-    debugText.text('字体加载成功！');
-  } else {
-    // 备选方案 - 尝试稍作延迟（某些浏览器的常见问题）
-    setTimeout(() => {
-      debugText.text('使用备选计时器 - 现在尝试设置字体');
-      text.fontFamily('Kavivanar');
-    }, 500);
-  }
-}).catch(err => {
-  debugText.text('加载字体错误: ' + err.message);
-  debugText.fill('red');
-  console.error('字体加载失败:', err);
+// 立即使用回退字体构建舞台
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var text = new Konva.Text({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: '带有自定义字体的文本。',
+  width: 250,
+  fontFamily: 'Arial'
+});
+
+layer.add(text);
+
+// 等待字体加载后应用
+loadFont('Kavivanar', 'normal', '400').then(() => {
+  text.fontFamily('Kavivanar');
 });
 ```
   </TabItem>
@@ -94,33 +185,74 @@ document.fonts.ready.then(() => {
 import { Stage, Layer, Text } from 'react-konva';
 import { useState, useEffect } from 'react';
 
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`加载字体 "${fontName}" 超时。`);
+}
+
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
-  const [fontStatus, setFontStatus] = useState('加载字体...');
   
   useEffect(() => {
-    // 使用常规样式表链接加载字体（更可靠）
+    // 通过样式表链接加载字体
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
-    
-    // 使用 document.fonts.ready promise 检测何时加载字体
-    document.fonts.ready.then(() => {
-      // 检查我们的字体是否被加载
-      if (document.fonts.check('1em Kavivanar')) {
-        setFontStatus('字体加载成功！');
-        setFontLoaded(true);
-      } else {
-        // 备选方案 - 尝试稍作延迟
-        setTimeout(() => {
-          setFontStatus('使用备选计时器 - 现在尝试设置字体');
-          setFontLoaded(true);
-        }, 500);
-      }
-    }).catch(err => {
-      setFontStatus('加载字体错误: ' + err.message);
-      console.error('字体加载失败:', err);
+
+    // 使用混合方法等待字体加载
+    loadFont('Kavivanar', 'normal', '400').then(() => {
+      setFontLoaded(true);
     });
   }, []);
 
@@ -134,13 +266,6 @@ const App = () => {
           text="带有自定义字体的文本。"
           width={250}
           fontFamily={fontLoaded ? 'Kavivanar' : 'Arial'}
-        />
-        <Text
-          x={50}
-          y={0}
-          fontSize={16}
-          text={fontStatus}
-          fill={fontStatus.includes('错误') ? 'red' : 'green'}
         />
       </Layer>
     </Stage>
@@ -156,13 +281,67 @@ export default App;
   <v-stage :config="stageSize">
     <v-layer>
       <v-text :config="textConfig" />
-      <v-text :config="debugTextConfig" />
     </v-layer>
   </v-stage>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`加载字体 "${fontName}" 超时。`);
+}
 
 const stageSize = {
   width: window.innerWidth,
@@ -178,38 +357,16 @@ const textConfig = ref({
   fontFamily: 'Arial'
 });
 
-const debugTextConfig = ref({
-  x: 50,
-  y: 0,
-  fontSize: 16,
-  text: '加载字体...',
-  fill: 'green'
-});
-
 onMounted(() => {
-  // 使用常规样式表链接加载字体（更可靠）
+  // 通过样式表链接加载字体
   const fontLink = document.createElement('link');
   fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
   fontLink.rel = 'stylesheet';
   document.head.appendChild(fontLink);
-  
-  // 使用 document.fonts.ready promise 检测何时加载字体
-  document.fonts.ready.then(() => {
-    // 检查我们的字体是否被加载
-    if (document.fonts.check('1em Kavivanar')) {
-      debugTextConfig.value.text = '字体加载成功！';
-      textConfig.value.fontFamily = 'Kavivanar';
-    } else {
-      // 备选方案 - 尝试稍作延迟
-      setTimeout(() => {
-        debugTextConfig.value.text = '使用备选计时器 - 现在尝试设置字体';
-        textConfig.value.fontFamily = 'Kavivanar';
-      }, 500);
-    }
-  }).catch(err => {
-    debugTextConfig.value.text = '加载字体错误: ' + err.message;
-    debugTextConfig.value.fill = 'red';
-    console.error('字体加载失败:', err);
+
+  // 使用混合方法等待字体加载
+  loadFont('Kavivanar', 'normal', '400').then(() => {
+    textConfig.value.fontFamily = 'Kavivanar';
   });
 });
 </script>

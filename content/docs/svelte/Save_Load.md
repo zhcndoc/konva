@@ -11,14 +11,4 @@ slug: Save_Load.html
 
 演示将数据作为 JSON 保存和从 localstorage 检索，但您可以自由使用任何您喜欢的保存方式。
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/save_load?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/save_load?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

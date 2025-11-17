@@ -21,149 +21,145 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-Konva._fixTextRendering = true;
-
 const stage = new Konva.Stage({
-container: 'container',
-width: window.innerWidth,
-height: window.innerHeight,
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
 const textNode = new Konva.Text({
-text: '一些文本',
-x: 50,
-y: 80,
-fontSize: 20,
-draggable: true,
-width: 200,
+  text: '一些文本',
+  x: 50,
+  y: 80,
+  fontSize: 20,
+  draggable: true,
+  width: 200,
 });
 
 layer.add(textNode);
 
 const tr = new Konva.Transformer({
-node: textNode,
-enabledAnchors: ['middle-left', 'middle-right'],
-boundBoxFunc: function (oldBox, newBox) {
-newBox.width = Math.max(30, newBox.width);
-return newBox;
-},
+  node: textNode,
+  enabledAnchors: ['middle-left', 'middle-right'],
+  boundBoxFunc: function (oldBox, newBox) {
+    newBox.width = Math.max(30, newBox.width);
+    return newBox;
+  },
 });
 
 textNode.on('transform', function () {
-textNode.setAttrs({
-width: textNode.width() * textNode.scaleX(),
-scaleX: 1,
-});
+  textNode.setAttrs({
+    width: textNode.width() * textNode.scaleX(),
+    scaleX: 1,
+  });
 });
 
 layer.add(tr);
 
 textNode.on('dblclick dbltap', () => {
-textNode.hide();
-tr.hide();
+  textNode.hide();
+  tr.hide();
 
-const textPosition = textNode.absolutePosition();
-const stageBox = stage.container().getBoundingClientRect();
+  const textPosition = textNode.absolutePosition();
+  const stageBox = stage.container().getBoundingClientRect();
 
-const areaPosition = {
-x: stageBox.left + textPosition.x,
-y: stageBox.top + textPosition.y,
-};
+  const areaPosition = {
+    x: stageBox.left + textPosition.x,
+    y: stageBox.top + textPosition.y,
+  };
 
-const textarea = document.createElement('textarea');
-document.body.appendChild(textarea);
+  const textarea = document.createElement('textarea');
+  document.body.appendChild(textarea);
 
-textarea.value = textNode.text();
-textarea.style.position = 'absolute';
-textarea.style.top = areaPosition.y + 'px';
-textarea.style.left = areaPosition.x + 'px';
-textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
-textarea.style.height = textNode.height() - textNode.padding() * 2 + 5 + 'px';
-textarea.style.fontSize = textNode.fontSize() + 'px';
-textarea.style.border = 'none';
-textarea.style.padding = '0px';
-textarea.style.margin = '0px';
-textarea.style.overflow = 'hidden';
-textarea.style.background = 'none';
-textarea.style.outline = 'none';
-textarea.style.resize = 'none';
-textarea.style.lineHeight = textNode.lineHeight().toString();
-textarea.style.fontFamily = textNode.fontFamily();
-textarea.style.transformOrigin = 'left top';
-textarea.style.textAlign = textNode.align();
-textarea.style.color = textNode.fill().toString();
+  textarea.value = textNode.text();
+  textarea.style.position = 'absolute';
+  textarea.style.top = areaPosition.y + 'px';
+  textarea.style.left = areaPosition.x + 'px';
+  textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
+  textarea.style.height = textNode.height() - textNode.padding() * 2 + 5 + 'px';
+  textarea.style.fontSize = textNode.fontSize() + 'px';
+  textarea.style.border = 'none';
+  textarea.style.padding = '0px';
+  textarea.style.margin = '0px';
+  textarea.style.overflow = 'hidden';
+  textarea.style.background = 'none';
+  textarea.style.outline = 'none';
+  textarea.style.resize = 'none';
+  textarea.style.lineHeight = textNode.lineHeight().toString();
+  textarea.style.fontFamily = textNode.fontFamily();
+  textarea.style.transformOrigin = 'left top';
+  textarea.style.textAlign = textNode.align();
+  textarea.style.color = textNode.fill().toString();
 
-const rotation = textNode.rotation();
-let transform = '';
-if (rotation) {
-transform += 'rotateZ(' + rotation + 'deg)';
-}
-transform += 'translateY(-' + 2 + 'px)';
-textarea.style.transform = transform;
+  const rotation = textNode.rotation();
+  let transform = '';
+  if (rotation) {
+    transform += 'rotateZ(' + rotation + 'deg)';
+  }
+  transform += 'translateY(-' + 2 + 'px)';
+  textarea.style.transform = transform;
 
-textarea.style.height = 'auto';
-textarea.style.height = textarea.scrollHeight + 3 + 'px';
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 3 + 'px';
 
-textarea.focus();
+  textarea.focus();
 
-function removeTextarea() {
-textarea.parentNode.removeChild(textarea);
-window.removeEventListener('click', handleOutsideClick);
-window.removeEventListener('touchstart', handleOutsideClick);
-textNode.show();
-tr.show();
-tr.forceUpdate();
-}
+  function removeTextarea() {
+    textarea.parentNode.removeChild(textarea);
+    window.removeEventListener('click', handleOutsideClick);
+    window.removeEventListener('touchstart', handleOutsideClick);
+    textNode.show();
+    tr.show();
+    tr.forceUpdate();
+  }
 
-function setTextareaWidth(newWidth = 0) {
-if (!newWidth) {
-newWidth = textNode.placeholder.length * textNode.fontSize();
-}
-textarea.style.width = newWidth + 'px';
-}
+  function setTextareaWidth(newWidth = 0) {
+    if (!newWidth) {
+      newWidth = textNode.placeholder.length * textNode.fontSize();
+    }
+    textarea.style.width = newWidth + 'px';
+  }
 
-textarea.addEventListener('keydown', function (e) {
-if (e.key === 'Enter' && !e.shiftKey) {
-textNode.text(textarea.value);
-removeTextarea();
-}
-if (e.key === 'Escape') {
-removeTextarea();
-}
+  textarea.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      textNode.text(textarea.value);
+      removeTextarea();
+    }
+    if (e.key === 'Escape') {
+      removeTextarea();
+    }
+  });
+
+  textarea.addEventListener('keydown', function () {
+    const scale = textNode.getAbsoluteScale().x;
+    setTextareaWidth(textNode.width() * scale);
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + textNode.fontSize() + 'px';
+  });
+
+  function handleOutsideClick(e) {
+    if (e.target !== textarea) {
+      textNode.text(textarea.value);
+      removeTextarea();
+    }
+  }
+  setTimeout(() => {
+    window.addEventListener('click', handleOutsideClick);
+  });
 });
 
-textarea.addEventListener('keydown', function () {
-const scale = textNode.getAbsoluteScale().x;
-setTextareaWidth(textNode.width() * scale);
-textarea.style.height = 'auto';
-textarea.style.height = textarea.scrollHeight + textNode.fontSize() + 'px';
-});
-
-function handleOutsideClick(e) {
-if (e.target !== textarea) {
-textNode.text(textarea.value);
-removeTextarea();
-}
-}
-setTimeout(() => {
-window.addEventListener('click', handleOutsideClick);
-});
-});
-
-```` 
+```
   </TabItem>
   <TabItem value="React">
 ```jsx live react
-import { Stage, Layer, Text, Transformer } from 'react-konva';
-import { Html } from 'react-konva-utils';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { Stage, Layer, Text, Transformer } from "react-konva";
+import { Html } from "react-konva-utils";
+import { useEffect, useRef, useState, useCallback } from "react";
 
-Konva._fixTextRendering = true;
-
-const TextEditor = ({ textNode, onClose, onChange }) => {
+const TextArea = ({ textNode, onClose, onChange }) => {
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -180,33 +176,35 @@ const TextEditor = ({ textNode, onClose, onChange }) => {
 
     // 匹配文本节点的样式
     textarea.value = textNode.text();
-    textarea.style.position = 'absolute';
+    textarea.style.position = "absolute";
     textarea.style.top = `${areaPosition.y}px`;
     textarea.style.left = `${areaPosition.x}px`;
     textarea.style.width = `${textNode.width() - textNode.padding() * 2}px`;
-    textarea.style.height = `${textNode.height() - textNode.padding() * 2 + 5}px`;
+    textarea.style.height = `${
+      textNode.height() - textNode.padding() * 2 + 5
+    }px`;
     textarea.style.fontSize = `${textNode.fontSize()}px`;
-    textarea.style.border = 'none';
-    textarea.style.padding = '0px';
-    textarea.style.margin = '0px';
-    textarea.style.overflow = 'hidden';
-    textarea.style.background = 'none';
-    textarea.style.outline = 'none';
-    textarea.style.resize = 'none';
+    textarea.style.border = "none";
+    textarea.style.padding = "0px";
+    textarea.style.margin = "0px";
+    textarea.style.overflow = "hidden";
+    textarea.style.background = "none";
+    textarea.style.outline = "none";
+    textarea.style.resize = "none";
     textarea.style.lineHeight = textNode.lineHeight();
     textarea.style.fontFamily = textNode.fontFamily();
-    textarea.style.transformOrigin = 'left top';
+    textarea.style.transformOrigin = "left top";
     textarea.style.textAlign = textNode.align();
     textarea.style.color = textNode.fill();
 
     const rotation = textNode.rotation();
-    let transform = '';
+    let transform = "";
     if (rotation) {
       transform += `rotateZ(${rotation}deg)`;
     }
     textarea.style.transform = transform;
 
-    textarea.style.height = 'auto';
+    textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight + 3}px`;
 
     textarea.focus();
@@ -220,12 +218,12 @@ const TextEditor = ({ textNode, onClose, onChange }) => {
 
     // 添加事件监听器
     const handleKeyDown = (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         onChange(textarea.value);
         onClose();
       }
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
@@ -233,38 +231,46 @@ const TextEditor = ({ textNode, onClose, onChange }) => {
     const handleInput = () => {
       const scale = textNode.getAbsoluteScale().x;
       textarea.style.width = `${textNode.width() * scale}px`;
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight + textNode.fontSize()}px`;
+      textarea.style.height = "auto";
+      textarea.style.height = `${
+        textarea.scrollHeight + textNode.fontSize()
+      }px`;
     };
 
-    textarea.addEventListener('keydown', handleKeyDown);
-    textarea.addEventListener('input', handleInput);
+    textarea.addEventListener("keydown", handleKeyDown);
+    textarea.addEventListener("input", handleInput);
     setTimeout(() => {
-      window.addEventListener('click', handleOutsideClick);
+      window.addEventListener("click", handleOutsideClick);
     });
 
     return () => {
-      textarea.removeEventListener('keydown', handleKeyDown);
-      textarea.removeEventListener('input', handleInput);
-      window.removeEventListener('click', handleOutsideClick);
+      textarea.removeEventListener("keydown", handleKeyDown);
+      textarea.removeEventListener("input", handleInput);
+      window.removeEventListener("click", handleOutsideClick);
     };
   }, [textNode, onChange, onClose]);
 
   return (
+    <textarea
+      ref={textareaRef}
+      style={{
+        minHeight: "1em",
+        position: "absolute",
+      }}
+    />
+  );
+};
+
+const TextEditor = (props) => {
+  return (
     <Html>
-      <textarea
-        ref={textareaRef}
-        style={{
-          minHeight: '1em',
-          position: 'absolute',
-        }}
-      />
+      <TextArea {...props} />
     </Html>
   );
 };
 
 const EditableText = () => {
-  const [text, setText] = useState('一些文本');
+  const [text, setText] = useState("一些文本");
   const [isEditing, setIsEditing] = useState(false);
   const [textWidth, setTextWidth] = useState(200);
   const textRef = useRef();
@@ -321,7 +327,7 @@ const EditableText = () => {
         {!isEditing && (
           <Transformer
             ref={trRef}
-            enabledAnchors={['middle-left', 'middle-right']}
+            enabledAnchors={["middle-left", "middle-right"]}
             boundBoxFunc={(oldBox, newBox) => ({
               ...newBox,
               width: Math.max(30, newBox.width),
@@ -374,8 +380,6 @@ export default EditableText;
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
-Konva._fixTextRendering = true;
 
 const stageSize = {
   width: window.innerWidth,

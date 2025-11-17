@@ -27,10 +27,10 @@ npm install konva
 或者直接使用脚本标签：
 
 ```html
-<script src="https://unpkg.com/konva@9/konva.min.js"></script>
+<script src="https://unpkg.com/konva@10/konva.min.js"></script>
 ```
 
 或者从 CDN 下载：
 
-- [完整版本 konva.js](https://unpkg.com/konva@9/konva.js)
-- [压缩版本 konva.min.js](https://unpkg.com/konva@9/konva.min.js)
+- [完整版本 konva.js](https://unpkg.com/konva@10/konva.js)
+- [压缩版本 konva.min.js](https://unpkg.com/konva@10/konva.min.js)

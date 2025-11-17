@@ -12,7 +12,7 @@ slug: Custom_Shape.html
 我们可以使用渲染器访问 HTML5 Canvas 的上下文，以及调用诸如 `context.fillStrokeShape(shape)` 之类的特殊方法，这些方法可以自动处理填充、描边和阴影效果。
 
 <iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/custom_shape?file=/src/App.svelte" 
+  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/custom_shape?file=/src/App.svelte" 
   style={{
     width: "100%",
     height: "800px",
