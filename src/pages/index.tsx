@@ -227,6 +227,13 @@ export const konvaUsers = [
     url: 'https://mystikaze.com/',
     small: true,
   },
+  {
+    name: "Moddy",
+    description: "Draw safer spaces for people living with a disability",
+    image: "/assets/users/moddy.jpg",
+    url: "https://moddy.io/moddy-2d/",
+    small: true,
+  },
 ];
 
 function AnimatedSubtitle() {
