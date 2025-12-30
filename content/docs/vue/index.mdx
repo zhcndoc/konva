@@ -30,7 +30,13 @@ To get more info about `Konva` you can read [Konva Overview](/docs/overview.html
 npm install vue-konva konva --save
 ```
 
-### 2. Import and use VueKonva
+### 2. Choose your import style
+
+You can use `vue-konva` in two ways:
+
+#### Option A: Global Registration (recommended for beginners)
+
+Register all components globally using the plugin:
 
 ```js
 import { createApp } from 'vue';
@@ -42,9 +48,43 @@ app.use(VueKonva);
 app.mount('#app');
 ```
 
-### 3. Use in your components
+After global registration, all components are available with `v-` prefix: `v-stage`, `v-layer`, `v-rect`, `v-circle`, etc.
 
-Instructions: Try to drag the stars. They will scale up while being dragged and return to normal size when released.
+#### Option B: On-Demand Import
+
+Import only the components you need:
+
+```vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle :config="circleConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { Stage as VStage, Layer as VLayer, Circle as VCircle } from 'vue-konva';
+
+const stageSize = {
+  width: 200,
+  height: 200
+};
+
+const circleConfig = {
+  x: 100,
+  y: 100,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+</script>
+```
+
+### 3. Example: Draggable Stars
+
+**Instructions:** Try to drag the stars. They will scale up while being dragged and return to normal size when released.
 
 ```js live vue
 <template>
