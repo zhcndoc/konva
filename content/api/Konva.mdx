@@ -113,7 +113,7 @@ Konva.pixelRatio = 1;
 
 Drag distance property. If you start to drag a node you may want to wait until pointer is moved to some distance from start point, only then start dragging. Default is 3px.
 
-**Default value:** `0`
+**Default value:** `3`
 
 **Example:**
 
@@ -149,9 +149,9 @@ Konva.showWarnings = false;
 
 ### static dragButtons
 
-Configure what mouse buttons can be used for drag and drop. Default value is [0] - only left mouse button.
+Configure what mouse buttons can be used for drag and drop. Default value is [0, 1] - left and middle mouse buttons.
 
-**Default value:** `true`
+**Default value:** `[0, 1]`
 
 **Example:**
 

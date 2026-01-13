@@ -19,6 +19,40 @@ return random hex color
 shape.fill(Konva.Util.getRandomColor());
 ```
 
+### isCanvasFarblingActive() {#isCanvasFarblingActive}
+
+Check if canvas farbling is active (e.g., Brave browser fingerprinting protection)
+
+**Returns:** `Boolean` 
+
+### getHitColor() {#getHitColor}
+
+Get a random color for hit detection (normalized if farbling is active)
+
+**Returns:** `String` <code>hex color string</code>
+
+### getHitColorKey(r, g, b) {#getHitColorKey}
+
+Get hit color key from RGB values (normalized if farbling is active)
+
+**Parameters:**
+
+- `r` (Number): red component (0-255)
+- `g` (Number): green component (0-255)
+- `b` (Number): blue component (0-255)
+
+**Returns:** `String` <code>hex color key string</code>
+
+### getSnappedHexColor(hex) {#getSnappedHexColor}
+
+Snap hex color values to end with 0 (normalize for canvas farbling)
+
+**Parameters:**
+
+- `hex` (String): hex color string (e.g., "#ff00ff")
+
+**Returns:** `String` <code>normalized hex color string</code>
+
 ### getRGB(color) {#getRGB}
 
 get RGB components of a color
