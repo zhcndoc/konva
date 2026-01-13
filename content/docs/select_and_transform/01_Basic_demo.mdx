@@ -261,7 +261,10 @@ const App = () => {
   // Click handler for stage
   const handleStageClick = (e) => {
     // If we are selecting with rect, do nothing
-    if (selectionRectangle.visible) {
+    // But allow point clicks through (when width/height are 0)
+    const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+    const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+    if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
       return;
     }
 
@@ -350,12 +353,15 @@ const App = () => {
       height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
     };
 
-    const selected = rectangles.filter(rect => {
-      // Check if rectangle intersects with selection box
-      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
-    });
-    
-    setSelectedIds(selected.map(rect => rect.id));
+    // Only select shapes if selection box has actual size (not just a point click)
+    if (selBox.width > 0 && selBox.height > 0) {
+      const selected = rectangles.filter(rect => {
+        // Check if rectangle intersects with selection box
+        return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+      });
+      
+      setSelectedIds(selected.map(rect => rect.id));
+    }
   };
 
   const handleDragEnd = (e) => {
@@ -611,7 +617,10 @@ watch(selectedIds, () => {
 
 const handleStageClick = (e) => {
   // if we are selecting with rect, do nothing
-  if (selectionRectangle.visible) {
+  // But allow point clicks through (when width/height are 0)
+  const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+  const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+  if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
     return;
   }
 
@@ -693,12 +702,15 @@ const handleMouseUp = () => {
     height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
   };
 
-  const selected = rectangles.value.filter(rect => {
-    // Check if rectangle intersects with selection box
-    return Konva.Util.haveIntersection(selBox, getClientRect(rect));
-  });
-  
-  selectedIds.value = selected.map(rect => rect.id);
+  // Only select shapes if selection box has actual size (not just a point click)
+  if (selBox.width > 0 && selBox.height > 0) {
+    const selected = rectangles.value.filter(rect => {
+      // Check if rectangle intersects with selection box
+      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+    });
+    
+    selectedIds.value = selected.map(rect => rect.id);
+  }
 };
 
 const handleDragEnd = (e, index) => {
