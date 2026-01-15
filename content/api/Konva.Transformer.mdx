@@ -279,6 +279,29 @@ var rotateAnchorOffset = transformer.rotateAnchorOffset();
 transformer.rotateAnchorOffset(100);
 ```
 
+### rotateAnchorAngle(angle) {#rotateAnchorAngle}
+
+get/set the angle (in degrees) of the rotation anchor position around the bounding box. 0 = top-center (default), 90 = middle-right, 180 = bottom-center, -90 = middle-left
+
+**Parameters:**
+
+- `angle` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+// get
+var rotateAnchorAngle = transformer.rotateAnchorAngle();
+
+// set rotation anchor to the right side
+transformer.rotateAnchorAngle(90);
+
+// set rotation anchor to the bottom
+transformer.rotateAnchorAngle(180);
+```
+
 ### rotateAnchorCursor(cursorName) {#rotateAnchorCursor}
 
 get/set rotation anchor cursor
