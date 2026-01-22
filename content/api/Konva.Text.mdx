@@ -24,6 +24,7 @@ Text constructor
 | fontStyle (optional) | `String` | can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default. |
 | fontVariant (optional) | `String` | can be normal or small-caps.  Default is normal |
 | textDecoration (optional) | `String` | can be line-through, underline or empty string. Default is empty string. |
+| underlineOffset (optional) | `String` | offset for underline line. Default is calculated based on font size. |
 | text | `String` |  |
 | align (optional) | `String` | can be left, center, right or justify |
 | verticalAlign (optional) | `String` | can be top, middle or bottom |
@@ -458,9 +459,35 @@ text.textDecoration('line-through');
 text.textDecoration('underline line-through');
 ```
 
-### charRenderFunc() {#charRenderFunc}
+### underlineOffset(underlineOffset) {#underlineOffset}
+
+get/set text underline decoration offset. Offset for underline line. Default is calculated based on font size.
+
+**Parameters:**
+
+- `underlineOffset` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+// get underline offset
+var underlineOffset = text.underlineOffset();
+
+// set underline offset
+text.underlineOffset(5);
+```
+
+### charRenderFunc(charRenderFunc) {#charRenderFunc}
 
 get/set per-character render hook. The callback is invoked for each grapheme before drawing. It can mutate the provided context (e.g. translate, rotate, change styles) and should return void. Note: per-character rendering may disable native kerning/ligatures.
+
+**Parameters:**
+
+- `charRenderFunc` (function)
+
+**Returns:** `function` 
 
 **Example:**
 

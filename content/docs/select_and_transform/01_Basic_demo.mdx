@@ -195,7 +195,7 @@ const initialRectangles = [
   },
 ];
 
-// Helper functions for calculating bounding boxes of rotated rectangles
+// 计算旋转矩形边界框的辅助函数
 const degToRad = (angle) => (angle / 180) * Math.PI;
 
 const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
@@ -261,7 +261,9 @@ const App = () => {
   // 点击事件处理函数
   const handleStageClick = (e) => {
     // 如果我们正在用矩形选择，则不做任何操作
-    if (selectionRectangle.visible) {
+    const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+    const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+    if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
       return;
     }
 
@@ -350,12 +352,15 @@ const App = () => {
       height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
     };
 
-    const selected = rectangles.filter(rect => {
-      // 检查矩形是否与选择框相交
-      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
-    });
-    
-    setSelectedIds(selected.map(rect => rect.id));
+    // 只有当选区矩形实际有大小时才进行选择（不是单点点击）
+    if (selBox.width > 0 && selBox.height > 0) {
+      const selected = rectangles.filter(rect => {
+        // 检查矩形是否与选择框相交
+        return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+      });
+      
+      setSelectedIds(selected.map(rect => rect.id));
+    }
   };
 
   const handleDragEnd = (e) => {
@@ -611,7 +616,9 @@ watch(selectedIds, () => {
 
 const handleStageClick = (e) => {
   // 如果正在用矩形选择，则不做任何操作
-  if (selectionRectangle.visible) {
+  const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+  const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+  if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
     return;
   }
 
@@ -693,12 +700,15 @@ const handleMouseUp = () => {
     height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
   };
 
-  const selected = rectangles.value.filter(rect => {
-    // 检查矩形是否与选择框相交
-    return Konva.Util.haveIntersection(selBox, getClientRect(rect));
-  });
-  
-  selectedIds.value = selected.map(rect => rect.id);
+  // 只有当选区矩形实际有大小时才进行选择（不是单点点击）
+  if (selBox.width > 0 && selBox.height > 0) {
+    const selected = rectangles.value.filter(rect => {
+      // 检查矩形是否与选择框相交
+      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+    });
+    
+    selectedIds.value = selected.map(rect => rect.id);
+  }
 };
 
 const handleDragEnd = (e, index) => {

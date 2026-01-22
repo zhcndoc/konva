@@ -289,7 +289,7 @@ text.text('Hello world!');
 
 ### textDecoration(textDecoration) {#textDecoration}
 
-get/set text decoration of a text.  Can be '' or 'underline'.
+get/set text decoration of a text.  Can be '', 'underline', 'line-through', or a combination like 'underline line-through'.
 
 **Parameters:**
 
@@ -305,6 +305,12 @@ var textDecoration = shape.textDecoration();
 
 // underline text
 shape.textDecoration('underline');
+
+// line-through text
+shape.textDecoration('line-through');
+
+// combine both
+shape.textDecoration('underline line-through');
 ```
 
 ### kerningFunc(kerningFunc) {#kerningFunc}

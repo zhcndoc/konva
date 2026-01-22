@@ -115,6 +115,9 @@ const App = () => {
     if (!isDrawing.current) {
       return;
     }
+    // prevent scrolling on touch devices
+    e.evt.preventDefault();
+    
     const stage = e.target.getStage();
     const point = stage.getPointerPosition();
     
@@ -236,6 +239,9 @@ const handleMouseMove = (e) => {
   if (!isDrawing.value) {
     return;
   }
+  // prevent scrolling on touch devices
+  e.evt.preventDefault();
+  
   const stage = e.target.getStage();
   const point = stage.getPointerPosition();
   

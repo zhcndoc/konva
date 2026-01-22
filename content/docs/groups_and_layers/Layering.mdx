@@ -69,8 +69,8 @@ toBottomBtn.addEventListener('click', () => {
 yellowBox.moveToBottom();
 });
 
-document.body.appendChild(toTopBtn);
-document.body.appendChild(toBottomBtn);
+document.body.prepend(toTopBtn);
+document.body.prepend(toBottomBtn);
 
 ```
   </TabItem>
@@ -134,7 +134,6 @@ const App = () => {
 
 export default App;
 ```
-
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

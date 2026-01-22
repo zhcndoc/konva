@@ -12,42 +12,16 @@ export default function DocItemWrapper(props: Props): JSX.Element {
 
   return (
     <>
-      <DocItem {...props} />
       <div
+        className="wwads-cn wwads-horizontal"
+        data-id="354"
         style={{
-          position: "relative",
-          marginTop: 16,
           width: "100%",
-          borderRadius: 8,
-          borderWidth: 1,
-          borderStyle: "solid",
-          borderColor: "rgba(3,7,18,0.05)",
-          padding: 8,
+          marginBottom: "16px",
+          marginTop: "16px",
         }}
-      >
-        <a
-          href="https://www.rainyun.com/mm_?s=zhcndoc"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            zIndex: 10,
-          }}
-          data-umami-event="ads-konva-bottom"
-        />
-        <div
-          style={{ display: "flex", width: "100%", justifyContent: "center" }}
-        >
-          <img
-            src="/img/ads/rainyun_2.png"
-            style={{ width: "100%", borderRadius: 4 }}
-          />
-        </div>
-      </div>
+      ></div>
+      <DocItem {...props} />
       {/* <DiscussionEmbed
         shortname="konvajs"
         config={{

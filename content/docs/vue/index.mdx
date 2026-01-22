@@ -15,7 +15,7 @@ Vue Konva 是一个用于通过 Vue 绘制复杂 Canvas 图形的 JavaScript 库
 
 所有 `vue-konva` 组件都对应于同名的 `Konva` 组件，前缀为 'v-'。所有可用于 `Konva` 对象的参数可以作为 `config` 添加到相应 `vue-konva` 组件的属性中。
 
-核心图形包括：`v-rect`、`v-circle`、`v-ellipse`、`v-line`、`v-image`、`v-text`、`v-text-path`、`v-star`、`v-label`、`v-path`、`v-regular-polygon`。
+核心图形包括：`v-rect`、`v-circle`、`v-ellipse`、`v-line`、`v-image`、`v-text`、`v-text-path`、`v-star`、`v-label`、`v-path`、`v-regular-polygon`。  
 你还可以创建 [自定义形状](/docs/vue/Custom_Shape.html)。
 
 要获得有关 `Konva` 的更多信息，可以阅读 [Konva 概述](/docs/overview.html)。
@@ -30,7 +30,13 @@ Vue Konva 是一个用于通过 Vue 绘制复杂 Canvas 图形的 JavaScript 库
 npm install vue-konva konva --save
 ```
 
-### 2. 导入并使用 VueKonva
+### 2. 选择你的导入方式
+
+你可以通过两种方式使用 `vue-konva`：
+
+#### 选项 A：全局注册（推荐给初学者）
+
+使用插件全局注册所有组件：
 
 ```js
 import { createApp } from 'vue';
@@ -42,9 +48,43 @@ app.use(VueKonva);
 app.mount('#app');
 ```
 
-### 3. 在组件中使用
+完成全局注册后，所有组件都可通过带有 `v-` 前缀的名称使用，比如：`v-stage`、`v-layer`、`v-rect`、`v-circle` 等。
 
-说明：尝试拖动星星。它们在被拖动时会放大，并在释放时恢复到正常大小。
+#### 选项 B：按需导入
+
+仅导入你需要的组件：
+
+```vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle :config="circleConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { Stage as VStage, Layer as VLayer, Circle as VCircle } from 'vue-konva';
+
+const stageSize = {
+  width: 200,
+  height: 200
+};
+
+const circleConfig = {
+  x: 100,
+  y: 100,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+</script>
+```
+
+### 3. 示例：可拖拽的星形
+
+**说明：**尝试拖动星星。它们在被拖动时会放大，并在释放时恢复到正常大小。
 
 ```js live vue
 <template>
