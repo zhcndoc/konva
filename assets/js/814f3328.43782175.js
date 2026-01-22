@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkkonva_site_2=self.webpackChunkkonva_site_2||[]).push([[7472],{55513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[]}')}}]);
