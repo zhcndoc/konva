@@ -3,6 +3,7 @@ sidebar_position: 2
 title: Konva Framework Overview
 sidebar_label: Overview
 slug: overview.html
+description: "Konva.js architecture overview: Stage, Layers, Groups, and Shapes. Learn how Konva organizes canvas elements, handles events, styles shapes, and manages drag-and-drop."
 ---
 
 ## What's Konva?
@@ -279,3 +280,11 @@ shape.cache();
 
 You can find all available performance tips here:
 [https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)
+
+## Further Reading
+
+- [Why Konva? — When to use Konva for your project](/docs/guides/why-konva.html)
+- [Best JavaScript Canvas Libraries — Comparison Guide](/docs/guides/best-canvas-library.html)
+- [Canvas Library Comparison](/docs/guides/best-canvas-library.html)
+- [FAQ — Frequently Asked Questions](/docs/faq.html)
+- [About Konva — Key Facts and Adoption](/docs/about.html)

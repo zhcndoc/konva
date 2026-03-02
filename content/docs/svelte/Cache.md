@@ -3,6 +3,7 @@ title: How to cache canvas shapes with Svelte
 sidebar_label: Cache
 hide_table_of_contents: true
 slug: Cache.html
+description: "Learn how to cache canvas shapes in Svelte with svelte-konva for improved rendering performance using node.cache()."
 ---
 
 If you want to cache a node in a Svelte app, you need to have an access to Konva node and use `node.cache()` function.

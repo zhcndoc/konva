@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://konvajs.org/sitemap.xml

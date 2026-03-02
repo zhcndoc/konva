@@ -3,6 +3,7 @@ sidebar_position: 4
 title: How to support and donate to Konva project?
 sidebar_label: Donate
 slug: donate.html
+description: "Support Konva development through Patreon, Open Collective, or GitHub Sponsors to help maintain the framework."
 ---
 
 Hello, my name is Anton. I am core maintainer of `Konva` framework.

@@ -3,6 +3,7 @@ title: How to listen to an event on a canvas shape with Svelte and Konva?
 sidebar_label: Events
 hide_table_of_contents: true
 slug: Events.html
+description: "Learn how to handle click, mouse, touch, and drag events on canvas shapes with Svelte and Konva."
 ---
 
 With `svelte-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`). For this you can pass a callback function to the prop named `on<Konva event name>` which is then called by svelte-konva every time the event is fired. You can also access the Konva event payload object inside the callback function as its argument.

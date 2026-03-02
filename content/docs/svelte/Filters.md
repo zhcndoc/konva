@@ -3,6 +3,7 @@ title: How to apply canvas filters with Svelte and Konva?
 sidebar_label: Filters
 hide_table_of_contents: true
 slug: Filters.html
+description: "Learn how to apply canvas filters to shapes in Svelte with Konva using manual caching in onMount and afterUpdate."
 ---
 
 To apply filters you need to cache `Konva.Node` manually. You can do this initially in the `onMount()` method.

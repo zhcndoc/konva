@@ -3,6 +3,7 @@ title: How to apply canvas animations with Svelte and Konva?
 sidebar_label: Simple Animations
 hide_table_of_contents: true
 slug: Simple_Animations.html
+description: "Learn how to animate canvas shapes in Svelte using Konva Tweens, node.to() method, and Konva.Animation."
 ---
 
 Konva itself has two methods for animations [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). You can apply both of them to nodes manually.

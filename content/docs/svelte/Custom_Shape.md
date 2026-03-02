@@ -3,6 +3,7 @@ title: How to draw a custom canvas shape with Svelte?
 sidebar_label: Custom Shape
 hide_table_of_contents: true
 slug: Custom_Shape.html
+description: "Learn how to draw custom canvas shapes in Svelte using the svelte-konva Shape component and canvas drawing functions."
 ---
 
 To create a custom shape with `svelte-konva`, you should use the `Shape` component.

@@ -1,33 +1,35 @@
 ---
 sidebar_position: 3
-title: AI tools
+title: AI Tools for Konva.js Development
 sidebar_label: AI tools
 hide_table_of_contents: true
 slug: ai_tools.html
+description: "Use AI to build Konva.js apps faster. Chat with an AI bot trained on Konva docs, or connect the Konva MCP server to Cursor, Claude Desktop, Windsurf, and other AI coding tools."
 ---
 
-## Coding with Konva and AI agent
+## Coding with Konva and AI
 
-We have several AI tools that may help you build better konva apps. All of them are powered by awesome [crawlchat](https://crawlchat.app/).
+We have several AI tools to help you build Konva apps faster. All of them are powered by [CrawlChat](https://crawlchat.app/).
 
-AI agent will use Konva docs exensevly to answer your questions. Please remember it is an LLM and as any modern LLM it may give wrong answers.
+The AI agent uses Konva docs extensively to answer your questions. Please remember it is an LLM and as any modern LLM it may give wrong answers.
 
-## AI chat bot
+## AI Chat Bot
 
-Click "Ask AI" button somewhere on the page to ask a question to AI.
+Click the "Ask AI" button on any page to ask a question about Konva.
 
-You can also join your [Discord community](https://remotion.dev/discord) and ask `@AiBot-CrawlChat` there.
+You can also join the [Konva Discord community](https://discord.gg/8FqZwVT) and ask `@AiBot-CrawlChat` there.
 
-## MCP
+## MCP (Model Context Protocol)
 
-MCP (Model Context Protocol) is a standard protocol to connect with LLM applications like Claude App, Cursor, Windsurf or more such applications.
+MCP is a standard protocol that connects AI coding tools to external documentation. With the Konva MCP server, tools like Cursor, Claude Desktop, and Windsurf can access Konva documentation directly when helping you write code.
 
-### Cursor MCP Command
+### Cursor
 
-For clear video instructions [take a look into this guide](https://guides.crawlchat.app/walkthrough/67db0080600010f091e529b7).
-Cursor needs a JSON snippet to be added to the Cursor settings. Copy and paste the following snippet.
+For video instructions, see [this guide](https://guides.crawlchat.app/walkthrough/67db0080600010f091e529b7).
 
-**Important: as of March 2025, cursor will use MCP only in "Agent" mode. "Ask" and others will not use it.**
+Add the following to your Cursor MCP settings:
+
+**Important: Cursor uses MCP only in "Agent" mode. "Ask" and other modes will not use it.**
 
 ```json
 "konva-documentation": {
@@ -40,8 +42,65 @@ Cursor needs a JSON snippet to be added to the Cursor settings. Copy and paste t
 }
 ```
 
-### MCP Command
+### Claude Desktop
+
+Add the following to your Claude Desktop config file (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "konva-documentation": {
+      "command": "npx",
+      "args": [
+        "crawl-chat-mcp",
+        "--id=67d221efb4b9de65095a2579",
+        "--name=konva_documentation"
+      ]
+    }
+  }
+}
+```
+
+On macOS, the config file is at `~/Library/Application Support/Claude/claude_desktop_config.json`. On Windows, it's at `%APPDATA%\Claude\claude_desktop_config.json`.
+
+### Windsurf
+
+Add the following to your Windsurf MCP configuration:
+
+```json
+"konva-documentation": {
+  "command": "npx",
+  "args": [
+    "crawl-chat-mcp",
+    "--id=67d221efb4b9de65095a2579",
+    "--name=konva_documentation"
+  ]
+}
+```
+
+### Generic MCP Command
+
+For any MCP-compatible tool, use:
 
 ```
 npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 ```
+
+## LLM-Readable Documentation
+
+Konva provides machine-readable documentation files for AI tools:
+
+- [`/llms.txt`](/llms.txt) — Concise summary of Konva with key documentation links (follows the [llms-txt.org](https://llms-txt.org/) standard)
+- [`/llms-full.txt`](/llms-full.txt) — Complete API reference in plain text, auto-generated from Konva's API docs
+- [`/.well-known/ai-plugin.json`](/.well-known/ai-plugin.json) — Machine-readable identity file describing Konva's capabilities
+
+These files help AI assistants give accurate answers about Konva.
+
+## Tips for Using AI with Konva
+
+When asking AI tools about Konva, you'll get better results if you:
+
+- Mention "Konva" or "react-konva" explicitly in your prompt
+- Reference specific Konva features (e.g., "Transformer", "Layer", "toDataURL")
+- Ask about one task at a time rather than combining multiple questions
+- Verify AI-generated code against the [Konva docs](https://konvajs.org/docs/overview.html) and [API reference](https://konvajs.org/api/Konva.html)

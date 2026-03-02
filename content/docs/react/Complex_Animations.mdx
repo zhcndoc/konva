@@ -3,18 +3,19 @@ title: How to apply canvas animations with react and konva?
 sidebar_label: Complex Animations
 hide_table_of_contents: true
 slug: Complex_Animations.html
+description: "Learn how to create complex canvas animations in React with react-konva and react-spring. Animate colors, size, position, and shadows smoothly."
 ---
 
 For complex animations and high performance updates you can use the [react-spring library](https://github.com/drcmda/react-spring).
 
 ```js
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Stage, Layer, Text } from 'react-konva';
 import { Spring, animated } from '@react-spring/konva';
 
 const ColoredRect = () => {
-  const [flag, setFlag] = React.useState(false);
-  const handleClick = () => setFlag(prev => !prev);
+  const [flag, setFlag] = useState(false);
+  const handleClick = () => setFlag((prev) => !prev);
 
   return (
     <Spring
@@ -35,18 +36,16 @@ const ColoredRect = () => {
   );
 };
 
-class App extends Component {
-  render() {
-    return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Text text="Try clicking the rectangle" />
-          <ColoredRect />
-        </Layer>
-      </Stage>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text text="Try clicking the rectangle" />
+        <ColoredRect />
+      </Layer>
+    </Stage>
+  );
+};
 
 export default App;
 ``` 

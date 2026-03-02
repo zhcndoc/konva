@@ -3,6 +3,7 @@ title: Saving and loading canvas with Svelte and Konva
 sidebar_label: Save and Load
 hide_table_of_contents: true
 slug: Save_Load.html
+description: "Learn how to save and load canvas state in Svelte with Konva by serializing your app state instead of Konva internals."
 ---
 
 Native Konva has special mechanizm to save/load a full canvas stage with `node.toJSON()` and `node.create(json)` functions [(see demo)](/docs/data_and_serialization/Simple_Load.html).

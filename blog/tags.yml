@@ -1,19 +1,44 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+canvas:
+  label: Canvas
+  permalink: /canvas
+  description: HTML5 Canvas tutorials and tips
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+javascript:
+  label: JavaScript
+  permalink: /javascript
+  description: JavaScript development
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+react:
+  label: React
+  permalink: /react
+  description: React and react-konva
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+vue:
+  label: Vue
+  permalink: /vue
+  description: Vue and vue-konva
+
+svelte:
+  label: Svelte
+  permalink: /svelte
+  description: Svelte and svelte-konva
+
+performance:
+  label: Performance
+  permalink: /performance
+  description: Canvas performance optimization
+
+tutorial:
+  label: Tutorial
+  permalink: /tutorial
+  description: Step-by-step guides
+
+release:
+  label: Release
+  permalink: /release
+  description: Konva release announcements
+
+typescript:
+  label: TypeScript
+  permalink: /typescript
+  description: TypeScript with Konva

@@ -3,6 +3,7 @@ title: How to use svelte-konva with SvelteKit?
 sidebar_label: SvelteKit
 hide_table_of_contents: true
 slug: SvelteKit.html
+description: "Learn how to use svelte-konva with SvelteKit SSR and prerendering using browser checks or dynamic imports."
 ---
 
 Generally, svelte-konva is a client-side only library. When using SvelteKit, special care needs to be taken if svelte-konva/Konva functionality is used on prerendered and server side rendered (SSR) components. Prerendering and SSR happens in a Node.js environment. In case you use any svelte-konva functionality in such a context it will throw an error on the server:

@@ -3,6 +3,7 @@ title: How to resize and rotate canvas shapes with Svelte and Konva?
 sidebar_label: Transformer
 hide_table_of_contents: true
 slug: Transformer.html
+description: "Learn how to resize and rotate canvas shapes in Svelte using the svelte-konva Transformer component with select support."
 ---
 
 You can use the transformer tool by using the svelte-konva transformer component. Generally this approach requires some interfacing with the native Konva API. You can attach shapes to the transformer by manually attaching their handles to the transformer using the `nodes()` function. svelte-konva also automatically keeps the relevant component props in sync with the Konva node on `transformend` if bound. See the [bindings](/docs/svelte/Bindings.html) doc page for more details.

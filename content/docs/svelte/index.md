@@ -3,6 +3,7 @@ title: Getting started with Svelte and canvas via Konva
 sidebar_label: Getting Started
 hide_table_of_contents: true
 slug: index.html
+description: "Get started with svelte-konva, the official Svelte binding for Konva.js. Draw shapes, handle events, and build interactive canvas applications with Svelte components."
 ---
 
 ## How to use canvas with Svelte?

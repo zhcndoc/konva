@@ -3,6 +3,7 @@ sidebar_position: 3
 title: Need help with Konva library?
 sidebar_label: Support
 slug: support.html
+description: "Get help with Konva via StackOverflow, GitHub Issues, Discord chat, consulting, and other community resources."
 ---
 
 ## Looking for a help with Konva framework?

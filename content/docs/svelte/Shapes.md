@@ -3,6 +3,7 @@ title: Drawing canvas shapes with Svelte
 sidebar_label: Shapes
 hide_table_of_contents: true
 slug: Shapes.html
+description: "Learn how to draw canvas shapes like Rect, Circle, Line, Star, and more in Svelte using svelte-konva components."
 ---
 
 All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects are valid props for corresponding `svelte-konva` components, unless noted otherwise.

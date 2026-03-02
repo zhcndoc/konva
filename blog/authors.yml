@@ -1,8 +1,8 @@
 lavrton:
   name: Anton Lavrenov
-  title: Founder @ Polotno
-  url: https://github.com/lavrton
-  image_url: https://github.com/yangshun.png
+  title: Creator of Konva.js
+  url: https://lavrton.com
+  image_url: https://github.com/lavrton.png
   page: true
   socials:
     x: lavrton

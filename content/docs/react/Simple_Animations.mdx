@@ -3,6 +3,7 @@ title: How to apply canvas animations with React and Konva?
 sidebar_label: Simple Animations
 hide_table_of_contents: true
 slug: Simple_Animations.html
+description: "Learn how to animate canvas shapes in React with react-konva. Use React state, requestAnimationFrame, and Konva.Tween for smooth animations."
 ---
 
 Konva itself has two methods for animations: [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). You can apply both of them to nodes manually.
@@ -14,35 +15,33 @@ The demo is using the [refs API](/docs/react/Access_Konva_Nodes.html) to access 
 Instructions: Try to drag the rectangle to see it animate.
 
 ```js live react
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import { Stage, Layer, Rect } from 'react-konva';
 
-class MyRect extends React.Component {
-  changeSize = () => {
+const MyRect = () => {
+  const rectRef = useRef(null);
+
+  const changeSize = () => {
     // to() is a method of `Konva.Node` instances
-    this.rect.to({
+    rectRef.current.to({
       scaleX: Math.random() + 0.8,
       scaleY: Math.random() + 0.8,
       duration: 0.2,
     });
   };
 
-  render() {
-    return (
-      <Rect
-        ref={(node) => {
-          this.rect = node;
-        }}
-        width={50}
-        height={50}
-        fill="green"
-        draggable
-        onDragEnd={this.changeSize}
-        onDragStart={this.changeSize}
-      />
-    );
-  }
-}
+  return (
+    <Rect
+      ref={rectRef}
+      width={50}
+      height={50}
+      fill="green"
+      draggable
+      onDragEnd={changeSize}
+      onDragStart={changeSize}
+    />
+  );
+};
 
 const App = () => {
   return (

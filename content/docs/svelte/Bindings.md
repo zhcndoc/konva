@@ -3,6 +3,7 @@ title: Binding the config prop
 sidebar_label: Bindings
 hide_table_of_contents: true
 slug: Bindings.html
+description: "Learn how svelte-konva keeps config props in sync with Konva node state after drag and transform events."
 ---
 
 Svelte-Konva is able to keep certain props in sync with the internal state of Konva (position, rotation, scale, ...) after `dragend` and `transformend` events in case the prop is bound.
