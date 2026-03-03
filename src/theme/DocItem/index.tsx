@@ -23,14 +23,14 @@ function buildBreadcrumbList(siteUrl: string, permalink: string, title: string) 
     path += '/' + part;
 
     if (i === parts.length - 1) {
-      // Last part — use actual page title, link to permalink
-      items.push({ name: title, item: siteUrl + permalink });
+      // Last part — use actual page title, no "item" needed (Google allows omitting it on the last element)
+      items.push({ name: title });
     } else if (part === 'docs') {
       items.push({ name: 'Docs', item: siteUrl + '/docs/index.html' });
     } else {
-      // Middle segments — capitalize as section name
+      // Middle segments — capitalize as section name, link to section index
       const name = part.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-      items.push({ name });
+      items.push({ name, item: siteUrl + path + '/index.html' });
     }
   }
 
