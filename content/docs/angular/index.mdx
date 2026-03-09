@@ -21,6 +21,8 @@ Also you can create [custom shapes](/docs/angular/Custom_Shape.html).
 
 To get more info about `Konva` you can read [Konva Overview](/docs/overview.html).
 
+For Angular 21 apps, plain static configs work well for simple demos. If you update a config from async callbacks such as image loading, prefer Angular signals.
+
 ## Quick Start
 
 [Angular](https://angular.io/) version 20+ is required.
@@ -41,6 +43,7 @@ import {
 
 @Component({
   // ... other config
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>
@@ -84,6 +87,7 @@ type ExtStartConfig = StarConfig & { startScale: number };
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

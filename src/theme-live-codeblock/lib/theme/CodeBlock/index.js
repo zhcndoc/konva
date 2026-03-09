@@ -87,17 +87,12 @@ export const AngularKonva = ({ code }) => {
       }}
       customSetup={{
         dependencies: {
-          '@angular/animations': '^20.0.0',
-          '@angular/common': '^20.0.0',
-          '@angular/compiler': '^20.0.0',
-          '@angular/core': '^20.0.0',
-          '@angular/forms': '^20.0.0',
-          '@angular/platform-browser': '^20.0.0',
-          '@angular/router': '^20.0.0',
+          '@angular/common': '^21.2.1',
+          '@angular/compiler': '^21.2.1',
+          '@angular/core': '^21.2.1',
+          '@angular/platform-browser': '^21.2.1',
           konva: '10.0.12',
-          'ng2-konva': '10.0.0-2',
-          rxjs: '^7.8.2',
-          tslib: '^2.8.1',
+          'ng2-konva': '12.0.0',
         },
       }}
       files={{

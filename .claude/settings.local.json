@@ -35,7 +35,8 @@
       "Bash(for f in /Users/lavrton/Projects/konva-site-new/content/docs/sandbox/*.mdx)",
       "Bash(do if ! grep -q '^description:' \"$f\")",
       "Bash(then basename \"$f\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "WebFetch(domain:konvajs.org)"
     ]
   }
 }

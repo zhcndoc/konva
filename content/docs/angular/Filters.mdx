@@ -6,9 +6,13 @@ slug: Filters.html
 description: "Learn how to apply visual filters like blur to canvas shapes in Angular using ng2-konva with caching."
 ---
 
-To apply filters with `Konva` in Angular, you can use the `ng2-konva` library with the `filters` property.
+To apply filters in Konva, set the `filters` property and cache the node after it is mounted.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+This demo uses a blur filter on a circle and calls `cache()` once the underlying Konva node is available.
+
+**Instructions**: The demo renders a blurred red circle. Remove `cache()` in the editor to see why caching is required for filters.
+
+For more details, see the [Filters API Reference](/api/Konva.Filters.html) and [`cache()` documentation](/api/Konva.Node.html#cache).
 
 ## Filters Example
 
@@ -16,7 +20,7 @@ For full list of properties and methods, see the [Konva API Reference](/api/Konv
 import { Component, ViewChild } from '@angular/core';
 import { StageConfig } from 'konva/lib/Stage';
 import { CircleConfig } from 'konva/lib/shapes/Circle';
-import * as Konva from 'konva';
+import Konva from 'konva';
 
 import {
   CoreShapeComponent,
@@ -25,6 +29,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

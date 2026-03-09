@@ -6,9 +6,13 @@ slug: Custom_Shape.html
 description: "Learn how to draw custom shapes on canvas in Angular using ng2-konva with the sceneFunc drawing function."
 ---
 
-To create custom shapes with `Konva` in Angular, you can use the `ng2-konva` library with the `Custom` component.
+To create a custom shape with `ng2-konva`, use the `ko-shape` component and provide a `sceneFunc` drawing function.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+Inside `sceneFunc`, you can use the native canvas context together with Konva helpers such as `context.fillStrokeShape(shape)` to apply fill, stroke, and shadow styles correctly.
+
+**Instructions**: The demo draws a custom triangle-like shape with canvas path commands.
+
+For more details, see the [Shape API Reference](/api/Konva.Shape.html).
 
 ## Custom Shape Example
 
@@ -24,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

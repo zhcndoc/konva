@@ -6,9 +6,13 @@ slug: Cache.html
 description: "Learn how to cache Konva shapes in Angular using ng2-konva to improve canvas rendering performance."
 ---
 
-To use caching with `Konva` in Angular, you can use the `ng2-konva` library with the `cache` method to improve performance.
+Caching rasterizes a node into an internal image, which can improve performance and is required for some effects such as filters.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+This example accesses the underlying Konva node after render and calls `cache()` manually.
+
+**Instructions**: The demo shows a rectangle with shadow styling that is cached after the view initializes.
+
+For more details, see the [Node API Reference](/api/Konva.Node.html) and [`cache()` documentation](/api/Konva.Node.html#cache).
 
 ## Cache Example
 
@@ -24,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

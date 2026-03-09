@@ -6,9 +6,11 @@ slug: Transformer.html
 description: "Learn how to resize and rotate canvas shapes in Angular using ng2-konva Transformer for interactive selection."
 ---
 
-To use transformers with `Konva` in Angular, you can use the `ng2-konva` library with the `Transformer` component to enable shape selection and transformation.
+The Transformer tool is attached to nodes imperatively. In Angular, that means creating a `ko-transformer` and connecting it to the selected shape after the view is ready.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+**Instructions**: Click the rectangle to select it, drag it to move it, and click on the empty stage to clear the selection.
+
+For more details, see the [Transformer API Reference](/api/Konva.Transformer.html).
 
 ## Transformer Example
 
@@ -24,6 +26,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage" (click)="handleStageClick($event.event)">
       <ko-layer>
@@ -62,11 +65,7 @@ export default class App implements AfterViewInit {
   }
 
   public handleStageClick(event: any): void {
-    if (!event) {
-      // TODO: there is currently a bug in ng2-konva where the event is not passed in the click event
-      return;
-    }
-    if (event.target === event.target.getStage()) {
+    if (event?.target === event.target.getStage()) {
       this.transformer.getNode().nodes([]);
     }
   }

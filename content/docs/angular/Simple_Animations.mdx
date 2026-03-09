@@ -6,9 +6,13 @@ slug: Simple_Animations.html
 description: "Learn how to create simple canvas animations in Angular using ng2-konva with the Konva.Animation class."
 ---
 
-To create simple animations with `Konva` in Angular, you can use the `ng2-konva` library with the `Animation` component or manual animation loops.
+Konva provides two main animation tools: `node.to()` for simple transitions and `Konva.Animation` for frame-by-frame updates.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+This example uses `Konva.Animation` directly to move a circle in a sine wave after the view initializes.
+
+**Instructions**: The demo continuously animates the red circle left and right.
+
+For more details, see the [Animation docs](/docs/animations/Rotation.html) and the [Node API Reference](/api/Konva.Node.html).
 
 ## Simple Animation Example
 
@@ -16,7 +20,7 @@ For full list of properties and methods, see the [Konva API Reference](/api/Konv
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { StageConfig } from 'konva/lib/Stage';
 import { CircleConfig } from 'konva/lib/shapes/Circle';
-import * as Konva from 'konva';
+import Konva from 'konva';
 
 import {
   CoreShapeComponent,
@@ -25,6 +29,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

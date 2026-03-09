@@ -6,9 +6,13 @@ slug: Shapes.html
 description: "Learn how to draw rectangles, circles, lines, and text on canvas in Angular using ng2-konva shape components."
 ---
 
-To create shapes with `Konva` in Angular, you can use the `ng2-konva` library components.
+All `ng2-konva` shape components map to Konva shapes with the `ko-` prefix, so you can pass any regular Konva shape settings through the `config` object.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+This example shows several common shapes with different styling options such as shadows, gradients, and line tension.
+
+**Instructions**: The demo renders text, a rectangle, a circle, and a closed line with a gradient fill.
+
+For more details, see the [Konva API Reference](/api/Konva.html) and the [Line API Reference](/api/Konva.Line.html).
 
 ## Shapes Example
 
@@ -27,6 +31,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

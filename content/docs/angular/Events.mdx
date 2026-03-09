@@ -6,9 +6,13 @@ slug: Events.html
 description: "Learn how to handle mouse, touch, and pointer events on canvas shapes in Angular using ng2-konva event bindings."
 ---
 
-To handle events with `Konva` in Angular, you can use the `ng2-konva` library event bindings.
+To handle pointer events in Angular, attach listeners such as `(mousemove)` and `(mouseout)` directly to `ng2-konva` components.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+This demo updates a text label from stage pointer coordinates while the mouse moves over the triangle.
+
+**Instructions**: Move your mouse over the triangle to update the coordinate label, then move out to reset the text.
+
+For more details, see the [Node API Reference](/api/Konva.Node.html) and the [Stage API Reference](/api/Konva.Stage.html).
 
 ## Events Example
 
@@ -25,6 +29,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

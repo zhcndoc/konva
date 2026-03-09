@@ -6,9 +6,13 @@ slug: Undo-Redo.html
 description: "Learn how to implement undo and redo for canvas interactions in Angular using ng2-konva with state history tracking."
 ---
 
-To implement undo-redo functionality with `Konva` in Angular, you can use the `ng2-konva` library with state management to track changes.
+Undo and redo work best when canvas state is stored in plain data objects instead of reading values back from the canvas on every render.
 
-For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+This example stores rectangle positions in a small history stack and restores previous snapshots when you click Undo or Redo.
+
+**Instructions**: Drag the rectangle to create history entries, then click Undo and Redo to move through the saved states.
+
+For more details, see the [Rect API Reference](/api/Konva.Rect.html).
 
 ## Undo-Redo Example
 
@@ -24,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <div>
       <button (click)="undo()" [disabled]="!canUndo()">Undo</button>
@@ -71,8 +76,11 @@ export default class App {
   }
 
   public handleDragEnd(event: any): void {
-    this.configRect.x = event.target.x();
-    this.configRect.y = event.target.y();
+    this.configRect = {
+      ...this.configRect,
+      x: event.target.x(),
+      y: event.target.y()
+    };
     this.saveState();
   }
 
