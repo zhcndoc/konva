@@ -29,7 +29,7 @@ export const frameworksList = [
   },
   {
     name: 'Vue',
-    color: '#42B883',
+    color: '#4FC08D',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em">
         <path d="M24,1.61H14.06L12,5.16,9.94,1.61H0L12,22.39ZM12,14.08,5.16,2.23H9.59L12,6.41l2.41-4.18h4.43Z" />
@@ -38,7 +38,7 @@ export const frameworksList = [
   },
   {
     name: 'Angular',
-    color: '#DD0031',
+    color: '#0F0F11',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em">
         <path d="M16.712 17.711H7.288l-1.204 2.916L12 24l5.916-3.373-1.204-2.916ZM14.692 0l7.832 16.855.814-12.856L14.692 0ZM9.308 0 .662 3.999l.814 12.856L9.308 0Zm-.405 13.93h6.198L12 6.396 8.903 13.93Z" />
