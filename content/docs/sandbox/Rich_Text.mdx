@@ -3,117 +3,149 @@ title: How to show rich html on canvas with Konva
 sidebar_label: Rich Text
 hide_table_of_contents: true
 slug: Rich_Text.html
-description: "Display rich HTML text with bold, italic, and color styles on canvas using Konva and html2canvas."
+description: "Display rich HTML text with bold, italic, and color styles on canvas using Konva and render-tag."
 ---
 
 ## How to show complex styles (like bold) and enable rich text editing features?
 
 Canvas's text API is very limited. [Konva.Text](/docs/shapes/Text.html) allows you to add many different styles, support multiline text, etc. But at the current moment it has limitations. You can't use different styles for different parts of `Konva.Text`. For that case you have to use several `Konva.Text` instances.
 
-If you want show complex styles on canvas we can do a hacky workaround. The idea is simple:
+If you want to show complex styles on canvas, you can use [render-tag](https://polotno.com/render-tag/) — a library that renders HTML + CSS directly onto canvas using the 2D API. No SVG, no `foreignObject`, fully synchronous.
 
-1. Create DOM element and put styled text in it
-2. Convert DOM element into image with [html2canvas](https://html2canvas.hertzen.com/).
-3. Use that image for `Konva.Image`.
+The idea is:
 
-Instructions: Try to type and format text in the editor above. The formatted text will be rendered on the canvas below as an image. You can drag the rendered text around. 
+1. Create a custom `Konva.Shape` with an `html` property
+2. Use `render-tag` to compute layout and draw styled text onto the canvas context
+3. The shape auto-sizes its height based on the HTML content
+
+Instructions: Try to type and format text in the editor. The formatted text will be rendered on the canvas below it. You can drag the rendered text around.
 
 ```js live vanilla
 import Konva from 'konva';
+import { Factory } from 'konva/lib/Factory';
+// render-tag: renders HTML+CSS onto canvas via pure 2D API
+// loaded from CDN to avoid Sandpack transpilation issues
+var computeLayout, drawLayout;
 
-// First we need to load Quill and html2canvas
-const loadScript = (src) => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
+// Create a custom Konva shape that renders HTML via render-tag
+// Use Reflect.construct to extend ES6 class from transpiled code
+function RichText(config) {
+  var instance = Reflect.construct(Konva.Shape, [config], RichText);
+  instance._layoutResult = null;
+  instance.on('htmlChange widthChange', function () {
+    this._recomputeLayout();
+  });
+  instance._recomputeLayout();
+  return instance;
+}
+RichText.prototype = Object.create(Konva.Shape.prototype);
+RichText.prototype.constructor = RichText;
+RichText.prototype.className = 'RichText';
+
+RichText.prototype._recomputeLayout = function () {
+  var html = this.html();
+  var width = this.width() || 200;
+  if (!html) {
+    this._layoutResult = null;
+    return;
+  }
+  this._layoutResult = computeLayout({ html: html, width: width });
+};
+
+RichText.prototype._sceneFunc = function (context) {
+  if (!this._layoutResult) return;
+  var width = this.width() || 200;
+  drawLayout({
+    layout: this._layoutResult,
+    width: width,
+    ctx: context._context,
+    pixelRatio: 1,
   });
 };
 
-const loadCSS = (href) => {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = href;
-  document.head.appendChild(link);
+RichText.prototype._hitFunc = function (context) {
+  var width = this.width() || 200;
+  var height = this.height() || (this._layoutResult ? this._layoutResult.height : 0);
+  context.beginPath();
+  context.rect(0, 0, width, height);
+  context.closePath();
+  context.fillStrokeShape(this);
 };
 
-// Create editor container
-const editorContainer = document.createElement('div');
-editorContainer.id = 'editor-container';
-editorContainer.style.height = '80px';
-editorContainer.innerHTML = `
-  That is <u>some</u> <span style="color: red"> styled text</span> on
-  <strong>canvas</strong>!
-  <h2>What do you think about it?</h2>
-`;
-document.body.appendChild(editorContainer);
+Factory.addGetterSetter(RichText, 'html', '');
+Factory.addGetterSetter(RichText, 'width', 200);
+Factory.addGetterSetter(RichText, 'height', 0);
 
-// Load dependencies
-Promise.all([
-  loadScript('https://cdn.quilljs.com/1.3.6/quill.js'),
-  loadScript('https://html2canvas.hertzen.com/dist/html2canvas.min.js'),
-]).then(() => {
-  loadCSS('https://cdn.quilljs.com/1.3.6/quill.snow.css');
+// --- Toolbar + contenteditable editor ---
+function execCmd(cmd, val) {
+  document.execCommand(cmd, false, val || null);
+  editor.focus();
+}
 
-  const quill = new Quill('#editor-container', {
-    modules: {
-      toolbar: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline'],
-        ['image', 'code-block'],
-      ],
-    },
-    placeholder: 'Compose an epic...',
-    theme: 'snow',
+var toolbar = document.createElement('div');
+toolbar.innerHTML = [
+  '<button onclick="return false" data-cmd="bold"><b>B</b></button>',
+  '<button onclick="return false" data-cmd="italic"><i>I</i></button>',
+  '<button onclick="return false" data-cmd="underline"><u>U</u></button>',
+  '<button onclick="return false" data-cmd="formatBlock" data-val="h1">H1</button>',
+  '<button onclick="return false" data-cmd="formatBlock" data-val="h2">H2</button>',
+  '<button onclick="return false" data-cmd="foreColor" data-val="red" style="color:red">A</button>',
+].join('');
+toolbar.style.cssText = 'display:flex;gap:4px;margin-bottom:4px;';
+toolbar.querySelectorAll('button').forEach(function (btn) {
+  btn.style.cssText = 'padding:2px 8px;cursor:pointer;';
+  btn.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    execCmd(btn.dataset.cmd, btn.dataset.val);
   });
+});
+document.body.prepend(toolbar);
 
-  const stage = new Konva.Stage({
+var editor = document.createElement('div');
+editor.contentEditable = true;
+editor.style.cssText = 'border:1px solid #ccc;padding:8px;min-height:60px;margin-bottom:8px;';
+editor.innerHTML =
+  'That is <u>some</u> <span style="color:red"> styled text</span> on <strong>canvas</strong>!' +
+  '<h2>What do you think about it?</h2>';
+var container = document.getElementById('container');
+document.body.insertBefore(editor, container);
+
+// --- Load render-tag and set up canvas ---
+var loadScript = function (src) {
+  return new Promise(function (resolve, reject) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+};
+
+loadScript('https://cdn.jsdelivr.net/npm/render-tag/lib/render-tag.umd.js').then(function () {
+  computeLayout = RenderTag.layout;
+  drawLayout = RenderTag.drawLayout;
+
+  var stage = new Konva.Stage({
     container: 'container',
     width: window.innerWidth,
     height: 200,
   });
 
-  const layer = new Konva.Layer();
+  var layer = new Konva.Layer();
   stage.add(layer);
 
-  const shape = new Konva.Image({
+  var shape = new RichText({
     x: 10,
     y: 10,
+    width: 400,
     draggable: true,
-    stroke: 'red',
-    scaleX: 1 / window.devicePixelRatio,
-    scaleY: 1 / window.devicePixelRatio,
+    html: editor.innerHTML,
   });
   layer.add(shape);
 
-  function renderText() {
-    // convert DOM into image
-    html2canvas(document.querySelector('.ql-editor'), {
-      backgroundColor: 'rgba(0,0,0,0)',
-    }).then((canvas) => {
-      // show it inside Konva.Image
-      shape.image(canvas);
-    });
-  }
-
-  // batch updates, so we don't render text too frequently
-  let timeout = null;
-  function requestTextUpdate() {
-    if (timeout) {
-      return;
-    }
-    timeout = setTimeout(function () {
-      timeout = null;
-      renderText();
-    }, 500);
-  }
-
-  // render text on all changes
-  quill.on('text-change', requestTextUpdate);
-  // make initial rendering
-  renderText();
+  editor.addEventListener('input', function () {
+    shape.html(editor.innerHTML);
+  });
 });
 ```
 

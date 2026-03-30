@@ -8,6 +8,20 @@ import React from 'react';
 import CodeBlock from '@theme-init/CodeBlock';
 import { Sandpack } from '@codesandbox/sandpack-react';
 
+// Extract non-konva npm package names from import statements
+function extractDeps(code) {
+  const deps = {};
+  const re = /import\s+(?:[\s\S]*?\s+from\s+)?['"]([^./][^'"]*)['"]/g;
+  let m;
+  while ((m = re.exec(code))) {
+    const pkg = m[1].startsWith('@') ? m[1].split('/').slice(0, 2).join('/') : m[1].split('/')[0];
+    if (pkg !== 'konva') {
+      deps[pkg] = 'latest';
+    }
+  }
+  return deps;
+}
+
 export const Vanilla = ({ code }) => {
   return (
     <Sandpack
@@ -18,6 +32,7 @@ export const Vanilla = ({ code }) => {
       customSetup={{
         dependencies: {
           konva: '10.0.12',
+          ...extractDeps(code),
         },
       }}
       files={{
