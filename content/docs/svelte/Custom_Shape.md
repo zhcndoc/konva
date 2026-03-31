@@ -3,6 +3,7 @@ title: 如何使用 Svelte 绘制自定义画布形状？
 sidebar_label: 自定义形状
 hide_table_of_contents: true
 slug: Custom_Shape.html
+description: "学习如何使用 svelte-konva Shape 组件和画布绘制函数在 Svelte 中绘制自定义画布形状。"
 ---
 
 要用 `svelte-konva` 创建自定义形状，应该使用 `Shape` 组件。

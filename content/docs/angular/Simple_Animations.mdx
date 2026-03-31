@@ -3,11 +3,16 @@ title: Angular Konva 简单动画教程
 sidebar_label: 简单动画
 hide_table_of_contents: true
 slug: Simple_Animations.html
+description: "学习如何使用 ng2-konva 和 Konva.Animation 类在 Angular 中创建简单的 canvas 动画。"
 ---
 
-在 Angular 中使用 `Konva` 创建简单动画，可以使用 `ng2-konva` 库中的 `Animation` 组件或者手动动画循环。
+Konva 提供了两个主要的动画工具：`node.to()` 用于简单过渡，`Konva.Animation` 用于逐帧更新。
 
-有关属性和方法的完整列表，请参见 [Konva API 参考](/api/Konva.html)。
+此示例直接使用 `Konva.Animation` 在视图初始化后以正弦波方式移动圆形。
+
+**说明**：演示使红色圆形持续左右移动。
+
+了解更多详情，请参阅 [动画文档](/docs/animations/Rotation.html) 和 [节点 API 参考](/api/Konva.Node.html)。
 
 ## 简单动画示例
 
@@ -15,7 +20,7 @@ slug: Simple_Animations.html
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { StageConfig } from 'konva/lib/Stage';
 import { CircleConfig } from 'konva/lib/shapes/Circle';
-import * as Konva from 'konva';
+import Konva from 'konva';
 
 import {
   CoreShapeComponent,
@@ -24,6 +29,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

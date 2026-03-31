@@ -1,11 +1,12 @@
 ---
-title: HTML5 Canvas 填充教程
+title: HTML5 Canvas 设置填充教程
 sidebar_label: 填充
 hide_table_of_contents: true
 slug: Fill.html
+description: "学习如何使用 Konva.js 在 HTML5 Canvas 上使用颜色、图案、线性渐变和径向渐变填充形状。"
 ---
 
-为了用 Konva 填充形状，我们可以在实例化形状时设置 fill 属性，或者使用 `fill()` 方法。
+要使用 Konva 填充形状，我们可以在实例化形状时设置 fill 属性，也可以使用 `fill()` 方法。
 
 Konva 支持颜色、图案、线性渐变和径向渐变。
 
@@ -24,7 +25,7 @@ function loadImages(sources, callback) {
   var images = {};
   var loadedImages = 0;
   var numImages = 0;
-  // 获取资源数量
+  // 获取源的数量
   for (var src in sources) {
     numImages++;
   }
@@ -128,7 +129,7 @@ function draw(images) {
   });
 
   linearGradPentagon.on('mouseout touchend', function () {
-    // 使用 setAttrs 同时设置多个属性
+    // 使用 setAttrs 一次性设置多个属性
     this.setAttrs({
       fillLinearGradientStartPoint: { x: -50, y: -50 },
       fillLinearGradientEndPoint: { x: 50, y: 50 },
@@ -148,7 +149,7 @@ function draw(images) {
   });
 
   radialGradPentagon.on('mouseout touchend', function () {
-    // 使用 setAttrs 同时设置多个属性
+    // 使用 setAttrs 一次性设置多个属性
     this.setAttrs({
       fillRadialGradientStartPoint: 0,
       fillRadialGradientStartRadius: 0,

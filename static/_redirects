@@ -1,3 +1,8 @@
 /docs/svelte /docs/svelte/index.html 301!
 /docs/react /docs/react/index.html 301!
 /docs/vue /docs/vue/index.html 301!
+
+# Short URLs for key pages
+/about     /docs/about.html    301
+/faq       /docs/faq.html      301
+/compare   /docs/guides/best-canvas-library.html  301

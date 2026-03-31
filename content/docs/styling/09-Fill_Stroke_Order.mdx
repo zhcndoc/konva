@@ -1,15 +1,16 @@
 ---
-title: 填充与描边顺序演示
-sidebar_label: 填充与描边顺序
+title: 填充和描边顺序演示
+sidebar_label: 填充和描边顺序
 hide_table_of_contents: true
 slug: Fill_Stroke_Order.html
+description: "了解如何使用 fillAfterStrokeEnabled 属性在 Konva.js 中控制填充和描边的渲染顺序。"
 ---
 
-如果一个形状同时具有填充和描边，默认情况下，`Konva` 会先绘制填充，然后在其上面绘制描边。对于大多数应用程序来说，这是最佳行为。
+如果一个形状同时具有填充和描边，默认情况下，`Konva` 会先绘制填充，然后在上面绘制描边。这对于大多数应用程序来说是最佳行为。
 
 ## 如何将填充部分绘制在描边之上？
 
-在一些罕见的情况下，您可能需要一个先绘制描边，然后在其上绘制填充的形状。对于这种用例，您可以使用 [fillAfterStrokeEnabled](https://konvajs.org/api/Konva.Shape.html#fillAfterStrokeEnabled) 属性。
+在某些罕见情况下，你可能需要一个先描边，然后在上面填充的形状。对于这种用例，你可以使用 [fillAfterStrokeEnabled](https://konvajs.org/api/Konva.Shape.html#fillAfterStrokeEnabled) 属性。
 
 ```js
 shape.fillAfterStrokeEnabled(true);
@@ -46,7 +47,7 @@ const text1 = new Konva.Text({
 layer.add(text1);
 
 const text2 = new Konva.Text({
-  text: '反转的渲染顺序。\nfillAfterStrokeEnabled = true',
+  text: '反向渲染顺序。\nfillAfterStrokeEnabled = true',
   x: 50,
   y: 150,
   fontSize: 40,
@@ -76,7 +77,7 @@ const App = () => {
           strokeWidth={3}
         />
         <Text
-          text="反转的渲染顺序。\nfillAfterStrokeEnabled = true"
+          text="反向渲染顺序。\nfillAfterStrokeEnabled = true"
           x={50}
           y={150}
           fontSize={40}
@@ -121,7 +122,7 @@ const textConfig1 = {
 };
 
 const textConfig2 = {
-  text: '反转的渲染顺序。\nfillAfterStrokeEnabled = true',
+  text: '反向渲染顺序。\nfillAfterStrokeEnabled = true',
   x: 50,
   y: 150,
   fontSize: 40,

@@ -3,15 +3,16 @@ title: HTML5 Canvas Konva 缩放动画教程
 sidebar_label: 缩放
 hide_table_of_contents: true
 slug: Scaling.html
+description: "学习如何使用 Konva.Animation 及 scaleX 和 scaleY 属性在 HTML5 canvas 上实现形状缩放动画。"
 ---
 
-要使用 Konva 动画化形状的缩放，我们可以使用 `Konva.Animation` 创建一个新的动画，并定义一个函数，在每个动画帧修改形状的缩放。
+要使用 Konva 实现形状的缩放动画，我们可以使用 `Konva.Animation` 创建一个新动画，并定义一个函数，在每一动画帧中修改形状的缩放。
 
-在本教程中，我们将缩放一个蓝色六边形的 x 和 y 组件，一个黄色六边形的 y 组件，以及一个红色六边形的 x 组件，围绕位于形状右侧的轴。
+在本教程中，我们将围绕位于形状右侧的轴，缩放蓝色六边形的 x 和 y 分量、黄色六边形的 y 分量，以及红色六边形的 x 分量。
 
-**说明：** 拖动和放置六边形以观看动画
+**说明：** 在六边形动画播放时拖放它们
 
-有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
+如需属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -86,7 +87,8 @@ redHex.scaleX(scale);
 }, layer);
 
 anim.start();
-```` 
+
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -298,4 +300,3 @@ onUnmounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

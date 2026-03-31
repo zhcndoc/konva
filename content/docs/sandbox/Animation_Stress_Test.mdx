@@ -3,9 +3,10 @@ title: 动画压力测试
 sidebar_label: 动画压力测试
 hide_table_of_contents: true
 slug: Animation_Stress_Test.html
+description: "使用 Konva 在画布上对 300 个旋转矩形进行动画处理的压力测试，性能经过优化。"
 ---
 
-此演示创建了300个具有随机大小、位置和颜色的矩形，然后通过旋转每个矩形来对它们进行动画处理。通过将图层的 `listening` 属性设置为 `false` 来优化动画性能，这样可以提高绘制性能，因为矩形将不会被绘制到命中图上。
+此演示创建了 300 个具有随机大小、位置和颜色的矩形，然后通过旋转每个矩形来对它们进行动画处理。通过将图层的 `listening` 属性设置为 `false` 来优化动画性能，这样可以提高绘制性能，因为矩形将不会被绘制到命中图上。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -312,4 +313,4 @@ onUnmounted(() => {
   </TabItem>
 </Tabs>
 
-**说明：** 此演示展示了 Konva 的动画能力，通过同时旋转300个矩形。观看这些形状在屏幕上平滑旋转。
+**说明：** 此演示展示了 Konva 的动画能力，通过同时旋转 300 个矩形。观看这些形状在屏幕上平滑旋转。

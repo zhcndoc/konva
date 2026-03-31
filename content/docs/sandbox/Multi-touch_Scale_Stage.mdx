@@ -3,6 +3,7 @@ title: 多点触控画布缩放与捏合缩放
 sidebar_label: 多点触控缩放舞台
 hide_table_of_contents: true
 slug: Multi-touch_Scale_Stage.html
+description: "在移动设备上使用多点触控手势在整个 Konva 舞台上启用平移和捏合缩放。"
 ---
 
 ## 如何为画布舞台启用平移和捏合缩放？
@@ -21,10 +22,10 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// 默认情况下，Konva在节点拖动时会阻止某些事件
-// 这提高了性能并在95%的情况下工作良好
-// 我们需要在Konva上启用所有事件，即使在拖动节点时
-// 这样可以正确触发touchmove
+// 默认情况下，Konva 在节点拖动时会阻止某些事件
+// 这提高了性能并在 95% 的情况下工作良好
+// 我们需要在 Konva 上启用所有事件，即使在拖动节点时
+// 这样可以正确触发 touchmove
 Konva.hitOnDragEnabled = true;
 
 const width = window.innerWidth;
@@ -85,7 +86,7 @@ stage.on('touchmove', function (e) {
   }
 
   if (touch1 && touch2) {
-    // 如果舞台在Konva的拖放中
+    // 如果舞台在 Konva 的拖放中
     // 我们需要停止它，并用两个指点实现我们自己的平移逻辑
     if (stage.isDragging()) {
       dragStopped = true;
@@ -157,10 +158,10 @@ stage.add(layer);
 import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
 import { useState, useEffect, useCallback } from 'react';
 
-// 默认情况下，Konva在节点拖动时会阻止某些事件
-// 这提高了性能并在95%的情况下工作良好
-// 我们需要在Konva上启用所有事件，即使在拖动节点时
-// 这样可以正确触发touchmove
+// 默认情况下，Konva 在节点拖动时会阻止某些事件
+// 这提高了性能并在 95% 的情况下工作良好
+// 我们需要在 Konva 上启用所有事件，即使在拖动节点时
+// 这样可以正确触发 touchmove
 window.Konva.hitOnDragEnabled = true;
 
 const App = () => {
@@ -194,7 +195,7 @@ const App = () => {
     }
 
     if (touch1 && touch2) {
-      // 如果舞台在Konva的拖放中
+      // 如果舞台在 Konva 的拖放中
       // 我们需要停止它，并用两个指点实现我们自己的平移逻辑
       if (stage.isDragging()) {
         stage.stopDrag();
@@ -256,7 +257,7 @@ const App = () => {
 
   const handleDragEnd = (e) => {
     setDragStopped(false);
-    // Ensure stage position is synchronized with our reactive state
+    // 确保舞台位置与我们的响应式状态同步
     const stage = e.target.getStage();
     setStagePos({ x: stage.x(), y: stage.y() });
   };
@@ -338,10 +339,10 @@ export default App;
 <script setup>
 import { ref, computed } from 'vue';
 
-// 默认情况下，Konva在节点拖动时会阻止某些事件
-// 这提高了性能并在95%的情况下工作良好
-// 我们需要在Konva上启用所有事件，即使在拖动节点时
-// 这样可以正确触发touchmove
+// 默认情况下，Konva 在节点拖动时会阻止某些事件
+// 这提高了性能并在 95% 的情况下工作良好
+// 我们需要在 Konva 上启用所有事件，即使在拖动节点时
+// 这样可以正确触发 touchmove
 window.Konva.hitOnDragEnabled = true;
 
 const stagePos = ref({ x: 0, y: 0 });
@@ -384,7 +385,7 @@ const handleTouchMove = (e) => {
   }
 
   if (touch1 && touch2) {
-    // 如果舞台在Konva的拖放中
+    // 如果舞台在 Konva 的拖放中
     // 我们需要停止它，并用两个指点实现我们自己的平移逻辑
     if (stage.isDragging()) {
       stage.stopDrag();
@@ -446,7 +447,7 @@ const handleTouchEnd = () => {
 
 const handleDragEnd = (e) => {
   dragStopped.value = false;
-  // Ensure stage position is synchronized with our reactive state
+  // 确保舞台位置与我们的响应式状态同步
   const stage = e.target.getStage();
   stagePos.value = { x: stage.x(), y: stage.y() };
 };

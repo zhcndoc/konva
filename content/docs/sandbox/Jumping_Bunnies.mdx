@@ -3,13 +3,14 @@ title: 跳跃兔子性能压力测试
 sidebar_label: 跳跃兔子
 hide_table_of_contents: true
 slug: Jumping_Bunnies.html
+description: "Konva 的 Bunnymark 性能压力测试，在 HTML5 画布上动画展示数百个跳跃的兔子精灵。"
 ---
 
 ## 跳跃兔子性能压力测试
 
-本演示展示了同时移动许多 `Konva.Image` 对象的性能。这是基于 [PixiJS 框架](https://www.goodboydigital.com/pixijs/bunnymark/)的 [Bunnymark 演示](https://www.goodboydigital.com/pixijs/bunnymark/)进行的改编。
+本演示展示了同时移动许多 `Konva.Image` 对象的性能。这是基于 [PixiJS 框架](https://www.goodboydigital.com/pixijs/bunnymark/) 的 [Bunnymark 演示](https://www.goodboydigital.com/pixijs/bunnymark/) 进行的改编。
 
-注意：您可能会注意到，`Konva` 版本的性能比原始的 `PixiJS` 版本慢。这是因为 PixiJS 对WebGL渲染和此类动画进行了高度优化。而 Konva 仍在不断优化其内部实现，请记住此演示并不代表使用 Konva 构建的典型应用的性能。
+注意：您可能会注意到，`Konva` 版本的性能比原始的 `PixiJS` 版本慢。这是因为 PixiJS 对 WebGL 渲染和此类动画进行了高度优化。而 Konva 仍在不断优化其内部实现，请记住此演示并不代表使用 Konva 构建的典型应用的性能。
 
 对于具有大量动画对象的应用，您可以考虑使用 [Native Canvas 访问](/docs/sandbox/Native_Context_Access.html) 或甚至其他框架。根据您的具体应用需求选择合适的工具。
 
@@ -19,7 +20,7 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生" default>
 ```js live vanilla
 import Konva from 'konva';
 
@@ -221,7 +222,7 @@ const BunnyMark = () => {
       }
       
       // 更新所有兔子位置 - 使用直接节点操作以提升性能
-      // 避免频繁React重渲染
+      // 避免频繁 React 重渲染
       bunniesRef.current.forEach((bunny, i) => {
         // 更新模型数据
         bunny.x += bunny.speedX;
@@ -371,14 +372,14 @@ const bunnies = ref([]);
 const count = ref(0);
 const isAdding = ref(false);
 const animationFrameId = ref(null);
-const bunnyNodesMap = ref({}); // 存储Konva节点引用（索引对应）
+const bunnyNodesMap = ref({}); // 存储 Konva 节点引用（索引对应）
 
 // 常量
 const GRAVITY = 0.75;
 const START_COUNT = 100;
 const ADD_AMOUNT = 10;
 
-// 存储Konva图像节点引用
+// 存储 Konva 图像节点引用
 const storeNodeRef = (index, el) => {
   if (el) {
     bunnyNodesMap.value[index] = el;

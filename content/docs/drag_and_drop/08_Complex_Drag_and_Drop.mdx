@@ -3,13 +3,14 @@ title: HTML5 Canvas 复杂拖放边界
 sidebar_label: 复杂拖放
 hide_table_of_contents: true
 slug: Complex_Drag_and_Drop.html
+description: "学习如何使用 dragmove 事件在 Konva 中将拖放运动限制在自定义边界和区域内。"
 ---
 
-为了限制使用 Konva 拖拽和放置的节点在区域内的移动，我们可以使用 `dragmove` 事件来定义节点无法越过的边界。
+要在 Konva 中将拖放节点的运动限制在区域内，我们可以使用 `dragmove` 事件来定义节点无法跨越的边界。
 
-_提示：您可以使用 `shape.absolutePosition()` 方法来获取/设置节点的绝对位置，而不是相对的 `x` 和 `y`。_
+_提示：你可以使用 `shape.absolutePosition()` 方法来获取/设置节点的绝对位置，而不是相对的 `x` 和 `y`。_
 
-**说明：** 拖动和放置浅蓝色矩形，观察它被限制在 y = 50 的虚拟边界以下。拖动和放置黄色矩形，观察它被限制在一个虚拟圆形内。
+**说明：** 拖放浅蓝色矩形，观察它被限制在 y = 50 的假想边界下方。拖放黄色矩形，观察它被限制在一个假想圆圈内。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -33,7 +34,7 @@ y: 70,
 draggable: true,
 });
 
-// 限制在 y=50 之下
+// 限制在 y=50 下方
 blueGroup.on('dragmove', () => {
 blueGroup.y(Math.max(blueGroup.y(), 50));
 });
@@ -61,7 +62,7 @@ yellowGroup.y(Math.round((pos.y - y) * scale + y));
 const blueText = new Konva.Text({
 fontSize: 26,
 fontFamily: 'Calibri',
-text: '限制在下面',
+text: 'bound below',
 fill: 'black',
 padding: 10,
 width: 150,
@@ -79,7 +80,7 @@ strokeWidth: 4,
 const yellowText = new Konva.Text({
 fontSize: 26,
 fontFamily: 'Calibri',
-text: '限制在圆内',
+text: 'bound in circle',
 fill: 'black',
 padding: 10,
 width: 150,
@@ -101,7 +102,7 @@ layer.add(blueGroup);
 layer.add(yellowGroup);
 stage.add(layer);
 
-````  
+````
   </TabItem>
   <TabItem value="React">
 ```jsx live react
@@ -137,7 +138,7 @@ const App = () => {
             strokeWidth={4}
           />
           <Text
-            text="限制在下面"
+            text="bound below"
             fontSize={26}
             fontFamily="Calibri"
             fill="black"
@@ -160,7 +161,7 @@ const App = () => {
             strokeWidth={4}
           />
           <Text
-            text="限制在圆内"
+            text="bound in circle"
             fontSize={26}
             fontFamily="Calibri"
             fill="black"
@@ -236,7 +237,7 @@ const yellowRectConfig = {
 };
 
 const blueTextConfig = {
-  text: '限制在下面',
+  text: 'bound below',
   fontSize: 26,
   fontFamily: 'Calibri',
   fill: 'black',
@@ -246,7 +247,7 @@ const blueTextConfig = {
 };
 
 const yellowTextConfig = {
-  text: '限制在圆内',
+  text: 'bound in circle',
   fontSize: 26,
   fontFamily: 'Calibri',
   fill: 'black',

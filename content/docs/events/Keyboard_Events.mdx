@@ -3,6 +3,7 @@ title: HTML5 Canvas 键盘事件与 Konva
 sidebar_label: 键盘事件
 hide_table_of_contents: true
 slug: Keyboard_Events.html
+description: "学习如何使用 Konva.js 处理 HTML5 Canvas 形状上的键盘事件。实现键盘快捷键、箭头键移动和基于按键的交互。"
 ---
 
 Konva 中没有内置的键盘事件，比如 `keydown` 或 `keyup`。
@@ -82,7 +83,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    // focus the div on mount
+    // 挂载时聚焦 div
     containerRef.current.focus();
   }, []);
 
@@ -177,7 +178,7 @@ const circleConfig = computed(() => ({
 }));
 
 onMounted(() => {
-  // focus the div on mount
+  // 挂载时聚焦 div
   containerRef.value.focus();
 });
 

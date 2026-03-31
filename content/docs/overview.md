@@ -3,6 +3,7 @@ sidebar_position: 2
 title: Konva 框架概述
 sidebar_label: 概述
 slug: overview.html
+description: "Konva.js 架构概述：舞台、图层、组和形状。了解 Konva 如何组织画布元素、处理事件、样式化形状以及管理拖放功能。"
 ---
 
 ## 什么是 Konva？
@@ -80,12 +81,12 @@ stage.add(layer);
 
 效果：
 
-![Minimal code demo](/assets/overview-circle.png)
+![最小代码演示](/assets/overview-circle.png)
 
 ## 基本形状
 
-Konva.js 支持的形状包括：[Rect](/docs/shapes/Rect.html), [Circle](/docs/shapes/Circle.html), [Ellipse](/docs/shapes/Ellipse.html), [Line](/docs/shapes/Line_-_Simple_Line.html), [Polygon](/docs/shapes/Line_-_Polygon.html), [Spline](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [Image](/docs/shapes/Image.html), [Text](/docs/shapes/Text.html), [TextPath](/docs/shapes/TextPath.html), [Star](/docs/shapes/Star.html), [Label](/docs/shapes/Label.html), [SVG Path](/docs/shapes/Path.html), [RegularPolygon](/docs/shapes/RegularPolygon.html)。
-此外，你也可以创建[自定义形状](/docs/shapes/Custom.html):
+Konva.js 支持的形状包括：[矩形](/docs/shapes/Rect.html), [圆形](/docs/shapes/Circle.html), [椭圆](/docs/shapes/Ellipse.html), [线条](/docs/shapes/Line_-_Simple_Line.html), [多边形](/docs/shapes/Line_-_Polygon.html), [样条线](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [图像](/docs/shapes/Image.html), [文本](/docs/shapes/Text.html), [文本路径](/docs/shapes/TextPath.html), [星形](/docs/shapes/Star.html), [标签](/docs/shapes/Label.html), [SVG 路径](/docs/shapes/Path.html), [正多边形](/docs/shapes/RegularPolygon.html)。
+此外，你也可以创建 [自定义形状](/docs/shapes/Custom.html):
 
 ```js
 var triangle = new Konva.Shape({
@@ -105,7 +106,7 @@ var triangle = new Konva.Shape({
 });
 ```
 
-![Custom shape](/assets/overview-custom.png)
+![自定义形状](/assets/overview-custom.png)
 
 ## 样式
 
@@ -132,7 +133,7 @@ var pentagon = new Konva.RegularPolygon({
 });
 ```
 
-![Styles](/assets/overview-styles.png)
+![样式](/assets/overview-styles.png)
 
 ## 事件
 
@@ -153,12 +154,12 @@ circle.on('dragend', function () {
 });
 ```
 
-查看[示例](/docs/events/Binding_Events.html)。
+查看 [示例](/docs/events/Binding_Events.html)。
 
-## 拖放（DRAG AND DROP）
+## 拖放
 
 `Konva` 内置拖拽支持。目前尚无 `drop` 事件（`drop`、`dragenter`、`dragleave`、`dragover`），
-但可以通过[框架自定义实现](/docs/drag_and_drop/Drop_Events.html)。
+但可以通过 [框架自定义实现](/docs/drag_and_drop/Drop_Events.html)。
 
 启用拖拽只需设置属性 `draggable = true`。
 
@@ -166,15 +167,15 @@ circle.on('dragend', function () {
 shape.draggable('true');
 ```
 
-然后你可以订阅拖拽事件并设置[移动限制](/docs/drag_and_drop/Complex_Drag_and_Drop.html)。
+然后你可以订阅拖拽事件并设置 [移动限制](/docs/drag_and_drop/Complex_Drag_and_Drop.html)。
 
 ## 滤镜
 
-`Konva` 提供多种滤镜：模糊、反转、噪点等。查看全部滤镜请见[滤镜 API](/api/Konva.Filters.html)。
+`Konva` 提供多种滤镜：模糊、反转、噪点等。查看全部滤镜请见 [滤镜 API](/api/Konva.Filters.html)。
 
 示例：
 
-![Filter](/assets/overview-filter.png)
+![滤镜](/assets/overview-filter.png)
 
 ## 动画
 
@@ -271,5 +272,13 @@ shape.cache();
    比如应用有复杂背景和多个移动形状，你可以为背景使用一个图层，为形状使用另一个图层。
    在更新形状时无需更新背景画布。[演示](/docs/performance/Layer_Management.html)
 
-所有可用的性能技巧请见：
+你可以在此找到所有可用的性能提示：
 [https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)
+
+## 进一步阅读
+
+- [为什么选择 Konva？— 何时在你的项目中使用 Konva](/docs/guides/why-konva.html)
+- [最佳 JavaScript Canvas 库 — 比较指南](/docs/guides/best-canvas-library.html)
+- [Canvas 库比较](/docs/guides/best-canvas-library.html)
+- [FAQ — 常见问题](/docs/faq.html)
+- [关于 Konva — 关键事实和采用情况](/docs/about.html)

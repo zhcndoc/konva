@@ -3,11 +3,16 @@ title: Angular Konva 拖放教程
 sidebar_label: 拖放
 hide_table_of_contents: true
 slug: Drag_And_Drop.html
+description: "学习如何使用 ng2-konva 和事件处理程序在 Angular 中实现画布形状的拖放。"
 ---
 
-要在 Angular 中使用 `Konva` 实现拖放功能，可以使用 `ng2-konva` 库配合 `draggable` 属性和事件处理器。
+要使形状可拖放，请在其配置中设置 `draggable: true` 并监听节点上的拖放事件。
 
-有关属性和方法的完整列表，请参阅 [Konva API 参考](/api/Konva.html)。
+此示例在开始拖动时将拖动的圆形移动到其图层的最顶层。
+
+**说明**：在舞台上拖动圆形，并注意当您开始拖动时它会被带到最顶层。
+
+有关更多详细信息，请参阅 [Node API 参考](/api/Konva.Node.html) 和 [Circle API 参考](/api/Konva.Circle.html)。
 
 ## 拖放示例
 
@@ -23,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

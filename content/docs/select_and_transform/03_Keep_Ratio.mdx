@@ -1,17 +1,18 @@
 ---
-title: HTML5 Canvas 图形缩放比例保持
+title: HTML5 Canvas 形状调整大小并保持比例
 sidebar_label: 保持比例
 hide_table_of_contents: true
 slug: Keep_Ratio.html
+description: "学习如何使用 Konva Transformer 的 keepRatio 和 SHIFT 键在调整形状大小时保持宽高比。"
 ---
 
-默认情况下，当你使用角点锚点（`top-left`，`top-right`，`bottom-left` 或 `bottom-right`）进行缩放时，Transformer 会保持节点的比例。
+默认情况下，当你使用角锚点（`top-left`、`top-right`、`bottom-left` 或 `bottom-right`）调整大小时，Transformer 将保存节点的比例。
 
-如果你不需要此行为，可以将 `keepRatio` 设置为 `false`。
+如果不需要该行为，你可以将 `keepRatio` 设置为 `false`。
 
-即使你将 `keepRatio` 设置为 `false`，按住 `SHIFT` 键仍然可以保持比例。
+即使你将 `keepRatio` 设置为 `false`，你仍然可以按住 `SHIFT` 键来保持比例。
 
-**说明：试着调整文本的大小。**
+**说明：尝试调整文本大小。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -25,45 +26,46 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-  container: 'container',
-  width: width,
-  height: height,
+container: 'container',
+width: width,
+height: height,
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
 const text = new Konva.Text({
-  x: 50,
-  y: 50,
-  text: '默认保持比例',
-  fontSize: 20,
-  draggable: true,
-  width: 200,
+x: 50,
+y: 50,
+text: '默认保持比例',
+fontSize: 20,
+draggable: true,
+width: 200,
 });
 layer.add(text);
 
 const text2 = new Konva.Text({
-  x: 50,
-  y: 150,
-  text: '没有比例，但按住Shift保持比例',
-  fontSize: 20,
-  draggable: true,
-  width: 200,
+x: 50,
+y: 150,
+text: '不保持比例，但按住 Shift 键可保持比例',
+fontSize: 20,
+draggable: true,
+width: 200,
 });
 layer.add(text2);
 
 const tr = new Konva.Transformer({
-  nodes: [text],
+nodes: [text],
 });
 layer.add(tr);
 
 const tr2 = new Konva.Transformer({
-  nodes: [text2],
-  keepRatio: false,
+nodes: [text2],
+keepRatio: false,
 });
 layer.add(tr2);
-```
+
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -98,7 +100,7 @@ const App = () => {
         <Text
           x={50}
           y={150}
-          text="没有比例，但按住Shift保持比例"
+          text="不保持比例，但按住 Shift 键可保持比例"
           fontSize={20}
           draggable
           width={200}
@@ -111,7 +113,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -120,7 +123,7 @@ export default App;
     <v-layer>
       <v-text :config="text1Config" ref="text1Ref" />
       <v-transformer :config="tr1Config" ref="tr1Ref" />
-
+      
       <v-text :config="text2Config" ref="text2Ref" />
       <v-transformer :config="tr2Config" ref="tr2Ref" />
     </v-layer>
@@ -147,7 +150,7 @@ const text1Config = {
 const text2Config = {
   x: 50,
   y: 150,
-  text: '没有比例，但按住Shift保持比例',
+  text: '不保持比例，但按住 Shift 键可保持比例',
   fontSize: 20,
   draggable: true,
   width: 200
@@ -168,6 +171,7 @@ onMounted(() => {
   tr2Ref.value.getNode().nodes([text2Ref.value.getNode()]);
 });
 </script>
+
 ```
   </TabItem>
 </Tabs>

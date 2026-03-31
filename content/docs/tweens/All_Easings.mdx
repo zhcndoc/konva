@@ -1,32 +1,23 @@
 ---
 title: 更多缓动函数教程
-sidebar_label: 所有缓动
+sidebar_label: 所有缓动函数
 hide_table_of_contents: true
 slug: All_Easings.html
+description: "查看 Konva.js 所有缓动函数的实际效果：Linear、Ease、Back、Elastic、Bounce 和 Strong，包含交互式演示。"
 ---
 
 本教程演示了 Konva 提供的所有缓动函数集，包括：
 
-- `线性`
-- `缓入`
-- `缓出`
-- `缓入缓出`
-- `回弹缓入`
-- `回弹缓出`
-- `回弹缓入缓出`
-- `弹性缓入`
-- `弹性缓出`
-- `弹性缓入缓出`
-- `反弹缓入`
-- `反弹缓出`
-- `反弹缓入缓出`
-- `强缓入`
-- `强缓出`
-- `强缓入缓出`
+- `Linear`
+- `Ease`
+- `Back`
+- `Elastic`
+- `Bounce`
+- `Strong`
 
-有关所有可用的缓动，请参见 [缓动文档](/api/Konva.Easings.html)。
+查看所有可用的缓动函数，请前往 [缓动函数文档](/api/Konva.Easings.html)。
 
-**说明：点击“播放”来使用不同的缓动函数过渡所有文本节点。**
+**说明：按下"Play"按钮，使用不同的缓动函数过渡所有文本节点。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -40,72 +31,72 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-  container: 'container',
-  width: width,
-  height: height,
+container: 'container',
+width: width,
+height: height,
 });
 
 const layer = new Konva.Layer();
 
 const easings = [
-  'Linear',
-  'EaseIn',
-  'EaseOut',
-  'EaseInOut',
-  'BackEaseIn',
-  'BackEaseOut',
-  'BackEaseInOut',
-  'ElasticEaseIn',
-  'ElasticEaseOut',
-  'ElasticEaseInOut',
-  'BounceEaseIn',
-  'BounceEaseOut',
-  'BounceEaseInOut',
-  'StrongEaseIn',
-  'StrongEaseOut',
-  'StrongEaseInOut',
+'Linear',
+'EaseIn',
+'EaseOut',
+'EaseInOut',
+'BackEaseIn',
+'BackEaseOut',
+'BackEaseInOut',
+'ElasticEaseIn',
+'ElasticEaseOut',
+'ElasticEaseInOut',
+'BounceEaseIn',
+'BounceEaseOut',
+'BounceEaseInOut',
+'StrongEaseIn',
+'StrongEaseOut',
+'StrongEaseInOut',
 ];
 
 const tweens = [];
 
 easings.forEach((easing, i) => {
-  const text = new Konva.Text({
-    x: 50,
-    y: 30 + i * 25,
-    text: easing,
-    fontSize: 16,
-    fontFamily: 'Calibri',
-    fill: 'black',
-  });
-  layer.add(text);
+const text = new Konva.Text({
+x: 50,
+y: 30 + i * 25,
+text: easing,
+fontSize: 16,
+fontFamily: 'Calibri',
+fill: 'black',
+});
+layer.add(text);
 
-  tweens.push(
-    new Konva.Tween({
-      node: text,
-      duration: 2,
-      x: width - 200,
-      easing: Konva.Easings[easing],
-    })
-  );
+tweens.push(
+new Konva.Tween({
+node: text,
+duration: 2,
+x: width - 200,
+easing: Konva.Easings[easing],
+})
+);
 });
 
 stage.add(layer);
 
 // 创建按钮
 const button = document.createElement('button');
-button.textContent = '播放';
+button.textContent = 'Play';
 button.style.position = 'absolute';
 button.style.top = '0px';
 button.style.left = '0px';
 button.addEventListener('click', () => {
-  tweens.forEach((tween) => {
-    tween.reset();
-    tween.play();
-  });
+tweens.forEach((tween) => {
+tween.reset();
+tween.play();
+});
 });
 document.body.appendChild(button);
 
-````  
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -155,7 +146,7 @@ const App = () => {
 
   return (
     <>
-      <button onClick={handlePlay}>播放</button>
+      <button onClick={handlePlay}>Play</button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           {easings.map((easing, i) => (
@@ -177,14 +168,14 @@ const App = () => {
 };
 
 export default App;
-````  
+````
 
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <button @click="handlePlay">播放</button>
+    <button @click="handlePlay">Play</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-text

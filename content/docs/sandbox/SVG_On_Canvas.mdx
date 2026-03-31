@@ -3,6 +3,7 @@ title: 如何使用 Konva 在画布上绘制 SVG 图像
 sidebar_label: 画布上的 SVG
 hide_table_of_contents: true
 slug: SVG_On_Canvas.html
+description: "使用 Konva.Image、Konva.Path 或 canvg 库在 HTML5 画布上渲染 SVG 图像。"
 ---
 
 ## 如何在画布上显示 SVG 图像？
@@ -63,7 +64,7 @@ const SOURCE = 'https://konvajs.org/assets/tiger.svg';
 Konva.Image.fromURL(SOURCE, (imageNode) => {
   layer.add(imageNode);
   imageNode.setAttrs({
-    width: 150,
+    width:150,
     height: 150,
   });
 });

@@ -3,11 +3,16 @@ title: Angular Konva 形状教程
 sidebar_label: 形状
 hide_table_of_contents: true
 slug: Shapes.html
+description: "学习如何在 Angular 中使用 ng2-konva 形状组件在画布上绘制矩形、圆形、线条和文本。"
 ---
 
-要在 Angular 中使用 `Konva` 创建形状，可以使用 `ng2-konva` 库的组件。
+所有 `ng2-konva` 形状组件都映射到带有 `ko-` 前缀的 Konva 形状，因此您可以通过 `config` 对象传递任何常规 Konva 形状设置。
 
-有关属性和方法的完整列表，请参阅 [Konva API 参考](/api/Konva.html)。
+此示例展示了几种具有不同样式选项（如阴影、渐变和线条张力）的常见形状。
+
+**说明**：演示渲染了文本、矩形、圆形和具有渐变填充的闭合线条。
+
+有关更多详细信息，请参阅 [Konva API 参考](/api/Konva.html) 和 [线条 API 参考](/api/Konva.Line.html)。
 
 ## 形状示例
 
@@ -26,6 +31,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

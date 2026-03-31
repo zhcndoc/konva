@@ -3,6 +3,7 @@ title: HTML5 Canvas 优化描边性能提示
 sidebar_label: 优化描边
 hide_table_of_contents: true
 slug: Optimize_Strokes.html
+description: "通过禁用 shadowForStrokeEnabled 来跳过额外的绘制步骤，从而优化 Konva 描边渲染性能。"
 ---
 
 在 Konva 中绘制带有描边和阴影的形状时，会发生额外的内部绘制步骤。这是因为 Konva 需要确保描边的阴影被正确绘制。然而，这可能会影响性能，特别是处理许多形状时。

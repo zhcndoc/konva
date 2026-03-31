@@ -1,8 +1,9 @@
 ---
-title: 自由绘画 Konva 演示
+title: 如何使用 JavaScript 画布构建自由绘画应用
 sidebar_label: 自由绘画
 hide_table_of_contents: true
 slug: Free_Drawing.html
+description: "使用 Konva.js 通过 JavaScript 和 HTML5 Canvas 构建自由绘画/白板应用。包含多种绘画工具实现的交互式演示。"
 ---
 
 有很多方法可以在 Konva 中实现自由绘画工具。
@@ -115,7 +116,7 @@ const App = () => {
     if (!isDrawing.current) {
       return;
     }
-    // prevent scrolling on touch devices
+    // 防止触摸设备上的滚动
     e.evt.preventDefault();
     
     const stage = e.target.getStage();
@@ -239,7 +240,7 @@ const handleMouseMove = (e) => {
   if (!isDrawing.value) {
     return;
   }
-  // prevent scrolling on touch devices
+  // 防止触摸设备上的滚动
   e.evt.preventDefault();
   
   const stage = e.target.getStage();
@@ -534,6 +535,8 @@ const handleMouseMove = (e) => {
   if (!isDrawing.value) {
     return;
   }
+  // 防止触摸设备上的滚动
+  e.evt.preventDefault();
 
   const ctx = context;
   const image = imageRef.value.getNode();

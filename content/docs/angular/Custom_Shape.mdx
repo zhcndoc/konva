@@ -3,11 +3,16 @@ title: Angular Konva 自定义形状教程
 sidebar_label: 自定义形状
 hide_table_of_contents: true
 slug: Custom_Shape.html
+description: "学习如何在 Angular 中使用 ng2-konva 和 sceneFunc 绘图函数在 canvas 上绘制自定义形状。"
 ---
 
-要在 Angular 中使用 `Konva` 创建自定义形状，可以使用 `ng2-konva` 库中的 `Custom` 组件。
+要使用 `ng2-konva` 创建自定义形状，请使用 `ko-shape` 组件并提供一个 `sceneFunc` 绘图函数。
 
-有关完整属性和方法列表，请参见 [Konva API 参考](/api/Konva.html)。
+在 `sceneFunc` 内部，您可以使用原生 canvas 上下文以及 Konva 辅助方法（例如 `context.fillStrokeShape(shape)`）来正确应用填充、描边和阴影样式。
+
+**说明**：此演示使用 canvas 路径命令绘制一个自定义的类三角形形状。
+
+更多详情，请参阅 [Shape API 参考](/api/Konva.Shape.html)。
 
 ## 自定义形状示例
 
@@ -23,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

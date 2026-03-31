@@ -3,6 +3,7 @@ title: HTML5 Canvas 通过 Konva 触发事件
 sidebar_label: 触发事件
 hide_table_of_contents: true
 slug: Fire_Events.html
+description: "了解如何使用 fire() 方法在 Konva 形状上以编程方式触发事件，包括自定义事件。"
 ---
 
 要通过 Konva 触发事件，我们可以使用 `fire()` 方法。  
@@ -36,12 +37,12 @@ const circle = new Konva.Circle({
   strokeWidth: 4,
 });
 
-// add shape event listener
+// 添加形状事件监听器
 circle.on('customEvent', function (evt) {
   alert('custom event fired');
 });
 
-// add button to trigger custom event
+// 添加按钮以触发自定义事件
 const button = document.createElement('button');
 button.innerHTML = '触发自定义事件';
 button.style.position = 'absolute';
@@ -50,7 +51,7 @@ button.style.left = '10px';
 button.style.zIndex = '1';
 document.body.appendChild(button);
 button.addEventListener('click', () => {
-  // fire custom event
+  // 触发自定义事件
   circle.fire('customEvent', {
     bubbles: true,
   });

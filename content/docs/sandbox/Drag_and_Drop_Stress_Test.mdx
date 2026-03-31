@@ -1,11 +1,12 @@
 ---
-title: 拖放压力测试与10,000个形状
+title: 拖放压力测试与 10,000 个形状
 sidebar_label: 拖放压力测试
 hide_table_of_contents: true
 slug: Drag_and_Drop_Stress_Test.html
+description: "在 Konva 中使用单独的拖动图层拖放 10,000 个形状的压力测试，以确保流畅性能。"
 ---
 
-本示例展示了一个包含10,000个形状的压力测试。为简化操作，我们只使用了两个图层 - 一个主要图层用于所有形状，一个专用的拖动图层。当我们拖动一个形状时，它会移动到单独的拖动图层上，以确保移动的流畅性。
+本示例展示了一个包含 10,000 个形状的压力测试。为简化操作，我们只使用了两个图层 - 一个主要图层用于所有形状，一个专用的拖动图层。当我们拖动一个形状时，它会移动到单独的拖动图层上，以确保移动的流畅性。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -62,7 +63,7 @@ function addCircle(layer) {
   layer.add(circle);
 }
 
-// 在主要图层上创建10,000个圆
+// 在主要图层上创建 10,000 个圆
 for (let n = 0; n < 10000; n++) {
   addCircle(mainLayer);
 }
@@ -111,7 +112,7 @@ const App = () => {
   // 用于存储所有圆形数据的状态
   const [circles, setCircles] = useState([]);
   
-  // 图层的refs
+  // 图层的 refs
   const mainLayerRef = useRef(null);
   const dragLayerRef = useRef(null);
   
@@ -119,7 +120,7 @@ const App = () => {
   useEffect(() => {
     const circlesData = [];
     
-    // 创建10,000个圆形
+    // 创建 10,000 个圆形
     for (let i = 0; i < SHAPE_COUNT; i++) {
       circlesData.push({
         id: i,
@@ -133,10 +134,10 @@ const App = () => {
     setCircles(circlesData);
   }, []);
   
-  // 这不是典型的“React方式”管理组件。
-  // 在更符合React的方式中，我们会更新状态，并让React处理DOM。
+  // 这不是典型的"React 方式”管理组件。
+  // 在更符合 React 的方式中，我们会更新状态，并让 React 处理 DOM。
   // 然而为了本性能演示，我们直接操作节点
-  // 以匹配原生JS实现。
+  // 以匹配原生 JS 实现。
   const handleDragStart = (e) => {
     const target = e.target;
     
@@ -217,7 +218,7 @@ const stageConfig = {
   height: window.innerHeight
 };
 
-// 图层的refs
+// 图层的 refs
 const mainLayer = ref(null);
 const dragLayer = ref(null);
 
@@ -228,7 +229,7 @@ const circles = ref([]);
 onMounted(() => {
   const circlesData = [];
   
-  // 创建10,000个圆形
+  // 创建 10,000 个圆形
   for (let i = 0; i < SHAPE_COUNT; i++) {
     circlesData.push({
       id: i,
@@ -242,10 +243,10 @@ onMounted(() => {
   circles.value = circlesData;
 });
 
-// 这不是典型的“Vue方式”管理组件。
-// 在更符合Vue的方式中，我们会更新状态，并让Vue处理DOM。
+// 这不是典型的"Vue 方式”管理组件。
+// 在更符合 Vue 的方式中，我们会更新状态，并让 Vue 处理 DOM。
 // 然而为了本性能演示，我们直接操作节点
-// 以匹配原生JS实现。
+// 以匹配原生 JS 实现。
 const handleDragStart = (e) => {
   const target = e.target;
   

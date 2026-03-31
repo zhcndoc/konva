@@ -3,14 +3,15 @@ title: 将形状移动到另一个容器
 sidebar_label: 更改容器
 hide_table_of_contents: true
 slug: Change_Containers.html
+description: "学习如何使用 moveTo() 方法在 Konva 中的组、图层和容器之间移动形状。"
 ---
 
-要将形状从一个容器移动到另一个容器，使用 Konva，我们可以使用 `moveTo()` 方法，该方法需要一个容器作为参数。  
-容器可以是另一个舞台、一个层或者一个组。你还可以将组移动到其他组和层，或者将形状从组直接移动到其他层。
+要在 Konva 中将形状从一个容器移动到另一个容器，我们可以使用 `moveTo()` 方法，该方法需要一个容器作为参数。
+容器可以是另一个舞台、图层或组。您也可以将组移动到其他组和图层中，或者将形状从组直接移动到其他图层中。
 
-**说明：拖放这些组，观察红色矩形绑定到黄色组或蓝色组。使用左侧的按钮将盒子从一个组移动到另一个组。**
+**说明：拖放组并观察红色矩形是绑定到黄色组还是蓝色组。使用左侧的按钮将框从一个组移动到另一个组。**
 
-import Tabs from "@theme/Tabs";  
+import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
@@ -61,7 +62,7 @@ strokeWidth: 4,
 });
 group2.add(blue);
 
-// 红色框
+// 红色方块
 const redBox = new Konva.Rect({
 x: 10,
 y: 10,
@@ -91,8 +92,8 @@ redBox.moveTo(group2);
 document.body.appendChild(moveToGroup1Btn);
 document.body.appendChild(moveToGroup2Btn);
 
-````  
-  </TabItem>  
+````
+  </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Group } from 'react-konva';
@@ -142,8 +143,9 @@ const App = () => {
 };
 
 export default App;
-````  
-  </TabItem>  
+````
+
+  </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>

@@ -3,115 +3,148 @@ title: 如何在画布上使用 Konva 显示丰富的 HTML
 sidebar_label: 富文本
 hide_table_of_contents: true
 slug: Rich_Text.html
+description: "使用 Konva 和 render-tag 在画布上显示带有粗体、斜体和颜色样式的丰富 HTML 文本。"
 ---
 
 ## 如何显示复杂样式（如粗体）并启用富文本编辑功能？
 
 Canvas 的文本 API 非常有限。[Konva.Text](/docs/shapes/Text.html) 允许您添加多种不同的样式，支持多行文本等。但目前它存在一些限制。您无法为 `Konva.Text` 的不同部分使用不同的样式。在这种情况下，您必须使用多个 `Konva.Text` 实例。
 
-如果您想在画布上显示复杂样式，我们可以使用一种 hacky 的变通方法。这个想法很简单：
+如果您想在画布上显示复杂样式，可以使用 [render-tag](https://polotno.com/render-tag/) — 一个使用 2D API 直接将 HTML + CSS 渲染到画布上的库。无需 SVG，无需 `foreignObject`，完全同步。
 
-1. 创建一个 DOM 元素并在其中放入样式化文本
-2. 使用 [html2canvas](https://html2canvas.hertzen.com/) 将 DOM 元素转换为图像。
-3. 使用该图像作为 `Konva.Image`。
+思路如下：
 
-说明：尝试在上面的编辑器中输入和格式化文本。格式化后的文本将作为图像呈现在下面的画布上。您可以拖动渲染的文本。
+1. 创建一个带有 `html` 属性的自定义 `Konva.Shape`
+2. 使用 `render-tag` 计算布局并将样式文本绘制到画布上下文上
+3. 形状根据 HTML 内容自动调整高度
+
+说明：尝试在编辑器中输入并格式化文本。格式化后的文本将渲染在其下方的画布上。您可以拖动渲染后的文本。
 
 ```js live vanilla
 import Konva from 'konva';
+import { Factory } from 'konva/lib/Factory';
+// render-tag: 通过纯 2D API 将 HTML+CSS 渲染到画布上
+// 从 CDN 加载以避免 Sandpack 转译问题
+var computeLayout, drawLayout;
 
-// 首先我们需要加载 Quill 和 html2canvas
-const loadScript = (src) => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
+// 创建一个自定义 Konva 形状，通过 render-tag 渲染 HTML
+// 使用 Reflect.construct 从转译后的代码扩展 ES6 类
+function RichText(config) {
+  var instance = Reflect.construct(Konva.Shape, [config], RichText);
+  instance._layoutResult = null;
+  instance.on('htmlChange widthChange', function () {
+    this._recomputeLayout();
+  });
+  instance._recomputeLayout();
+  return instance;
+}
+RichText.prototype = Object.create(Konva.Shape.prototype);
+RichText.prototype.constructor = RichText;
+RichText.prototype.className = 'RichText';
+
+RichText.prototype._recomputeLayout = function () {
+  var html = this.html();
+  var width = this.width() || 200;
+  if (!html) {
+    this._layoutResult = null;
+    return;
+  }
+  this._layoutResult = computeLayout({ html: html, width: width });
+};
+
+RichText.prototype._sceneFunc = function (context) {
+  if (!this._layoutResult) return;
+  var width = this.width() || 200;
+  drawLayout({
+    layout: this._layoutResult,
+    width: width,
+    ctx: context._context,
+    pixelRatio: 1,
   });
 };
 
-const loadCSS = (href) => {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = href;
-  document.head.appendChild(link);
+RichText.prototype._hitFunc = function (context) {
+  var width = this.width() || 200;
+  var height = this.height() || (this._layoutResult ? this._layoutResult.height : 0);
+  context.beginPath();
+  context.rect(0, 0, width, height);
+  context.closePath();
+  context.fillStrokeShape(this);
 };
 
-// 创建编辑器容器
-const editorContainer = document.createElement('div');
-editorContainer.id = 'editor-container';
-editorContainer.style.height = '80px';
-editorContainer.innerHTML = `
-  那是 <u>一些</u> <span style="color: red"> 样式化文本</span> 在
-  <strong>画布</strong>上！
-  <h2>你觉得怎么样？</h2>
-`;
-document.body.appendChild(editorContainer);
+Factory.addGetterSetter(RichText, 'html', '');
+Factory.addGetterSetter(RichText, 'width', 200);
+Factory.addGetterSetter(RichText, 'height', 0);
 
-// 加载依赖
-Promise.all([
-  loadScript('https://cdn.quilljs.com/1.3.6/quill.js'),
-  loadScript('https://html2canvas.hertzen.com/dist/html2canvas.min.js'),
-]).then(() => {
-  loadCSS('https://cdn.quilljs.com/1.3.6/quill.snow.css');
+// --- 工具栏 + contenteditable 编辑器 ---
+function execCmd(cmd, val) {
+  document.execCommand(cmd, false, val || null);
+  editor.focus();
+}
 
-  const quill = new Quill('#editor-container', {
-    modules: {
-      toolbar: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline'],
-        ['image', 'code-block'],
-      ],
-    },
-    placeholder: '撰写一篇史诗...',
-    theme: 'snow',
+var toolbar = document.createElement('div');
+toolbar.innerHTML = [
+  '<button onclick="return false" data-cmd="bold"><b>B</b></button>',
+  '<button onclick="return false" data-cmd="italic"><i>I</i></button>',
+  '<button onclick="return false" data-cmd="underline"><u>U</u></button>',
+  '<button onclick="return false" data-cmd="formatBlock" data-val="h1">H1</button>',
+  '<button onclick="return false" data-cmd="formatBlock" data-val="h2">H2</button>',
+  '<button onclick="return false" data-cmd="foreColor" data-val="red" style="color:red">A</button>',
+].join('');
+toolbar.style.cssText = 'display:flex;gap:4px;margin-bottom:4px;';
+toolbar.querySelectorAll('button').forEach(function (btn) {
+  btn.style.cssText = 'padding:2px 8px;cursor:pointer;';
+  btn.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    execCmd(btn.dataset.cmd, btn.dataset.val);
   });
+});
+document.body.prepend(toolbar);
 
-  const stage = new Konva.Stage({
+var editor = document.createElement('div');
+editor.contentEditable = true;
+editor.style.cssText = 'border:1px solid #ccc;padding:8px;min-height:60px;margin-bottom:8px;';
+editor.innerHTML =
+  'That is <u>some</u> <span style="color:red"> styled text</span> on <strong>canvas</strong>!' +
+  '<h2>What do you think about it?</h2>';
+var container = document.getElementById('container');
+document.body.insertBefore(editor, container);
+
+// --- 加载 render-tag 并设置画布 ---
+var loadScript = function (src) {
+  return new Promise(function (resolve, reject) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+};
+
+loadScript('https://cdn.jsdelivr.net/npm/render-tag/lib/render-tag.umd.js').then(function () {
+  computeLayout = RenderTag.layout;
+  drawLayout = RenderTag.drawLayout;
+
+  var stage = new Konva.Stage({
     container: 'container',
     width: window.innerWidth,
     height: 200,
   });
 
-  const layer = new Konva.Layer();
+  var layer = new Konva.Layer();
   stage.add(layer);
 
-  const shape = new Konva.Image({
+  var shape = new RichText({
     x: 10,
     y: 10,
+    width: 400,
     draggable: true,
-    stroke: 'red',
-    scaleX: 1 / window.devicePixelRatio,
-    scaleY: 1 / window.devicePixelRatio,
+    html: editor.innerHTML,
   });
   layer.add(shape);
 
-  function renderText() {
-    // 将 DOM 转换为图像
-    html2canvas(document.querySelector('.ql-editor'), {
-      backgroundColor: 'rgba(0,0,0,0)',
-    }).then((canvas) => {
-      // 在 Konva.Image 中显示它
-      shape.image(canvas);
-    });
-  }
-
-  // 批量更新，以便我们不会频繁渲染文本
-  let timeout = null;
-  function requestTextUpdate() {
-    if (timeout) {
-      return;
-    }
-    timeout = setTimeout(function () {
-      timeout = null;
-      renderText();
-    }, 500);
-  }
-
-  // 在所有更改上渲染文本
-  quill.on('text-change', requestTextUpdate);
-  // 进行初始渲染
-  renderText();
+  editor.addEventListener('input', function () {
+    shape.html(editor.innerHTML);
+  });
 });
 ```

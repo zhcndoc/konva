@@ -3,15 +3,16 @@ title: 在 HTML5 canvas 中使用 Konva 进行文本编辑
 sidebar_label: 可编辑文本
 hide_table_of_contents: true
 slug: Editable_Text.html
+description: "在 HTML5 canvas 上双击文本即可编辑，使用带有 Konva 变换支持的 textarea 覆盖层。"
 ---
 
-用户无法直接编辑 `Konva.Text` 内容，原因有很多。实际上，canvas API 并不为此目的而设计。
-可以在 canvas 上模拟文本编辑（通过绘制闪烁光标、模拟选择等）。
-Konva 并不支持这种情况。我们建议使用本地 DOM 元素（如 `input` 或 `textarea`）在 canvas 外部编辑用户输入。
+由于 [许多原因](https://www.w3.org/TR/2dcontext/#best-practices)，用户无法直接编辑 `Konva.Text` 内容。事实上，canvas API 并非为此目的而设计。
+可以在 canvas 上模拟文本编辑（通过绘制闪烁光标、模拟选区等）。
+Konva 不支持这种情况。我们建议使用原生 DOM 元素（如 `input` 或 `textarea`）在 canvas 外部编辑用户输入。
 
-如果您想启用完整的富文本编辑功能，请参见 [富文本演示](/docs/sandbox/Rich_Text.html)。
+如果你想启用完整的富文本编辑功能，请参阅 [富文本演示](/docs/sandbox/Rich_Text.html)。
 
-**说明：双击文本以编辑。输入内容。按 Enter 或点击外部以保存更改。**
+**说明：双击文本进行编辑。输入内容。按 Enter 键或点击外部保存更改。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -31,7 +32,7 @@ const layer = new Konva.Layer();
 stage.add(layer);
 
 const textNode = new Konva.Text({
-  text: '一些文本',
+  text: 'Some text here',
   x: 50,
   y: 80,
   fontSize: 20,
@@ -270,7 +271,7 @@ const TextEditor = (props) => {
 };
 
 const EditableText = () => {
-  const [text, setText] = useState("一些文本");
+  const [text, setText] = useState("Some text here");
   const [isEditing, setIsEditing] = useState(false);
   const [textWidth, setTextWidth] = useState(200);
   const textRef = useRef();
@@ -386,7 +387,7 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const text = ref('一些文本');
+const text = ref('Some text here');
 const textWidth = ref(200);
 const isEditing = ref(false);
 const textNode = ref(null);

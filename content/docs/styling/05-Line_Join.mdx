@@ -1,21 +1,22 @@
 ---
-title: HTML5 Canvas 线段连接教程
-sidebar_label: 线段连接
+title: HTML5 Canvas 线条连接教程
+sidebar_label: 线条连接
 hide_table_of_contents: true
 slug: Line_Join.html
+description: "学习如何使用 Konva.js 在 HTML5 Canvas 上为形状设置线条连接样式（miter, bevel, round）。"
 ---
 
-要设置 Konva 绘图形状的线段连接样式，我们可以在实例化形状时设置 `lineJoin` 属性，或者使用 `lineJoin()` 方法。
+要使用 Konva 为形状设置线条连接，我们可以在实例化形状时设置 `lineJoin` 属性，或者使用 `lineJoin()` 方法。
 
-`lineJoin` 属性可以设置为 `miter`、`bevel` 或 `round`。除非另有说明，默认的线段连接样式为 `miter`。
+`lineJoin` 属性可以设置为 `miter`、`bevel` 或 `round`。除非另有指定，默认的线条连接是 `miter`。
 
-**说明：** 鼠标悬停在三角形上更改线段连接样式。
+**说明：** 鼠标悬停在三角形上以更改线条连接样式。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生" default>
 ```js live vanilla
 import Konva from 'konva';
 

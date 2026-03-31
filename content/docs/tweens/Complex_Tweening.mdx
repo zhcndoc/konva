@@ -1,15 +1,17 @@
 ---
-title: 复杂的缓动教程
-sidebar_label: 复杂的缓动
+title: 复杂补间教程
+sidebar_label: 复杂补间
 hide_table_of_contents: true
 slug: Complex_Tweening.html
+description: "学习如何在 Konva.js 中创建复杂的补间动画，包括渐变过渡和链式补间。"
 ---
 
-对于更复杂的动画，您可以使用 [GreenSock Konva 插件](https://github.com/konvajs/greensock-plugin)。GreenSock 的缓动比 Konva 内置的缓动更强大。
+对于更复杂的动画，您可以使用 [GreenSock Konva 插件](https://github.com/konvajs/greensock-plugin)。
+GreenSock 补间比 Konva 内置的补间更强大。
 
-此演示展示了如何使用 GreenSock 缓动 `fillLinearGradientColorStops` 属性。
+此演示展示了如何使用 GreenSock 对 `fillLinearGradientColorStops` 属性进行补间。
 
-**说明：点击形状以开始复杂的带渐变变化的动画。**
+**说明：点击形状以开始带有渐变变化的复杂动画。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -46,7 +48,7 @@ layer.add(circle);
 stage.add(layer);
 
 circle.on('click tap', () => {
-// 使用常规 Konva 缓动
+// 使用常规 Konva 补间
 const tween = new Konva.Tween({
 node: circle,
 duration: 1,
@@ -54,7 +56,7 @@ scaleX: 1.5,
 scaleY: 1.5,
 easing: Konva.Easings.EaseInOut,
 onFinish: () => {
-// 通过另一个缓动缩放回去
+// 使用另一个补间缩放回来
 const tween2 = new Konva.Tween({
 node: circle,
 duration: 1,
@@ -87,7 +89,7 @@ anim.start();
 setTimeout(() => anim.stop(), 2000);
 });
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -100,7 +102,7 @@ const App = () => {
   const handleClick = () => {
     const circle = circleRef.current;
 
-    // 使用常规 Konva 缓动
+    // 使用常规 Konva 补间
     const tween = new Konva.Tween({
       node: circle,
       duration: 1,
@@ -108,7 +110,7 @@ const App = () => {
       scaleY: 1.5,
       easing: Konva.Easings.EaseInOut,
       onFinish: () => {
-        // 通过另一个缓动缩放回去
+        // 使用另一个补间缩放回来
         const tween2 = new Konva.Tween({
           node: circle,
           duration: 1,
@@ -164,7 +166,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -208,7 +211,7 @@ const layerRef = ref(null);
 const handleClick = () => {
   const circle = circleRef.value.getNode();
   
-  // 使用常规 Konva 缓动
+  // 使用常规 Konva 补间
   const tween = new Konva.Tween({
     node: circle,
     duration: 1,
@@ -216,7 +219,7 @@ const handleClick = () => {
     scaleY: 1.5,
     easing: Konva.Easings.EaseInOut,
     onFinish: () => {
-      // 通过另一个缓动缩放回去
+      // 使用另一个补间缩放回来
       const tween2 = new Konva.Tween({
         node: circle,
         duration: 1,

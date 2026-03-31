@@ -3,6 +3,7 @@ title: HTML5 Canvas 形状缓存性能提示
 sidebar_label: 形状缓存
 hide_table_of_contents: true
 slug: Shape_Caching.html
+description: "通过 Konva.js 形状缓存加速 HTML5 Canvas 渲染。将复杂形状缓存为图像以显著提高性能。"
 ---
 
 如果您有一个复杂的形状，其中包含许多绘图操作，或者如果您正在应用过滤器，您可以通过缓存形状来提高性能。当您缓存一个形状时，Konva 会将其绘制到一个内部画布缓冲区。之后，Konva 将简单地使用缓存的版本，而不是每次都重绘该形状。

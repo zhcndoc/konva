@@ -3,6 +3,7 @@ title: 使用 Svelte 拖放画布形状
 sidebar_label: 拖放
 hide_table_of_contents: true
 slug: Drag_And_Drop.html
+description: "学习如何使用 svelte-konva 中的 draggable 属性和绑定，在 Svelte 中为画布形状启用拖放功能。"
 ---
 
 要为画布上的任何节点启用拖放功能，只需将 `draggable=true` 属性传递到组件中。

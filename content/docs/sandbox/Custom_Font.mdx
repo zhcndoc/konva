@@ -1,23 +1,24 @@
 ---
-title: 如何在 HTML5 画布中使用自定义字体?
+title: 如何在 HTML5 canvas 中使用自定义字体？
 sidebar_label: 自定义字体
 hide_table_of_contents: true
 slug: Custom_Font.html
+description: "使用 Font Loading API 和宽度测量回退方案，在 HTML5 canvas 上通过 Konva 加载和渲染自定义网络字体。"
 ---
 
-## 如何在 html5 画布上绘制外部字体？
+## 如何在 html5 canvas 上绘制外部字体？
 
-如果您想为 `Konva.Text` 使用自定义字体，只需要：
-1. 将字体样式添加到您的页面
-2. 在字体加载完成后将 `fontFamily` 属性设置为所需的字体面
+如果你想为 `Konva.Text` 使用自定义字体，你只需要：
+1. 将字体样式添加到你的页面
+2. 将 `fontFamily` 属性设置为所需的字体面 **当字体加载完成后**
 
-但这里有一个重要的事情。当您为 DOM 元素（如 `div` 或 `span`）设置字体时，浏览器会在字体加载后自动更新这些元素。但对于画布文本并不是这样。您需要再次重绘画布。
+但这里有一件重要的事情。当你为 DOM 元素（如 `div` 或 `span`）设置字体时，浏览器会在字体加载完成后自动更新这些元素。但这对于 canvas 文本不起作用。你需要重新绘制 canvas。
 
-**注意：** 对于不支持原生字体加载 API 的老旧浏览器，您可以使用宽度测量方法——用回退字体测量文本宽度，然后周期性检查自定义字体宽度是否发生变化（表明字体已加载）。
+**注意：** 对于不支持原生 Font Loading API 的旧浏览器，你可以使用宽度测量方法——使用回退字体测量文本宽度，然后定期检查自定义字体宽度是否不同（表明它已加载）。
 
 ### 加载字体
 
-您可以使用这个异步函数，它结合了原生字体加载 API 和可靠的宽度测量回退以及超时保护：
+你可以使用这个异步函数，它结合了原生 Font Loading API 与可靠的宽度测量回退方案和时间保护机制：
 
 ```javascript
 const loadedFonts = {};
@@ -46,20 +47,20 @@ async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
       const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
       const shouldTrustChanges = arialWidth !== newWidth;
       if (shouldTrustChanges) {
-        // 轻微延迟，避免偶发的度量竞态
+        // 小的保护延迟，以避免指标尚未准备好时的罕见竞争条件
         await delay(60);
         loadedFonts[fontName] = true;
         return;
       }
     } catch (e) {
-      // 忽略错误，使用轮询回退
+      // 忽略并回退到轮询
     }
   }
 
   const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
   const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
   const waitTime = 60;
-  const timeout = 6000; // 最多等待6秒
+  const timeout = 6000; // 等待不要超过 6 秒
   const attemptsNumber = Math.ceil(timeout / waitTime);
   for (let i = 0; i < attemptsNumber; i++) {
     const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
@@ -76,7 +77,7 @@ async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
     await delay(waitTime);
   }
   console.warn(
-    `加载字体 "${fontName}" 超时。请确认字体族名称是否正确？`
+    `Timeout for loading font "${fontName}". Is it a correct font family?`
   );
 }
 ```
@@ -141,16 +142,16 @@ async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
     }
     await delay(waitTime);
   }
-  console.warn(`加载字体 "${fontName}" 超时。`);
+  console.warn(`Timeout for loading font "${fontName}".`);
 }
 
-// 通过样式表链接加载字体
+// 使用样式表链接加载字体
 const fontLink = document.createElement('link');
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
 fontLink.rel = 'stylesheet';
 document.head.appendChild(fontLink);
 
-// 立即使用回退字体构建舞台
+// 立即使用后备字体构建舞台
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -167,14 +168,14 @@ var text = new Konva.Text({
   x: 50,
   y: 50,
   fontSize: 40,
-  text: '带有自定义字体的文本。',
+  text: 'A text with custom font.',
   width: 250,
   fontFamily: 'Arial'
 });
 
 layer.add(text);
 
-// 等待字体加载后应用
+// 然后等待字体加载并应用它
 loadFont('Kavivanar', 'normal', '400').then(() => {
   text.fontFamily('Kavivanar');
 });
@@ -237,20 +238,20 @@ async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
     }
     await delay(waitTime);
   }
-  console.warn(`加载字体 "${fontName}" 超时。`);
+  console.warn(`Timeout for loading font "${fontName}".`);
 }
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
   
   useEffect(() => {
-    // 通过样式表链接加载字体
+    // 使用样式表链接加载字体
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
 
-    // 使用混合方法等待字体加载
+    // 使用组合方法等待字体加载
     loadFont('Kavivanar', 'normal', '400').then(() => {
       setFontLoaded(true);
     });
@@ -263,7 +264,7 @@ const App = () => {
           x={50}
           y={50}
           fontSize={40}
-          text="带有自定义字体的文本。"
+          text="A text with custom font."
           width={250}
           fontFamily={fontLoaded ? 'Kavivanar' : 'Arial'}
         />
@@ -340,7 +341,7 @@ async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
     }
     await delay(waitTime);
   }
-  console.warn(`加载字体 "${fontName}" 超时。`);
+  console.warn(`Timeout for loading font "${fontName}".`);
 }
 
 const stageSize = {
@@ -352,19 +353,19 @@ const textConfig = ref({
   x: 50,
   y: 50,
   fontSize: 40,
-  text: '带有自定义字体的文本。',
+  text: 'A text with custom font.',
   width: 250,
   fontFamily: 'Arial'
 });
 
 onMounted(() => {
-  // 通过样式表链接加载字体
+  // 使用样式表链接加载字体
   const fontLink = document.createElement('link');
   fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
   fontLink.rel = 'stylesheet';
   document.head.appendChild(fontLink);
 
-  // 使用混合方法等待字体加载
+  // 使用组合方法等待字体加载
   loadFont('Kavivanar', 'normal', '400').then(() => {
     textConfig.value.fontFamily = 'Kavivanar';
   });
@@ -373,3 +374,4 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
+

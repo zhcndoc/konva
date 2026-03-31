@@ -1,15 +1,16 @@
 ---
-title: HTML5 Canvas 变换和调整事件
+title: HTML5 Canvas 变换和调整大小事件
 sidebar_label: 变换事件
 hide_table_of_contents: true
 slug: Transform_Events.html
+description: "了解如何使用 Konva.js Transformer 监听 HTML5 Canvas 上的变换和调整大小事件。处理 transformstart、transform 和 transformend。"
 ---
 
-`Konva.Transformer` 对象具有特殊的变换事件，可以在您的应用程序中使用：`transformstart`、`transform` 和 `transformend`。
+`Konva.Transformer` 对象具有特殊的变换事件，您可以在应用程序中使用这些事件：`transformstart`、`transform` 和 `transformend`。
 
-这些事件同样会在附加的节点上触发。
+这些事件也会在附加的节点上触发。
 
-**说明：打开控制台，尝试进行变换，查看日志**
+**说明：打开控制台，尝试变换，查看日志**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -48,30 +49,30 @@ nodes: [rect],
 layer.add(tr);
 
 tr.on('transformstart', () => {
-console.log('变换开始');
+console.log('transform start');
 });
 
 tr.on('transform', () => {
-console.log('正在变换');
+console.log('transforming');
 });
 
 tr.on('transformend', () => {
-console.log('变换结束');
+console.log('transform end');
 });
 
 rect.on('transformstart', () => {
-console.log('矩形变换开始');
+console.log('rect transform start');
 });
 
 rect.on('transform', () => {
-console.log('矩形正在变换');
+console.log('rect transforming');
 });
 
 rect.on('transformend', () => {
-console.log('矩形变换结束');
+console.log('rect transform end');
 });
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -98,15 +99,15 @@ const App = () => {
           stroke="black"
           draggable
           ref={rectRef}
-          onTransformStart={() => console.log('矩形变换开始')}
-          onTransform={() => console.log('矩形正在变换')}
-          onTransformEnd={() => console.log('矩形变换结束')}
+          onTransformStart={() => console.log('rect transform start')}
+          onTransform={() => console.log('rect transforming')}
+          onTransformEnd={() => console.log('rect transform end')}
         />
         <Transformer
           ref={trRef}
-          onTransformStart={() => console.log('变换开始')}
-          onTransform={() => console.log('正在变换')}
-          onTransformEnd={() => console.log('变换结束')}
+          onTransformStart={() => console.log('transform start')}
+          onTransform={() => console.log('transforming')}
+          onTransformEnd={() => console.log('transform end')}
         />
       </Layer>
     </Stage>
@@ -114,7 +115,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -124,16 +126,16 @@ export default App;
       <v-rect
         :config="rectConfig"
         ref="rectRef"
-        @transformstart="() => console.log('矩形变换开始')"
-        @transform="() => console.log('矩形正在变换')"
-        @transformend="() => console.log('矩形变换结束')"
+        @transformstart="() => console.log('rect transform start')"
+        @transform="() => console.log('rect transforming')"
+        @transformend="() => console.log('rect transform end')"
       />
       <v-transformer
         :config="transformerConfig"
         ref="transformerRef"
-        @transformstart="() => console.log('变换开始')"
-        @transform="() => console.log('正在变换')"
-        @transformend="() => console.log('变换结束')"
+        @transformstart="() => console.log('transform start')"
+        @transform="() => console.log('transforming')"
+        @transformend="() => console.log('transform end')"
       />
     </v-layer>
   </v-stage>

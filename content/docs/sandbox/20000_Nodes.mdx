@@ -3,6 +3,7 @@ title: 互动散点图与 20000 个节点
 sidebar_label: 20000 节点
 hide_table_of_contents: true
 slug: 20000_Nodes.html
+description: "演示渲染 20,000 个可拖动圆形，带有工具提示和事件委托，以展示 Konva 性能。"
 ---
 
 本实验的目的是通过渲染 20000 个圆形来展示 Konva 能处理的节点数量。每个圆形对鼠标悬停事件敏感，可以被拖动并放置。这个实验还很好地演示了事件委托，其中附加到舞台的单个事件处理器处理的是圆形事件。
@@ -121,7 +122,7 @@ stage.on('mouseover mousemove dragmove', function (evt) {
     });
     tooltip
       .getText()
-      .text('节点: ' + node.id() + ', 颜色: ' + node.fill());
+      .text('节点：' + node.id() + ', 颜色：' + node.fill());
     tooltip.show();
   }
 });
@@ -256,7 +257,7 @@ const App = () => {
       visible: true,
       x: pos.x,
       y: pos.y - 5,
-      text: `节点: ${node.id}, 颜色: ${node.color}`
+      text: `节点：${node.id}, 颜色：${node.color}`
     });
   }, []);
   
@@ -278,11 +279,11 @@ const App = () => {
   }, []);
   
   const handleMouseDown = useCallback((e, node) => {
-    // 如果需要, 处理拖动
+    // 如果需要，处理拖动
   }, []);
   
   const handleMouseUp = useCallback((e, node) => {
-    // 如果需要, 处理拖动
+    // 如果需要，处理拖动
   }, []);
   
   return (
@@ -422,7 +423,7 @@ function handleMouseOver(e, node) {
   tooltip.visible = true;
   tooltip.x = pos.x;
   tooltip.y = pos.y - 5;
-  tooltip.text = `节点: ${node.id}, 颜色: ${node.color}`;
+  tooltip.text = `节点：${node.id}, 颜色：${node.color}`;
 }
 
 function handleMouseMove(e) {

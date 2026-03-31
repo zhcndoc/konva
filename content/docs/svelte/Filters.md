@@ -3,6 +3,7 @@ title: 如何使用 Svelte 和 Konva 应用画布滤镜？
 sidebar_label: 滤镜
 hide_table_of_contents: true
 slug: Filters.html
+description: "学习如何在 Svelte 中使用 Konva 通过 onMount 和 afterUpdate 中的手动缓存将画布滤镜应用于形状。"
 ---
 
 要应用滤镜，你需要手动缓存 `Konva.Node`。你可以在 `onMount()` 方法中首次完成此操作。

@@ -3,23 +3,24 @@ title: HTML5 Canvas 形状事件
 sidebar_label: 绑定事件
 hide_table_of_contents: true
 slug: Binding_Events.html
+description: "学习如何使用 Konva.js 将事件监听器绑定到 HTML5 Canvas 形状。处理 click、dblclick、mouseover、mouseout、mousemove 等事件。"
 ---
 
-要使用 Konva 检测形状事件，我们可以使用 `on()` 方法将事件处理程序绑定到节点上。
+要使用 Konva 检测形状事件，我们可以使用 `on()` 方法将事件处理程序绑定到节点。
 
-`on()` 方法需要一个事件类型和一个在事件发生时执行的函数。
+`on()` 方法需要一个事件类型和一个当事件发生时执行的函数。
 
-鼠标事件：`mouseover`、`mouseout`、`mouseenter`、`mouseleave`、`mousemove`、`mousedown`、`mouseup`、`wheel`、`click`、`dblclick`。
+鼠标事件：`mouseover`, `mouseout`, `mouseenter`, `mouseleave`, `mousemove`, `mousedown`, `mouseup`, `wheel`, `click`, `dblclick`。
 
-触摸事件：`touchstart`、`touchmove`、`touchend`、`tap`、`dbltap`。
+触摸事件：`touchstart`, `touchmove`, `touchend`, `tap`, `dbltap`。
 
-指针事件：`pointerdown`、`pointermove`、`pointereup`、`pointercancel`、`pointerover`、`pointerenter`、`pointerout`、`pointerleave`、`pointerclick`、`pointerdblclick`。
+指针事件：`pointerdown`, `pointermove`, `pointereup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`,`pointerleave`, `pointerclick`, `pointerdblclick`。
 
-拖动事件：`dragstart`、`dragmove` 和 `dragend`。
+拖拽事件：`dragstart`, `dragmove`, 和 `dragend`。
 
-变换事件：`transformstart`、`transform`、`transformend`。
+变换事件：`transformstart`, `transform`, `transformend`。
 
-**说明：三角形的鼠标悬停和鼠标离开，以及圆形的鼠标悬停、鼠标离开、按下和抬起。**
+**说明：三角形的 mouseover 和 mouseout，以及圆形的 mouseover、mouseout、mousedown 和 mouseup。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -69,7 +70,7 @@ text.text(message);
 }
 
 triangle.on('mouseout', () => {
-writeMessage('三角形鼠标离开');
+writeMessage('Mouseout triangle');
 });
 
 triangle.on('mousemove', () => {
@@ -78,16 +79,16 @@ writeMessage('x: ' + mousePos.x + ', y: ' + mousePos.y);
 });
 
 circle.on('mouseover', () => {
-writeMessage('鼠标悬停在圆形上');
+writeMessage('Mouseover circle');
 });
 circle.on('mouseout', () => {
-writeMessage('圆形鼠标离开');
+writeMessage('Mouseout circle');
 });
 circle.on('mousedown', () => {
-writeMessage('圆形鼠标按下');
+writeMessage('Mousedown circle');
 });
 circle.on('mouseup', () => {
-writeMessage('圆形鼠标抬起');
+writeMessage('Mouseup circle');
 });
 
 layer.add(triangle);
@@ -95,7 +96,7 @@ layer.add(circle);
 layer.add(text);
 stage.add(layer);
 
-```` 
+````
   </TabItem>
   <TabItem value="React">
 ```jsx live react
@@ -129,7 +130,7 @@ const App = () => {
           fill="#00D2FF"
           stroke="black"
           strokeWidth={4}
-          onMouseout={() => writeMessage('三角形鼠标离开')}
+          onMouseout={() => writeMessage('Mouseout triangle')}
           onMousemove={() => {
             const mousePos = stageRef.current.getPointerPosition();
             writeMessage('x: ' + mousePos.x + ', y: ' + mousePos.y);
@@ -142,10 +143,10 @@ const App = () => {
           fill="red"
           stroke="black"
           strokeWidth={4}
-          onMouseover={() => writeMessage('鼠标悬停在圆形上')}
-          onMouseout={() => writeMessage('圆形鼠标离开')}
-          onMousedown={() => writeMessage('圆形鼠标按下')}
-          onMouseup={() => writeMessage('圆形鼠标抬起')}
+          onMouseover={() => writeMessage('Mouseover circle')}
+          onMouseout={() => writeMessage('Mouseout circle')}
+          onMousedown={() => writeMessage('Mousedown circle')}
+          onMouseup={() => writeMessage('Mouseup circle')}
         />
       </Layer>
     </Stage>
@@ -164,15 +165,15 @@ export default App;
       <v-text :config="textConfig" />
       <v-regular-polygon
         :config="triangleConfig"
-        @mouseout="writeMessage('三角形鼠标离开')"
+        @mouseout="writeMessage('Mouseout triangle')"
         @mousemove="handleTriangleMouseMove"
       />
       <v-circle
         :config="circleConfig"
-        @mouseover="writeMessage('鼠标悬停在圆形上')"
-        @mouseout="writeMessage('圆形鼠标离开')"
-        @mousedown="writeMessage('圆形鼠标按下')"
-        @mouseup="writeMessage('圆形鼠标抬起')"
+        @mouseover="writeMessage('Mouseover circle')"
+        @mouseout="writeMessage('Mouseout circle')"
+        @mousedown="writeMessage('Mousedown circle')"
+        @mouseup="writeMessage('Mouseup circle')"
       />
     </v-layer>
   </v-stage>

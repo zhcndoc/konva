@@ -3,11 +3,12 @@ title: Web Worker 中的离屏画布
 sidebar_label: Web Worker
 hide_table_of_contents: true
 slug: Web_Worker.html
+description: "使用 OffscreenCanvas 在 Web Worker 内部运行 Konva 渲染，以实现非主线程性能。"
 ---
 
 ## 如何在 Web Worker 中运行 Konva？
 
-**警告！这个演示是非常实验性的！可能在许多浏览器中无法正常工作。** 请查看 [Offscreen canvas capability tabletv](https://caniuse.com/#feat=offscreencanvas)。
+**警告！这个演示是非常实验性的！可能在许多浏览器中无法正常工作。** 请查看 [OffscreenCanvas 兼容性表](https://caniuse.com/#feat=offscreencanvas)。
 
 通过一些额外的工作，我们可以在 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) 中使用 [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) 渲染 `Konva` 阶段，以提高性能或实现一些疯狂的想法。
 
@@ -25,7 +26,7 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生" default>
 ```js live vanilla
 // main.js
 const workerCode = `
@@ -174,7 +175,7 @@ async function runBunnies() {
     bunny.speedY = Math.random() * 10 - 5;
 
     bunnys.push(bunny);
-    counter.text('兔子数量: ' + bunnys.length);
+    counter.text('兔子数量：' + bunnys.length);
     layer.add(bunny);
   }
   topGroup.moveToTop();
@@ -197,7 +198,7 @@ async function runBunnies() {
         bunny.speedY = Math.random() * 10 - 5;
         bunnys.push(bunny);
         layer.add(bunny);
-        counter.text('兔子数量: ' + bunnys.length);
+        counter.text('兔子数量：' + bunnys.length);
         count++;
       }
       topGroup.moveToTop();

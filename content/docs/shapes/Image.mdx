@@ -3,6 +3,7 @@ title: HTML5 画布图片教程
 sidebar_label: 图片
 hide_table_of_contents: true
 slug: /docs/shapes/Image.html
+description: "学习如何使用 Konva.js 在 HTML5 画布上绘制图片。使用 Konva.Image 形状从 URL 加载图片、裁剪、调整大小和应用滤镜。"
 ---
 
 要创建一个使用 `Konva` 的图片，可以使用 `Konva.Image()` 对象。
@@ -26,7 +27,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// 主要API:
+// 主要 API:
 const imageObj = new Image();
 imageObj.onload = function () {
   const yoda = new Konva.Image({
@@ -41,7 +42,7 @@ imageObj.onload = function () {
 };
 imageObj.src = 'https://konvajs.org/assets/yoda.jpg';
 
-// 备用API:
+// 备用 API:
 Konva.Image.fromURL('https://konvajs.org/assets/darth-vader.jpg', function (darthNode) {
   darthNode.setAttrs({
     x: 200,

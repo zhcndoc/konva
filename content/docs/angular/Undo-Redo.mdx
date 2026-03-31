@@ -3,11 +3,16 @@ title: Angular Konva 撤销重做教程
 sidebar_label: 撤销重做
 hide_table_of_contents: true
 slug: Undo-Redo.html
+description: "学习如何在 Angular 中使用 ng2-konva 并通过状态历史跟踪来实现画布交互的撤销和重做。"
 ---
 
-要在 Angular 中使用 `Konva` 实现撤销重做功能，可以结合使用 `ng2-konva` 库以及状态管理来跟踪更改。
+当画布状态存储在普通数据对象中，而不是在每次渲染时从画布读取值时，撤销和重做效果最佳。
 
-有关所有属性和方法的完整列表，请参阅 [Konva API 参考](/api/Konva.html)。
+此示例将矩形位置存储在一个小型历史堆栈中，并在您点击撤销或重做时恢复之前的快照。
+
+**说明**：拖动矩形以创建历史条目，然后点击撤销和重做以遍历保存的状态。
+
+有关更多详细信息，请参阅 [Rect API 参考](/api/Konva.Rect.html)。
 
 ## 撤销重做示例
 
@@ -23,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <div>
       <button (click)="undo()" [disabled]="!canUndo()">撤销</button>
@@ -70,8 +76,11 @@ export default class App {
   }
 
   public handleDragEnd(event: any): void {
-    this.configRect.x = event.target.x();
-    this.configRect.y = event.target.y();
+    this.configRect = {
+      ...this.configRect,
+      x: event.target.x(),
+      y: event.target.y()
+    };
     this.saveState();
   }
 

@@ -1,13 +1,14 @@
 ---
-title: HTML5 Canvas 隐藏和显示图形教程
+title: HTML5 Canvas 隐藏和显示形状教程
 sidebar_label: 隐藏和显示
 hide_table_of_contents: true
 slug: Hide_and_Show.html
+description: "学习如何使用 Konva.js 的 hide() 和 show() 方法在 HTML5 Canvas 上切换形状可见性。"
 ---
 
-要使用 Konva 隐藏和显示形状，我们可以在实例化形状时设置 visible 属性，或者使用 `hide()` 和 `show()` 方法。
+使用 Konva 隐藏和显示形状时，我们可以在实例化形状时设置 visible 属性，或者使用 `hide()` 和 `show()` 方法。
 
-**说明：** 点击按钮显示和隐藏形状。
+**说明：** 点击按钮以显示和隐藏形状。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -46,12 +47,12 @@ buttonContainer.style.top = '0px';
 buttonContainer.style.left = '0px';
 
 const showBtn = document.createElement('button');
-showBtn.textContent = '显示';
+showBtn.textContent = 'Show';
 showBtn.onclick = () => rect.show();
 buttonContainer.appendChild(showBtn);
 
 const hideBtn = document.createElement('button');
-hideBtn.textContent = '隐藏';
+hideBtn.textContent = 'Hide';
 hideBtn.onclick = () => rect.hide();
 buttonContainer.appendChild(hideBtn);
 
@@ -69,8 +70,8 @@ function App() {
   return (
     <div style={{ position: 'relative' }}>
       <div style={{ position: 'absolute', zIndex: 1, padding: '10px' }}>
-        <button onClick={() => setVisible(true)}>显示</button>
-        <button onClick={() => setVisible(false)}>隐藏</button>
+        <button onClick={() => setVisible(true)}>Show</button>
+        <button onClick={() => setVisible(false)}>Hide</button>
       </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -98,8 +99,8 @@ export default App;
 <template>
   <div style="position: relative;">
     <div style="position: absolute; z-index: 1; padding: 10px;">
-      <button @click="showShape">显示</button>
-      <button @click="hideShape">隐藏</button>
+      <button @click="showShape">Show</button>
+      <button @click="hideShape">Hide</button>
     </div>
     <v-stage :config="stageSize">
       <v-layer>

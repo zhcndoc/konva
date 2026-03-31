@@ -1,11 +1,14 @@
 ---
-title: 交互式建筑地图
+title: 如何使用 JavaScript Canvas 构建交互式平面图
 layout: demo_page
 hide_table_of_contents: true
 slug: Interactive_Building_Map.html
+description: "使用 JavaScript 和 HTML5 Canvas 结合 Konva.js 构建交互式建筑平面图。在此交互式地图演示中，悬停在各个区域上即可查看描述。"
 ---
 
-**说明：将鼠标悬停在建筑物的各个部分以查看其说明**
+交互式平面图和建筑地图常用于房地产、设施管理和寻路应用。Konva.js 让绘制复杂的多边形形状变得简单，支持悬停检测、工具提示以及每个区域的自定义样式。
+
+**说明：将鼠标悬停在建筑的各个区域上以查看其描述。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -29,7 +32,7 @@ function getData() {
       color: 'yellow',
       points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
     },
-    健身房: {
+    健身房：{
       color: 'green',
       points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
     },
@@ -169,7 +172,7 @@ const getData = () => ({
     color: 'yellow',
     points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
   },
-  健身房: {
+  健身房：{
     color: 'green',
     points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
   },
@@ -355,7 +358,7 @@ const getData = () => ({
     color: 'yellow',
     points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
   },
-  健身房: {
+  健身房：{
     color: 'green',
     points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
   },

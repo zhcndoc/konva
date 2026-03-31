@@ -3,11 +3,14 @@ title: Angular Konva 变换器教程
 sidebar_label: 变换器
 hide_table_of_contents: true
 slug: Transformer.html
+description: "学习如何在 Angular 中使用 ng2-konva 变换器调整画布形状的大小和旋转，以实现交互式选择。"
 ---
 
-在 Angular 中使用 `Konva` 的变换器时，可以使用 `ng2-konva` 库中的 `Transformer` 组件来实现形状的选中和变换功能。
+变换器工具是命令式地附加到节点上的。在 Angular 中，这意味着创建一个 `ko-transformer` 并在视图准备就绪后将其连接到选定的形状。
 
-有关完整的属性和方法列表，请参阅 [Konva API 参考](/api/Konva.html)。
+**说明**：点击矩形以选中它，拖动它以移动它，点击空白舞台以清除选择。
+
+有关更多详细信息，请参阅 [变换器 API 参考](/api/Konva.Transformer.html)。
 
 ## 变换器示例
 
@@ -23,6 +26,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage" (click)="handleStageClick($event.event)">
       <ko-layer>
@@ -61,11 +65,7 @@ export default class App implements AfterViewInit {
   }
 
   public handleStageClick(event: any): void {
-    if (!event) {
-      // TODO: 目前 ng2-konva 存在一个 bug，点击事件中未传递事件对象
-      return;
-    }
-    if (event.target === event.target.getStage()) {
+    if (event?.target === event.target.getStage()) {
       this.transformer.getNode().nodes([]);
     }
   }

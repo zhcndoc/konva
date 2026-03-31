@@ -3,13 +3,16 @@ title: 形状组
 sidebar_label: 组
 hide_table_of_contents: true
 slug: Groups.html
+description: "学习如何使用 Konva.Group 将多个形状组合在一起，以便将它们作为一个整体进行移动、旋转和缩放。"
 ---
 
-要使用 Konva 将多个形状组合在一起，我们可以实例化一个 `Konva.Group()` 对象，然后通过 `add()` 方法添加形状到该组中。将形状组合在一起在我们想要一起变换多个形状时非常方便，例如，如果我们想一次性移动、旋转或缩放多个形状。组也可以添加到其他组中，以创建更复杂的节点树。
+要将多个形状与 Konva 组合在一起，我们可以实例化一个 `Konva.Group()` 对象，然后使用 `add()` 方法将形状添加到其中。
+将它们组合在一起非常方便，当我们想要一起变换多个形状时，例如，如果我们想要同时移动、旋转或缩放多个形状。
+组也可以添加到其他组中，以创建更复杂的节点树。
 
-要查看完整属性和方法列表，请查看 [Konva.Group 文档](/api/Konva.Group.html)。
+有关属性和方法的完整列表，请查看 [Konva.Group 文档](/api/Konva.Group.html)。
 
-**说明：尝试拖动该组。注意所有形状一起移动。**
+**说明：尝试拖动该组。注意所有形状是如何一起移动的。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -60,7 +63,7 @@ group.add(rect);
 layer.add(group);
 stage.add(layer);
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -95,7 +98,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

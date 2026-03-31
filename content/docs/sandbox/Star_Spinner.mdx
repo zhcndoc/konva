@@ -3,6 +3,7 @@ title: 星星旋转器
 sidebar_label: 星星旋转器
 hide_table_of_contents: true
 slug: Star_Spinner.html
+description: "具有角速度和摩擦力的交互式星形，通过鼠标拖动控制旋转。"
 ---
 
 **说明：用你的鼠标旋转星星。**
@@ -11,7 +12,7 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生" default>
 ```js live vanilla
 import Konva from 'konva';
 
@@ -89,7 +90,7 @@ stage.add(animatedLayer);
 
 // 动画函数
 function animate(frame) {
-  // 每秒减慢20%
+  // 每秒减慢 20%
   const angularFriction = 0.2;
   const angularVelocityChange =
     (star.angularVelocity * frame.timeDiff * (1 - angularFriction)) / 1000;
@@ -139,7 +140,7 @@ const App = () => {
         const star = starRef.current;
         if (!star) return;
 
-        // 每秒减慢20%
+        // 每秒减慢 20%
         const angularFriction = 0.2;
         const angularVelocityChange =
           (angularVelocityRef.current * frame.timeDiff * (1 - angularFriction)) / 1000;
@@ -312,7 +313,7 @@ onMounted(() => {
     const layer = layerRef.value.getNode();
 
     anim = new Konva.Animation((frame) => {
-      // 每秒减慢20%
+      // 每秒减慢 20%
       const angularFriction = 0.2;
       const angularVelocityChange =
         (angularVelocity.value * frame.timeDiff * (1 - angularFriction)) / 1000;

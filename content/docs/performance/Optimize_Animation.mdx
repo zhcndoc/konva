@@ -3,6 +3,7 @@ title: HTML5 Canvas 动画性能优化技巧
 sidebar_label: 优化动画
 hide_table_of_contents: true
 slug: Optimize_Animation.html
+description: "通过形状缓存、Konva.Animation 和最小化动画节点来提升 Konva 动画性能。"
 ---
 
 在使用 Konva 创建动画时，优化它们以获得更好的性能非常重要。
@@ -19,7 +20,7 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="Vanilla" default>
+  <TabItem value="原生" default>
 ```js live vanilla
 import Konva from 'konva';
 

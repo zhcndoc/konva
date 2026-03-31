@@ -1,11 +1,12 @@
 ---
-title: 振荡 blobs
-sidebar_label: 振荡 blobs
+title: 振荡的斑点
+sidebar_label: 振荡的斑点
 hide_table_of_contents: true
 slug: Quantum_Squiggle.html
+description: "在 HTML5 画布上使用 Konva 线条形状制作具有动态张力的彩色振荡斑点动画。"
 ---
 
-**说明：刷新页面以生成新的 blobs。您也可以在它们动画时拖动和放置 blobs。**
+**说明：刷新页面以生成新的斑点。您还可以在斑点动画时拖放它们。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -27,7 +28,7 @@ var layer = new Konva.Layer();
 var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 var blobs = [];
 
-// 创建 6 个 blobs
+// 创建 6 个色块
 for (var n = 0; n < 6; n++) {
   // 构建随机点数组
   var points = [];
@@ -81,7 +82,7 @@ const App = () => {
   const [tension, setTension] = useState(0);
 
   useEffect(() => {
-    // 生成初始 blobs
+    // 生成初始色块
     const newBlobs = COLORS.map((color) => {
       const points = [];
       for (let i = 0; i < 5; i++) {
@@ -191,7 +192,7 @@ const blobs = ref([]);
 const tension = ref(0);
 
 onMounted(() => {
-  // 生成初始 blobs
+  // 生成初始色块
   blobs.value = COLORS.map(color => {
     const points = [];
     for (let i = 0; i < 5; i++) {

@@ -3,6 +3,7 @@ title: 如何在 Svelte 和 Konva 中监听画布形状的事件？
 sidebar_label: 事件
 hide_table_of_contents: true
 slug: Events.html
+description: "学习如何使用 Svelte 和 Konva 处理画布形状上的点击、鼠标、触摸和拖拽事件。"
 ---
 
 使用 `svelte-konva`，你可以轻松监听用户输入事件（`click`、`dblclick`、`mouseover`、`tap`、`dbltap`、`touchstart` 等）以及拖拽事件（`dragstart`、`dragmove`、`dragend`）。为此，你可以向名为 `on<Konva 事件名>` 的属性传递一个回调函数，每当事件触发时，svelte-konva 会调用该函数。你还可以在回调函数中通过其参数访问 Konva 事件的载荷对象。

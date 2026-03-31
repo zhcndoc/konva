@@ -3,6 +3,7 @@ title: 如何改变 svelte-konva 中节点的 zIndex?
 sidebar_label: zIndex
 hide_table_of_contents: true
 slug: zIndex.html
+description: "学习如何使用原生 Konva 方法（如 moveToTop()）在 svelte-konva 中管理 zIndex 并重新排序画布形状。"
 ---
 
 在使用其他 Konva 包装器如 `vue-konva` 或 `react-konva` 时，你可能习惯了数据顺序代表画布上组件的绘制顺序。在 svelte-konva 中，目前并没有实现这样的功能，因为在 Svelte 3 中无法实现。

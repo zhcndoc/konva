@@ -1,15 +1,16 @@
 ---
-title: 形状分层
-sidebar_label: 分层
+title: 形状层级
+sidebar_label: 层级
 hide_table_of_contents: true
 slug: Layering.html
+description: "学习如何在 Konva 中使用 moveToTop、moveToBottom、moveUp 和 moveDown 方法重新排列画布上的形状。"
 ---
 
-要使用 Konva 进行形状分层，我们可以使用以下分层方法之一：
+要在 Konva 中调整形状层级，我们可以使用以下层级方法之一：
 `moveToTop()`、`moveToBottom()`、`moveUp()`、`moveDown()` 或 `zIndex()`。
-您还可以对组和图层进行分层。
+您也可以对组和图层进行分层。
 
-**说明：拖放方框以移动它们，然后使用左侧的按钮重新排序黄色方框。**
+**说明：拖放盒子以移动它们，然后使用左侧的按钮重新排列黄色盒子。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -58,13 +59,13 @@ stage.add(layer);
 
 // 创建按钮
 const toTopBtn = document.createElement('button');
-toTopBtn.textContent = '将黄色方框移动到顶部';
+toTopBtn.textContent = '将黄色方块移至顶层';
 toTopBtn.addEventListener('click', () => {
 yellowBox.moveToTop();
 });
 
 const toBottomBtn = document.createElement('button');
-toBottomBtn.textContent = '将黄色方框移动到底部';
+toBottomBtn.textContent = '将黄色方块移至底层';
 toBottomBtn.addEventListener('click', () => {
 yellowBox.moveToBottom();
 });
@@ -72,7 +73,7 @@ yellowBox.moveToBottom();
 document.body.prepend(toTopBtn);
 document.body.prepend(toBottomBtn);
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -85,10 +86,10 @@ const App = () => {
   return (
     <>
       <button onClick={() => setYellowOnTop(true)}>
-        将黄色方框移动到顶部
+        将黄色方块移至顶层
       </button>
       <button onClick={() => setYellowOnTop(false)}>
-        将黄色方框移动到底部
+        将黄色方块移至底层
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
@@ -133,14 +134,15 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <button @click="moveYellowToTop">将黄色方框移动到顶部</button>
-    <button @click="moveYellowToBottom">将黄色方框移动到底部</button>
+    <button @click="moveYellowToTop">将黄色方块移至顶层</button>
+    <button @click="moveYellowToBottom">将黄色方块移至底层</button>
     <v-stage :config="stageSize">
       <v-layer>
         <template v-if="!yellowOnTop">
@@ -199,4 +201,3 @@ const moveYellowToBottom = () => {
 ```
   </TabItem>
 </Tabs>
-```

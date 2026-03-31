@@ -3,6 +3,7 @@ title: 绑定配置属性
 sidebar_label: 绑定
 hide_table_of_contents: true
 slug: Bindings.html
+description: "了解 svelte-konva 如何在拖拽和变换事件后保持配置属性与 Konva 节点状态同步。"
 ---
 
 Svelte-Konva 能够在 `dragend` 和 `transformend` 事件后，将某些属性与 Konva 的内部状态（位置、旋转、缩放等）保持同步，前提是该属性被绑定。

@@ -3,6 +3,7 @@ title: HTML5 Canvas Konva 动画教程
 sidebar_label: 创建动画
 hide_table_of_contents: true
 slug: Create_an_Animation.html
+description: "学习如何使用 Konva.js 在 HTML5 Canvas 上创建动画。使用 Konva.Animation 进行基于帧的动画，使用 Konva.Tween 进行属性过渡。"
 ---
 
 要使用 Konva 创建自定义动画，我们可以使用 `Konva.Animation` 构造函数，该构造函数接受两个参数：必需的更新函数和一个可选的层或层数组，这些层将在每帧动画中被更新。动画函数会传递一个 `frame` 对象，其中包含一个 `time` 属性，这是动画运行的毫秒数，一个 `timeDiff` 属性，这是自上一个帧经过的毫秒数，以及一个 `frameRate` 属性，这是当前的帧率（每秒帧数）。
@@ -161,4 +162,3 @@ onUnmounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

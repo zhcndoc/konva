@@ -3,6 +3,7 @@ title: HTML5 Canvas 简单窗口设计器
 sidebar_label: 简单窗口设计器
 hide_table_of_contents: true
 slug: Simple_Window_Frame.html
+description: "使用 Konva 在画布上绘制一个具有可调节宽度和高度尺寸的简单窗口框架。"
 ---
 
 这是一个非常简单的示例，它绘制了一个窗口框架。
@@ -33,7 +34,7 @@ var widthInput = document.createElement('input');
 widthInput.type = 'number';
 widthInput.value = '1000';
 var widthLabel = document.createElement('span');
-widthLabel.innerText = '宽度: ';
+widthLabel.innerText = '宽度：';
 var widthContainer = document.createElement('div');
 widthContainer.style.float = 'left';
 widthContainer.style.padding = '10px';
@@ -44,7 +45,7 @@ var heightInput = document.createElement('input');
 heightInput.type = 'number';
 heightInput.value = '2000';
 var heightLabel = document.createElement('span');
-heightLabel.innerText = '高度: ';
+heightLabel.innerText = '高度：';
 var heightContainer = document.createElement('div');
 heightContainer.style.float = 'left';
 heightContainer.style.padding = '10px';
@@ -592,7 +593,7 @@ const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
       {/* 底部箭头（宽度） */}
       <Shape
         sceneFunc={(ctx, shape) => {
-          // translate for bottom arrow
+          // 为底部箭头平移
           ctx.translate(0, height + arrowOffset);
           
           // 左指针
@@ -1037,7 +1038,7 @@ const bottomArrowConfig = computed(() => ({
     const frameWidth = frameCalculation.value.screenWidth;
     const frameHeight = frameCalculation.value.screenHeight;
     
-    // translate for bottom arrow
+    // 为底部箭头平移
     ctx.translate(0, frameHeight + arrowOffset);
     
     // 左指针

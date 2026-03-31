@@ -1,19 +1,20 @@
 ---
-title: 简单的缓动教程
-sidebar_label: 常见的缓动
+title: 简单缓动教程
+sidebar_label: 常见缓动
 hide_table_of_contents: true
 slug: Common_Easings.html
+description: "学习如何使用常见的缓动函数（如 EaseIn、EaseOut 和 EaseInOut）来实现平滑的 Konva.js 补间动画。"
 ---
 
-要使用 Konva 创建非线性的缓动动画，我们可以将 `easing` 属性设置为缓动函数。除了 `Konva.Easings.Linear`，其他最常见的缓动有：
+要在 Konva 中创建非线性缓动补间，我们可以将 `easing` 属性设置为缓动函数。除了 `Konva.Easings.Linear` 之外，最常见的缓动还有：
 
 - `Konva.Easings.EaseIn`
 - `Konva.Easings.EaseInOut`
 - `Konva.Easings.EaseOut`
 
-有关所有可用的缓动，请访问 [缓动文档](/api/Konva.Easings.html)。
+查看所有可用缓动，请前往 [缓动文档](/api/Konva.Easings.html)。
 
-**说明：鼠标悬停或触摸盒子以使用不同的缓动函数对它们进行缓动。**
+**说明：将鼠标悬停或触摸启动方块，以不同的缓动函数对其进行补间动画。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -81,7 +82,7 @@ easing: Konva.Easings[easing],
 
 stage.add(layer);
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -152,7 +153,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -227,4 +229,3 @@ const handleMouseLeave = (e, easing) => {
 ```
   </TabItem>
 </Tabs>
-```

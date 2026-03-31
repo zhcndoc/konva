@@ -3,6 +3,7 @@ title: 如何给画布添加背景？
 sidebar_label: 画布背景
 hide_table_of_contents: true
 slug: Canvas_Background.html
+description: "学习两种为 Konva 画布添加背景的方法：使用 Rect 形状或容器上的 CSS 样式。"
 ---
 
 ## 如何给 Konva 舞台添加背景？
@@ -11,7 +12,7 @@ slug: Canvas_Background.html
 
 ### 1. 使用 `Konva.Rect` 形状添加背景。
 
-Konva 推荐的给画布添加背景的方法是，在场景底部绘制一个与舞台大小相同的 `Konva.Rect` 矩形形状。你可以根据需要为该矩形设置样式，如[纯色、渐变或图案图片](/docs/styling/Fill.html)。
+Konva 推荐的给画布添加背景的方法是，在场景底部绘制一个与舞台大小相同的 `Konva.Rect` 矩形形状。你可以根据需要为该矩形设置样式，如 [纯色、渐变或图案图片](/docs/styling/Fill.html)。
 
 *这里唯一需要注意的是矩形的位置和大小。如果你对背景形状的任意父级（比如舞台或图层）进行移动或缩放等变换，你需要“重置”背景形状的位置和大小，使其填满整个舞台区域。*
 

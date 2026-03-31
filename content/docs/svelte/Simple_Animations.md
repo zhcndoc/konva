@@ -3,6 +3,7 @@ title: 如何使用 Svelte 和 Konva 应用画布动画？
 sidebar_label: 简单动画
 hide_table_of_contents: true
 slug: Simple_Animations.html
+description: "学习如何使用 Konva Tweens、node.to() 方法和 Konva.Animation 在 Svelte 中为画布形状制作动画。"
 ---
 
 Konva 本身有两种动画方法 [Tween](/docs/tweens/Linear_Easing.html) 和 [Animation](/docs/animations/Rotation.html)。你可以手动将它们应用于节点。

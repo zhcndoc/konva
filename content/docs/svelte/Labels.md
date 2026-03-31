@@ -3,6 +3,7 @@ title: 使用标签与 Svelte
 sidebar_label: 标签
 hide_table_of_contents: true
 slug: Labels.html
+description: "学习如何使用 Svelte 以及 svelte-konva 的 Label、Tag 和 Text 组件在画布上创建标签和工具提示。"
 ---
 
 在 Konva 中创建标签是一个多步骤的过程，因为一个标签实例需要包含一个 Tag 和一个 Text 实例才能正常工作。在 svelte-konva 中，Tag 和 Text 组件可以很容易地嵌套在 Label 组件内部，从而自动创建一个正确的标签，而无需手动连接组件。

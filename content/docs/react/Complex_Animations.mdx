@@ -3,18 +3,19 @@ title: 如何在 React 和 Konva 中应用画布动画？
 sidebar_label: 复杂动画
 hide_table_of_contents: true
 slug: Complex_Animations.html
+description: "学习如何使用 react-konva 和 react-spring 在 React 中创建复杂的画布动画。流畅地实现颜色、大小、位置和阴影的动画效果。"
 ---
 
 对于复杂的动画和高性能更新，您可以使用 [react-spring 库](https://github.com/drcmda/react-spring)。
 
 ```js
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Stage, Layer, Text } from 'react-konva';
 import { Spring, animated } from '@react-spring/konva';
 
 const ColoredRect = () => {
-  const [flag, setFlag] = React.useState(false);
-  const handleClick = () => setFlag(prev => !prev);
+  const [flag, setFlag] = useState(false);
+  const handleClick = () => setFlag((prev) => !prev);
 
   return (
     <Spring
@@ -35,18 +36,16 @@ const ColoredRect = () => {
   );
 };
 
-class App extends Component {
-  render() {
-    return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Text text="尝试点击矩形" />
-          <ColoredRect />
-        </Layer>
-      </Stage>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text text="Try clicking the rectangle" />
+        <ColoredRect />
+      </Layer>
+    </Stage>
+  );
+};
 
 export default App;
 ``` 

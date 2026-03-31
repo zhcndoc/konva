@@ -90,8 +90,67 @@ const config: Config = {
     ],
   ],
 
+  headTags: [
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'Konva.js',
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Web Browser, Node.js',
+        url: 'https://konvajs.org',
+        downloadUrl: 'https://www.npmjs.com/package/konva',
+        license: 'https://opensource.org/licenses/MIT',
+        programmingLanguage: ['JavaScript', 'TypeScript'],
+        author: {
+          '@type': 'Person',
+          name: 'Anton Lavrenov',
+          url: 'https://lavrton.com',
+        },
+        description:
+          'Konva.js is an HTML5 Canvas JavaScript framework that enables high-performance 2D graphics with an object-oriented API. Supports shapes, animations, events, drag-and-drop, filters, and integrations for React, Vue, Svelte, and Angular.',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      }),
+    },
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Konva.js',
+        url: 'https://konvajs.org',
+        logo: 'https://konvajs.org/img/icon.png',
+        sameAs: [
+          'https://github.com/konvajs/konva',
+          'https://www.npmjs.com/package/konva',
+          'https://discord.gg/8FqZwVT',
+          'https://twitter.com/lavrton',
+          'https://stackoverflow.com/questions/tagged/konvajs',
+        ],
+      }),
+    },
+  ],
+
   themeConfig: {
-    // Replace with your project's social card
+    metadata: [
+      {
+        name: 'keywords',
+        content:
+          'konva, konvajs, html5 canvas, javascript canvas library, react canvas, vue canvas, svelte canvas, angular canvas, 2d graphics, canvas framework, drag and drop canvas, canvas animation, canvas drawing',
+      },
+      { name: 'author', content: 'Anton Lavrenov' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'Konva.js' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:site', content: '@lavrton' },
+    ],
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
@@ -188,6 +247,14 @@ const config: Config = {
               label: 'API 参考',
               to: '/api/Konva.html',
             },
+            {
+              label: 'FAQ',
+              to: '/docs/faq.html',
+            },
+            {
+              label: 'About Konva',
+              to: '/docs/about.html',
+            },
           ],
         },
         {
@@ -204,6 +271,10 @@ const config: Config = {
             {
               label: 'Twitter',
               href: 'https://twitter.com/lavrton',
+            },
+            {
+              label: 'Changelog',
+              href: 'https://github.com/konvajs/konva/blob/master/CHANGELOG.md',
             },
           ],
         },

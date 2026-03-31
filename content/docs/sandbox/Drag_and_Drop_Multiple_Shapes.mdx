@@ -3,6 +3,7 @@ title: 拖放多个形状
 sidebar_label: 拖放多个形状
 hide_table_of_contents: true
 slug: Drag_and_Drop_Multiple_Shapes.html
+description: "使用 Konva 在画布上拖放多个彩色矩形，并通过双击移除形状。"
 ---
 
 **说明：** 拖放形状或通过双击或双击来移除它们。
@@ -92,7 +93,7 @@ const App = () => {
   const [boxes, setBoxes] = useState(initialBoxes);
   
   const handleDragStart = (e) => {
-    // 将拖动的盒子移动到数组的末尾以模拟moveToTop
+    // 将拖动的盒子移动到数组的末尾以模拟 moveToTop
     const id = e.target.id();
     const box = boxes.find(b => b.id === id);
     const filteredBoxes = boxes.filter(b => b.id !== id);
@@ -203,7 +204,7 @@ const boxes = ref(initialBoxes);
 const handleDragStart = (e) => {
   const id = e.target.id();
   
-  // 将拖动的盒子移动到数组的末尾以模拟moveToTop
+  // 将拖动的盒子移动到数组的末尾以模拟 moveToTop
   const box = boxes.value.find(b => b.id === id);
   const filteredBoxes = boxes.value.filter(b => b.id !== id);
   boxes.value = [...filteredBoxes, box];

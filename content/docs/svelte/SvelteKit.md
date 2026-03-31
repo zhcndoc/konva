@@ -3,6 +3,7 @@ title: 如何在 SvelteKit 中使用 svelte-konva?
 sidebar_label: SvelteKit
 hide_table_of_contents: true
 slug: SvelteKit.html
+description: "了解如何通过浏览器检查或动态导入在 SvelteKit SSR 和预渲染中使用 svelte-konva。"
 ---
 
 一般情况下，svelte-konva 是一个仅限客户端的库。在使用 SvelteKit 时，如果在预渲染和服务器端渲染（SSR）组件中使用 svelte-konva/Konva 功能，需要特别小心。预渲染和 SSR 在 Node.js 环境中进行。如果你在这种环境下使用任何 svelte-konva 功能，服务器端会抛出错误：
@@ -83,7 +84,7 @@ _+page.svelte_
 
 ### 使用 vite 动态导入 svelte-konva：
 
-[vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) 允许您在不需要手动方法的情况下进行仅限客户端的导入，如上面在 `onMount()` 中所述。请按照 [README](https://www.npmjs.com/package/vite-plugin-iso-import) 中的安装说明进行操作，然后您可以像这样动态导入您的组件：
+[vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) 允许您在不需要手动方法的情况下进行仅限客户端的导入，如上面在 `onMount()` 中所述。请按照 [自述文件](https://www.npmjs.com/package/vite-plugin-iso-import) 中的安装说明进行操作，然后您可以像这样动态导入您的组件：
 
 _+page.svelte_
 
@@ -103,7 +104,7 @@ _+page.svelte_
 </div>
 ```
 
-目前，vite-plugin-iso-import 无法自动修复 TypeScript 中 .svelte 文件的智能提示。请查阅 [README](https://www.npmjs.com/package/vite-plugin-iso-import) 以获得此问题的解决方法。或者查看下面的演示。
+目前，vite-plugin-iso-import 无法自动修复 TypeScript 中 .svelte 文件的智能提示。请查阅 [自述文件](https://www.npmjs.com/package/vite-plugin-iso-import) 以获得此问题的解决方法。或者查看下面的演示。
 
 **说明：** 该 SvelteKit 应用中的每个页面都以不同的方式呈现，包含一个 `svelte-konva` 画布。展示了两种动态导入方法。在预渲染页面上使用 `onMount()` 动态加载，在 SSR 页面上使用 [vite-plugin-iso-import](https://www.npmjs.com/package/vite-plugin-iso-import) 动态加载。尝试检查每次导航时所发出的网络请求，以了解 SvelteKit 中不同的渲染方法。
 

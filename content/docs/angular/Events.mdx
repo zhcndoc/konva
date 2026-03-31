@@ -3,11 +3,16 @@ title: Angular Konva 事件教程
 sidebar_label: 事件
 hide_table_of_contents: true
 slug: Events.html
+description: "学习如何在 Angular 中使用 ng2-konva 事件绑定来处理画布形状上的鼠标、触摸和指针事件。"
 ---
 
-在 Angular 中使用 `Konva` 处理事件，可以使用 `ng2-konva` 库的事件绑定。
+要在 Angular 中处理指针事件，请将 `(mousemove)` 和 `(mouseout)` 等监听器直接附加到 `ng2-konva` 组件上。
 
-有关属性和方法的完整列表，请参见 [Konva API 参考](/api/Konva.html)。
+此演示在鼠标移过三角形时，根据舞台指针坐标更新文本标签。
+
+**说明**：将鼠标移过三角形以更新坐标标签，然后移出以重置文本。
+
+有关更多详细信息，请参阅 [Node API 参考](/api/Konva.Node.html) 和 [Stage API 参考](/api/Konva.Stage.html)。
 
 ## 事件示例
 
@@ -24,6 +29,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

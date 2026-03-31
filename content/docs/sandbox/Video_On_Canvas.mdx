@@ -3,6 +3,7 @@ title: 如何在画布上显示视频
 sidebar_label: 画布上的视频
 hide_table_of_contents: true
 slug: Video_On_Canvas.html
+description: "使用 Konva 在 HTML5 画布上播放和显示视频，包括播放/暂停控制和拖拽支持。"
 ---
 
 import Tabs from "@theme/Tabs";
@@ -12,7 +13,7 @@ import TabItem from "@theme/TabItem";
 
 要在画布上绘制视频，我们可以使用 `<video>` DOM 元素，类似于 `<img>` 元素，但我们必须频繁地重绘图层。为此，我们可以使用 `Konva.Animation`。作为替代方案，您可以使用 `requestAnimationFrame` 并仅调用 `layer.draw()`。
 
-> 另外，请查看这篇文章以获取更多信息: [案例研究: 流媒体视频编辑器](https://lavrton.com/case-study-video-editor-for-stream/)
+> 另外，请查看这篇文章以获取更多信息：[案例研究：流媒体视频编辑器](https://lavrton.com/case-study-video-editor-for-stream/)
 
 下面的演示展示了如何在画布上使用播放/暂停控件显示视频。您还可以拖放视频。
 

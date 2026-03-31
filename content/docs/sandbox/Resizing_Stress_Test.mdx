@@ -1,23 +1,24 @@
 ---
-title: 使用 Konva 的缩放压力测试
-sidebar_label: 缩放压力测试
+title: 使用 Konva 进行调整大小压力测试
+sidebar_label: 调整大小压力测试
 hide_table_of_contents: true
 slug: Resizing_Stress_Test.html
+description: "使用图层和缓存来提升性能，一次性选择和调整数千个形状的压力测试演示。"
 ---
 
-这是一个压力测试演示，用于同时选择和缩放多个形状。
+这是一个用于同时选择和调整许多形状的压力测试演示。
 
-该演示使用了两个核心的 `Konva` 特性来提升性能：
+该演示使用两个核心 `Konva` 功能来提升性能：
 
 ### 1. 图层
 
-正在缩放的形状被移动到另一个图层（另一个画布元素）。因此，当您缩放选定的形状时，我们不需要重新绘制其他形状。
+调整大小的形状被移动到另一个图层（另一个画布元素）。因此，当您调整所选形状的大小时，我们不需要重绘其他形状。
 
 ### 2. 缓存
 
-在 `select` 时，我将所有选定的形状移动到一个组中并缓存该组。缓存操作将组转换为位图图像。在屏幕上重新绘制这样的组速度更快。
+在 `select` 时，我将所有选定的形状移动到一个组中并缓存该组。缓存操作会将组转换为位图图像。在屏幕上重绘这样的组要快得多。
 
-**说明：尝试选择几个形状并缩放/旋转它们。**
+**说明：尝试选择几个形状并调整它们的大小/旋转它们。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -37,7 +38,7 @@ var stage = new Konva.Stage({
   height: height,
 });
 
-// 所有形状的图层
+// 用于所有形状的图层
 var layer = new Konva.Layer();
 stage.add(layer);
 for (var i = 0; i < 10000; i++) {
@@ -51,7 +52,7 @@ for (var i = 0; i < 10000; i++) {
   layer.add(shape);
 }
 
-// 用于转换组的顶部图层
+// 用于变换组的顶层图层
 var topLayer = new Konva.Layer();
 stage.add(topLayer);
 
@@ -63,7 +64,7 @@ topLayer.add(group);
 var tr = new Konva.Transformer();
 topLayer.add(tr);
 
-// 添加一个新特性，让我们添加绘制选择矩形的能力
+// 添加一个新功能，让我们添加绘制选择矩形的能力
 var selectionRectangle = new Konva.Rect({
   fill: 'rgba(0,0,255,0.5)',
   visible: false,
@@ -72,11 +73,11 @@ topLayer.add(selectionRectangle);
 
 var x1, y1, x2, y2;
 stage.on('mousedown touchstart', (e) => {
-  // 如果我们在变换器上按下鼠标，则不执行任何操作
+  // 如果在变换器上按下鼠标，则不执行任何操作
   if (e.target.getParent() === tr) {
     return;
   }
-  // 如果我们在组上按下鼠标，则不执行任何操作
+  // 如果在组上按下鼠标，则不执行任何操作
   if (e.target.parent === group) {
     return;
   }
@@ -93,13 +94,13 @@ stage.on('mousedown touchstart', (e) => {
     visible: true,
   });
 
-  // 将旧选择移回原始图层
+  // 将旧选区移回原始图层
   group.children.slice().forEach((shape) => {
     const transform = shape.getAbsoluteTransform();
     shape.moveTo(layer);
     shape.setAttrs(transform.decompose());
   });
-  // 重置组转换
+  // 重置组变换
   group.setAttrs({
     x: 0,
     y: 0,
@@ -111,7 +112,7 @@ stage.on('mousedown touchstart', (e) => {
 });
 
 stage.on('mousemove touchmove', () => {
-  // 如果我们没有开始选择，则不执行任何操作
+  // 如果没有开始选择，则不执行任何操作
   if (!selectionRectangle.visible()) {
     return;
   }
@@ -127,11 +128,11 @@ stage.on('mousemove touchmove', () => {
 });
 
 stage.on('mouseup touchend', () => {
-  // 如果我们没有开始选择，则不执行任何操作
+  // 如果没有开始选择，则不执行任何操作
   if (!selectionRectangle.visible()) {
     return;
   }
-  // 更新可见性，延时处理，这样我们可以在点击事件中检查
+  // 在超时中更新可见性，以便我们可以在点击事件中检查它
   setTimeout(() => {
     selectionRectangle.visible(false);
   });
@@ -139,7 +140,7 @@ stage.on('mouseup touchend', () => {
   var shapes = stage.find('.shape');
   var box = selectionRectangle.getClientRect();
 
-  // 为了更好的性能，移除所有子元素
+  // 移除所有子项以获得更好的性能
   layer.removeChildren();
 
   // 然后检查交集并将所有形状添加到正确的容器中
@@ -166,9 +167,9 @@ stage.on('mouseup touchend', () => {
   }
 });
 
-// 点击应该选择/取消选择形状
+// 点击应选择/取消选择形状
 stage.on('click tap', function (e) {
-  // 如果我们正在用矩形选择，则不执行任何操作
+  // 如果我们正在使用矩形选择，则不执行任何操作
   if (selectionRectangle.visible()) {
     return;
   }
@@ -203,7 +204,7 @@ const App = () => {
   const trRef = useRef();
   const selectionRectRef = useRef();
 
-  // 一次生成 10,000 个形状
+  // 一次性生成 1 万个形状
   useEffect(() => {
     const items = [];
     for (let i = 0; i < 10000; i++) {
@@ -218,7 +219,7 @@ const App = () => {
     setShapes(items);
   }, []);
 
-  // 附加/分离变换器及缓存操作
+  // 附加/分离变换器并缓存
   useEffect(() => {
     if (selectedIds.length && groupRef.current) {
       trRef.current.nodes([groupRef.current]);
@@ -229,7 +230,7 @@ const App = () => {
     }
   }, [selectedIds]);
 
-  // 实用函数：应用组变换到形状并提交到 React 状态
+  // 用于将组变换应用于形状并提交到 React 状态的工具
   const applyGroupTransform = () => {
     if (!selectedIds.length || !groupRef.current) return;
 
@@ -253,16 +254,16 @@ const App = () => {
   const pointerPos = (e) => e.target.getStage().getPointerPosition();
 
   const handleMouseDown = (e) => {
-    // 忽略变换器或组上的点击
+    // 忽略点击变换器或组
     if (e.target.getParent() === trRef.current || e.target.parent === groupRef.current) {
       return;
     }
 
-    // 完成之前的选中（如果有）
+    // 完成之前的选择（如果有）
     applyGroupTransform();
     if (selectedIds.length) {
       setSelectedIds([]);
-      setGroupKey((k) => k + 1); // 重置组，以便新变换使用
+      setGroupKey((k) => k + 1); // 重置组以进行新的变换
     }
 
     const p = pointerPos(e);
@@ -301,11 +302,11 @@ const App = () => {
   };
 
   const handleStageClick = (e) => {
-    // 忽略绘制选区矩形时的点击
+    // 忽略属于选择矩形绘制部分的点击
     if (selectionRect.visible) return;
 
     if (e.target === e.target.getStage()) {
-      // 点击空白区域：应用变换并清除选中
+      // 点击空白区域：应用变换并清除选择
       applyGroupTransform();
       if (selectedIds.length) {
         setSelectedIds([]);

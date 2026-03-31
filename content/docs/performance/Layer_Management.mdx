@@ -3,6 +3,7 @@ title: HTML5 Canvas 层管理性能提示
 sidebar_label: 层管理
 hide_table_of_contents: true
 slug: Layer_Management.html
+description: "通过 Konva.js 的多层架构提升 HTML5 Canvas 性能。将静态和动态内容分离到不同的层，以避免不必要的重绘。"
 ---
 
 在创建 Konva 应用时，关于性能，最重要的考虑是层管理。Konva 相较于其他画布库的一个突出特点是，它使我们能够创建各个独立的层，每个层都有自己的画布元素。这意味着我们可以对某些舞台元素进行动画、过渡或更新，而无需重新绘制其他元素。如果我们检查一个 Konva 舞台的 DOM，我们会发现实际上每个层都有一个画布元素。

@@ -1,14 +1,15 @@
 ---
-title: Tween 模糊滤镜教程
+title: 模糊滤镜补间教程
 sidebar_label: 滤镜补间
 hide_table_of_contents: true
 slug: Tween_Filter.html
+description: "学习如何使用 Konva.js 补间动画模糊半径等滤镜属性，以实现图像上的平滑滤镜过渡。"
 ---
 
-要使用 Konva 对滤镜进行补间，我们只需对与滤镜相关的属性进行补间。
-在本教程中，我们将补间 `blurRadius` 属性，该属性控制应用于图像的模糊量。
+要使用 Konva 实现滤镜补间，我们只需对与滤镜关联的属性进行补间。
+在本教程中，我们将对 `blurRadius` 属性进行补间，该属性控制应用于图像的模糊程度。
 
-**步骤：将鼠标悬停或触摸图像以聚焦（减少模糊）。**
+**说明：将鼠标悬停或触摸图像以聚焦它（减少模糊）。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -69,7 +70,7 @@ imageObj.crossOrigin = 'anonymous';
 
 stage.add(layer);
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
@@ -126,7 +127,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue

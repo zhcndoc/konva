@@ -3,6 +3,7 @@ title: 如何使用 React 和 Konva 实现画布动画？
 sidebar_label: 简单动画
 hide_table_of_contents: true
 slug: Simple_Animations.html
+description: "学习如何使用 react-konva 在 React 中为画布形状制作动画。使用 React state、requestAnimationFrame 和 Konva.Tween 实现流畅动画。"
 ---
 
 Konva 本身提供两种动画方式： [Tween](/docs/tweens/Linear_Easing.html) 和 [Animation](/docs/animations/Rotation.html)。你可以手动将它们应用到节点上。
@@ -14,35 +15,33 @@ Konva 本身提供两种动画方式： [Tween](/docs/tweens/Linear_Easing.html)
 操作指南：尝试拖拽矩形以查看动画效果。
 
 ```js live react
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import { Stage, Layer, Rect } from 'react-konva';
 
-class MyRect extends React.Component {
-  changeSize = () => {
-    // to() 是 `Konva.Node` 实例的方法
-    this.rect.to({
+const MyRect = () => {
+  const rectRef = useRef(null);
+
+  const changeSize = () => {
+    // to() 是 `Konva.Node` 实例的一个方法
+    rectRef.current.to({
       scaleX: Math.random() + 0.8,
       scaleY: Math.random() + 0.8,
       duration: 0.2,
     });
   };
 
-  render() {
-    return (
-      <Rect
-        ref={(node) => {
-          this.rect = node;
-        }}
-        width={50}
-        height={50}
-        fill="green"
-        draggable
-        onDragEnd={this.changeSize}
-        onDragStart={this.changeSize}
-      />
-    );
-  }
-}
+  return (
+    <Rect
+      ref={rectRef}
+      width={50}
+      height={50}
+      fill="green"
+      draggable
+      onDragEnd={changeSize}
+      onDragStart={changeSize}
+    />
+  );
+};
 
 const App = () => {
   return (

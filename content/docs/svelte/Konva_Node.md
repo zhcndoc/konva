@@ -3,6 +3,7 @@ title: 访问 Konva 节点
 sidebar_label: Konva 节点
 hide_table_of_contents: true
 slug: Konva_Node.html
+description: "了解如何通过 node 属性或事件有效载荷从 svelte-konva 组件访问底层的 Konva 节点。"
 ---
 
 在某些情况下，您可能需要直接访问 svelte-konva 组件的底层 Konva 节点。您可以通过访问相应组件实例的 `node` 属性，或在 Konva 事件的有效载荷中访问它来实现。

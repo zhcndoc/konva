@@ -3,6 +3,7 @@ title: HTML5 Canvas 自定义命中检测函数教程
 sidebar_label: 自定义命中区域
 hide_table_of_contents: true
 slug: Custom_Hit_Region.html
+description: "学习如何使用 Konva.js 为 HTML5 Canvas 图形定义自定义命中检测区域。使用 hitFunc 覆盖默认命中区域以实现精确的点击检测。"
 ---
 
 改变图形命中区域有两种方式：`hitFunc` 和 `hitStrokeWidth` 属性。
@@ -11,7 +12,7 @@ slug: Custom_Hit_Region.html
 
 要为 Konva 中的图形创建自定义命中绘制函数，可以设置 `hitFunc` 属性。命中绘制函数是 Konva 用来绘制用于命中检测的区域的函数。使用自定义命中绘制函数有多种好处，比如使命中区域更大，方便用户与图形交互；只让图形的某些部分可以被检测到，其他部分则不行；或者简化命中绘制函数以提升渲染性能。
 
-另外，可以查看一些编写自定义 `sceneFunc` 的[最佳实践](/docs/shapes/Custom.html)，`sceneFunc` 也可用于 `hitFunc`。
+另外，可以查看一些编写自定义 `sceneFunc` 的 [最佳实践](/docs/shapes/Custom.html)，`sceneFunc` 也可用于 `hitFunc`。
 
 `hitFunc` 是一个带有两个参数的函数：[`Konva.Context`](/api/Konva.Context.html) 渲染器和一个图形实例。
 
@@ -39,7 +40,7 @@ const layer = new Konva.Layer();
 stage.add(layer);
 
 const text = new Konva.Text({
-  x: 10,
+  x:10,
   y: 10,
   text: '',
   fontSize: 24,

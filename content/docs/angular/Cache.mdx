@@ -3,11 +3,16 @@ title: Angular Konva 缓存教程
 sidebar_label: 缓存
 hide_table_of_contents: true
 slug: Cache.html
+description: "学习如何使用 ng2-konva 在 Angular 中缓存 Konva 形状以提高画布渲染性能。"
 ---
 
-在 Angular 中使用 `Konva` 的缓存功能，可以通过 `ng2-konva` 库结合 `cache` 方法来提升性能。
+缓存会将节点光栅化为内部图像，这可以提高性能，并且是某些效果（例如滤镜）所必需的。
 
-有关所有属性和方法的完整列表，请参阅 [Konva API 参考](/api/Konva.html)。
+本示例在渲染后访问底层的 Konva 节点并手动调用 `cache()`。
+
+**说明**：演示展示了一个带有阴影样式的矩形，该矩形在视图初始化后被缓存。
+
+了解更多详情，请参阅 [Node API 参考](/api/Konva.Node.html) 和 [`cache()` 文档](/api/Konva.Node.html#cache)。
 
 ## 缓存示例
 
@@ -23,6 +28,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>

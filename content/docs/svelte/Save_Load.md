@@ -3,6 +3,7 @@ title: 使用 Svelte 和 Konva 保存和加载画布
 sidebar_label: 保存和加载
 hide_table_of_contents: true
 slug: Save_Load.html
+description: "学习如何通过序列化您的应用状态而不是 Konva 内部内容，在 Svelte 中配合 Konva 保存和加载画布状态。"
 ---
 
 原生 Konva 具有特殊机制，可以使用 `node.toJSON()` 和 `node.create(json)` 函数保存/加载整个画布舞台 [(查看演示)](/docs/data_and_serialization/Simple_Load.html)。

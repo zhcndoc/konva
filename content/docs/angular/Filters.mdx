@@ -3,11 +3,16 @@ title: Angular Konva 过滤器教程
 sidebar_label: 过滤器
 hide_table_of_contents: true
 slug: Filters.html
+description: "学习如何在 Angular 中使用 ng2-konva 并通过缓存将视觉过滤器（如模糊）应用于画布形状。"
 ---
 
-要在 Angular 中使用 `Konva` 应用过滤器，可以使用 `ng2-konva` 库的 `filters` 属性。
+要在 Konva 中应用过滤器，请设置 `filters` 属性，并在节点挂载后缓存该节点。
 
-有关属性和方法的完整列表，请参阅[Konva API 参考](/api/Konva.html)。
+此演示在圆形上使用模糊过滤器，并在底层 Konva 节点可用后调用 `cache()`。
+
+**说明**：此演示渲染一个模糊的红色圆形。在编辑器中移除 `cache()` 以查看为何过滤器需要缓存。
+
+了解更多详情，请参阅 [过滤器 API 参考](/api/Konva.Filters.html) 和 [`cache()` 文档](/api/Konva.Node.html#cache)。
 
 ## 过滤器示例
 
@@ -15,7 +20,7 @@ slug: Filters.html
 import { Component, ViewChild } from '@angular/core';
 import { StageConfig } from 'konva/lib/Stage';
 import { CircleConfig } from 'konva/lib/shapes/Circle';
-import * as Konva from 'konva';
+import Konva from 'konva';
 
 import {
   CoreShapeComponent,
@@ -24,6 +29,7 @@ import {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   template: `
     <ko-stage [config]="configStage">
       <ko-layer>
