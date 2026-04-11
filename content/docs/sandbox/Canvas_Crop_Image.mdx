@@ -1,0 +1,361 @@
+---
+title: Canvas Crop Image — Crop and Extract Image Regions with JavaScript
+sidebar_label: Crop Image
+hide_table_of_contents: true
+slug: Canvas_Crop_Image.html
+description: Learn how to crop images on HTML5 Canvas with JavaScript. Select a region, resize the crop area, and extract the cropped image using Konva.js. Interactive demo with source code.
+---
+
+Load an image, drag a blue crop rectangle to select the region you want, resize it with the handles, and click the button to extract just that area.
+
+**Instructions:** Drag to move the crop box. Use the handles to resize it. Click "Crop Image" to extract the region.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var imageObj = new Image();
+imageObj.onload = function() {
+  var image = new Konva.Image({
+    x: 40,
+    y: 40,
+    image: imageObj,
+    width: 400,
+    height: 300,
+  });
+  layer.add(image);
+
+  var cropRect = new Konva.Rect({
+    x: 100,
+    y: 100,
+    width: 150,
+    height: 120,
+    fill: 'rgba(0, 150, 255, 0.15)',
+    stroke: '#0088ff',
+    strokeWidth: 2,
+    dash: [6, 3],
+    draggable: true,
+  });
+  layer.add(cropRect);
+
+  var transformer = new Konva.Transformer({
+    node: cropRect,
+    enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'top-center', 'bottom-center'],
+  });
+  layer.add(transformer);
+
+  layer.draw();
+
+  var container = document.getElementById('container');
+  var controls = document.createElement('div');
+  controls.style.cssText = 'margin: 12px 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;';
+
+  var cropBtn = document.createElement('button');
+  cropBtn.textContent = 'Crop Image';
+  cropBtn.style.cssText = 'padding: 8px 16px; font-size: 14px; background: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;';
+  cropBtn.onmouseover = function() { cropBtn.style.background = '#0077dd'; };
+  cropBtn.onmouseout = function() { cropBtn.style.background = '#0088ff'; };
+
+  controls.appendChild(cropBtn);
+  container.parentNode.insertBefore(controls, container);
+
+  cropBtn.onclick = function() {
+    var dataUrl = stage.toDataURL({
+      x: cropRect.x(),
+      y: cropRect.y(),
+      width: cropRect.width() * cropRect.scaleX(),
+      height: cropRect.height() * cropRect.scaleY(),
+    });
+
+    var resultDiv = document.getElementById('crop-result');
+    if (!resultDiv) {
+      resultDiv = document.createElement('div');
+      resultDiv.id = 'crop-result';
+      resultDiv.style.cssText = 'margin-top: 12px;';
+      container.parentNode.insertBefore(resultDiv, container.nextSibling);
+    }
+    resultDiv.innerHTML = '';
+
+    var label = document.createElement('p');
+    label.textContent = 'Cropped region:';
+    label.style.cssText = 'margin: 0 0 8px 0; font-size: 13px; color: #666; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;';
+    resultDiv.appendChild(label);
+
+    var croppedImg = document.createElement('img');
+    croppedImg.src = dataUrl;
+    croppedImg.style.cssText = 'max-width: 100%; max-height: 300px; border: 1px solid #ddd; border-radius: 4px; display: block;';
+    resultDiv.appendChild(croppedImg);
+  };
+};
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image as KonvaImage, Rect, Transformer } from 'react-konva';
+import { useRef, useState, useEffect } from 'react';
+
+var App = function() {
+  var stageRef = useRef(null);
+  var imageRef = useRef(null);
+  var cropRectRef = useRef(null);
+  var transformerRef = useRef(null);
+  var [imageObj, setImageObj] = useState(null);
+  var [croppedSrc, setCroppedSrc] = useState(null);
+  var W = window.innerWidth;
+  var H = window.innerHeight;
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.onload = function() {
+      setImageObj(img);
+    };
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+  }, []);
+
+  var handleCrop = function() {
+    if (!stageRef.current || !cropRectRef.current) return;
+
+    var dataUrl = stageRef.current.toDataURL({
+      x: cropRectRef.current.x(),
+      y: cropRectRef.current.y(),
+      width: cropRectRef.current.width() * cropRectRef.current.scaleX(),
+      height: cropRectRef.current.height() * cropRectRef.current.scaleY(),
+    });
+
+    setCroppedSrc(dataUrl);
+  };
+
+  return (
+    <div>
+      <Stage ref={stageRef} width={W} height={H}>
+        <Layer>
+          {imageObj && (
+            <>
+              <KonvaImage
+                ref={imageRef}
+                image={imageObj}
+                x={40}
+                y={40}
+                width={400}
+                height={300}
+              />
+              <Rect
+                ref={cropRectRef}
+                x={100}
+                y={100}
+                width={150}
+                height={120}
+                fill="rgba(0, 150, 255, 0.15)"
+                stroke="#0088ff"
+                strokeWidth={2}
+                dash={[6, 3]}
+                draggable={true}
+              />
+              <Transformer
+                ref={transformerRef}
+                node={cropRectRef.current}
+                enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'top-center', 'bottom-center']}
+              />
+            </>
+          )}
+        </Layer>
+      </Stage>
+      <div style={{ margin: '12px 0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+        <button
+          onClick={handleCrop}
+          style={{
+            padding: '8px 16px',
+            fontSize: '14px',
+            background: '#0088ff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: '500',
+          }}
+        >
+          Crop Image
+        </button>
+      </div>
+      {croppedSrc && (
+        <div style={{ marginTop: '12px' }}>
+          <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            Cropped region:
+          </p>
+          <img
+            src={croppedSrc}
+            style={{
+              maxWidth: '100%',
+              maxHeight: '300px',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              display: 'block',
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <v-stage ref="stageRef" :config="stageConfig">
+      <v-layer>
+        <v-image
+          v-if="imageObj"
+          ref="imageRef"
+          :config="imageConfig"
+        />
+        <v-rect
+          v-if="imageObj"
+          ref="cropRectRef"
+          :config="cropRectConfig"
+        />
+        <v-transformer
+          v-if="imageObj"
+          ref="transformerRef"
+          :config="transformerConfig"
+        />
+      </v-layer>
+    </v-stage>
+    <div :style="controlsStyle">
+      <button @click="handleCrop" :style="buttonStyle">
+        Crop Image
+      </button>
+    </div>
+    <div v-if="croppedSrc" :style="resultStyle">
+      <p :style="labelStyle">
+        Cropped region:
+      </p>
+      <img :src="croppedSrc" :style="imageStyle" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+var stageRef = ref(null);
+var imageRef = ref(null);
+var cropRectRef = ref(null);
+var transformerRef = ref(null);
+var imageObj = ref(null);
+var croppedSrc = ref(null);
+var W = window.innerWidth;
+var H = window.innerHeight;
+
+var stageConfig = { width: W, height: H };
+
+var imageConfig = {
+  x: 40,
+  y: 40,
+  width: 400,
+  height: 300,
+};
+
+var cropRectConfig = {
+  x: 100,
+  y: 100,
+  width: 150,
+  height: 120,
+  fill: 'rgba(0, 150, 255, 0.15)',
+  stroke: '#0088ff',
+  strokeWidth: 2,
+  dash: [6, 3],
+  draggable: true,
+};
+
+var transformerConfig = {
+  enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'top-center', 'bottom-center'],
+};
+
+var controlsStyle = {
+  margin: '12px 0',
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+};
+
+var buttonStyle = {
+  padding: '8px 16px',
+  fontSize: '14px',
+  background: '#0088ff',
+  color: 'white',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontWeight: '500',
+};
+
+var resultStyle = {
+  marginTop: '12px',
+};
+
+var labelStyle = {
+  margin: '0 0 8px 0',
+  fontSize: '13px',
+  color: '#666',
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+};
+
+var imageStyle = {
+  maxWidth: '100%',
+  maxHeight: '300px',
+  border: '1px solid #ddd',
+  borderRadius: '4px',
+  display: 'block',
+};
+
+onMounted(function() {
+  var img = new Image();
+  img.onload = function() {
+    imageObj.value = img;
+    imageConfig.image = img;
+    if (cropRectRef.value && transformerRef.value) {
+      var cropNode = cropRectRef.value.getNode();
+      var transformerNode = transformerRef.value.getNode();
+      transformerNode.node(cropNode);
+    }
+  };
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+});
+
+function handleCrop() {
+  if (!stageRef.value || !cropRectRef.value) return;
+
+  var stage = stageRef.value.getNode();
+  var cropNode = cropRectRef.value.getNode();
+  var dataUrl = stage.toDataURL({
+    x: cropNode.x(),
+    y: cropNode.y(),
+    width: cropNode.width() * cropNode.scaleX(),
+    height: cropNode.height() * cropNode.scaleY(),
+  });
+
+  croppedSrc.value = dataUrl;
+}
+</script>
+```
+  </TabItem>
+</Tabs>

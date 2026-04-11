@@ -1,0 +1,463 @@
+---
+title: Canvas Overlay — Add Color, Text, and Gradient Overlays with JavaScript
+sidebar_label: Canvas Overlay
+hide_table_of_contents: true
+slug: Canvas_Overlay.html
+description: Add overlays to images on HTML5 Canvas with JavaScript. Create color tints, text captions, and gradient overlays using Konva.js. Interactive demo with opacity controls.
+---
+
+Canvas overlays let you layer visual effects on top of images—color filters, captions, vignettes, and more. This demo loads an image and lets you toggle three overlay types: a color tint, a text caption, and a gradient vignette. Use the opacity slider to adjust the intensity of all overlays together.
+
+**Instructions:** Click the toggle buttons to show or hide each overlay. Use the slider to adjust opacity.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = 600;
+var height = 450;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var imageNode = null;
+var colorOverlay = null;
+var textOverlay = null;
+var gradientOverlay = null;
+var currentOpacity = 0.5;
+
+var imageObj = new Image();
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+imageObj.onload = function() {
+  imageNode = new Konva.Image({
+    x: 0,
+    y: 0,
+    image: imageObj,
+    width: width,
+    height: height,
+  });
+  layer.add(imageNode);
+
+  colorOverlay = new Konva.Rect({
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    fill: '#0066ff',
+    opacity: currentOpacity,
+    visible: false,
+  });
+  layer.add(colorOverlay);
+
+  textOverlay = new Konva.Text({
+    x: 20,
+    y: height - 60,
+    text: 'Sunset Valley',
+    fontSize: 28,
+    fontFamily: 'Arial, sans-serif',
+    fill: 'white',
+    opacity: currentOpacity,
+    visible: false,
+    shadowColor: 'rgba(0, 0, 0, 0.6)',
+    shadowBlur: 8,
+    shadowOffsetX: 1,
+    shadowOffsetY: 1,
+  });
+  layer.add(textOverlay);
+
+  gradientOverlay = new Konva.Rect({
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    fillLinearGradientStartPoint: { x: 0, y: 0 },
+    fillLinearGradientEndPoint: { x: 0, y: height },
+    fillLinearGradientColorStops: [
+      0, 'rgba(0, 0, 0, 0)',
+      0.6, 'rgba(0, 0, 0, 0)',
+      1, 'rgba(0, 0, 0, 0.7)',
+    ],
+    opacity: currentOpacity,
+    visible: false,
+  });
+  layer.add(gradientOverlay);
+
+  layer.draw();
+};
+
+var controls = document.createElement('div');
+controls.style.cssText = 'margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-family: Arial, sans-serif;';
+
+var colorBtn = document.createElement('button');
+colorBtn.textContent = 'Color';
+colorBtn.style.cssText = 'padding: 8px 14px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; font-size: 14px;';
+colorBtn.onmouseover = function() { this.style.background = '#e8e8e8'; };
+colorBtn.onmouseout = function() { this.style.background = '#f5f5f5'; };
+var colorActive = false;
+colorBtn.onclick = function() {
+  if (!colorOverlay) return;
+  colorActive = !colorActive;
+  colorOverlay.visible(colorActive);
+  colorBtn.style.background = colorActive ? '#0066ff' : '#f5f5f5';
+  colorBtn.style.color = colorActive ? 'white' : 'black';
+  layer.draw();
+};
+
+var textBtn = document.createElement('button');
+textBtn.textContent = 'Text';
+textBtn.style.cssText = 'padding: 8px 14px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; font-size: 14px;';
+textBtn.onmouseover = function() { this.style.background = '#e8e8e8'; };
+textBtn.onmouseout = function() { this.style.background = '#f5f5f5'; };
+var textActive = false;
+textBtn.onclick = function() {
+  if (!textOverlay) return;
+  textActive = !textActive;
+  textOverlay.visible(textActive);
+  textBtn.style.background = textActive ? '#0066ff' : '#f5f5f5';
+  textBtn.style.color = textActive ? 'white' : 'black';
+  layer.draw();
+};
+
+var gradientBtn = document.createElement('button');
+gradientBtn.textContent = 'Gradient';
+gradientBtn.style.cssText = 'padding: 8px 14px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; font-size: 14px;';
+gradientBtn.onmouseover = function() { this.style.background = '#e8e8e8'; };
+gradientBtn.onmouseout = function() { this.style.background = '#f5f5f5'; };
+var gradientActive = false;
+gradientBtn.onclick = function() {
+  if (!gradientOverlay) return;
+  gradientActive = !gradientActive;
+  gradientOverlay.visible(gradientActive);
+  gradientBtn.style.background = gradientActive ? '#0066ff' : '#f5f5f5';
+  gradientBtn.style.color = gradientActive ? 'white' : 'black';
+  layer.draw();
+};
+
+var opacityLabel = document.createElement('label');
+opacityLabel.textContent = 'Opacity: ';
+opacityLabel.style.cssText = 'display: flex; align-items: center; gap: 8px; font-size: 14px;';
+
+var opacitySlider = document.createElement('input');
+opacitySlider.type = 'range';
+opacitySlider.min = '0';
+opacitySlider.max = '1';
+opacitySlider.step = '0.1';
+opacitySlider.value = '0.5';
+opacitySlider.style.cssText = 'width: 120px; cursor: pointer;';
+opacitySlider.oninput = function() {
+  var op = parseFloat(this.value);
+  currentOpacity = op;
+  if (colorOverlay) colorOverlay.opacity(op);
+  if (textOverlay) textOverlay.opacity(op);
+  if (gradientOverlay) gradientOverlay.opacity(op);
+  layer.draw();
+};
+
+opacityLabel.appendChild(opacitySlider);
+
+controls.appendChild(colorBtn);
+controls.appendChild(textBtn);
+controls.appendChild(gradientBtn);
+controls.appendChild(opacityLabel);
+
+var container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image as KonvaImage, Rect, Text } from 'react-konva';
+import { useState, useEffect, useRef } from 'react';
+
+var App = function() {
+  var [image, setImage] = useState(null);
+  var [colorVisible, setColorVisible] = useState(false);
+  var [textVisible, setTextVisible] = useState(false);
+  var [gradientVisible, setGradientVisible] = useState(false);
+  var [opacity, setOpacity] = useState(0.5);
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+    img.onload = function() {
+      setImage(img);
+    };
+  }, []);
+
+  var width = 600;
+  var height = 450;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '8px', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
+        <button
+          onClick={function() { setColorVisible(!colorVisible); }}
+          style={{
+            padding: '8px 14px',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            background: colorVisible ? '#0066ff' : '#f5f5f5',
+            color: colorVisible ? 'white' : 'black',
+            cursor: 'pointer',
+            fontSize: '14px',
+          }}
+        >
+          Color
+        </button>
+        
+        <button
+          onClick={function() { setTextVisible(!textVisible); }}
+          style={{
+            padding: '8px 14px',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            background: textVisible ? '#0066ff' : '#f5f5f5',
+            color: textVisible ? 'white' : 'black',
+            cursor: 'pointer',
+            fontSize: '14px',
+          }}
+        >
+          Text
+        </button>
+        
+        <button
+          onClick={function() { setGradientVisible(!gradientVisible); }}
+          style={{
+            padding: '8px 14px',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            background: gradientVisible ? '#0066ff' : '#f5f5f5',
+            color: gradientVisible ? 'white' : 'black',
+            cursor: 'pointer',
+            fontSize: '14px',
+          }}
+        >
+          Gradient
+        </button>
+        
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+          Opacity:
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={opacity}
+            onChange={function(e) { setOpacity(parseFloat(e.target.value)); }}
+            style={{ width: '120px', cursor: 'pointer' }}
+          />
+        </label>
+      </div>
+      <Stage width={width} height={height}>
+        <Layer>
+          {image && <KonvaImage image={image} width={width} height={height} />}
+          {colorVisible && (
+            <Rect x={0} y={0} width={width} height={height} fill="#0066ff" opacity={opacity} />
+          )}
+          {textVisible && (
+            <Text x={20} y={height - 60} text="Sunset Valley" fontSize={28} fontFamily="Arial, sans-serif" fill="white" opacity={opacity} shadowColor="rgba(0,0,0,0.6)" shadowBlur={8} shadowOffsetX={1} shadowOffsetY={1} />
+          )}
+          {gradientVisible && (
+            <Rect x={0} y={0} width={width} height={height} fillLinearGradientStartPoint={{ x: 0, y: 0 }} fillLinearGradientEndPoint={{ x: 0, y: height }} fillLinearGradientColorStops={[0, 'rgba(0,0,0,0)', 0.6, 'rgba(0,0,0,0)', 1, 'rgba(0,0,0,0.7)']} opacity={opacity} />
+          )}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="margin-bottom: 8px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-family: Arial, sans-serif;">
+      <button
+        @click="toggleColor"
+        :style="{
+          padding: '8px 14px',
+          border: '1px solid #ddd',
+          borderRadius: '4px',
+          background: colorVisible ? '#0066ff' : '#f5f5f5',
+          color: colorVisible ? 'white' : 'black',
+          cursor: 'pointer',
+          fontSize: '14px',
+        }"
+      >
+        Color
+      </button>
+      
+      <button
+        @click="toggleText"
+        :style="{
+          padding: '8px 14px',
+          border: '1px solid #ddd',
+          borderRadius: '4px',
+          background: textVisible ? '#0066ff' : '#f5f5f5',
+          color: textVisible ? 'white' : 'black',
+          cursor: 'pointer',
+          fontSize: '14px',
+        }"
+      >
+        Text
+      </button>
+      
+      <button
+        @click="toggleGradient"
+        :style="{
+          padding: '8px 14px',
+          border: '1px solid #ddd',
+          borderRadius: '4px',
+          background: gradientVisible ? '#0066ff' : '#f5f5f5',
+          color: gradientVisible ? 'white' : 'black',
+          cursor: 'pointer',
+          fontSize: '14px',
+        }"
+      >
+        Gradient
+      </button>
+      
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+        Opacity:
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          :value="opacity"
+          @input="updateOpacity"
+          style="width: 120px; cursor: pointer;"
+        />
+      </label>
+    </div>
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-image :config="imageConfig" />
+        
+        <v-rect
+          v-if="colorVisible"
+          :config="colorOverlayConfig"
+        />
+        
+        <v-text
+          v-if="textVisible"
+          :config="textOverlayConfig"
+        />
+        
+        <v-rect
+          v-if="gradientVisible"
+          :config="gradientOverlayConfig"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+var colorVisible = ref(false);
+var textVisible = ref(false);
+var gradientVisible = ref(false);
+var opacity = ref(0.5);
+var imageObj = ref(null);
+
+var width = 600;
+var height = 450;
+
+var stageConfig = {
+  width: width,
+  height: height,
+};
+
+var imageConfig = computed(function() {
+  return {
+    image: imageObj.value,
+    width: width,
+    height: height,
+  };
+});
+
+var colorOverlayConfig = computed(function() {
+  return {
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    fill: '#0066ff',
+    opacity: opacity.value,
+  };
+});
+
+var textOverlayConfig = computed(function() {
+  return {
+    x: 20,
+    y: height - 60,
+    text: 'Sunset Valley',
+    fontSize: 28,
+    fontFamily: 'Arial, sans-serif',
+    fill: 'white',
+    opacity: opacity.value,
+    shadowColor: 'rgba(0, 0, 0, 0.6)',
+    shadowBlur: 8,
+    shadowOffsetX: 1,
+    shadowOffsetY: 1,
+  };
+});
+
+var gradientOverlayConfig = computed(function() {
+  return {
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    fillLinearGradientStartPoint: { x: 0, y: 0 },
+    fillLinearGradientEndPoint: { x: 0, y: height },
+    fillLinearGradientColorStops: [
+      0, 'rgba(0, 0, 0, 0)',
+      0.6, 'rgba(0, 0, 0, 0)',
+      1, 'rgba(0, 0, 0, 0.7)',
+    ],
+    opacity: opacity.value,
+  };
+});
+
+function toggleColor() {
+  colorVisible.value = !colorVisible.value;
+}
+
+function toggleText() {
+  textVisible.value = !textVisible.value;
+}
+
+function toggleGradient() {
+  gradientVisible.value = !gradientVisible.value;
+}
+
+function updateOpacity(e) {
+  opacity.value = parseFloat(e.target.value);
+}
+
+onMounted(function() {
+  var img = new window.Image();
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+  img.onload = function() {
+    imageObj.value = img;
+  };
+});
+</script>
+```
+  </TabItem>
+</Tabs>

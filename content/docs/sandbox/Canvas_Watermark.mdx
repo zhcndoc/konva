@@ -1,0 +1,371 @@
+---
+title: "Canvas Watermark — Add Text Watermark to Images with JavaScript"
+sidebar_label: Canvas Watermark
+hide_table_of_contents: true
+slug: Canvas_Watermark.html
+description: "Add text watermarks to images on HTML5 Canvas with JavaScript. Customize watermark text, opacity, size, and rotation using Konva.js. Export watermarked images as PNG."
+---
+
+Add a repeating diagonal watermark to images with full control over text, opacity, and font size. This demo loads an image, tiles a rotated watermark pattern across the canvas, and lets you export the result as PNG.
+
+**Instructions:** Change the watermark text, adjust opacity and size with the sliders, then click Export PNG to download.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = 800;
+var height = 400;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var controls = document.createElement('div');
+controls.style.cssText = 'display:flex;gap:10px;align-items:center;margin-bottom:4px;flex-wrap:wrap;font-size:13px;';
+
+var textInput = document.createElement('input');
+textInput.type = 'text';
+textInput.value = 'SAMPLE';
+textInput.style.padding = '5px';
+textInput.style.width = '120px';
+
+var opacityLabel = document.createElement('label');
+opacityLabel.style.display = 'flex';
+opacityLabel.style.alignItems = 'center';
+opacityLabel.style.gap = '8px';
+var opacityValue = document.createElement('span');
+opacityValue.textContent = '0.3';
+var opacitySlider = document.createElement('input');
+opacitySlider.type = 'range';
+opacitySlider.min = '0';
+opacitySlider.max = '1';
+opacitySlider.step = '0.1';
+opacitySlider.value = '0.3';
+opacitySlider.style.width = '100px';
+opacityLabel.appendChild(document.createTextNode('Opacity:'));
+opacityLabel.appendChild(opacitySlider);
+opacityLabel.appendChild(opacityValue);
+
+var sizeLabel = document.createElement('label');
+sizeLabel.style.display = 'flex';
+sizeLabel.style.alignItems = 'center';
+sizeLabel.style.gap = '8px';
+var sizeValue = document.createElement('span');
+sizeValue.textContent = '32';
+var sizeSlider = document.createElement('input');
+sizeSlider.type = 'range';
+sizeSlider.min = '12';
+sizeSlider.max = '60';
+sizeSlider.step = '2';
+sizeSlider.value = '32';
+sizeSlider.style.width = '100px';
+sizeLabel.appendChild(document.createTextNode('Size:'));
+sizeLabel.appendChild(sizeSlider);
+sizeLabel.appendChild(sizeValue);
+
+var exportBtn = document.createElement('button');
+exportBtn.textContent = 'Export PNG';
+exportBtn.style.padding = '6px 12px';
+exportBtn.style.cursor = 'pointer';
+exportBtn.style.fontSize = '13px';
+
+controls.appendChild(document.createTextNode('Text:'));
+controls.appendChild(textInput);
+controls.appendChild(opacityLabel);
+controls.appendChild(sizeLabel);
+controls.appendChild(exportBtn);
+
+var container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+
+var imageObj = new Image();
+imageObj.onload = function() {
+  var konvaImage = new Konva.Image({
+    x: 0,
+    y: 0,
+    image: imageObj,
+    width: width,
+    height: height,
+  });
+  layer.add(konvaImage);
+
+  var watermarkGroup = new Konva.Group({
+    x: 0,
+    y: 0,
+  });
+  layer.add(watermarkGroup);
+
+  function createWatermark() {
+    watermarkGroup.destroyChildren();
+    var text = textInput.value || 'SAMPLE';
+    var opacity = parseFloat(opacitySlider.value);
+    var size = parseInt(sizeSlider.value);
+    
+    var spacing = 200;
+    var vertSpacing = 150;
+    
+    for (var x = -width; x < width * 2; x += spacing) {
+      for (var y = -height; y < height * 2; y += vertSpacing) {
+        var watermark = new Konva.Text({
+          x: x,
+          y: y,
+          text: text,
+          fontSize: size,
+          fontFamily: 'Arial, sans-serif',
+          fill: 'white',
+          opacity: opacity,
+          rotation: -30,
+        });
+        watermarkGroup.add(watermark);
+      }
+    }
+    layer.draw();
+  }
+
+  createWatermark();
+
+  textInput.addEventListener('change', createWatermark);
+  opacitySlider.addEventListener('input', function() {
+    opacityValue.textContent = this.value;
+    createWatermark();
+  });
+  sizeSlider.addEventListener('input', function() {
+    sizeValue.textContent = this.value;
+    createWatermark();
+  });
+
+  exportBtn.addEventListener('click', function() {
+    var dataURL = stage.toDataURL({ pixelRatio: 2 });
+    var link = document.createElement('a');
+    link.href = dataURL;
+    link.download = 'watermarked.png';
+    link.click();
+  });
+};
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image, Text, Group } from 'react-konva';
+import { useState, useRef, useEffect } from 'react';
+
+var App = function() {
+  var stageRef = useRef(null);
+  var [watermarkText, setWatermarkText] = useState('SAMPLE');
+  var [opacity, setOpacity] = useState(0.3);
+  var [fontSize, setFontSize] = useState(32);
+  var [image, setImage] = useState(null);
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.onload = function() {
+      setImage(img);
+    };
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+  }, []);
+
+  var handleExport = function() {
+    if (stageRef.current) {
+      var dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
+      var link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'watermarked.png';
+      link.click();
+    }
+  };
+
+  var watermarkPositions = [];
+  var spacing = 200;
+  var vertSpacing = 150;
+  for (var x = -800; x < 1600; x += spacing) {
+    for (var y = -400; y < 800; y += vertSpacing) {
+      watermarkPositions.push({ x: x, y: y });
+    }
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '4px', flexWrap: 'wrap', fontSize: '13px' }}>
+        <span>Text:</span>
+        <input
+          type="text"
+          value={watermarkText}
+          onChange={function(e) { setWatermarkText(e.target.value); }}
+          style={{ padding: '5px', width: '120px' }}
+        />
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          Opacity:
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={opacity}
+            onChange={function(e) { setOpacity(parseFloat(e.target.value)); }}
+            style={{ width: '100px' }}
+          />
+          <span style={{ minWidth: '20px' }}>{opacity.toFixed(1)}</span>
+        </label>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          Size:
+          <input
+            type="range"
+            min="12"
+            max="60"
+            step="2"
+            value={fontSize}
+            onChange={function(e) { setFontSize(parseInt(e.target.value)); }}
+            style={{ width: '100px' }}
+          />
+          <span style={{ minWidth: '20px' }}>{fontSize}</span>
+        </label>
+        <button onClick={handleExport} style={{ padding: '6px 12px', cursor: 'pointer', fontSize: '13px' }}>
+          Export PNG
+        </button>
+      </div>
+      <Stage ref={stageRef} width={800} height={400}>
+        <Layer>
+          {image && <Image image={image} width={800} height={400} />}
+          <Group>
+            {watermarkPositions.map(function(pos, i) {
+              return (
+                <Text
+                  key={i}
+                  x={pos.x}
+                  y={pos.y}
+                  text={watermarkText}
+                  fontSize={fontSize}
+                  fontFamily="Arial, sans-serif"
+                  fill="white"
+                  opacity={opacity}
+                  rotation={-30}
+                />
+              );
+            })}
+          </Group>
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:4px;flex-wrap:wrap;font-size:13px;">
+      <span>Text:</span>
+      <input
+        v-model="watermarkText"
+        type="text"
+        style="padding:5px;width:120px;"
+      />
+      <label style="display:flex;align-items:center;gap:8px;">
+        Opacity:
+        <input
+          v-model.number="opacity"
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          style="width:100px;"
+        />
+        <span style="min-width:20px;">{{ opacity.toFixed(1) }}</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;">
+        Size:
+        <input
+          v-model.number="fontSize"
+          type="range"
+          min="12"
+          max="60"
+          step="2"
+          style="width:100px;"
+        />
+        <span style="min-width:20px;">{{ fontSize }}</span>
+      </label>
+      <button @click="handleExport" style="padding:6px 12px;cursor:pointer;font-size:13px;">
+        Export PNG
+      </button>
+    </div>
+    <v-stage :config="{ width: 800, height: 400 }" ref="stageRef">
+      <v-layer>
+        <v-image v-if="image" :config="{ image, width: 800, height: 400 }" />
+        <v-group>
+          <v-text
+            v-for="(pos, i) in watermarkPositions"
+            :key="i"
+            :config="{
+              x: pos.x,
+              y: pos.y,
+              text: watermarkText,
+              fontSize: fontSize,
+              fontFamily: 'Arial, sans-serif',
+              fill: 'white',
+              opacity: opacity,
+              rotation: -30,
+            }"
+          />
+        </v-group>
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+
+var watermarkText = ref('SAMPLE');
+var opacity = ref(0.3);
+var fontSize = ref(32);
+var image = ref(null);
+var stageRef = ref(null);
+
+var watermarkPositions = computed(function() {
+  var positions = [];
+  var spacing = 200;
+  var vertSpacing = 150;
+  for (var x = -800; x < 1600; x += spacing) {
+    for (var y = -400; y < 800; y += vertSpacing) {
+      positions.push({ x: x, y: y });
+    }
+  }
+  return positions;
+});
+
+onMounted(function() {
+  var img = new window.Image();
+  img.onload = function() {
+    image.value = img;
+  };
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+});
+
+function handleExport() {
+  if (stageRef.value) {
+    var stage = stageRef.value.getNode();
+    var dataURL = stage.toDataURL({ pixelRatio: 2 });
+    var link = document.createElement('a');
+    link.href = dataURL;
+    link.download = 'watermarked.png';
+    link.click();
+  }
+}
+</script>
+```
+  </TabItem>
+</Tabs>

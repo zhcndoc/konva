@@ -1,15 +1,15 @@
 ---
-title: HTML5 Canvas to Data URL Tutorial
-sidebar_label: Stage Data URL
+title: Canvas Screenshot — Export HTML5 Canvas as Image with JavaScript
+sidebar_label: Canvas Screenshot
 hide_table_of_contents: true
 slug: Stage_Data_URL.html
-description: "Learn how to export HTML5 Canvas to a data URL (base64 image) with Konva.js. Use stage.toDataURL() for PNG/JPEG export."
+description: "Take a screenshot of your HTML5 Canvas and export it as PNG or JPEG with JavaScript. Use Konva.js toDataURL() to capture canvas content as a base64 image or downloadable file."
 ---
 
-To get the data URL of the stage with `Konva`, we can use the `toDataURL()`
+To take a screenshot of your canvas and export it as an image with `Konva`, use the `toDataURL()`
 method which requires a callback function for `Stage` (for other nodes callback is not required).
-In addition, we can also pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
-We can also get the data URLs of specific nodes, including layers, groups, and shapes.
+You can pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
+You can also capture screenshots of specific nodes, including layers, groups, and shapes.
 
 *Note: The `toDataURL()` method requires that any images drawn onto the canvas
 are hosted on a web server with the same domain as the code executing it.

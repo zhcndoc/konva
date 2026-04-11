@@ -45,7 +45,8 @@
 }
 
 .gridItem.small .description {
-  min-height: 50px;
+  min-height: auto;
+  padding: 12px 16px;
 }
 
 .gridItem .description {

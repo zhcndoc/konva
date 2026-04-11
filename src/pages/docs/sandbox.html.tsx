@@ -29,6 +29,44 @@ const demoSidebar = {
       path: 'sandbox/Interactive_Building_Map.html',
     },
   },
+  'Tools': {
+    'Signature Pad': {
+      image: 'signature-pad.jpg',
+      path: 'sandbox/Signature_Pad.html',
+    },
+    'Badge Maker': {
+      image: 'badge-maker.jpg',
+      path: 'sandbox/Badge_Maker.html',
+    },
+    'Rotate & Flip Image': {
+      image: 'rotate-flip.jpg',
+      path: 'sandbox/Rotate_Flip_Image.html',
+    },
+    'Infinite Canvas': {
+      image: 'infinite-canvas.jpg',
+      path: 'sandbox/Infinite_Canvas.html',
+    },
+    'Heatmap Generator': {
+      image: 'heatmap-generator.jpg',
+      path: 'sandbox/Heatmap_Generator.html',
+    },
+    'Crop Image': {
+      image: 'crop-image.jpg',
+      path: 'sandbox/Canvas_Crop_Image.html',
+    },
+    'Watermark': {
+      image: 'watermark.jpg',
+      path: 'sandbox/Canvas_Watermark.html',
+    },
+    'Canvas Overlay': {
+      image: 'canvas-overlay.jpg',
+      path: 'sandbox/Canvas_Overlay.html',
+    },
+    'Sticker Editor': {
+      image: 'canvas-sticker.jpg',
+      path: 'sandbox/Canvas_Sticker.html',
+    },
+  },
   'Games and Apps': {
     'Wheel of Fortune': {
       image: 'wheel-of-fortune-min.png',
@@ -272,9 +310,12 @@ const DemoGrid = ({
 
 export default function Demos() {
   return (
-    <Layout title="Demos" description="Interactive Konva Demos">
-      <div className="container">
-        <h1>Konva Demos</h1>
+    <Layout title="Demos" description="Interactive demos and examples built with Konva.js — signature pads, image editors, games, drag-and-drop, animations, and more. Try them live in your browser.">
+      <div className="container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <h1 style={{ marginBottom: '0.5rem' }}>Konva Demos</h1>
+        <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '2rem' }}>
+          Interactive examples showing what you can build with Konva.js and HTML5 Canvas.
+        </p>
         {Object.entries(demoSidebar).map(([section, items]) => (
           <DemoGrid key={section} section={section} items={items} />
         ))}

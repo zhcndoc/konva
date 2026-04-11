@@ -1,0 +1,385 @@
+---
+title: "Canvas Sticker — Add Drag and Drop Stickers to Images with JavaScript"
+sidebar_label: Canvas Sticker
+hide_table_of_contents: true
+slug: Canvas_Sticker.html
+description: "Add stickers to images on HTML5 Canvas with JavaScript. Drag, drop, resize, and rotate decorative shapes on photos using Konva.js. Interactive sticker demo with export."
+---
+
+Add interactive stickers to any image using Konva.js. Select from a palette of shapes—stars, hearts, badges, and arrows—click to place them on your canvas, drag to reposition, and use the transformer handles to resize or rotate. Then export the final design as a PNG.
+
+**Instructions:** Click a sticker button to add it at a random position. Drag to move stickers around. Click a sticker to select it and see the transform handles. Click the background to deselect. Use the Export button to download your canvas as PNG.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = 800;
+var height = 600;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+// Load background image
+var imageObj = new Image();
+imageObj.onload = function() {
+  var konvaImage = new Konva.Image({
+    image: imageObj,
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+  });
+  layer.add(konvaImage);
+  layer.draw();
+};
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+
+var transformer = new Konva.Transformer();
+layer.add(transformer);
+
+// Sticker creators
+var stickers = [
+  {
+    name: 'Star',
+    emoji: '⭐',
+    create: function() {
+      return new Konva.Star({
+        numPoints: 5,
+        innerRadius: 15,
+        outerRadius: 35,
+        fill: '#FFD700',
+        stroke: '#FFA500',
+        strokeWidth: 2,
+        draggable: true,
+        shadowColor: 'rgba(0,0,0,0.2)',
+        shadowBlur: 8,
+        shadowOffsetY: 3,
+      });
+    }
+  },
+  {
+    name: 'Heart',
+    emoji: '❤️',
+    create: function() {
+      return new Konva.Path({
+        data: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+        scaleX: 2,
+        scaleY: 2,
+        fill: '#FF69B4',
+        draggable: true,
+        shadowColor: 'rgba(0,0,0,0.2)',
+        shadowBlur: 8,
+        shadowOffsetY: 3,
+      });
+    }
+  },
+  {
+    name: 'Badge',
+    emoji: '🔴',
+    create: function() {
+      return new Konva.Circle({
+        radius: 25,
+        fill: '#FF4444',
+        stroke: '#FFFFFF',
+        strokeWidth: 3,
+        draggable: true,
+        shadowColor: 'rgba(0,0,0,0.2)',
+        shadowBlur: 8,
+        shadowOffsetY: 3,
+      });
+    }
+  },
+  {
+    name: 'Arrow',
+    emoji: '➡️',
+    create: function() {
+      return new Konva.Arrow({
+        points: [0, 0, 50, 0],
+        fill: '#20C997',
+        stroke: '#20C997',
+        strokeWidth: 3,
+        pointerLength: 12,
+        pointerWidth: 12,
+        draggable: true,
+        shadowColor: 'rgba(0,0,0,0.2)',
+        shadowBlur: 8,
+        shadowOffsetY: 3,
+      });
+    }
+  }
+];
+
+// Create control buttons
+var controls = document.createElement('div');
+controls.style.cssText = 'display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center;';
+
+stickers.forEach(function(sticker) {
+  var btn = document.createElement('button');
+  btn.textContent = sticker.emoji + ' ' + sticker.name;
+  btn.style.cssText = 'padding: 8px 14px; cursor: pointer; border: 1px solid #ddd; border-radius: 4px; background: #f8f9fa; font-size: 14px; transition: all 0.2s;';
+  btn.onmouseover = function() { btn.style.background = '#e9ecef'; };
+  btn.onmouseout = function() { btn.style.background = '#f8f9fa'; };
+  btn.onclick = function() {
+    var shape = sticker.create();
+    shape.x(Math.random() * 400 + 100);
+    shape.y(Math.random() * 300 + 100);
+    layer.add(shape);
+    layer.draw();
+  };
+  controls.appendChild(btn);
+});
+
+// Export button
+var exportBtn = document.createElement('button');
+exportBtn.textContent = '⬇️ Export PNG';
+exportBtn.style.cssText = 'padding: 8px 14px; cursor: pointer; border: none; border-radius: 4px; background: #333; color: white; font-weight: 600; font-size: 14px; transition: all 0.2s;';
+exportBtn.onmouseover = function() { exportBtn.style.background = '#555'; };
+exportBtn.onmouseout = function() { exportBtn.style.background = '#333'; };
+exportBtn.onclick = function() {
+  var url = stage.toDataURL({ pixelRatio: 2 });
+  var link = document.createElement('a');
+  link.href = url;
+  link.download = 'sticker-canvas.png';
+  link.click();
+};
+controls.appendChild(exportBtn);
+
+var container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+
+// Selection and transformation
+stage.on('click tap', function(e) {
+  if (e.target === stage) {
+    transformer.nodes([]);
+    layer.draw();
+    return;
+  }
+  if (e.target.getParent().className === 'Transformer') return;
+  transformer.nodes([e.target]);
+  layer.draw();
+});
+
+stage.on('dragstart', function() {
+  transformer.nodes([]);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image as KonvaImage, Star, Circle, Arrow, Path, Transformer } from 'react-konva';
+import { useRef, useState, useEffect } from 'react';
+
+var App = function() {
+  var stageRef = useRef(null);
+  var layerRef = useRef(null);
+  var trRef = useRef(null);
+  var [selectedId, setSelectedId] = useState(null);
+  var [image, setImage] = useState(null);
+  var [shapes, setShapes] = useState([]);
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.onload = function() { setImage(img); };
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+  }, []);
+
+  var addSticker = function(type) {
+    setShapes(function(prev) {
+      return prev.concat([{
+        id: Date.now(),
+        type: type,
+        x: Math.random() * 400 + 100,
+        y: Math.random() * 300 + 100
+      }]);
+    });
+  };
+
+  var updateShape = function(id, x, y) {
+    setShapes(function(prev) {
+      return prev.map(function(s) {
+        return s.id === id ? { ...s, x: x, y: y } : s;
+      });
+    });
+  };
+
+  var handleExport = function() {
+    var url = stageRef.current.toDataURL({ pixelRatio: 2 });
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'sticker-canvas.png';
+    link.click();
+  };
+
+  var renderSticker = function(item) {
+    var common = {
+      key: item.id,
+      x: item.x,
+      y: item.y,
+      draggable: true,
+      shadowColor: 'rgba(0,0,0,0.2)',
+      shadowBlur: 8,
+      shadowOffsetY: 3,
+      onClick: function() { setSelectedId(item.id); },
+      onTap: function() { setSelectedId(item.id); },
+      onDragEnd: function(e) { updateShape(item.id, e.target.x(), e.target.y()); }
+    };
+
+    if (item.type === 'star') {
+      return <Star {...common} numPoints={5} innerRadius={15} outerRadius={35} fill="#FFD700" stroke="#FFA500" strokeWidth={2} />;
+    } else if (item.type === 'heart') {
+      return <Path {...common} data="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" scaleX={2} scaleY={2} fill="#FF69B4" />;
+    } else if (item.type === 'badge') {
+      return <Circle {...common} radius={25} fill="#FF4444" stroke="#FFFFFF" strokeWidth={3} />;
+    } else if (item.type === 'arrow') {
+      return <Arrow {...common} points={[0, 0, 50, 0]} fill="#20C997" stroke="#20C997" strokeWidth={3} pointerLength={12} pointerWidth={12} />;
+    }
+  };
+
+  var stickers = [
+    { emoji: '⭐', name: 'Star', type: 'star' },
+    { emoji: '❤️', name: 'Heart', type: 'heart' },
+    { emoji: '🔴', name: 'Badge', type: 'badge' },
+    { emoji: '➡️', name: 'Arrow', type: 'arrow' }
+  ];
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', flexWrap: 'wrap', alignItems: 'center' }}>
+        {stickers.map(function(s) {
+          return <button key={s.type} onClick={function() { addSticker(s.type); }} style={{ padding: '8px 14px', cursor: 'pointer', border: '1px solid #ddd', borderRadius: '4px', background: '#f8f9fa', fontSize: '14px' }}>{s.emoji} {s.name}</button>;
+        })}
+        <button onClick={handleExport} style={{ padding: '8px 14px', cursor: 'pointer', border: 'none', borderRadius: '4px', background: '#333', color: 'white', fontWeight: '600', fontSize: '14px' }}>⬇️ Export PNG</button>
+      </div>
+      <Stage ref={stageRef} width={800} height={600} onClick={function() { setSelectedId(null); }} onTap={function() { setSelectedId(null); }}>
+        <Layer ref={layerRef}>
+          {image && <KonvaImage image={image} width={800} height={600} />}
+          {shapes.map(renderSticker)}
+          {selectedId && <Transformer ref={trRef} nodes={[layerRef.current.findOne('[id="' + selectedId + '"]')]} />}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center;">
+      <button v-for="s in stickers" :key="s.type" @click="addSticker(s.type)" style="padding: 8px 14px; cursor: pointer; border: 1px solid #ddd; border-radius: 4px; background: #f8f9fa; font-size: 14px;">{{ s.emoji }} {{ s.name }}</button>
+      <button @click="handleExport" style="padding: 8px 14px; cursor: pointer; border: none; border-radius: 4px; background: #333; color: white; font-weight: 600; font-size: 14px;">⬇️ Export PNG</button>
+    </div>
+    <v-stage ref="stageRef" :config="stageConfig" @click="deselectAll" @tap="deselectAll">
+      <v-layer ref="layerRef">
+        <v-image :config="imageConfig" />
+        <v-star v-for="s in shapes" v-if="s.type === 'star'" :key="s.id" :config="getConfig(s, { numPoints: 5, innerRadius: 15, outerRadius: 35, fill: '#FFD700', stroke: '#FFA500', strokeWidth: 2 })" @click="selectShape(s.id)" @tap="selectShape(s.id)" @dragend="updateShape(s.id, $event)" />
+        <v-path v-for="s in shapes" v-if="s.type === 'heart'" :key="s.id" :config="getConfig(s, { data: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z', scaleX: 2, scaleY: 2, fill: '#FF69B4' })" @click="selectShape(s.id)" @tap="selectShape(s.id)" @dragend="updateShape(s.id, $event)" />
+        <v-circle v-for="s in shapes" v-if="s.type === 'badge'" :key="s.id" :config="getConfig(s, { radius: 25, fill: '#FF4444', stroke: '#FFFFFF', strokeWidth: 3 })" @click="selectShape(s.id)" @tap="selectShape(s.id)" @dragend="updateShape(s.id, $event)" />
+        <v-arrow v-for="s in shapes" v-if="s.type === 'arrow'" :key="s.id" :config="getConfig(s, { points: [0, 0, 50, 0], fill: '#20C997', stroke: '#20C997', strokeWidth: 3, pointerLength: 12, pointerWidth: 12 })" @click="selectShape(s.id)" @tap="selectShape(s.id)" @dragend="updateShape(s.id, $event)" />
+        <v-transformer ref="trRef" :config="{ nodes: selectedNodeRef }" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+var stageRef = ref(null);
+var layerRef = ref(null);
+var trRef = ref(null);
+var selectedId = ref(null);
+var selectedNodeRef = ref([]);
+var image = ref(null);
+var shapes = ref([]);
+
+var stageConfig = { width: 800, height: 600 };
+
+var imageConfig = ref({
+  image: null,
+  width: 800,
+  height: 600
+});
+
+var stickers = [
+  { emoji: '⭐', name: 'Star', type: 'star' },
+  { emoji: '❤️', name: 'Heart', type: 'heart' },
+  { emoji: '🔴', name: 'Badge', type: 'badge' },
+  { emoji: '➡️', name: 'Arrow', type: 'arrow' }
+];
+
+onMounted(function() {
+  var img = new Image();
+  img.onload = function() {
+    image.value = img;
+    imageConfig.value.image = img;
+  };
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+});
+
+function getConfig(shape, typeProps) {
+  return {
+    x: shape.x,
+    y: shape.y,
+    draggable: true,
+    shadowColor: 'rgba(0,0,0,0.2)',
+    shadowBlur: 8,
+    shadowOffsetY: 3,
+    ...typeProps
+  };
+}
+
+function addSticker(type) {
+  shapes.value.push({
+    id: Date.now(),
+    type: type,
+    x: Math.random() * 400 + 100,
+    y: Math.random() * 300 + 100
+  });
+}
+
+function selectShape(id) {
+  selectedId.value = id;
+  var node = layerRef.value.getNode().findOne('[id="' + id + '"]');
+  selectedNodeRef.value = node ? [node] : [];
+}
+
+function deselectAll() {
+  selectedId.value = null;
+  selectedNodeRef.value = [];
+}
+
+function updateShape(id, e) {
+  var shape = shapes.value.find(function(s) { return s.id === id; });
+  if (shape) {
+    shape.x = e.target.x();
+    shape.y = e.target.y();
+  }
+}
+
+function handleExport() {
+  var stage = stageRef.value.getNode();
+  var url = stage.toDataURL({ pixelRatio: 2 });
+  var link = document.createElement('a');
+  link.href = url;
+  link.download = 'sticker-canvas.png';
+  link.click();
+}
+</script>
+```
+  </TabItem>
+</Tabs>
