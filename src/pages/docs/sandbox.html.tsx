@@ -72,7 +72,7 @@ const demoSidebar = {
       image: 'wheel-of-fortune-min.png',
       path: 'sandbox/Wheel_of_Fortune.html',
     },
-    'Free Drawing': {
+    'Canvas Drawing': {
       image: 'free-drawing-min.png',
       path: 'sandbox/Free_Drawing.html',
     },
@@ -207,7 +207,7 @@ const demoSidebar = {
       path: 'sandbox/Star_Spinner.html',
     },
     'Connected Objects': {
-      image: 'connected-objects.png',
+      image: 'connected-objects.jpg',
       path: 'sandbox/Connected_Objects.html',
     },
     'Manual Image Resize': {

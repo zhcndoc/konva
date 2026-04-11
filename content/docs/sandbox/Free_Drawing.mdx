@@ -1,17 +1,17 @@
 ---
-title: Free Drawing on Canvas — Build a Drawing App with JavaScript
-sidebar_label: Free Drawing
+title: Canvas Drawing — Free Drawing and Painting on HTML5 Canvas with JavaScript
+sidebar_label: Canvas Drawing
 hide_table_of_contents: true
 slug: Free_Drawing.html
-description: "Draw on an HTML5 Canvas with JavaScript using Konva.js. Build a free drawing app with smooth strokes, pen tools, and eraser. Interactive demo with multiple implementations."
+description: "Draw on an HTML5 Canvas with JavaScript. Build a canvas drawing app with freehand strokes, pen tools, and eraser using Konva.js. Two approaches: vector graphics and manual 2D drawing."
 ---
 
-There are many ways to implement free drawing tools in Konva.
+Build a canvas drawing tool that lets users paint freehand strokes directly on an HTML5 Canvas. This is one of the most common features in canvas-based applications — from whiteboards and annotation tools to design editors and signature pads.
 
-I see two most common and simple ways:
+There are two common approaches to canvas drawing with Konva:
 
-1. Konva-based vector graphics (simple)
-2. Manual drawing into 2d canvas (advanced)
+1. **Konva-based vector graphics** — each stroke is a Konva.Line object you can select, move, and delete later (simple, recommended for most use cases)
+2. **Manual 2D canvas drawing** — draw directly onto a canvas pixel buffer for maximum performance with many strokes (advanced)
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
