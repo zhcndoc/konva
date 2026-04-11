@@ -1,15 +1,21 @@
 ---
-title: "Connected Objects — Build Flowcharts and Diagrams on Canvas with JavaScript"
-sidebar_label: Connected Objects
+title: "React Flowchart — Build Interactive Flowcharts and Diagrams on Canvas with JavaScript"
+sidebar_label: Flowchart
 hide_table_of_contents: true
 slug: Connected_Objects.html
-description: "Build interactive flowcharts and diagrams on HTML5 Canvas with JavaScript. Drag nodes, auto-update connections, and create visual workflows using Konva.js."
+description: "Build an interactive flowchart on HTML5 Canvas with JavaScript and React. Drag nodes, auto-update connections, and create visual workflows and diagrams using Konva.js and react-konva."
+keywords: [react flowchart, javascript flowchart, canvas flowchart, react diagram, flowchart javascript]
 ---
 
-Build interactive flowcharts and connected diagrams directly on an HTML5 Canvas. Drag nodes around and watch the connecting arrows follow in real time — a common pattern for workflow builders, mind maps, org charts, and visual programming tools.
+Build interactive flowcharts and connected diagrams directly on an HTML5 Canvas. Drag nodes around and watch the connecting arrows follow in real time — a common pattern for workflow builders, mind maps, org charts, and visual programming tools. Works with vanilla JavaScript, React (via [react-konva](/docs/react/index.html)), and Vue.
 
 **Instructions:** Drag any node to reposition it. Connections update automatically. Click "Add Node" to add more.
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
@@ -115,3 +121,277 @@ connect(procB, end);
 
 layer.draw();
 ```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React, { useState, useCallback } from 'react';
+import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
+
+var INITIAL_NODES = [
+  { id: 'start', label: 'Start', color: '#4CAF50', x: 100, y: 120 },
+  { id: 'procA', label: 'Process A', color: '#2196F3', x: 300, y: 80 },
+  { id: 'decide', label: 'Decision', color: '#FF9800', x: 500, y: 120 },
+  { id: 'procB', label: 'Process B', color: '#2196F3', x: 300, y: 260 },
+  { id: 'end', label: 'End', color: '#f44336', x: 500, y: 260 },
+];
+
+var CONNECTIONS = [
+  { from: 'start', to: 'procA' },
+  { from: 'procA', to: 'decide' },
+  { from: 'decide', to: 'procB' },
+  { from: 'decide', to: 'end' },
+  { from: 'procB', to: 'end' },
+];
+
+function FlowNode({ id, label, color, x, y, onDragMove }) {
+  return (
+    <Group
+      x={x}
+      y={y}
+      draggable
+      onDragMove={function (e) {
+        onDragMove(id, e.target.x(), e.target.y());
+      }}
+    >
+      <Rect
+        width={120}
+        height={50}
+        fill={color}
+        cornerRadius={8}
+        shadowColor="rgba(0,0,0,0.15)"
+        shadowBlur={6}
+        shadowOffsetY={2}
+        offsetX={60}
+        offsetY={25}
+      />
+      <Text
+        text={label}
+        fontSize={14}
+        fontFamily="Arial"
+        fill="#fff"
+        width={120}
+        height={50}
+        align="center"
+        verticalAlign="middle"
+        offsetX={60}
+        offsetY={25}
+      />
+    </Group>
+  );
+}
+
+var App = function () {
+  var [nodes, setNodes] = useState(INITIAL_NODES);
+  var [connections, setConnections] = useState(CONNECTIONS);
+  var [counter, setCounter] = useState(1);
+
+  var handleDragMove = useCallback(function (id, x, y) {
+    setNodes(function (prev) {
+      return prev.map(function (n) {
+        return n.id === id ? Object.assign({}, n, { x: x, y: y }) : n;
+      });
+    });
+  }, []);
+
+  var nodeMap = {};
+  nodes.forEach(function (n) {
+    nodeMap[n.id] = n;
+  });
+
+  var addNode = function () {
+    var newId = 'new_' + counter;
+    setCounter(counter + 1);
+    setNodes(function (prev) {
+      return prev.concat({
+        id: newId,
+        label: 'New Node',
+        color: '#2196F3',
+        x: 100 + Math.random() * 400,
+        y: 80 + Math.random() * 200,
+      });
+    });
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 8, display: 'flex', gap: 8, alignItems: 'center', font: '13px Arial, sans-serif' }}>
+        <button
+          onClick={addNode}
+          style={{ padding: '6px 14px', background: '#2196F3', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}
+        >
+          + Add Node
+        </button>
+        <span style={{ color: '#888', fontSize: 12 }}>Drag nodes to reposition. Arrows follow automatically.</span>
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {connections.map(function (c, i) {
+            var fromNode = nodeMap[c.from];
+            var toNode = nodeMap[c.to];
+            if (!fromNode || !toNode) return null;
+            return (
+              <Arrow
+                key={'arrow-' + i}
+                points={[fromNode.x, fromNode.y, toNode.x, toNode.y]}
+                pointerLength={10}
+                pointerWidth={8}
+                fill="#555"
+                stroke="#555"
+                strokeWidth={2}
+                listening={false}
+              />
+            );
+          })}
+          {nodes.map(function (n) {
+            return (
+              <FlowNode
+                key={n.id}
+                id={n.id}
+                label={n.label}
+                color={n.color}
+                x={n.x}
+                y={n.y}
+                onDragMove={handleDragMove}
+              />
+            );
+          })}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="margin-bottom: 8px; display: flex; gap: 8px; align-items: center; font: 13px Arial, sans-serif;">
+      <button
+        @click="addNode"
+        style="padding: 6px 14px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600;"
+      >
+        + Add Node
+      </button>
+      <span style="color: #888; font-size: 12px;">Drag nodes to reposition. Arrows follow automatically.</span>
+    </div>
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-arrow
+          v-for="(c, i) in arrowConfigs"
+          :key="'arrow-' + i"
+          :config="c"
+        />
+        <v-group
+          v-for="n in nodes"
+          :key="n.id"
+          :config="{ x: n.x, y: n.y, draggable: true }"
+          @dragmove="handleDragMove(n.id, $event)"
+        >
+          <v-rect :config="{
+            width: 120, height: 50,
+            fill: n.color, cornerRadius: 8,
+            shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 6, shadowOffsetY: 2,
+            offsetX: 60, offsetY: 25,
+          }" />
+          <v-text :config="{
+            text: n.label, fontSize: 14, fontFamily: 'Arial',
+            fill: '#fff', width: 120, height: 50,
+            align: 'center', verticalAlign: 'middle',
+            offsetX: 60, offsetY: 25,
+          }" />
+        </v-group>
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script>
+import { ref, computed } from 'vue';
+
+export default {
+  setup() {
+    var stageConfig = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+
+    var counter = ref(1);
+
+    var nodes = ref([
+      { id: 'start', label: 'Start', color: '#4CAF50', x: 100, y: 120 },
+      { id: 'procA', label: 'Process A', color: '#2196F3', x: 300, y: 80 },
+      { id: 'decide', label: 'Decision', color: '#FF9800', x: 500, y: 120 },
+      { id: 'procB', label: 'Process B', color: '#2196F3', x: 300, y: 260 },
+      { id: 'end', label: 'End', color: '#f44336', x: 500, y: 260 },
+    ]);
+
+    var connections = ref([
+      { from: 'start', to: 'procA' },
+      { from: 'procA', to: 'decide' },
+      { from: 'decide', to: 'procB' },
+      { from: 'decide', to: 'end' },
+      { from: 'procB', to: 'end' },
+    ]);
+
+    var arrowConfigs = computed(function () {
+      var nodeMap = {};
+      nodes.value.forEach(function (n) {
+        nodeMap[n.id] = n;
+      });
+      return connections.value.map(function (c) {
+        var fromNode = nodeMap[c.from];
+        var toNode = nodeMap[c.to];
+        if (!fromNode || !toNode) return null;
+        return {
+          points: [fromNode.x, fromNode.y, toNode.x, toNode.y],
+          pointerLength: 10,
+          pointerWidth: 8,
+          fill: '#555',
+          stroke: '#555',
+          strokeWidth: 2,
+          listening: false,
+        };
+      }).filter(Boolean);
+    });
+
+    function handleDragMove(id, e) {
+      var target = e.target;
+      var list = nodes.value;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id) {
+          list[i].x = target.x();
+          list[i].y = target.y();
+          break;
+        }
+      }
+    }
+
+    function addNode() {
+      var newId = 'new_' + counter.value;
+      counter.value = counter.value + 1;
+      nodes.value.push({
+        id: newId,
+        label: 'New Node',
+        color: '#2196F3',
+        x: 100 + Math.random() * 400,
+        y: 80 + Math.random() * 200,
+      });
+    }
+
+    return {
+      stageConfig: stageConfig,
+      nodes: nodes,
+      connections: connections,
+      arrowConfigs: arrowConfigs,
+      handleDragMove: handleDragMove,
+      addNode: addNode,
+    };
+  },
+};
+</script>
+```
+  </TabItem>
+</Tabs>
