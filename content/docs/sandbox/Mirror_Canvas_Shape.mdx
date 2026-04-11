@@ -1,20 +1,18 @@
 ---
-title: How to flip shapes or image on canvas?
-layout: demo_page
+title: Canvas Flip Image — Mirror and Flip Shapes on HTML5 Canvas
+sidebar_label: Flip Image
 hide_table_of_contents: true
 slug: Mirror_Canvas_Shape.html
-description: "Flip and mirror Konva shapes or images horizontally or vertically using negative scaleX and scaleY properties."
+description: "Flip and mirror images or shapes on HTML5 Canvas with JavaScript. Learn how to flip horizontally, vertically, and rotate using Konva.js with interactive examples."
 ---
 
-## Is it possible mirror shapes vertically or horizontally?
+Flip any image or shape on an HTML5 Canvas — horizontally, vertically, or both. This technique is essential for building image editors, design tools, and canvas-based applications where users need to mirror content.
 
-To flip any node with `Konva` you can use negative `scaleX` to flip it horizontally or `scaleY` to flip it vertically.
+To flip any node with `Konva` you can use negative `scaleX` to flip it horizontally or `scaleY` to flip it vertically. The `scale` properties work relative to the origin of a node. For a rectangle that's the top-left corner; for a circle it's the center. You can change the origin with `offsetX` and `offsetY` — see the [Position vs Offset guide](/docs/posts/Position_vs_Offset.html) for details.
 
-Remember that `scale` properties are working relative to origin of a node. For example for rectangle it will be top-left corner, for circle it will be its center. If you want to change origin of a node you can use `offsetX` and `offsetY` properties. To better understanding origin and offset, take a look into [Position vs Offset post](/docs/posts/Position_vs_Offset.html).
+Depending on your use case, you may need to adjust `{x, y}` to keep the node in its original position after flipping.
 
-Depending on your use case, you may need to manually change `{x, y}` properties of the node to keep it on its original position after the scale.
-
-**Instructions: click on flip button, see how they are mirrored.**
+**Instructions: click the flip buttons to see shapes mirror horizontally and vertically.**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";

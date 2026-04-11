@@ -126,7 +126,7 @@ const demoSidebar = {
       image: 'transparent-group.jpg',
       path: 'sandbox/Transparent_Group.html',
     },
-    'Mirror/Flip Shape': {
+    'Flip Image': {
       image: 'mirror-shape.jpg',
       path: 'sandbox/Mirror_Canvas_Shape.html',
     },

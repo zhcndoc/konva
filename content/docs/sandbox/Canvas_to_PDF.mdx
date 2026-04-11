@@ -1,32 +1,23 @@
 ---
-title: How to Export HTML5 Canvas to PDF with JavaScript
+title: Canvas to PDF — Export HTML5 Canvas as PDF with JavaScript
 sidebar_label: Canvas to PDF
 hide_table_of_contents: true
 slug: Canvas_to_PDF.html
-description: "Convert and export an HTML5 Canvas to PDF with JavaScript using Konva.js and jsPDF. Includes selectable text, high-quality image rendering, and one-click download."
+description: "Export HTML5 Canvas to PDF with JavaScript using Konva.js and jsPDF. Save canvas drawings as high-quality PDF files with selectable text. Full working demo and source code."
 ---
 
-## Do you want to save Konva stage into a PDF file?
+Export any HTML5 Canvas content to a PDF document using JavaScript. This demo shows how to convert a Konva stage into a downloadable PDF file using [jsPDF](https://parall.ax/products/jspdf), with support for high-quality rendering and selectable text.
 
-PDF is a complicated format. So we have to use an external library such as [jsPDF](https://parall.ax/products/jspdf).
+The approach works in four steps: generate your canvas content, export the canvas as an image, insert that image into a PDF document, and save. Two tips to get the best results:
 
-The idea of saving canvas to pdf is simple:
+**High-quality export:** Use the `pixelRatio` attribute when converting canvas to an image — see the [High Quality Export guide](/docs/data_and_serialization/High-Quality-Export.html) for details.
 
-1. Generate canvas content
-2. Export canvas into the image
-3. Add image into PDF document created with the PDF library
-4. Save PDF file
-
-Also I have two tips for you:
-
-1. Thanks to [High quality Exports](/docs/data_and_serialization/High-Quality-Export.html), you can increase the quality of a PDF using `pixelRatio` attribute when you are converting a node into the image.
-
-2. It is possible to make a text selectable in the PDF. Even if we are adding the canvas into the PDF as an image, we can insert texts manually. That is not trivial and it can be difficult if you have complex styles. Also text rendering on PDF is different from the text rendering with `Konva`. But we can try to make it as close as possible. For the demo, we will draw "hidden" text inside PDF file. The text will be places under the image, so it is no visible. But it is still selectable. As a demo of "complex styles" I will blur the text.
+**Selectable text in PDF:** Even though the canvas is added as an image, you can insert text nodes manually into the PDF layer beneath it. The text won't be visible (it sits behind the image) but remains selectable and searchable. Text rendering in PDF differs from Konva's, so complex styles may need adjustment.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**Instructions: take a look into the canvas. Then try to save it as PDF.**
+**Instructions: view the canvas below, then click the button to save it as a PDF.**
 
 <Tabs>
   <TabItem value="Vanilla" default>

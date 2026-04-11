@@ -1,20 +1,26 @@
 ---
-title: How to Build a Design Editor with JavaScript Canvas
+title: Canvas Editor — Build a Design Editor with JavaScript and HTML5 Canvas
 sidebar_label: Canvas Editor
 hide_table_of_contents: true
 slug: Canvas_Editor.html
-description: "Build a Canva-style design editor with JavaScript and HTML5 Canvas using Konva.js. Interactive demo of a full canvas editor with drag-and-drop, resize, rotate, text, and images."
+description: "Build a full-featured canvas editor with JavaScript. Drag-and-drop, resize, rotate, text, images, filters, undo/redo — all on HTML5 Canvas. Powered by Konva.js and Polotno SDK."
 ---
 
-## Do you need a design editor for your web app?
+A canvas editor lets users create and manipulate visual designs directly in the browser — think Canva-style tools for social media graphics, presentations, marketing materials, and more. Building one from scratch requires handling object selection, drag-and-drop, transformations, text editing, image placement, layering, undo/redo, and export.
 
-This is a demonstration of full canvas editor made with Konva. The demo is made by [polotno.dev](https://polotno.dev/) SDK.
+This demo shows a fully working canvas editor built with [Konva.js](/) and [Polotno SDK](https://polotno.com/). Polotno handles the high-level editor logic (toolbars, panels, templates, export) while Konva powers the underlying canvas rendering.
 
-`Polotno` is a very opinionated JavaScript framework that built on top of `Konva` and `React`. You can make logos, presentations, designs for social media with it. [polotno.dev](https://polotno.dev/) supports all the basic editing of designs on web: texts, images, filters, selection, transformations, filters, exports, undo/redo and many more.
+### What you can do with a canvas editor
 
-You can easily integrate Polotno SDK into your web app and make your own design editor.
+A canvas editor typically supports drag-and-drop objects onto the canvas, resize and rotate with transform handles, add and style text with fonts and colors, insert and crop images, layer management (bring to front, send to back), undo/redo history, and export to PNG, JPEG, or PDF.
 
-**The demo may be not optimized yet for small screens, so just [open it in a new window](https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview) for better experience.**
+Building all of this on raw HTML5 Canvas is a significant engineering effort. `Konva.js` provides the foundation — an object model on top of Canvas with built-in hit detection, events, drag-and-drop, and transformations. For a complete, ready-to-integrate editor UI, [Polotno SDK](https://polotno.com/) adds the full editor experience on top of Konva.
+
+### Live demo
+
+Try the editor below — add text, images, and shapes, then rearrange and export your design.
+
+**For the best experience, [open the editor in a new window](https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview).**
 
 <iframe 
   src="https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview" 
@@ -26,4 +32,16 @@ You can easily integrate Polotno SDK into your web app and make your own design 
     overflow: "hidden"
   }}
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/> 
+/>
+
+### Build your own canvas editor
+
+If you need a canvas editor in your web application, you have two paths:
+
+**Use Polotno SDK** for a ready-made solution. Polotno gives you a complete design editor component that you can integrate into any React app with just a few lines of code. It includes a toolbar, side panels, templates, export, and all the editing features users expect. Learn more at [polotno.com](https://polotno.com/) or check the [Polotno documentation](https://polotno.com/docs/overview).
+
+**Build from scratch with Konva.js** if you need full control over every aspect of the editor. Start with the [Konva.js getting started guide](/docs/index.html), use [Transformers](/docs/select_and_transform/Basic_demo.html) for selection and resize, and explore the [sandbox demos](/docs/sandbox.html) for patterns like [free drawing](/docs/sandbox/Free_Drawing.html), [image crop](/docs/sandbox/Canvas_Crop_Image.html), and [image export](/docs/data_and_serialization/Stage_Data_URL.html).
+
+---
+
+*This demo is powered by [Polotno SDK](https://polotno.com/) — a JavaScript framework for building design editors on the web, built on top of Konva.js and React.*
