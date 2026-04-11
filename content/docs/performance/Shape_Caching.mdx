@@ -29,7 +29,7 @@ After caching, instead of redrawing the shape every time it needs to be displaye
 
 ## Guidelines
 
-1. Don't cache simple shapes without filters. It may be faster to render it dirrectly, then from cached version.
+1. Don't cache simple shapes without filters. It may be faster to render it dirrectly, than from cached version.
 2. Every cached node creates several canvas buffers. So don't overuse it, as it will consume a lot of memory.
 3. It is better to cache groups of shapes, then to cache each shape individually.
 4. Remember to always measure performance with and without caching to see the actual difference.
