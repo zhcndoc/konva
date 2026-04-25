@@ -1,269 +1,263 @@
 ---
-title: 使用 Konva 连接 HTML5 画布中的对象
-sidebar_label: 连接对象
+title: "React 流程图 — 使用 JavaScript 在 Canvas 上构建交互式流程图和图表"
+sidebar_label: 流程图
 hide_table_of_contents: true
 slug: Connected_Objects.html
-description: "学习如何使用 Konva.js 在 HTML5 画布上通过线条或箭头连接形状。构建带有可拖动连接对象的流程图、图表和节点编辑器。"
+description: "使用 JavaScript 和 React 在 HTML5 Canvas 上构建交互式流程图。拖动节点，自动更新连接，并使用 Konva.js 和 react-konva 创建可视化工作流和图表。"
+keywords: [react flowchart, javascript flowchart, canvas flowchart, react diagram, flowchart javascript]
 ---
 
-## 如何用线或箭头连接两个对象？
+直接在 HTML5 Canvas 上构建交互式流程图和连接图。拖动节点，观察连接箭头实时跟随移动——这是一种常见模式，适用于工作流构建器、思维导图、组织结构图和可视化编程工具。适用于原生 JavaScript、React（通过 [react-konva](/docs/react/index.html)）和 Vue。
 
-`Konva` 不能自动连接两个对象并更新其位置。您必须手动更新线的位置。通常，当用户拖动连接的对象之一时，我们需要更新线的位置。在简单的情况下，可以像这样完成：
-
-```javascript
-const obj1 = new Konva.Circle({ ...obj1Props })
-const obj2= new Konva.Circle({ ...obj2Props });
-
-const line = new Konva.Line({ ...lineProps });
-
-obj1.on('dragmove', updateLine);
-obj2.on('dragmove', updateLine);
-
-function updateLine() {
-  line.points([obj1.x(), obj1.y(), obj2.x(), obj2.y]);
-}
-```
-
-但是在这个演示中，我们将创建一个更复杂的案例，涉及应用程序的状态和多个连接的对象。
+**说明：** 拖动任意节点以重新定位它。连接会自动更新。点击“添加节点”可添加更多。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
-
-**说明：尝试拖动圆圈，查看连接如何更新。**
 
 <Tabs>
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-const width = window.innerWidth;
-const height = window.innerHeight;
+var width = window.innerWidth;
+var height = window.innerHeight;
 
-const stage = new Konva.Stage({
+var stage = new Konva.Stage({
   container: 'container',
   width: width,
   height: height,
 });
 
-const layer = new Konva.Layer();
+var layer = new Konva.Layer();
 stage.add(layer);
 
-// 生成“目标”（圆圈）列表的函数
-function generateTargets() {
-  const number = 10;
-  const result = [];
-  while (result.length < number) {
-    result.push({
-      id: 'target-' + result.length,
-      x: stage.width() * Math.random(),
-      y: stage.height() * Math.random(),
-    });
+var container = document.getElementById('container');
+
+var controls = document.createElement('div');
+controls.style.cssText = 'margin-bottom: 8px; display: flex; gap: 8px; align-items: center; font: 13px Arial, sans-serif;';
+
+var addBtn = document.createElement('button');
+addBtn.textContent = '+ 添加节点';
+addBtn.style.cssText = 'padding: 6px 14px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600;';
+addBtn.onclick = function() {
+  var x = 100 + Math.random() * (width - 200);
+  var y = 80 + Math.random() * (height - 160);
+  var node = makeNode('新节点', '#2196F3', x, y);
+  node.moveToTop();
+  layer.draw();
+};
+controls.appendChild(addBtn);
+
+var hint = document.createElement('span');
+hint.textContent = '拖动节点以重新定位。箭头会自动跟随。';
+hint.style.cssText = 'color: #888; font-size: 12px;';
+controls.appendChild(hint);
+
+container.parentNode.insertBefore(controls, container);
+
+var nodeList = [];
+var arrowList = [];
+
+function makeNode(label, color, x, y) {
+  var group = new Konva.Group({ x: x, y: y, draggable: true });
+
+  var rect = new Konva.Rect({
+    width: 120, height: 50,
+    fill: color, cornerRadius: 8,
+    shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 6, shadowOffsetY: 2,
+    offsetX: 60, offsetY: 25,
+  });
+
+  var text = new Konva.Text({
+    text: label, fontSize: 14, fontFamily: 'Arial',
+    fill: '#fff', width: 120, height: 50,
+    align: 'center', verticalAlign: 'middle',
+    offsetX: 60, offsetY: 25,
+  });
+
+  group.add(rect);
+  group.add(text);
+  layer.add(group);
+
+  var entry = { group: group };
+  nodeList.push(entry);
+
+  group.on('dragmove', updateArrows);
+
+  return group;
+}
+
+function connect(from, to) {
+  var arrow = new Konva.Arrow({
+    points: [from.x(), from.y(), to.x(), to.y()],
+    pointerLength: 10, pointerWidth: 8,
+    fill: '#555', stroke: '#555', strokeWidth: 2,
+    listening: false,
+  });
+  layer.add(arrow);
+  arrow.moveToBottom();
+  arrowList.push({ shape: arrow, from: from, to: to });
+}
+
+function updateArrows() {
+  for (var i = 0; i < arrowList.length; i++) {
+    var a = arrowList[i];
+    a.shape.points([a.from.x(), a.from.y(), a.to.x(), a.to.y()]);
   }
-  return result;
+  layer.batchDraw();
 }
 
-const targets = generateTargets();
+var start = makeNode('开始', '#4CAF50', 100, 120);
+var procA = makeNode('处理 A', '#2196F3', 300, 80);
+var decide = makeNode('决策', '#FF9800', 500, 120);
+var procB = makeNode('处理 B', '#2196F3', 300, 260);
+var end = makeNode('结束', '#f44336', 500, 260);
 
-// 生成目标之间的箭头的函数
-function generateConnectors() {
-  const number = 10;
-  const result = [];
-  while (result.length < number) {
-    const from = 'target-' + Math.floor(Math.random() * targets.length);
-    const to = 'target-' + Math.floor(Math.random() * targets.length);
-    if (from === to) {
-      continue;
-    }
-    result.push({
-      id: 'connector-' + result.length,
-      from: from,
-      to: to,
-    });
-  }
-  return result;
-}
+connect(start, procA);
+connect(procA, decide);
+connect(decide, procB);
+connect(decide, end);
+connect(procB, end);
 
-function getConnectorPoints(from, to) {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  let angle = Math.atan2(-dy, dx);
-
-  const radius = 50;
-
-  return [
-    from.x + -radius * Math.cos(angle + Math.PI),
-    from.y + radius * Math.sin(angle + Math.PI),
-    to.x + -radius * Math.cos(angle),
-    to.y + radius * Math.sin(angle),
-  ];
-}
-
-const connectors = generateConnectors();
-
-// 从应用程序的状态更新画布上的所有对象
-function updateObjects() {
-  targets.forEach((target) => {
-    const node = layer.findOne('#' + target.id);
-    node.x(target.x);
-    node.y(target.y);
-  });
-  connectors.forEach((connect) => {
-    const line = layer.findOne('#' + connect.id);
-    const fromNode = layer.findOne('#' + connect.from);
-    const toNode = layer.findOne('#' + connect.to);
-
-    const points = getConnectorPoints(
-      fromNode.position(),
-      toNode.position()
-    );
-    line.points(points);
-  });
-}
-
-// 为应用程序生成节点
-connectors.forEach((connect) => {
-  const line = new Konva.Arrow({
-    stroke: 'black',
-    id: connect.id,
-    fill: 'black',
-  });
-  layer.add(line);
-});
-
-targets.forEach((target) => {
-  const node = new Konva.Circle({
-    id: target.id,
-    fill: Konva.Util.getRandomColor(),
-    radius: 20 + Math.random() * 20,
-    shadowBlur: 10,
-    draggable: true,
-  });
-  layer.add(node);
-
-  node.on('dragmove', () => {
-    // 修改状态
-    target.x = node.x();
-    target.y = node.y();
-
-    // 根据新状态更新节点
-    updateObjects();
-  });
-});
-
-updateObjects();
+layer.draw();
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useState, useEffect } from 'react';
-import { Stage, Layer, Circle, Arrow } from 'react-konva';
+import React, { useState, useCallback } from 'react';
+import { Stage, Layer, Group, Rect, Text, Arrow } from 'react-konva';
 
-const App = () => {
-  // 生成初始目标
-  const generateTargets = () => {
-    const number = 10;
-    const result = [];
-    while (result.length < number) {
-      result.push({
-        id: 'target-' + result.length,
-        x: window.innerWidth * Math.random(),
-        y: window.innerHeight * Math.random(),
-        radius: 20 + Math.random() * 20,
-        fill: '#' + Math.floor(Math.random()*16777215).toString(16),
+var INITIAL_NODES = [
+  { id: 'start', label: '开始', color: '#4CAF50', x: 100, y: 120 },
+  { id: 'procA', label: '处理 A', color: '#2196F3', x: 300, y: 80 },
+  { id: 'decide', label: '决策', color: '#FF9800', x: 500, y: 120 },
+  { id: 'procB', label: '处理 B', color: '#2196F3', x: 300, y: 260 },
+  { id: 'end', label: '结束', color: '#f44336', x: 500, y: 260 },
+];
+
+var CONNECTIONS = [
+  { from: 'start', to: 'procA' },
+  { from: 'procA', to: 'decide' },
+  { from: 'decide', to: 'procB' },
+  { from: 'decide', to: 'end' },
+  { from: 'procB', to: 'end' },
+];
+
+function FlowNode({ id, label, color, x, y, onDragMove }) {
+  return (
+    <Group
+      x={x}
+      y={y}
+      draggable
+      onDragMove={function (e) {
+        onDragMove(id, e.target.x(), e.target.y());
+      }}
+    >
+      <Rect
+        width={120}
+        height={50}
+        fill={color}
+        cornerRadius={8}
+        shadowColor="rgba(0,0,0,0.15)"
+        shadowBlur={6}
+        shadowOffsetY={2}
+        offsetX={60}
+        offsetY={25}
+      />
+      <Text
+        text={label}
+        fontSize={14}
+        fontFamily="Arial"
+        fill="#fff"
+        width={120}
+        height={50}
+        align="center"
+        verticalAlign="middle"
+        offsetX={60}
+        offsetY={25}
+      />
+    </Group>
+  );
+}
+
+var App = function () {
+  var [nodes, setNodes] = useState(INITIAL_NODES);
+  var [connections, setConnections] = useState(CONNECTIONS);
+  var [counter, setCounter] = useState(1);
+
+  var handleDragMove = useCallback(function (id, x, y) {
+    setNodes(function (prev) {
+      return prev.map(function (n) {
+        return n.id === id ? Object.assign({}, n, { x: x, y: y }) : n;
       });
-    }
-    return result;
-  };
-
-  // 生成目标之间的连接器
-  const generateConnectors = (targets) => {
-    const number = 10;
-    const result = [];
-    while (result.length < number) {
-      const from = 'target-' + Math.floor(Math.random() * targets.length);
-      const to = 'target-' + Math.floor(Math.random() * targets.length);
-      if (from === to) {
-        continue;
-      }
-      result.push({
-        id: 'connector-' + result.length,
-        from,
-        to,
-      });
-    }
-    return result;
-  };
-
-  const [targets, setTargets] = useState([]);
-  const [connectors, setConnectors] = useState([]);
-
-  useEffect(() => {
-    const initialTargets = generateTargets();
-    setTargets(initialTargets);
-    setConnectors(generateConnectors(initialTargets));
+    });
   }, []);
 
-  const getConnectorPoints = (from, to) => {
-    const dx = to.x - from.x;
-    const dy = to.y - from.y;
-    let angle = Math.atan2(-dy, dx);
+  var nodeMap = {};
+  nodes.forEach(function (n) {
+    nodeMap[n.id] = n;
+  });
 
-    const radius = 50;
-
-    return [
-      from.x + -radius * Math.cos(angle + Math.PI),
-      from.y + radius * Math.sin(angle + Math.PI),
-      to.x + -radius * Math.cos(angle),
-      to.y + radius * Math.sin(angle),
-    ];
-  };
-
-  const handleDragMove = (e) => {
-    const id = e.target.id();
-    setTargets(
-      targets.map((target) =>
-        target.id === id
-          ? { ...target, x: e.target.x(), y: e.target.y() }
-          : target
-      )
-    );
+  var addNode = function () {
+    var newId = 'new_' + counter;
+    setCounter(counter + 1);
+    setNodes(function (prev) {
+      return prev.concat({
+        id: newId,
+        label: '新节点',
+        color: '#2196F3',
+        x: 100 + Math.random() * 400,
+        y: 80 + Math.random() * 200,
+      });
+    });
   };
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
-      <Layer>
-        {connectors.map((connector) => {
-          const fromNode = targets.find((t) => t.id === connector.from);
-          const toNode = targets.find((t) => t.id === connector.to);
-          if (!fromNode || !toNode) return null;
-
-          const points = getConnectorPoints(fromNode, toNode);
-
-          return (
-            <Arrow
-              key={connector.id}
-              id={connector.id}
-              points={points}
-              fill="black"
-              stroke="black"
-            />
-          );
-        })}
-        {targets.map((target) => (
-          <Circle
-            key={target.id}
-            id={target.id}
-            x={target.x}
-            y={target.y}
-            radius={target.radius}
-            fill={target.fill}
-            shadowBlur={10}
-            draggable
-            onDragMove={handleDragMove}
-          />
-        ))}
-      </Layer>
-    </Stage>
+    <div>
+      <div style={{ marginBottom: 8, display: 'flex', gap: 8, alignItems: 'center', font: '13px Arial, sans-serif' }}>
+        <button
+          onClick={addNode}
+          style={{ padding: '6px 14px', background: '#2196F3', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}
+        >
+          + 添加节点
+        </button>
+        <span style={{ color: '#888', fontSize: 12 }}>拖动节点以重新定位。箭头会自动跟随。</span>
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {connections.map(function (c, i) {
+            var fromNode = nodeMap[c.from];
+            var toNode = nodeMap[c.to];
+            if (!fromNode || !toNode) return null;
+            return (
+              <Arrow
+                key={'arrow-' + i}
+                points={[fromNode.x, fromNode.y, toNode.x, toNode.y]}
+                pointerLength={10}
+                pointerWidth={8}
+                fill="#555"
+                stroke="#555"
+                strokeWidth={2}
+                listening={false}
+              />
+            );
+          })}
+          {nodes.map(function (n) {
+            return (
+              <FlowNode
+                key={n.id}
+                id={n.id}
+                label={n.label}
+                color={n.color}
+                x={n.x}
+                y={n.y}
+                onDragMove={handleDragMove}
+              />
+            );
+          })}
+        </Layer>
+      </Stage>
+    </div>
   );
 };
 
@@ -273,122 +267,131 @@ export default App;
   <TabItem value="Vue">
 ```js live vue
 <template>
-  <v-stage :config="stageConfig">
-    <v-layer>
-      <v-arrow
-        v-for="connector in connectors"
-        :key="connector.id"
-        :config="getArrowConfig(connector)"
-      />
-      <v-circle
-        v-for="target in targets"
-        :key="target.id"
-        :config="getCircleConfig(target)"
-        @dragmove="handleDragMove"
-      />
-    </v-layer>
-  </v-stage>
+  <div>
+    <div style="margin-bottom: 8px; display: flex; gap: 8px; align-items: center; font: 13px Arial, sans-serif;">
+      <button
+        @click="addNode"
+        style="padding: 6px 14px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600;"
+      >
+        + 添加节点
+      </button>
+      <span style="color: #888; font-size: 12px;">拖动节点以重新定位。箭头会自动跟随。</span>
+    </div>
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-arrow
+          v-for="(c, i) in arrowConfigs"
+          :key="'arrow-' + i"
+          :config="c"
+        />
+        <v-group
+          v-for="n in nodes"
+          :key="n.id"
+          :config="{ x: n.x, y: n.y, draggable: true }"
+          @dragmove="handleDragMove(n.id, $event)"
+        >
+          <v-rect :config="{
+            width: 120, height: 50,
+            fill: n.color, cornerRadius: 8,
+            shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 6, shadowOffsetY: 2,
+            offsetX: 60, offsetY: 25,
+          }" />
+          <v-text :config="{
+            text: n.label, fontSize: 14, fontFamily: 'Arial',
+            fill: '#fff', width: 120, height: 50,
+            align: 'center', verticalAlign: 'middle',
+            offsetX: 60, offsetY: 25,
+          }" />
+        </v-group>
+      </v-layer>
+    </v-stage>
+  </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script>
+import { ref, computed } from 'vue';
 
-const stageConfig = {
-  width: window.innerWidth,
-  height: window.innerHeight
-};
+export default {
+  setup() {
+    var stageConfig = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
 
-// 生成初始目标
-const generateTargets = () => {
-  const number = 10;
-  const result = [];
-  while (result.length < number) {
-    result.push({
-      id: 'target-' + result.length,
-      x: window.innerWidth * Math.random(),
-      y: window.innerHeight * Math.random(),
-      radius: 20 + Math.random() * 20,
-      fill: '#' + Math.floor(Math.random()*16777215).toString(16),
+    var counter = ref(1);
+
+    var nodes = ref([
+      { id: 'start', label: '开始', color: '#4CAF50', x: 100, y: 120 },
+      { id: 'procA', label: '处理 A', color: '#2196F3', x: 300, y: 80 },
+      { id: 'decide', label: '决策', color: '#FF9800', x: 500, y: 120 },
+      { id: 'procB', label: '处理 B', color: '#2196F3', x: 300, y: 260 },
+      { id: 'end', label: '结束', color: '#f44336', x: 500, y: 260 },
+    ]);
+
+    var connections = ref([
+      { from: 'start', to: 'procA' },
+      { from: 'procA', to: 'decide' },
+      { from: 'decide', to: 'procB' },
+      { from: 'decide', to: 'end' },
+      { from: 'procB', to: 'end' },
+    ]);
+
+    var arrowConfigs = computed(function () {
+      var nodeMap = {};
+      nodes.value.forEach(function (n) {
+        nodeMap[n.id] = n;
+      });
+      return connections.value.map(function (c) {
+        var fromNode = nodeMap[c.from];
+        var toNode = nodeMap[c.to];
+        if (!fromNode || !toNode) return null;
+        return {
+          points: [fromNode.x, fromNode.y, toNode.x, toNode.y],
+          pointerLength: 10,
+          pointerWidth: 8,
+          fill: '#555',
+          stroke: '#555',
+          strokeWidth: 2,
+          listening: false,
+        };
+      }).filter(Boolean);
     });
-  }
-  return result;
-};
 
-// 生成目标之间的连接器
-const generateConnectors = (targets) => {
-  const number = 10;
-  const result = [];
-  while (result.length < number) {
-    const from = 'target-' + Math.floor(Math.random() * targets.length);
-    const to = 'target-' + Math.floor(Math.random() * targets.length);
-    if (from === to) {
-      continue;
+    function handleDragMove(id, e) {
+      var target = e.target;
+      var list = nodes.value;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id) {
+          list[i].x = target.x();
+          list[i].y = target.y();
+          break;
+        }
+      }
     }
-    result.push({
-      id: 'connector-' + result.length,
-      from,
-      to,
-    });
-  }
-  return result;
+
+    function addNode() {
+      var newId = 'new_' + counter.value;
+      counter.value = counter.value + 1;
+      nodes.value.push({
+        id: newId,
+        label: '新节点',
+        color: '#2196F3',
+        x: 100 + Math.random() * 400,
+        y: 80 + Math.random() * 200,
+      });
+    }
+
+    return {
+      stageConfig: stageConfig,
+      nodes: nodes,
+      connections: connections,
+      arrowConfigs: arrowConfigs,
+      handleDragMove: handleDragMove,
+      addNode: addNode,
+    };
+  },
 };
-
-const targets = ref([]);
-const connectors = ref([]);
-
-onMounted(() => {
-  const initialTargets = generateTargets();
-  targets.value = initialTargets;
-  connectors.value = generateConnectors(initialTargets);
-});
-
-const getConnectorPoints = (from, to) => {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  let angle = Math.atan2(-dy, dx);
-
-  const radius = 50;
-
-  return [
-    from.x + -radius * Math.cos(angle + Math.PI),
-    from.y + radius * Math.sin(angle + Math.PI),
-    to.x + -radius * Math.cos(angle),
-    to.y + radius * Math.sin(angle),
-  ];
-};
-
-const getArrowConfig = (connector) => {
-  const fromNode = targets.value.find((t) => t.id === connector.from);
-  const toNode = targets.value.find((t) => t.id === connector.to);
-  if (!fromNode || !toNode) return { points: [0, 0, 0, 0] };
-
-  return {
-    id: connector.id,
-    points: getConnectorPoints(fromNode, toNode),
-    fill: 'black',
-    stroke: 'black',
-  };
-};
-
-const getCircleConfig = (target) => ({
-  id: target.id,
-  x: target.x,
-  y: target.y,
-  radius: target.radius,
-  fill: target.fill,
-  shadowBlur: 10,
-  draggable: true,
-});
-
-const handleDragMove = (e) => {
-  const id = e.target.id();
-  targets.value = targets.value.map((target) =>
-    target.id === id
-      ? { ...target, x: e.target.x(), y: e.target.y() }
-      : target
-  );
-};
-</script> 
+</script>
 ```
-</TabItem>
+  </TabItem>
 </Tabs>

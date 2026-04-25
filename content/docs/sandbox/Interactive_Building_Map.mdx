@@ -1,9 +1,9 @@
 ---
-title: 如何使用 JavaScript Canvas 构建交互式平面图
-layout: demo_page
+title: 如何使用 JavaScript Canvas 构建交互式平面图和地图
+sidebar_label: 交互式建筑地图
 hide_table_of_contents: true
 slug: Interactive_Building_Map.html
-description: "使用 JavaScript 和 HTML5 Canvas 结合 Konva.js 构建交互式建筑平面图。在此交互式地图演示中，悬停在各个区域上即可查看描述。"
+description: "使用 JavaScript 和 HTML5 Canvas 结合 Konva.js 构建交互式建筑平面图和地图。在此交互式地图演示中，将鼠标悬停在各个区域上以查看说明。"
 ---
 
 交互式平面图和建筑地图常用于房地产、设施管理和寻路应用。Konva.js 让绘制复杂的多边形形状变得简单，支持悬停检测、工具提示以及每个区域的自定义样式。
@@ -241,12 +241,12 @@ const App = () => {
           visible={tooltipProps.visible}
         >
           <Tag
-            fill="black"
-            pointerDirection="down"
+            fill="黑色"
+            pointerDirection="向下"
             pointerWidth={10}
             pointerHeight={10}
             lineJoin="round"
-            shadowColor="black"
+            shadowColor="黑色"
             shadowBlur={10}
             shadowOffsetX={10}
             shadowOffsetY={10}
@@ -257,7 +257,7 @@ const App = () => {
             fontFamily="Calibri"
             fontSize={18}
             padding={5}
-            fill="white"
+            fill="白色"
           />
         </Label>
       </Layer>

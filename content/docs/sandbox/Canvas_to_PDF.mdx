@@ -1,32 +1,23 @@
 ---
-title: 如何将画布转换为 PDF
-sidebar_label: 画布转 PDF
+title: Canvas to PDF — 使用 JavaScript 将 HTML5 Canvas 导出为 PDF
+sidebar_label: Canvas to PDF
 hide_table_of_contents: true
 slug: Canvas_to_PDF.html
-description: "使用 jsPDF 将 Konva 画布阶段导出为 PDF 文件，支持可选择文本和高质量图像输出。"
+description: "使用 Konva.js 和 jsPDF 将 HTML5 Canvas 导出为 PDF。将画布绘图保存为高质量的 PDF 文件，并支持可选中文本。完整可运行演示和源代码。"
 ---
 
-## 你想将 Konva 阶段保存为 PDF 文件吗？
+使用 JavaScript 将任意 HTML5 Canvas 内容导出为 PDF 文档。此演示展示了如何使用 [jsPDF](https://parall.ax/products/jspdf) 将 Konva 舞台转换为可下载的 PDF 文件，并支持高质量渲染和可选中文本。
 
-PDF 是一种复杂的格式。因此，我们需要使用一个外部库，如 [jsPDF](https://parall.ax/products/jspdf)。
+该方法分四个步骤：生成画布内容，将画布导出为图像，把图像插入 PDF 文档，然后保存。为了获得最佳效果，有两个提示：
 
-将画布保存为 PDF 的思路很简单：
+**高质量导出：** 在将画布转换为图像时使用 `pixelRatio` 属性——详情请参见 [高质量导出指南](/docs/data_and_serialization/High-Quality-Export.html)。
 
-1. 生成画布内容
-2. 将画布导出为图像
-3. 将图像添加到使用 PDF 库创建的 PDF 文档中
-4. 保存 PDF 文件
-
-我还有两个小提示：
-
-1. 借助于 [高质量导出](/docs/data_and_serialization/High-Quality-Export.html)，你可以在将节点转换为图像时使用 `pixelRatio` 属性来提高 PDF 的质量。
-
-2. 可以使文本在 PDF 中可选择。即使我们将画布作为图像添加到 PDF 中，我们也可以手动插入文本。那并不简单，如果你有复杂样式可能会很困难。此外，PDF 上的文本渲染与 `Konva` 的文本渲染不同。但是我们可以尽量使之接近。为了演示，我们将在 PDF 文件中绘制“隐藏”的文本。文本将放置在图像下方，因此不会可见。但它仍然是可选择的。作为“复杂样式”的演示，我将模糊文本。
+**PDF 中的可选中文本：** 尽管画布是作为图像添加的，你仍可以手动将文本节点插入其下方的 PDF 图层中。文本不会可见（因为它位于图像后面），但仍可被选择和搜索。PDF 中的文本渲染与 Konva 不同，因此复杂样式可能需要调整。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-**说明：查看画布。然后尝试将其保存为 PDF。**
+**说明：查看下面的画布，然后点击按钮将其保存为 PDF。**
 
 <Tabs>
   <TabItem value="Vanilla" default>

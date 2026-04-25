@@ -1,20 +1,18 @@
 ---
-title: 如何在画布上翻转形状或图像？
-layout: demo_page
+title: Canvas Flip Image — Mirror and Flip Shapes on HTML5 Canvas
+sidebar_label: 翻转图片
 hide_table_of_contents: true
 slug: Mirror_Canvas_Shape.html
-description: "使用负的 scaleX 和 scaleY 属性来水平或垂直翻转和镜像 Konva 形状或图像。"
+description: "使用 JavaScript 在 HTML5 Canvas 上翻转和镜像图片或形状。了解如何使用 Konva.js 通过交互式示例水平、垂直和旋转翻转。"
 ---
 
-## 有可能垂直或水平翻转形状吗？
+在 HTML5 Canvas 上翻转任意图片或形状——水平、垂直，或两者同时翻转。这种技术对于构建图片编辑器、设计工具以及基于 canvas 的应用程序至关重要，因为用户需要对内容进行镜像处理。
 
-要翻转任何节点，您可以使用负的 `scaleX` 来水平翻转，或使用 `scaleY` 来垂直翻转。
+要使用 `Konva` 翻转任意节点，可以使用负的 `scaleX` 将其水平翻转，或使用 `scaleY` 将其垂直翻转。`scale` 属性相对于节点的原点生效。对于矩形来说，原点是左上角；对于圆形来说，原点是中心。你可以使用 `offsetX` 和 `offsetY` 更改原点——详见 [Position vs Offset 指南](/docs/posts/Position_vs_Offset.html)。
 
-请记住，`scale` 属性是相对于节点的原点工作的。例如，对于矩形，其原点是左上角；对于圆形，其原点是中心。如果您想更改节点的原点，可以使用 `offsetX` 和 `offsetY` 属性。为了更好地理解原点和偏移，您可以查看 [位置与偏移帖子](/docs/posts/Position_vs_Offset.html)。
+根据你的使用场景，在翻转后你可能需要调整 `{x, y}`，以保持节点在其原始位置。
 
-根据您的使用案例，您可能需要手动更改节点的 `{x, y}` 属性，以在缩放后保持其原始位置。
-
-**操作说明：点击翻转按钮，查看它们是如何被镜像的。**
+**说明：点击翻转按钮，查看形状如何水平和垂直镜像。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -53,7 +51,7 @@ var text2 = new Konva.Text({
   x: 270,
 });
 layer.add(text2);
-// 设置文本的水平原点在中心
+// 将文本的水平原点设置在中心
 text2.offsetX(text2.width() / 2);
 
 var button = document.createElement('button');

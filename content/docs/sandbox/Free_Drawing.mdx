@@ -1,17 +1,17 @@
 ---
-title: 如何使用 JavaScript 画布构建自由绘画应用
-sidebar_label: 自由绘画
+title: Canvas Drawing — 使用 JavaScript 在 HTML5 Canvas 上自由绘图
+sidebar_label: Canvas Drawing
 hide_table_of_contents: true
 slug: Free_Drawing.html
-description: "使用 Konva.js 通过 JavaScript 和 HTML5 Canvas 构建自由绘画/白板应用。包含多种绘画工具实现的交互式演示。"
+description: "使用 JavaScript 在 HTML5 Canvas 上绘图。使用 Konva.js 构建一个带有自由笔触、画笔工具和橡皮擦的画布绘图应用。有两种方法：矢量图形和手动 2D 绘图。"
 ---
 
-有很多方法可以在 Konva 中实现自由绘画工具。
+构建一个画布绘图工具，让用户可以直接在 HTML5 Canvas 上绘制自由笔触。这是基于画布的应用中最常见的功能之一——从白板和标注工具到设计编辑器和签名板。
 
-我看到两种最常见和简单的方法：
+使用 Konva 进行画布绘图有两种常见方法：
 
-1. 基于 Konva 的矢量图形（简单）
-2. 手动绘制到 2D 画布（高级）
+1. **基于 Konva 的矢量图形** — 每条笔触都是一个 Konva.Line 对象，你之后可以选择、移动和删除它（简单，推荐用于大多数场景）
+2. **手动 2D 画布绘图** — 直接绘制到画布像素缓冲区上，以便在大量笔触时获得最高性能（高级）
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";

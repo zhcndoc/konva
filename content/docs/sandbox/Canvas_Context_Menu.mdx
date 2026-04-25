@@ -1,9 +1,9 @@
 ---
-title: 如何为 HTML5 画布形状显示上下文菜单？
+title: Canvas 右键上下文菜单 — 画布形状的自定义菜单
 sidebar_label: 画布上下文菜单
 hide_table_of_contents: true
 slug: Canvas_Context_Menu.html
-description: "使用 Konva 在画布形状上显示带有脉冲和删除操作的自定义右键上下文菜单。"
+description: "使用 JavaScript 和 Konva.js 为 HTML5 Canvas 形状添加自定义右键上下文菜单。包含脉冲动画以及对画布对象的删除操作。"
 ---
 
 ## 你想为画布形状显示上下文菜单吗？
@@ -24,7 +24,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// 创建一个 div 用作上下文菜单
+// 创建一个 div 作为上下文菜单
 const menuNode = document.createElement('div');
 menuNode.id = 'menu';
 menuNode.style.display = 'none';
@@ -131,7 +131,7 @@ stage.on('dblclick dbltap', function () {
 
 // 添加上下文菜单事件
 stage.on('contextmenu', function (e) {
-  // 防止默认行为
+  // 阻止默认行为
   e.evt.preventDefault();
   if (e.target === stage) {
     // 如果我们在舞台的空白区域，将不执行任何操作

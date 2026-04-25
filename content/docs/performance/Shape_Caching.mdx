@@ -26,10 +26,10 @@ description: "通过 Konva.js 形状缓存加速 HTML5 Canvas 渲染。将复杂
 
 ## 指南
 
-1. 不要缓存没有过滤器的简单形状。直接渲染它可能会更快，而不是从缓存版本中渲染。
-2. 每个缓存节点会创建几个画布缓冲区。因此不要过度使用，因为这会消耗大量内存。
-3. 更好地缓存形状组，而不是单独缓存每个形状。
-4. 记得始终测量带缓存和不带缓存的性能，以查看实际差异。
+1. 不要为没有过滤器的简单形状缓存。直接渲染它可能比从缓存版本渲染更快。
+2. 每个已缓存的节点都会创建多个画布缓冲区。因此不要过度使用，因为它会消耗大量内存。
+3. 缓存形状组通常比单独缓存每个形状更好。
+4. 记得始终在有缓存和无缓存的情况下测量性能，以查看实际差异。
 
 下面是一个演示，显示了缓存和非缓存复杂形状之间的性能差异：
 
@@ -108,7 +108,7 @@ layer.add(fpsText);
 const countText = new Konva.Text({
   x: 10,
   y: 40,
-  text: 'Circles: 1000',
+  text: '圆圈：1000',
   fontSize: 16,
   fill: 'white',
   shadowColor: 'black',
@@ -128,7 +128,7 @@ const anim = new Konva.Animation((frame) => {
 // 添加点击处理程序以添加更多圆圈
 stage.on('click', () => {
   addCircles(1000);
-  countText.text('Circles: ' + group.children.length);
+  countText.text('圆圈：' + group.children.length);
 });
 
 // 添加 DOM 复选框
@@ -270,7 +270,7 @@ const App = () => {
           <Text
             x={10}
             y={40}
-            text={`Circles: ${circles.length}`}
+            text={`圆圈：${circles.length}`}
             fontSize={16}
             fill="white"
             shadowColor="black"
@@ -336,7 +336,7 @@ export default App;
         :config="{
           x: 10,
           y: 40,
-          text: `Circles: ${circles.length}`,
+          text: `圆圈：${circles.length}`,
           fontSize: 16,
           fill: 'white',
           shadowColor: 'black',
@@ -453,4 +453,4 @@ onUnmounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs>
+</Tabs> 

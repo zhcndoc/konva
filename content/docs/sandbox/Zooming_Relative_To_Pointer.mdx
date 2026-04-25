@@ -1,14 +1,14 @@
 ---
-title: 相对于指针位置的缩放舞台
-sidebar_label: 相对于指针的缩放
+title: Canvas 缩放与平移 — 相对于指针位置的缩放
+sidebar_label: 相对于指针位置缩放
 hide_table_of_contents: true
 slug: Zooming_Relative_To_Pointer.html
-description: "使用滚轮相对于鼠标指针位置缩放 Konva 舞台。"
+description: "使用 JavaScript 实现 canvas 缩放与平移。使用鼠标滚轮在 Konva 舞台上相对于鼠标指针位置进行放大和缩小。"
 ---
 
 # 相对于指针位置的缩放舞台
 
-这个演示展示了如何实现相对于鼠标指针位置的缩放。这创建了一个更自然的缩放体验，使内容围绕鼠标光标缩放。
+这个演示展示了如何实现相对于鼠标指针位置的缩放。这创造了一种更自然的缩放体验，使内容围绕鼠标光标缩放。
 
 **说明：**使用鼠标滚轮或触控板来缩放。注意内容是如何围绕光标的位置缩放，而不是舞台的中心。
 
@@ -42,7 +42,7 @@ layer.add(circle);
 
 const scaleBy = 1.01;
 stage.on('wheel', (e) => {
-  // 阻止默认的滚动
+  // 阻止默认滚动
   e.evt.preventDefault();
 
   const oldScale = stage.scaleX();
@@ -53,7 +53,7 @@ stage.on('wheel', (e) => {
     y: (pointer.y - stage.y()) / oldScale,
   };
 
-  // 如何缩放？放大？还是缩小？
+  // 如何缩放？放大还是缩小？
   let direction = e.evt.deltaY > 0 ? 1 : -1;
 
   // 当我们在触控板上缩放时，e.evt.ctrlKey 为 true
@@ -96,7 +96,7 @@ const App = () => {
       y: (pointer.y - stage.y()) / oldScale,
     };
 
-    // 如何缩放？放大？还是缩小？
+    // 如何缩放？放大还是缩小？
     let direction = e.evt.deltaY > 0 ? 1 : -1;
 
     // 当我们在触控板上缩放时，e.evt.ctrlKey 为 true
@@ -184,7 +184,7 @@ const handleWheel = (e) => {
     y: (pointer.y - stage.y()) / oldScale,
   };
 
-  // 如何缩放？放大？还是缩小？
+  // 如何缩放？放大还是缩小？
   let direction = e.evt.deltaY > 0 ? 1 : -1;
 
   // 当我们在触控板上缩放时，e.evt.ctrlKey 为 true
