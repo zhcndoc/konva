@@ -2,6 +2,7 @@
 title: Konva.Transform
 sidebar_label: Transform
 slug: /api/Konva.Transform.html
+description: "Transform 构造函数。在大多数情况下，你不需要在应用中使用它。因为它用于 Konva 核心内部。但如果你仍然想进行一些手动计算，这里提供了该类的文档。"
 
 ---
 
@@ -11,23 +12,23 @@ slug: /api/Konva.Transform.html
 new Konva.Transform(config)
 ```
 
-Transform constructor. In most of the cases you don't need to use it in your app. Because it is for internal usage in Konva core. But there is a documentation for that class in case you still want to make some manual calculations.
+Transform 构造函数。在大多数情况下，你不需要在应用中使用它。因为它用于 Konva 核心内部。但如果你仍然想进行一些手动计算，这里提供了该类的文档。
 
-## Parameters
+## 参数
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | ---- | ---- | ----------- |
-| m (optional) | `Array` | Optional six-element matrix |
+| m（可选） | `Array` | 可选的六元素矩阵 |
 
-## Own Methods
+## 自有方法
 
 ### copy() {#copy}
 
-Copy Konva.Transform object
+复制 Konva.Transform 对象
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
-**Example:**
+**示例：**
 
 ```javascript
 const tr = shape.getTransform().copy()
@@ -35,86 +36,86 @@ const tr = shape.getTransform().copy()
 
 ### point(point) {#point}
 
-Transform point
+变换点
 
-**Parameters:**
+**参数：**
 
-- `point` (Object): 2D point(x, y)
+- `point`（Object）：2D point(x, y)
 
-**Returns:** `Object` <code>2D point(x, y)</code>
+**返回：** `Object` <code>2D point(x, y)</code>
 
 ### translate(x, y) {#translate}
 
-Apply translation
+应用平移
 
-**Parameters:**
+**参数：**
 
-- `x` (Number)
-- `y` (Number)
+- `x`（Number）
+- `y`（Number）
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
 ### scale(sx, sy) {#scale}
 
-Apply scale
+应用缩放
 
-**Parameters:**
+**参数：**
 
-- `sx` (Number)
-- `sy` (Number)
+- `sx`（Number）
+- `sy`（Number）
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
 ### rotate(rad) {#rotate}
 
-Apply rotation
+应用旋转
 
-**Parameters:**
+**参数：**
 
-- `rad` (Number): Angle in radians
+- `rad`（Number）：弧度制角度
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
 ### getTranslation() {#getTranslation}
 
-Returns the translation
+返回平移
 
-**Returns:** `Object` <code>2D point(x, y)</code>
+**返回：** `Object` <code>2D point(x, y)</code>
 
 ### skew(sx, sy) {#skew}
 
-Apply skew
+应用倾斜
 
-**Parameters:**
+**参数：**
 
-- `sx` (Number)
-- `sy` (Number)
+- `sx`（Number）
+- `sy`（Number）
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
 ### multiply(matrix) {#multiply}
 
-Transform multiplication
+变换乘法
 
-**Parameters:**
+**参数：**
 
-- `matrix` (Konva.Transform)
+- `matrix`（Konva.Transform）
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
 ### invert() {#invert}
 
-Invert the matrix
+反转矩阵
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform` 
 
 ### getMatrix() {#getMatrix}
 
-return matrix
+返回矩阵
 
 ### decompose() {#decompose}
 
-convert transformation matrix back into node's attributes
+将变换矩阵转换回节点的属性
 
-**Returns:** `Konva.Transform` 
+**返回：** `Konva.Transform`。 
 

@@ -157,12 +157,7 @@ stage.add(layer);
 ```js live react
 import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
 import { useState, useEffect, useCallback } from 'react';
-
-// 默认情况下，Konva 在节点拖动时会阻止某些事件
-// 这提高了性能并在 95% 的情况下工作良好
-// 我们需要在 Konva 上启用所有事件，即使在拖动节点时
-// 这样可以正确触发 touchmove
-window.Konva.hitOnDragEnabled = true;
+import Konva from 'konva';
 
 const App = () => {
   const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
@@ -181,6 +176,15 @@ const App = () => {
       y: (p1.y + p2.y) / 2,
     };
   };
+
+  useEffect(() => {
+    const previousHitOnDragEnabled = Konva.hitOnDragEnabled;
+    Konva.hitOnDragEnabled = true;
+
+    return () => {
+      Konva.hitOnDragEnabled = previousHitOnDragEnabled;
+    };
+  }, []);
 
   const handleTouchMove = useCallback((e) => {
     e.evt.preventDefault();

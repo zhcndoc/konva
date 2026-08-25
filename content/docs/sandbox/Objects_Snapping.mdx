@@ -1,21 +1,21 @@
 ---
-title: 如何在拖动时使形状位置对齐于 Konva？
-sidebar_label: 对象对齐
+title: Canvas 吸附与对齐引导线 — 拖动时吸附形状
+sidebar_label: 吸附与对齐引导线
 hide_table_of_contents: true
 slug: Objects_Snapping.html
 description: "在 Konva 中使用引导线将可拖动形状对齐到其他对象的边缘、中心以及舞台边界。"
 ---
 
-## 如何使可拖动的形状互相对齐？
+## 如何将可拖动形状相互吸附
 
-这个示例将演示如何实现对象在舞台的所有边缘和其他对象的所有边缘之间的对齐。
+此演示会将拖动的形状吸附到舞台和其他形状。每个形状都可以在其左侧、中心、右侧、顶部、中部和底部边缘处吸附。
 
-此外，我在互联网上还找到了一些相关的示例，可能会很有用：
+以下外部示例展示了网格吸附：
 
-1. 文章：https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f
-2. 示例：https://codepen.io/pierrebleroux/pen/gGpvxJ
+1. [网格吸附文章](https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f)
+2. [网格吸附演示](https://codepen.io/pierrebleroux/pen/gGpvxJ)
 
-**说明：** 尝试拖动一个对象。看看它是如何对齐到其他对象的。
+**说明：** 将矩形拖动到另一个矩形或舞台边缘附近。蓝色引导线显示当前的吸附位置。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -251,6 +251,208 @@ layer.on('dragend', function (e) {
   // 清除屏幕上所有之前的线
   layer.find('.guid-line').forEach((l) => l.destroy());
 });
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Rect, Line } from 'react-konva';
+
+const GUIDELINE_OFFSET = 5;
+const WIDTH = window.innerWidth;
+const HEIGHT = 500;
+
+const initialShapes = [
+  { id: 'one', x: 80, y: 90, width: 90, height: 70, fill: '#ff6b6b', rotation: 8 },
+  { id: 'two', x: 300, y: 230, width: 110, height: 80, fill: '#4dabf7', rotation: -6 },
+  { id: 'three', x: 560, y: 100, width: 80, height: 100, fill: '#69db7c', rotation: 4 },
+];
+
+function getLineGuideStops(stage, skipShape) {
+  const vertical = [0, stage.width() / 2, stage.width()];
+  const horizontal = [0, stage.height() / 2, stage.height()];
+
+  stage.find('.object').forEach((guideItem) => {
+    if (guideItem === skipShape) {
+      return;
+    }
+
+    const box = guideItem.getClientRect();
+    vertical.push(box.x, box.x + box.width / 2, box.x + box.width);
+    horizontal.push(box.y, box.y + box.height / 2, box.y + box.height);
+  });
+
+  return { vertical, horizontal };
+}
+
+function getObjectSnappingEdges(node) {
+  const box = node.getClientRect();
+  const absolutePosition = node.absolutePosition();
+
+  return {
+    vertical: [
+      {
+        guide: Math.round(box.x),
+        offset: Math.round(absolutePosition.x - box.x),
+      },
+      {
+        guide: Math.round(box.x + box.width / 2),
+        offset: Math.round(absolutePosition.x - box.x - box.width / 2),
+      },
+      {
+        guide: Math.round(box.x + box.width),
+        offset: Math.round(absolutePosition.x - box.x - box.width),
+      },
+    ],
+    horizontal: [
+      {
+        guide: Math.round(box.y),
+        offset: Math.round(absolutePosition.y - box.y),
+      },
+      {
+        guide: Math.round(box.y + box.height / 2),
+        offset: Math.round(absolutePosition.y - box.y - box.height / 2),
+      },
+      {
+        guide: Math.round(box.y + box.height),
+        offset: Math.round(absolutePosition.y - box.y - box.height),
+      },
+    ],
+  };
+}
+
+function getGuides(lineGuideStops, itemBounds) {
+  const verticalMatches = [];
+  const horizontalMatches = [];
+
+  lineGuideStops.vertical.forEach((lineGuide) => {
+    itemBounds.vertical.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        verticalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'V',
+        });
+      }
+    });
+  });
+
+  lineGuideStops.horizontal.forEach((lineGuide) => {
+    itemBounds.horizontal.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        horizontalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'H',
+        });
+      }
+    });
+  });
+
+  const closestVertical = verticalMatches.sort((a, b) => a.diff - b.diff)[0];
+  const closestHorizontal = horizontalMatches.sort((a, b) => a.diff - b.diff)[0];
+
+  return [closestVertical, closestHorizontal].filter(Boolean);
+}
+
+const App = () => {
+  const [shapes, setShapes] = useState(initialShapes);
+  const [guides, setGuides] = useState([]);
+
+  const handleDragMove = (event, id) => {
+    const node = event.target;
+    const stage = node.getStage();
+    const lineGuideStops = getLineGuideStops(stage, node);
+    const itemBounds = getObjectSnappingEdges(node);
+    const nextGuides = getGuides(lineGuideStops, itemBounds);
+
+    setGuides(nextGuides);
+
+    if (nextGuides.length) {
+      const absolutePosition = node.absolutePosition();
+
+      nextGuides.forEach((guide) => {
+        if (guide.orientation === 'V') {
+          absolutePosition.x = guide.lineGuide + guide.offset;
+        } else {
+          absolutePosition.y = guide.lineGuide + guide.offset;
+        }
+      });
+
+      node.absolutePosition(absolutePosition);
+    }
+
+    const { x, y } = node.position();
+    setShapes((currentShapes) =>
+      currentShapes.map((shape) =>
+        shape.id === id ? { ...shape, x, y } : shape
+      )
+    );
+  };
+
+  const handleDragEnd = (event, id) => {
+    setGuides([]);
+    setShapes((currentShapes) =>
+      currentShapes.map((shape) =>
+        shape.id === id
+          ? { ...shape, x: event.target.x(), y: event.target.y() }
+          : shape
+      )
+    );
+  };
+
+  return (
+    <Stage width={WIDTH} height={HEIGHT}>
+      <Layer>
+        {shapes.map((shape) => (
+          <Rect
+            key={shape.id}
+            {...shape}
+            name="object"
+            draggable
+            stroke="#1f2937"
+            strokeWidth={2}
+            onDragMove={(event) => handleDragMove(event, shape.id)}
+            onDragEnd={(event) => handleDragEnd(event, shape.id)}
+          />
+        ))}
+        {guides.map((guide, index) =>
+          guide.orientation === 'H' ? (
+            <Line
+              key={`H-${index}`}
+              points={[-6000, 0, 6000, 0]}
+              x={0}
+              y={guide.lineGuide}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          ) : (
+            <Line
+              key={`V-${index}`}
+              points={[0, -6000, 0, 6000]}
+              x={guide.lineGuide}
+              y={0}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          )
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
 ```
   </TabItem>
 </Tabs>

@@ -1,82 +1,84 @@
-import React from "react";
-import DocItem from "@theme-original/DocItem";
-import type DocItemType from "@theme/DocItem";
-import type { WrapperProps } from "@docusaurus/types";
-import { DiscussionEmbed } from "disqus-react";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import Head from '@docusaurus/Head';
+import React, {Suspense, useEffect, useRef, useState} from 'react';
+import DocItem from '@theme-original/DocItem';
+import type DocItemType from '@theme/DocItem';
+import type { WrapperProps } from '@docusaurus/types';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 type Props = WrapperProps<typeof DocItemType>;
 
-function buildBreadcrumbList(siteUrl: string, permalink: string, title: string) {
-  // permalink like "/docs/shapes/Rect.html" or "/docs/react/index.html"
-  const parts = permalink.replace(/\.html$/, '').split('/').filter(Boolean);
-  // parts: ["docs", "shapes", "Rect"] or ["docs", "react", "index"]
+const DiscussionEmbed = React.lazy(() =>
+  import('disqus-react').then((module) => ({default: module.DiscussionEmbed}))
+);
 
-  const items: Array<{ name: string; item?: string }> = [
-    { name: 'Home', item: siteUrl + '/' },
-  ];
+type DiscussionProps = React.ComponentProps<typeof DiscussionEmbed>;
 
-  let path = '';
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i];
-    path += '/' + part;
+function DeferredDiscussion(props: DiscussionProps): JSX.Element {
+  const markerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
 
-    if (i === parts.length - 1) {
-      // Last part — use actual page title, no "item" needed (Google allows omitting it on the last element)
-      items.push({ name: title });
-    } else if (part === 'docs') {
-      items.push({ name: 'Docs', item: siteUrl + '/docs/index.html' });
-    } else {
-      // Middle segments — capitalize as section name, link to section index
-      const name = part.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-      items.push({ name, item: siteUrl + path + '/index.html' });
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (!marker || !('IntersectionObserver' in window)) {
+      setShouldLoad(true);
+      return;
     }
-  }
 
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.name,
-      ...(item.item ? { item: item.item } : {}),
-    })),
-  };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoad(true);
+        observer.disconnect();
+      },
+      {rootMargin: '200px 0px'}
+    );
+    observer.observe(marker);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={markerRef} style={{minHeight: 1}}>
+      {shouldLoad && (
+        <Suspense fallback={<p>正在加载评论…</p>}>
+          <DiscussionEmbed {...props} />
+        </Suspense>
+      )}
+    </div>
+  );
 }
 
+// This wrapper used to emit its own BreadcrumbList JSON-LD. It built section
+// URLs as /docs/<section>/index.html, which only exists for the four framework
+// sections — so 264 built pages shipped a breadcrumb pointing at a 404, and
+// Google discards a trail containing an invalid item. It also competed with the
+// BreadcrumbList Docusaurus already emits from DocBreadcrumbs.
+//
+// Docusaurus links sections as /category/<section> and only when that page
+// exists, so its version is always valid. Removing ours fixes both problems.
+
 export default function DocItemWrapper(props: Props): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
+  const { siteConfig, i18n } = useDocusaurusContext();
   const { permalink, title } = props.content.metadata;
 
-  const breadcrumbSchema = buildBreadcrumbList(siteConfig.url, permalink, title);
+  // Keep one discussion thread for the canonical English page. Localized pages
+  // can also run where Disqus is unavailable, so they do not load the embed.
+  const commentsBlockedInLocale = i18n.currentLocale !== i18n.defaultLocale;
 
   return (
     <>
-      <div
-        className="wwads-cn wwads-horizontal"
-        data-id="354"
-        style={{
-          width: "100%",
-          marginBottom: "16px",
-          marginTop: "16px",
-        }}
-      ></div>
-      <Head>
-        <script type="application/ld+json">
-          {JSON.stringify(breadcrumbSchema)}
-        </script>
-      </Head>
       <DocItem {...props} />
-      {/* <DiscussionEmbed
-        shortname="konvajs"
-        config={{
-          url: siteConfig.url + permalink,
-          identifier: permalink,
-          title: title,
-        }}
-      /> */}
+      {/*
+      评论区暂时隐藏。保留下面的 Disqus 渲染代码，取消注释即可恢复。
+      {!commentsBlockedInLocale && (
+        <DeferredDiscussion
+          shortname="konvajs"
+          config={{
+            url: siteConfig.url + permalink,
+            identifier: permalink,
+            title: title,
+          }}
+        />
+      )}
+      */}
     </>
   );
 }

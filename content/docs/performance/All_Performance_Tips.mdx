@@ -6,7 +6,7 @@ slug: All_Performance_Tips.html
 description: "所有 Konva.js 性能优化技巧：图层管理、形状缓存、关闭监听、批量绘制等。在 HTML5 Canvas 上高效渲染数千个形状。"
 ---
 
-不想把时间浪费在性能问题上？可以请求一份 [性能评估](https://lavrton.com/consulting)。
+不想把时间花在处理性能问题上？申请[性能评审](https://lavrton.com/consulting/)。
 
 ### 为什么这很重要
 
@@ -56,7 +56,40 @@ HTML5 canvas 在其功能范围内效率很高，`Konva` 内部也有许多旨�
 
 1. [避免内存泄漏](/docs/performance/Avoid_Memory_Leaks.html) — Konva 已尽可能处理各种内存泄漏情况，但在创建形状和补间动画时，以及管理它们销毁时，你仍需要注意避免泄漏。
 
-下面有个示例演示了上述部分性能优化技巧：
+2. **了解图层的开销。** 每个图层都会分配两个 canvas：一个是使用设备像素比的场景 canvas，另一个是比例始终为 1 的命中 canvas。在视网膜屏幕上的 1920&nbsp;&times;&nbsp;1080 舞台中，这大约是 33&nbsp;MB 加上 8&nbsp;MB，也就是在绘制任何内容之前每个图层约占 41&nbsp;MB。这就是 Konva 会在图层数量超过五个时发出警告的原因——此时仅空图层就接近 200&nbsp;MB 的 canvas 内存。
+
+3. **Mobile Safari 有严格的上限。** 超过上限后，你会看到 `Total canvas memory use exceeds the maximum limit`，在某些设备上报告为 256&nbsp;MB，在其他设备上则为 384&nbsp;MB，并且 canvas 会变为空白，而不是逐步降低质量。按影响程度排序，可采取的措施是：减少图层、缩小舞台，以及设置 `Konva.pixelRatio = 1`——在 2&times; 屏幕上，这会将场景 canvas 的内存占用减少到四分之一。缓存也会计入同一内存预算，因此当节点不再可见时，请使用 `node.clearCache()` 释放缓存。
+
+### 超大型场景
+
+1. **剔除屏幕外的内容。** 无论节点是否位于舞台内部，Konva 都会绘制图层上的每个节点。对于远大于视口的场景，请隐藏位于视口外的节点——`visible(false)` 会同时跳过绘制和命中检测，其开销远低于移除节点后再重新添加。
+
+```js
+function cull() {
+  const view = {
+    x: -stage.x() / stage.scaleX(),
+    y: -stage.y() / stage.scaleY(),
+    width: stage.width() / stage.scaleX(),
+    height: stage.height() / stage.scaleY(),
+  };
+
+  layer.children.forEach((node) => {
+    node.visible(Konva.Util.haveIntersection(view, node.getClientRect()));
+  });
+}
+```
+
+在视图发生变化时调用它——例如平移或缩放之后——不要在每一帧都调用。`getClientRect()` 并非没有开销，因此对于数万个节点，请自行维护位置索引并据此进行测试，而不是向每个节点逐一查询。
+
+2. **拖动时跳过命中检测。** 节点被拖动时，Konva 不会执行命中检测，因此拖动操作的开销较低。如果你需要知道拖动过程中指针下方有什么内容——例如高亮放置目标——可以重新启用命中检测，并接受相应的开销：
+
+```js
+Konva.hitOnDragEnabled = true;   // default is false
+```
+
+3. **优先考虑使用一个形状，而不是多个形状。** 一千个节点分别拥有各自的属性、变换和命中区域，其开销远高于使用一个自定义形状，并在单个 `sceneFunc` 中绘制一千个对象。但这样会失去每个对象的事件和拖动功能，因此这是一种权衡，并非无条件的性能提升——请参阅[自定义形状](/docs/shapes/Custom.html)。
+
+下面的演示展示了其中一些性能优化技巧的实际应用：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -125,10 +158,12 @@ mainLayer.add(star);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Star, Rect } from 'react-konva';
+import { Portal } from 'react-konva-utils';
 import { useState, useRef, useEffect } from 'react';
 
 const App = () => {
-  const [starLayer, setStarLayer] = useState('main');
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 200, y: 200 });
   const starRef = useRef(null);
 
   useEffect(() => {
@@ -139,11 +174,12 @@ const App = () => {
   }, []);
 
   const handleDragStart = () => {
-    setStarLayer('drag');
+    setIsDragging(true);
   };
 
-  const handleDragEnd = () => {
-    setStarLayer('main');
+  const handleDragEnd = (event) => {
+    setPosition(event.target.position());
+    setIsDragging(false);
   };
 
   return (
@@ -158,11 +194,11 @@ const App = () => {
         />
       </Layer>
       <Layer>
-        {starLayer === 'main' && (
+        <Portal selector=".drag-layer" enabled={isDragging}>
           <Star
             ref={starRef}
-            x={200}
-            y={200}
+            x={position.x}
+            y={position.y}
             numPoints={6}
             innerRadius={40}
             outerRadius={70}
@@ -174,27 +210,9 @@ const App = () => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           />
-        )}
+        </Portal>
       </Layer>
-      <Layer>
-        {starLayer === 'drag' && (
-          <Star
-            ref={starRef}
-            x={200}
-            y={200}
-            numPoints={6}
-            innerRadius={40}
-            outerRadius={70}
-            fill="yellow"
-            stroke="black"
-            strokeWidth={4}
-            draggable
-            perfectDrawEnabled={false}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-          />
-        )}
-      </Layer>
+      <Layer name="drag-layer" />
     </Stage>
   );
 };
@@ -209,24 +227,15 @@ export default App;
     <v-layer :config="{ listening: false }">
       <v-rect :config="rectConfig" />
     </v-layer>
-    <v-layer>
+    <v-layer ref="mainLayerRef">
       <v-star
-        v-if="starLayer === 'main'"
         ref="starRef"
         :config="starConfig"
         @dragstart="handleDragStart"
         @dragend="handleDragEnd"
       />
     </v-layer>
-    <v-layer>
-      <v-star
-        v-if="starLayer === 'drag'"
-        ref="starRef"
-        :config="starConfig"
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-      />
-    </v-layer>
+    <v-layer ref="dragLayerRef" />
   </v-stage>
 </template>
 
@@ -259,8 +268,9 @@ const starConfig = {
   perfectDrawEnabled: false
 };
 
-const starLayer = ref('main');
 const starRef = ref(null);
+const mainLayerRef = ref(null);
+const dragLayerRef = ref(null);
 
 onMounted(() => {
   // 缓存形状以提升性能
@@ -270,11 +280,11 @@ onMounted(() => {
 });
 
 const handleDragStart = () => {
-  starLayer.value = 'drag';
+  starRef.value.getNode().moveTo(dragLayerRef.value.getNode());
 };
 
 const handleDragEnd = () => {
-  starLayer.value = 'main';
+  starRef.value.getNode().moveTo(mainLayerRef.value.getNode());
 };
 </script>
 ```

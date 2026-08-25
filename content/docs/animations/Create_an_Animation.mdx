@@ -3,14 +3,22 @@ title: HTML5 Canvas Konva 动画教程
 sidebar_label: 创建动画
 hide_table_of_contents: true
 slug: Create_an_Animation.html
-description: "学习如何使用 Konva.js 在 HTML5 Canvas 上创建动画。使用 Konva.Animation 进行基于帧的动画，使用 Konva.Tween 进行属性过渡。"
+description: "了解如何使用 Konva.js 在 HTML5 Canvas 上创建动画。使用 Konva.Animation 实现基于帧的动画，使用 Konva.Tween 实现属性过渡。"
 ---
 
-要使用 Konva 创建自定义动画，我们可以使用 `Konva.Animation` 构造函数，该构造函数接受两个参数：必需的更新函数和一个可选的层或层数组，这些层将在每帧动画中被更新。动画函数会传递一个 `frame` 对象，其中包含一个 `time` 属性，这是动画运行的毫秒数，一个 `timeDiff` 属性，这是自上一个帧经过的毫秒数，以及一个 `frameRate` 属性，这是当前的帧率（每秒帧数）。
+要使用 Konva 创建自定义动画，我们可以使用 `Konva.Animation`
+构造函数，它接受两个参数：必需的更新函数，以及一个可选的图层或图层数组，
+这些图层将在每个动画帧中进行更新。
+动画函数会传入一个 `frame` 对象，其中包含一个 `time` 属性，表示动画已运行的毫秒数，
+一个 `timeDiff` 属性，表示自上一帧以来经过的毫秒数，
+以及一个 `frameRate` 属性，表示当前每秒的帧数。
 
-更新函数绝不能重绘舞台或层，因为动画引擎会智能地为我们处理这一点。更新函数应仅包含更新节点属性的逻辑，例如 `position`、`rotation`、`scale`、`width`、`height`、`radius`、`colors` 等。一旦动画被创建，我们可以随时通过 `start()` 方法启动它。
+更新函数不应重绘舞台或图层，因为动画引擎会智能地为我们处理这些操作。
+更新函数只应包含更新 Node 属性的逻辑，
+例如 `position`、`rotation`、`scale`、`width`、`height`、`radius`、`colors` 等。
+创建动画后，我们可以随时使用 `start()` 方法启动它。
 
-有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
+如需查看完整的属性和方法列表，请参阅 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -43,7 +51,7 @@ const time = frame.time;
 const timeDiff = frame.timeDiff;
 const frameRate = frame.frameRate;
 
-// 示例：使矩形沿圆形移动
+// Example: move rectangle in a circle
 const radius = 50;
 const x = radius * Math.cos(frame.time * 2 * Math.PI / 2000) + 100;
 const y = radius * Math.sin(frame.time * 2 * Math.PI / 2000) + 100;
@@ -68,7 +76,7 @@ const App = () => {
       const timeDiff = frame.timeDiff;
       const frameRate = frame.frameRate;
 
-      // 示例：使矩形沿圆形移动
+      // Example: move rectangle in a circle
       const radius = 50;
       const x = radius * Math.cos(frame.time * 2 * Math.PI / 2000) + 100;
       const y = radius * Math.sin(frame.time * 2 * Math.PI / 2000) + 100;
@@ -142,7 +150,7 @@ onMounted(() => {
     const timeDiff = frame.timeDiff;
     const frameRate = frame.frameRate;
     
-    // 示例：使矩形沿圆形移动
+    // Example: move rectangle in a circle
     const radius = 50;
     const x = radius * Math.cos(frame.time * 2 * Math.PI / 2000) + 100;
     const y = radius * Math.sin(frame.time * 2 * Math.PI / 2000) + 100;

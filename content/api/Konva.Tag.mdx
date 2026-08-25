@@ -2,6 +2,7 @@
 title: Konva.Tag
 sidebar_label: Tag
 slug: /api/Konva.Tag.html
+description: "Tag 构造函数。Tag 可以配置一个指针元素，使其指向上、右、下或左"
 
 ---
 
@@ -11,31 +12,31 @@ slug: /api/Konva.Tag.html
 new Konva.Tag(config)
 ```
 
-Tag constructor.&nbsp; A Tag can be configured  to have a pointer element that points up, right, down, or left
+Tag 构造函数。&nbsp; Tag 可以配置一个指针元素，使其指向上、右、下或左
 
-## Parameters
+## 参数
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | ---- | ---- | ----------- |
 | config | `Object` |  |
-| pointerDirection (optional) | `String` | can be up, right, down, left, or none; the default  is none.  When a pointer is present, the positioning of the label is relative to the tip of the pointer. |
-| pointerWidth (optional) | `Number` |  |
-| pointerHeight (optional) | `Number` |  |
-| cornerRadius (optional) | `Number` |  |
+| pointerDirection（可选） | `String` | 可以是 up、right、down、left 或 none；默认值为 none。当存在指针时，标签的位置将相对于指针尖端确定。 |
+| pointerWidth（可选） | `Number` |  |
+| pointerHeight（可选） | `Number` |  |
+| cornerRadius（可选） | `Number` |  |
 
-## Own Methods
+## 自有方法
 
 ### pointerDirection(pointerDirection) {#pointerDirection}
 
-get/set pointer direction
+获取/设置指针方向
 
-**Parameters:**
+**参数：**
 
-- `pointerDirection` (String): can be up, right, down, left, or none.  The default is none.
+- `pointerDirection`（String）：可以是 up、right、down、left 或 none。默认值为 none。
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 tag.pointerDirection('right');
@@ -43,15 +44,15 @@ tag.pointerDirection('right');
 
 ### pointerWidth(pointerWidth) {#pointerWidth}
 
-get/set pointer width
+获取/设置指针宽度
 
-**Parameters:**
+**参数：**
 
-- `pointerWidth` (Number)
+- `pointerWidth`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 tag.pointerWidth(20);
@@ -59,15 +60,15 @@ tag.pointerWidth(20);
 
 ### pointerHeight(pointerHeight) {#pointerHeight}
 
-get/set pointer height
+获取/设置指针高度
 
-**Parameters:**
+**参数：**
 
-- `pointerHeight` (Number)
+- `pointerHeight`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 tag.pointerHeight(20);
@@ -75,15 +76,15 @@ tag.pointerHeight(20);
 
 ### cornerRadius(cornerRadius) {#cornerRadius}
 
-get/set cornerRadius
+获取/设置 cornerRadius
 
-**Parameters:**
+**参数：**
 
-- `cornerRadius` (Number)
+- `cornerRadius`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 tag.cornerRadius(20);

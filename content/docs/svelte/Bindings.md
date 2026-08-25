@@ -31,4 +31,4 @@ Svelte-Konva 能够在 `dragend` 和 `transformend` 事件后，将某些属性�
 
 拖动不同的环，并观察由 Svelte 触发的响应式变化。注意，只有绑定的环（黄色）会在 `dragend` 时自动更改坐标。
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/bindings?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe loading="lazy" src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/bindings?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

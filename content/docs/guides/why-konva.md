@@ -1,5 +1,5 @@
 ---
-title: 为什么选择 Konva？何时在项目中中使用 Konva.js
+title: 为什么选择 Konva？何时在项目中使用 Konva.js
 sidebar_label: 为什么选择 Konva
 sidebar_position: 5
 slug: why-konva.html
@@ -16,13 +16,13 @@ HTML5 Canvas API 是底层的。它只给你一个绘图表面，别无其他—
 
 Konva 添加了缺失的内容：
 
-- **对象模型** — 每个形状都是一个 JavaScript 对象。你可以独立地移动、隐藏、动画化和销毁形状。
-- **事件系统** — 点击矩形，悬停在圆形上，拖拽组。事件像 DOM 一样从形状冒泡经过组和层。
-- **拖放** — 在任何形状上设置 `draggable: true`。完成。按需添加边界、吸附和放置区域。
-- **选择和变换** — 内置的 `Transformer` 为任何形状添加调整大小和旋转手柄。
-- **序列化** — 将整个 canvas 状态保存为 JSON。稍后恢复。无需自定义序列化代码。
-- **多层架构** — 每个 Layer 是一个单独的 `<canvas>` 元素。当交互式形状改变时，静态背景不会重新渲染。
-- **框架集成** — 官方绑定支持 React (`react-konva`)、Vue (`vue-konva`)、Svelte (`svelte-konva`) 和 Angular (`ng2-konva`)。
+- **对象模型** — 每个形状都是一个 JavaScript 对象。你可以独立地移动、隐藏、制作动画和销毁形状。
+- **事件系统** — 点击矩形、将鼠标悬停在圆形上、拖拽一个组。事件会像 DOM 一样，从形状通过组和图层冒泡。
+- **拖放** — 在任何形状上设置 `draggable: true`。完成。根据需要添加边界、吸附和放置区域。
+- **选择和变换** — 内置的 `Transformer` 可为任何形状添加调整大小和旋转手柄。
+- **序列化** — 将节点树和可序列化的属性保存为 JSON。图像、事件处理器和自定义绘制函数需要单独恢复。
+- **多层架构** — 每个 Layer 都是一个独立的 `<canvas>` 元素。交互式形状发生变化时，静态背景不会重新渲染。
+- **框架集成** — 为 React（`react-konva`）、Vue（`vue-konva`）、Svelte（`svelte-konva`）和 Angular（`ng2-konva`）提供官方绑定。
 
 ## 理想用例
 
@@ -40,11 +40,11 @@ Konva 是正确的选择，当你的应用程序需要**带有用户操作的交
 
 Konva 是一个专注的工具。它不试图做所有事情：
 
-- **不是游戏引擎** — Konva 使用 Canvas 2D，而非 WebGL。对于每秒 60 帧数千个动画精灵的 2D 游戏，请使用 [PixiJS](https://pixijs.com/)。Konva 可以处理简单的游戏，但它针对交互式应用程序进行了优化，而非游戏循环。
+- **不是游戏引擎** — Konva 使用 Canvas 2D，而不是 WebGL。对于需要以 60fps 运行成千上万个动画精灵的 2D 游戏，请使用 [PixiJS](https://pixijs.com/)。Konva 可以处理简单的游戏，但它针对的是交互式应用，而不是游戏循环。
 - **不是 3D 库** — 对于 3D 图形，请使用 Three.js 或 Babylon.js。
-- **不是图表库** — 对于标准图表（柱状图、折线图、饼图），请使用 Chart.js、D3 或 Recharts。当你需要**超越图表库提供的自定义交互式可视化**时使用 Konva。
-- **不是 SVG 库** — Konva 渲染到 Canvas，而非 SVG。如果你需要 SVG 输出，请考虑 Fabric.js 或 Paper.js。
-- **不是 CSS 替代品** — 如果你的 UI 可以用 HTML/CSS 构建，不要使用 Canvas。Canvas 用于 HTML 无法处理的图形——自由形状、像素级操作、复杂分层视觉效果。
+- **不是图表库** — 对于标准图表（柱状图、折线图、饼图），请使用 Chart.js、D3 或 Recharts。当你需要**超越图表库所能提供的自定义交互式可视化**时，请使用 Konva。
+- **不是 SVG 库** — Konva 渲染到 Canvas，而不是 SVG。它可以[将 SVG 绘制到 canvas 上](/docs/sandbox/SVG_On_Canvas.html)，但无法导出 SVG。如果你需要 SVG 输出，可以考虑 Fabric.js 或 Paper.js。
+- **不是 CSS 的替代品** — 如果你的 UI 可以用 HTML/CSS 构建，就不要使用 Canvas。Canvas 用于处理 HTML 无法实现的图形——自由形状、像素级操作、复杂的分层视觉效果。
 
 ## 何时使用其他工具
 
@@ -53,9 +53,9 @@ Konva 是一个专注的工具。它不试图做所有事情：
 | 如果你需要... | 改用 |
 |---|---|
 | 具有 WebGL 性能的 2D 游戏 | [PixiJS](https://pixijs.com/) |
-| SVG 导入/导出 | [Fabric.js](http://fabricjs.com/) |
-| 矢量图形 / 贝塞尔数学 | [Paper.js](http://paperjs.org/) |
-| 创意编码 / 生成艺术 | [p5.js](https://p5js.org/) |
+| SVG 导出 | [Fabric.js](https://fabricjs.com/) |
+| 矢量图形 / Bezier 数学 | [Paper.js](https://paperjs.org/) |
+| 创意编程 / 生成艺术 | [p5.js](https://p5js.org/) |
 | 3D 图形 | [Three.js](https://threejs.org/) |
 | 标准图表 | [Chart.js](https://www.chartjs.org/) 或 [D3](https://d3js.org/) |
 

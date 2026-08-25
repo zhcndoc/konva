@@ -12,14 +12,4 @@ description: "学习如何在 Svelte 中使用 Konva 通过 onMount 和 afterUpd
 
 **说明：** 将鼠标悬停在矩形上以查看更改
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/filters?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe loading="lazy" src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/filters?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

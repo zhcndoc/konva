@@ -44,7 +44,6 @@ addBtn.onclick = function() {
   var y = 80 + Math.random() * (height - 160);
   var node = makeNode('新节点', '#2196F3', x, y);
   node.moveToTop();
-  layer.draw();
 };
 controls.appendChild(addBtn);
 
@@ -119,7 +118,6 @@ connect(decide, procB);
 connect(decide, end);
 connect(procB, end);
 
-layer.draw();
 ```
   </TabItem>
   <TabItem value="React">
@@ -395,3 +393,17 @@ export default {
 ```
   </TabItem>
 </Tabs>
+
+## 设计图数据
+
+上面的示例将每个节点集中存放，并让每条连接只保存两个节点 ID。这种规范化的重要性超乎想象：永远不要将节点的位置复制到其边中，否则每次移动都会留下过时的重复数据。绘制时读取当前节点位置即可。
+
+对于小型图，在每次拖动移动事件中保存位置并重新计算箭头，已经足够清晰且快速。对于大型图，在手势过程中直接移动被拖动的节点，并在拖动结束时提交一次文档更改——每个操作记录一个历史条目，而不是每帧记录一个。
+
+此示例连接了两个矩形的水平边，这对于从左到右的流程来说清晰易读。真正的编辑器需要显式的**端口**：在边上存储端口 ID，并从拥有该端口的节点推导其绝对位置。待位置稳定后再计算正交连接器的路径——每帧重新计算路径的开销很高。
+
+如果添加平移和缩放功能，请在任何命中或放置测试之前，通过舞台变换的逆变换转换指针位置，并使图坐标独立于相机。请参阅[相对于指针进行缩放](/docs/sandbox/Zooming_Relative_To_Pointer.html)。
+
+对于大型图，仅绘制可见节点，使用空间索引处理视口和选择查询，将连接器放在节点形状下方，并对永远不会接收指针输入的连接器设置 `listening: false`。请参阅[性能提示](/docs/performance/All_Performance_Tips.html)。
+
+端口、边选择、循环规则、自动布局、历史记录和持久化都属于图规则。在构建界面之前，先在数据模型中定义每一项。

@@ -147,9 +147,16 @@ const App = () => {
   
   const handleDragEnd = (e) => {
     const target = e.target;
+    const id = target.id();
+    const { x, y } = target.position();
     
     // 将圆形移回主要图层
     target.moveTo(mainLayerRef.current);
+
+    // 存储最终位置，而无需在每次移动时重新渲染 10,000 个节点。
+    setCircles(currentCircles => currentCircles.map(circle =>
+      String(circle.id) === String(id) ? { ...circle, x, y } : circle
+    ));
   };
   
   return (

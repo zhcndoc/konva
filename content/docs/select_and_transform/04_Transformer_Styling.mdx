@@ -1,21 +1,21 @@
 ---
-title: Konva Transformer 样式
+title: 设置 Konva Transformer 样式
 sidebar_label: 样式
 hide_table_of_contents: true
 slug: Transformer_Styling.html
-description: "通过更改锚点填充、描边、大小、边框颜色和圆角半径来自定义 Konva Transformer 外观。"
+description: "通过更改锚点填充色、描边、大小、边框颜色和圆角半径来自定义 Konva Transformer 的外观。"
 ---
 
-你可以为你的 Web 应用调整 `Konva.Transformer` 的样式。你可以更改所有锚点的描边、大小和填充。
-此外，你还可以更改边框的描边颜色和大小。
+你可以为 Web 应用调整 `Konva.Transformer` 的样式。你可以更改所有锚点的描边、大小和填充色。
+你还可以更改边框的描边颜色和大小。
 
-另请参阅 [复杂 Transformer 样式](/docs/select_and_transform/Transformer_Complex_Styling.html) 以进行微调。
+有关详细调整，请参阅[复杂 Transformer 样式](/docs/select_and_transform/Transformer_Complex_Styling.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="原生" default>
+  <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
@@ -44,15 +44,15 @@ layer.add(rect);
 
 const tr = new Konva.Transformer({
 nodes: [rect],
-// 添加边框
+// add border
 borderStroke: '#000',
 borderStrokeWidth: 3,
-// 添加锚点
+// add anchors
 anchorFill: '#fff',
 anchorStroke: '#000',
 anchorStrokeWidth: 2,
 anchorSize: 20,
-// 使所有锚点看起来像圆形
+// make all anchors look like circles
 anchorCornerRadius: 50,
 });
 layer.add(tr);
@@ -62,9 +62,10 @@ layer.add(tr);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 50, y: 50 });
   const rectRef = useRef();
   const trRef = useRef();
 
@@ -76,14 +77,16 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={100}
           fill="yellow"
           stroke="black"
           draggable
           ref={rectRef}
+          onDragEnd={(e) => setRectPosition(e.target.position())}
+          onTransformEnd={(e) => setRectPosition(e.target.position())}
         />
         <Transformer
           ref={trRef}

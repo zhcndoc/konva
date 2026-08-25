@@ -1,23 +1,24 @@
 ---
 title: Konva.Filters
-sidebar_label: Filters
+sidebar_label: 滤镜
 slug: /api/Konva.Filters.html
+description: "Konva.js 的 Konva.Filters 命名空间参考：用于在 HTML5 Canvas 上使用滤镜的属性、方法和配置"
 
 ---
 
-# Filters
+# 滤镜
 
-## Own Methods
+## 自有方法
 
 ### Blur(imageData) {#Blur}
 
-Blur Filter
+Blur 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -27,13 +28,13 @@ node.blurRadius(10);
 
 ### Brighten(imageData) {#Brighten}
 
-Brighten Filter.
+Brighten 滤镜。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -43,29 +44,29 @@ node.brightness(0.8);
 
 ### Brightness(imageData) {#Brightness}
 
-Brightness Filter. CSS-compatible brightness filter that uses multiplicative approach.
+Brightness 滤镜。使用乘法方式的 CSS 兼容亮度滤镜。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
 node.filters([Konva.Filters.Brightness]);
-node.brightness(1.5); // 50% brighter (CSS-compatible)
+node.brightness(1.5); // 亮度提高 50%（CSS 兼容）
 ```
 
 ### Contrast(imageData) {#Contrast}
 
-Contrast Filter.
+Contrast 滤镜。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -75,13 +76,13 @@ node.contrast(10);
 
 ### Emboss(imageData) {#Emboss}
 
-Emboss Filter.
+Emboss 滤镜。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -94,13 +95,13 @@ node.embossBlend(true);
 
 ### Enhance(imageData) {#Enhance}
 
-Enhance Filter. Adjusts the colors so that they span the widest  possible range (ie 0-255). Performs w*h pixel reads and w*h pixel  writes.
+Enhance 滤镜。调整颜色，使其覆盖尽可能宽的范围（即 0-255）。执行 w*h 次像素读取和 w*h 次像素写入。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -110,13 +111,13 @@ node.enhance(0.4);
 
 ### Grayscale(imageData) {#Grayscale}
 
-Grayscale Filter
+Grayscale 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -125,13 +126,13 @@ node.filters([Konva.Filters.Grayscale]);
 
 ### HSL(imageData) {#HSL}
 
-HSL Filter. Adjusts the hue, saturation and luminance (or lightness)
+HSL 滤镜。调整色相、饱和度和亮度（或明度）
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 image.filters([Konva.Filters.HSL]);
@@ -140,13 +141,13 @@ image.luminance(0.2);
 
 ### HSV(imageData) {#HSV}
 
-HSV Filter. Adjusts the hue, saturation and value
+HSV 滤镜。调整色相、饱和度和值
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 image.filters([Konva.Filters.HSV]);
@@ -155,13 +156,13 @@ image.value(200);
 
 ### Invert(imageData) {#Invert}
 
-Invert Filter
+Invert 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -170,13 +171,13 @@ node.filters([Konva.Filters.Invert]);
 
 ### Mask(imageData) {#Mask}
 
-Mask Filter
+Mask 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -186,13 +187,13 @@ node.threshold(200);
 
 ### Noise(imageData) {#Noise}
 
-Noise Filter. Randomly adds or substracts to the color channels
+Noise 滤镜。随机向颜色通道添加或减去值
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -202,13 +203,13 @@ node.noise(0.8);
 
 ### Pixelate(imageData) {#Pixelate}
 
-Pixelate Filter. Averages groups of pixels and redraws  them as larger pixels
+Pixelate 滤镜。对像素组进行平均处理，并将其重新绘制为更大的像素
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -218,29 +219,29 @@ node.pixelSize(10);
 
 ### Posterize(imageData) {#Posterize}
 
-Posterize Filter. Adjusts the channels so that there are no more  than n different values for that channel. This is also applied  to the alpha channel.
+Posterize 滤镜。调整通道，使该通道的不同值不超过 n 个。此操作也会应用于 alpha 通道。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
 node.filters([Konva.Filters.Posterize]);
-node.levels(0.8); // between 0 and 1
+node.levels(0.8); // 介于 0 和 1 之间
 ```
 
 ### RGB(imageData) {#RGB}
 
-RGB Filter
+RGB 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -251,13 +252,13 @@ node.green(200);
 
 ### RGBA(imageData) {#RGBA}
 
-RGBA Filter
+RGBA 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -269,11 +270,11 @@ node.alpha(0.3);
 
 ### Sepia(imageData) {#Sepia}
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -282,13 +283,13 @@ node.filters([Konva.Filters.Sepia]);
 
 ### Solarize(imageData) {#Solarize}
 
-Solarize Filter
+Solarize 滤镜
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();
@@ -297,13 +298,13 @@ node.filters([Konva.Filters.Solarize]);
 
 ### Threshold(imageData) {#Threshold}
 
-Threshold Filter. Pushes any value above the mid point to  the max and any value below the mid point to the min.  This affects the alpha channel.
+Threshold 滤镜。将任何高于中点的值推至最大值，将任何低于中点的值推至最小值。此操作会影响 alpha 通道。
 
-**Parameters:**
+**参数：**
 
-- `imageData` (Object)
+- `imageData`（Object）
 
-**Example:**
+**示例：**
 
 ```javascript
 node.cache();

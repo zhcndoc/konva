@@ -6,16 +6,18 @@ slug: Native_Context_Access.html
 description: "从 Konva 访问原生 HTML5 Canvas 2D 上下文以执行自定义手动绘制，并将其用作 Konva.Image。"
 ---
 
-## 如何从 Konva 访问原生 2D 画布上下文
+## 如何从 Konva 访问原生 2D Canvas 上下文
 
-Konva 为你提供了在画布上绘制图形的对象模型。你的应用从一个舞台（div 容器）开始，舞台内有一个或多个图层（canvas DOM 元素）。
+Konva 为您提供了一个用于在 Canvas 上绘制形状的对象模型。应用从 div 中的 Stage 开始。Stage 包含一个或多个 Layer。每个 Layer 使用 Canvas 元素。
 
-你可以深入 Konva 内部（或 DOM 内部）直接在画布上绘图而不创建任何形状。但这不推荐。因为 Konva 完全控制绘图，可能会重置你的手动绘制内容，或者在任何导出操作（比如 `stage.toDataURL()`）时丢失它们。
+您可以访问内部 Canvas 上下文，并在不使用 Konva 形状的情况下进行绘制。此方法并不安全。Konva 控制 Layer 的绘制，因此可能会擦除手动绘制的内容。诸如 `stage.toDataURL()` 之类的导出操作也可能遗漏这些内容。
 
-如果你想手动绘制，推荐有两种方式：
+请使用以下方法之一进行手动绘制：
 
-1. [使用自定义形状](/docs/shapes/Custom.html)
-2. 手动创建一个新的 canvas 元素，然后将其用于 `Konva.Image`。
+1. [使用自定义形状](/docs/shapes/Custom.html)。
+2. 创建一个 Canvas 元素，并将其用作 `Konva.Image` 的源。
+
+这两种方法都会将绘制内容保留在 Konva 的场景图和导出流程中。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";

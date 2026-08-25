@@ -1,13 +1,13 @@
 ---
-title: 基础插值动画教程
+title: 基础 Tweening 教程
 sidebar_label: 线性缓动
 hide_table_of_contents: true
 slug: Linear_Easing.html
-description: "学习如何在 Konva.js 中创建基本的线性插值动画，以过渡形状属性，如位置、缩放和不透明度。"
+description: "了解如何在 Konva.js 中创建基础的线性 tween 动画，以实现位置、缩放和透明度等图形属性的过渡"
 ---
 
-要使用 Konva 插值属性，我们可以实例化一个 `Konva.Tween` 对象，然后通过调用 `play()` 开始插值动画。  
-`Shape`、`Group`、`Layer` 或 `Stage` 的任何数值属性都可以进行插值动画，例如：
+要使用 Konva 对属性进行 tween，我们可以实例化一个 `Konva.Tween` 对象，然后通过调用 `play()` 开始 tween
+任何 `Shape`、`Group`、`Layer` 或 `Stage` 的数值属性都可以进行过渡，例如：
 
 - `x`、`y`（位置）
 - `rotation`
@@ -19,7 +19,7 @@ description: "学习如何在 Konva.js 中创建基本的线性插值动画，�
 
 有关属性和方法的完整列表，请查看 [Konva.Tween 文档](/api/Konva.Tween.html)。
 
-**说明：点击圆圈以开始简单的线性动画。**
+**说明：点击圆形以启动一个简单的线性动画。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -53,7 +53,7 @@ layer.add(circle);
 stage.add(layer);
 
 circle.on('click tap', () => {
-// 简单插值动画
+// simple tween
 const tween = new Konva.Tween({
 node: circle,
 duration: 1,
@@ -63,24 +63,31 @@ easing: Konva.Easings.Linear,
 tween.play();
 });
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const App = () => {
   const circleRef = useRef();
+  const tweenRef = useRef();
+
+  useEffect(() => {
+    return () => tweenRef.current?.destroy();
+  }, []);
 
   const handleClick = () => {
-    const tween = new Konva.Tween({
+    tweenRef.current?.destroy();
+    tweenRef.current = new Konva.Tween({
       node: circleRef.current,
       duration: 1,
       x: window.innerWidth - 100,
       easing: Konva.Easings.Linear,
     });
-    tween.play();
+    tweenRef.current.play();
   };
 
   return (
@@ -103,7 +110,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -154,4 +162,3 @@ const handleClick = () => {
 ```
   </TabItem>
 </Tabs>
-```

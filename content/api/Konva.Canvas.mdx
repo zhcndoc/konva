@@ -2,6 +2,7 @@
 title: Konva.Canvas
 sidebar_label: Canvas
 slug: /api/Konva.Canvas.html
+description: "Canvas 渲染器构造函数。它是原生 canvas 元素的包装器。通常你不需要手动使用它。"
 
 ---
 
@@ -11,9 +12,9 @@ slug: /api/Konva.Canvas.html
 new Konva.Canvas(config)
 ```
 
-Canvas Renderer constructor. It is a wrapper around native canvas element. Usually you don't need to use it manually.
+Canvas 渲染器构造函数。它是原生 canvas 元素的包装器。通常你不需要手动使用它。
 
-## Parameters
+## 参数
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
@@ -22,21 +23,21 @@ Canvas Renderer constructor. It is a wrapper around native canvas element. Usual
 | height | `Number` |  |
 | pixelRatio | `Number` |  |
 
-## Own Methods
+## 自有方法
 
 ### getContext() {#getContext}
 
-get canvas context
+获取 canvas 上下文
 
-**Returns:** `CanvasContext` <code>context</code>
+**返回值：** `CanvasContext` <code>上下文</code>
 
 ### getPixelRatio() {#getPixelRatio}
 
-get pixel ratio
+获取像素比
 
-**Returns:** `Number` <code>pixel ratio</code>
+**返回值：** `Number` <code>像素比</code>
 
-**Example:**
+**示例：**
 
 ```javascript
 var pixelRatio = layer.getCanvas.getPixelRatio();
@@ -44,13 +45,13 @@ var pixelRatio = layer.getCanvas.getPixelRatio();
 
 ### setPixelRatio(pixelRatio) {#setPixelRatio}
 
-set pixel ratio KonvaJS automatically handles pixel ratio adustments in order to render crisp drawings  on all devices. Most desktops, low end tablets, and low end phones, have device pixel ratios  of 1.  Some high end tablets and phones, like iPhones and iPads have a device pixel ratio  of 2.  Some Macbook Pros, and iMacs also have a device pixel ratio of 2.  Some high end Android devices have pixel  ratios of 2 or 3.  Some browsers like Firefox allow you to configure the pixel ratio of the viewport.  Unless otherwise  specificed, the pixel ratio will be defaulted to the actual device pixel ratio.  You can override the device pixel  ratio for special situations, or, if you don't want the pixel ratio to be taken into account, you can set it to 1.
+设置像素比。KonvaJS 会自动处理像素比调整，以便在所有设备上渲染清晰的图形。大多数台式机、低端平板电脑和低端手机的设备像素比为 1。一些高端平板电脑和手机（如 iPhones 和 iPads）的设备像素比为 2。一些 Macbook Pros 和 iMacs 的设备像素比也为 2。一些高端 Android 设备的像素比为 2 或 3。一些浏览器（如 Firefox）允许你配置视口的像素比。除非另有指定，像素比将默认为实际设备像素比。你可以在特殊情况下覆盖设备像素比，或者如果你不希望将像素比考虑在内，可以将其设置为 1。
 
-**Parameters:**
+**参数：**
 
-- `pixelRatio` (Number)
+- `pixelRatio`（Number）
 
-**Example:**
+**示例：**
 
 ```javascript
 layer.getCanvas().setPixelRatio(3);
@@ -58,12 +59,12 @@ layer.getCanvas().setPixelRatio(3);
 
 ### toDataURL(mimeType, quality) {#toDataURL}
 
-to data url
+转换为数据 URL
 
-**Parameters:**
+**参数：**
 
-- `mimeType` (String)
-- `quality` (Number): between 0 and 1 for jpg mime types
+- `mimeType`（String）
+- `quality`（Number）：对于 jpg MIME 类型，取值范围为 0 到 1
 
-**Returns:** `String` <code>data url string</code>
+**返回值：** `String` <code>数据 URL 字符串</code>
 

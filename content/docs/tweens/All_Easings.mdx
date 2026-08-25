@@ -3,7 +3,7 @@ title: 更多缓动函数教程
 sidebar_label: 所有缓动函数
 hide_table_of_contents: true
 slug: All_Easings.html
-description: "查看 Konva.js 所有缓动函数的实际效果：Linear、Ease、Back、Elastic、Bounce 和 Strong，包含交互式演示。"
+description: "查看所有 Konva.js 缓动函数的实际效果：Linear、Ease、Back、Elastic、Bounce 和 Strong，并配有交互式演示。"
 ---
 
 本教程演示了 Konva 提供的所有缓动函数集，包括：
@@ -15,9 +15,9 @@ description: "查看 Konva.js 所有缓动函数的实际效果：Linear、Ease�
 - `Bounce`
 - `Strong`
 
-查看所有可用的缓动函数，请前往 [缓动函数文档](/api/Konva.Easings.html)。
+如需查看所有可用的缓动函数，请前往[缓动函数文档](/api/Konva.Easings.html)。
 
-**说明：按下"Play"按钮，使用不同的缓动函数过渡所有文本节点。**
+**说明：按下“Play”以使用不同的缓动函数过渡所有文本节点。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -82,7 +82,7 @@ easing: Konva.Easings[easing],
 
 stage.add(layer);
 
-// 创建按钮
+// create button
 const button = document.createElement('button');
 button.textContent = 'Play';
 button.style.position = 'absolute';
@@ -100,6 +100,7 @@ document.body.appendChild(button);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Text } from 'react-konva';
 import { useEffect, useRef } from 'react';
 
@@ -135,6 +136,10 @@ const App = () => {
         easing: Konva.Easings[easings[i]],
       });
     });
+
+    return () => {
+      tweensRef.current.forEach((tween) => tween.destroy());
+    };
   }, []);
 
   const handlePlay = () => {
@@ -152,7 +157,9 @@ const App = () => {
           {easings.map((easing, i) => (
             <Text
               key={i}
-              ref={(node) => (textsRef.current[i] = node)}
+              ref={(node) => {
+                textsRef.current[i] = node;
+              }}
               x={50}
               y={30 + i * 25}
               text={easing}
@@ -251,4 +258,3 @@ const handlePlay = () => {
 ```
   </TabItem>
 </Tabs>
-```

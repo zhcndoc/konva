@@ -12,7 +12,7 @@ description: "使用 JavaScript 和 Konva.js 为 HTML5 Canvas 形状添加自定
 
 1. 监听画布容器（舞台）的 `contextmenu` 事件
 2. 阻止默认的浏览器行为，以便不显示原生的上下文菜单
-3. 使用 `Konva` 工具或常规 HTML 创建我们自己的上下文菜单
+3. 使用 `Konva` 工具或常规 HTML 创建我们自己的上下文菜单。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -274,6 +274,7 @@ const App = () => {
         width={width}
         height={height}
         onDblClick={handleDblClick}
+        onDblTap={handleDblClick}
         onContextMenu={handleContextMenu}
         ref={stageRef}
       >
@@ -356,6 +357,7 @@ export default App;
       ref="stageRef"
       :config="stageConfig"
       @dblclick="handleDblClick"
+      @dbltap="handleDblClick"
       @contextmenu="handleContextMenu"
     >
       <v-layer>

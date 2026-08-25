@@ -1,16 +1,16 @@
 ---
-title: HTML5 Canvas 形状调整大小并保持比例
+title: 保持比例的 HTML5 Canvas 形状调整大小
 sidebar_label: 保持比例
 hide_table_of_contents: true
 slug: Keep_Ratio.html
-description: "学习如何使用 Konva Transformer 的 keepRatio 和 SHIFT 键在调整形状大小时保持宽高比。"
+description: "了解如何在使用 keepRatio 和 SHIFT 键通过 Konva Transformer 调整形状大小时保持宽高比。"
 ---
 
-默认情况下，当你使用角锚点（`top-left`、`top-right`、`bottom-left` 或 `bottom-right`）调整大小时，Transformer 将保存节点的比例。
+默认情况下，当你使用角锚点（`top-left`、`top-right`、`bottom-left` 或 `bottom-right`）调整大小时，Transformer 会保存节点的比例。
 
-如果不需要该行为，你可以将 `keepRatio` 设置为 `false`。
+如果不需要此行为，可以将 `keepRatio` 设置为 `false`。
 
-即使你将 `keepRatio` 设置为 `false`，你仍然可以按住 `SHIFT` 键来保持比例。
+即使将 `keepRatio` 设置为 `false`，你仍然可以按住 `SHIFT` 来保持比例。
 
 **说明：尝试调整文本大小。**
 
@@ -37,7 +37,7 @@ stage.add(layer);
 const text = new Konva.Text({
 x: 50,
 y: 50,
-text: '默认保持比例',
+text: 'keep ratio by default',
 fontSize: 20,
 draggable: true,
 width: 200,
@@ -47,7 +47,7 @@ layer.add(text);
 const text2 = new Konva.Text({
 x: 50,
 y: 150,
-text: '不保持比例，但按住 Shift 键可保持比例',
+text: 'no ratio, but hold shift to keep ratio',
 fontSize: 20,
 draggable: true,
 width: 200,
@@ -70,9 +70,11 @@ layer.add(tr2);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Text, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [text1Position, setText1Position] = useState({ x: 50, y: 50 });
+  const [text2Position, setText2Position] = useState({ x: 50, y: 150 });
   const text1Ref = useRef();
   const text2Ref = useRef();
   const tr1Ref = useRef();
@@ -87,24 +89,28 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={50}
-          y={50}
-          text="默认保持比例"
+          x={text1Position.x}
+          y={text1Position.y}
+          text="keep ratio by default"
           fontSize={20}
           draggable
           width={200}
           ref={text1Ref}
+          onDragEnd={(e) => setText1Position(e.target.position())}
+          onTransformEnd={(e) => setText1Position(e.target.position())}
         />
         <Transformer ref={tr1Ref} />
 
         <Text
-          x={50}
-          y={150}
-          text="不保持比例，但按住 Shift 键可保持比例"
+          x={text2Position.x}
+          y={text2Position.y}
+          text="no ratio, but hold shift to keep ratio"
           fontSize={20}
           draggable
           width={200}
           ref={text2Ref}
+          onDragEnd={(e) => setText2Position(e.target.position())}
+          onTransformEnd={(e) => setText2Position(e.target.position())}
         />
         <Transformer ref={tr2Ref} keepRatio={false} />
       </Layer>
@@ -141,7 +147,7 @@ const stageSize = {
 const text1Config = {
   x: 50,
   y: 50,
-  text: '默认保持比例',
+  text: 'keep ratio by default',
   fontSize: 20,
   draggable: true,
   width: 200
@@ -150,7 +156,7 @@ const text1Config = {
 const text2Config = {
   x: 50,
   y: 150,
-  text: '不保持比例，但按住 Shift 键可保持比例',
+  text: 'no ratio, but hold shift to keep ratio',
   fontSize: 20,
   draggable: true,
   width: 200

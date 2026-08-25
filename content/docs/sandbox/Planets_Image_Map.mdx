@@ -3,10 +3,10 @@ title: 行星图像地图
 layout: demo_page
 hide_table_of_contents: true
 slug: Planets_Image_Map.html
-description: "使用 Konva 创建一个带有悬停提示和可切换覆盖层的交互式行星图像地图。"
+description: "使用 Konva 创建带有悬停工具提示和可切换叠加层的交互式行星图像地图"
 ---
 
-**说明：** 将鼠标悬停在行星上以查看它们的名称，并使用复选框显示和隐藏地图覆盖层。
+**说明：**将鼠标悬停在行星上即可查看其名称，并使用复选框显示和隐藏地图叠加层。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -67,7 +67,7 @@ radius: 45,
 },
 };
 
-// 创建复选框
+// create checkbox
 const container = document.createElement('div');
 container.style.position = 'absolute';
 container.style.top = '10px';
@@ -79,7 +79,7 @@ container.innerHTML = `  <label style="color: white;">
   </label>`;
 document.body.appendChild(container);
 
-// 绘制形状覆盖层
+// draw shape overlays
 for (const key in planets) {
 const planet = planets[key];
 const planetOverlay = new Konva.Circle({
@@ -107,7 +107,7 @@ shape.fill(f === 'red' ? null : 'red');
 });
 });
 
-// 加载图片
+// load the image
 Konva.Image.fromURL('https://konvajs.org/assets/planets.png', (planetsImage) => {
 planetsLayer.add(planetsImage);
 });

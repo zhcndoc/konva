@@ -1,16 +1,14 @@
 ---
-title: 形状层级
-sidebar_label: 层级
+title: 形状分层
+sidebar_label: 分层
 hide_table_of_contents: true
 slug: Layering.html
-description: "学习如何在 Konva 中使用 moveToTop、moveToBottom、moveUp 和 moveDown 方法重新排列画布上的形状。"
+description: "了解如何使用 Konva 中的 moveToTop、moveToBottom、moveUp 和 moveDown 方法在画布上重新排列形状。"
 ---
 
-要在 Konva 中调整形状层级，我们可以使用以下层级方法之一：
-`moveToTop()`、`moveToBottom()`、`moveUp()`、`moveDown()` 或 `zIndex()`。
-您也可以对组和图层进行分层。
+要使用 Konva 对形状进行分层，我们可以使用以下分层方法之一：`moveToTop()`、`moveToBottom()`、`moveUp()`、`moveDown()` 或 `zIndex()`。你也可以对图组和图层进行分层。
 
-**说明：拖放盒子以移动它们，然后使用左侧的按钮重新排列黄色盒子。**
+**说明：拖放方框来移动它们，然后使用左侧的按钮重新排列黄色方框。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -57,15 +55,15 @@ layer.add(yellowBox);
 layer.add(redBox);
 stage.add(layer);
 
-// 创建按钮
+// create buttons
 const toTopBtn = document.createElement('button');
-toTopBtn.textContent = '将黄色方块移至顶层';
+toTopBtn.textContent = 'Move yellow box to top';
 toTopBtn.addEventListener('click', () => {
 yellowBox.moveToTop();
 });
 
 const toBottomBtn = document.createElement('button');
-toBottomBtn.textContent = '将黄色方块移至底层';
+toBottomBtn.textContent = 'Move yellow box to bottom';
 toBottomBtn.addEventListener('click', () => {
 yellowBox.moveToBottom();
 });
@@ -78,55 +76,55 @@ document.body.prepend(toBottomBtn);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect } from 'react-konva';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const App = () => {
-  const [yellowOnTop, setYellowOnTop] = useState(false);
+  const yellowRef = useRef();
+  const [positions, setPositions] = useState({
+    yellow: { x: 50, y: 50 },
+    red: { x: 100, y: 100 },
+  });
+
+  const handleDragEnd = (color, e) => {
+    setPositions((currentPositions) => ({
+      ...currentPositions,
+      [color]: { x: e.target.x(), y: e.target.y() },
+    }));
+  };
 
   return (
     <>
-      <button onClick={() => setYellowOnTop(true)}>
-        将黄色方块移至顶层
+      <button onClick={() => yellowRef.current.moveToTop()}>
+        Move yellow box to top
       </button>
-      <button onClick={() => setYellowOnTop(false)}>
-        将黄色方块移至底层
+      <button onClick={() => yellowRef.current.moveToBottom()}>
+        Move yellow box to bottom
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          {!yellowOnTop && (
-            <Rect
-              x={100}
-              y={100}
-              width={100}
-              height={100}
-              fill="red"
-              stroke="black"
-              strokeWidth={4}
-              draggable
-            />
-          )}
           <Rect
-            x={50}
-            y={50}
+            ref={yellowRef}
+            x={positions.yellow.x}
+            y={positions.yellow.y}
             width={100}
             height={100}
             fill="yellow"
             stroke="black"
             strokeWidth={4}
             draggable
+            onDragEnd={(e) => handleDragEnd('yellow', e)}
           />
-          {yellowOnTop && (
-            <Rect
-              x={100}
-              y={100}
-              width={100}
-              height={100}
-              fill="red"
-              stroke="black"
-              strokeWidth={4}
-              draggable
-            />
-          )}
+          <Rect
+            x={positions.red.x}
+            y={positions.red.y}
+            width={100}
+            height={100}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            onDragEnd={(e) => handleDragEnd('red', e)}
+          />
         </Layer>
       </Stage>
     </>
@@ -141,17 +139,12 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <button @click="moveYellowToTop">将黄色方块移至顶层</button>
-    <button @click="moveYellowToBottom">将黄色方块移至底层</button>
+    <button @click="moveYellowToTop">Move yellow box to top</button>
+    <button @click="moveYellowToBottom">Move yellow box to bottom</button>
     <v-stage :config="stageSize">
       <v-layer>
-        <template v-if="!yellowOnTop">
-          <v-rect :config="redBoxConfig" />
-        </template>
-        <v-rect :config="yellowBoxConfig" />
-        <template v-if="yellowOnTop">
-          <v-rect :config="redBoxConfig" />
-        </template>
+        <v-rect :config="yellowBoxConfig" ref="yellowRef" />
+        <v-rect :config="redBoxConfig" />
       </v-layer>
     </v-stage>
   </div>
@@ -165,7 +158,7 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const yellowOnTop = ref(false);
+const yellowRef = ref(null);
 
 const yellowBoxConfig = {
   x: 50,
@@ -190,11 +183,11 @@ const redBoxConfig = {
 };
 
 const moveYellowToTop = () => {
-  yellowOnTop.value = true;
+  yellowRef.value.getNode().moveToTop();
 };
 
 const moveYellowToBottom = () => {
-  yellowOnTop.value = false;
+  yellowRef.value.getNode().moveToBottom();
 };
 </script>
 

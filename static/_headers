@@ -1,4 +1,57 @@
-/* 
+/*
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Headers: Content-Type
   Access-Control-Allow-Methods: GET, POST, OPTIONS
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+
+/.well-known/*
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+
+
+# Docusaurus content-hashes these, so the filename changes whenever the bytes do.
+# Safe to cache forever; without this Netlify serves them max-age=0 and every
+# repeat visit revalidates the whole bundle.
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Not content-hashed - a filename can be reused with new bytes, so these expire.
+/assets/demos/*
+  Cache-Control: public, max-age=604800
+
+/assets/users/*
+  Cache-Control: public, max-age=604800
+
+/img/*
+  Cache-Control: public, max-age=604800
+
+# The Chinese API reference is generated from English JSDoc and is not translated
+# (MAINTAINING-I18N keeps content/api out of the mirror). It is already excluded
+# from the zh-Hans sitemap; this stops it being indexed as thin duplicate content
+# under a Chinese path.
+/zh-Hans/api/*
+  X-Robots-Tag: noindex
+
+# Markdown twins of every docs page, written post-build by scripts/generate-llms.js.
+# Without an explicit type the browser downloads them instead of showing them.
+/docs/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex
+
+/zh-Hans/docs/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex

@@ -1,18 +1,18 @@
 ---
-title: HTML5 Canvas 形状旋转捕捉
-sidebar_label: 旋转捕捉
+title: HTML5 Canvas 形状旋转吸附
+sidebar_label: 旋转吸附
 hide_table_of_contents: true
 slug: Rotation_Snaps.html
-description: "使用 Konva Transformer 的 rotationSnaps 将形状旋转捕捉到特定角度，如 0、90、180 和 270 度。"
+description: "使用 Konva Transformer 的 rotationSnaps 将形状旋转吸附到 0、90、180 和 270 度等特定角度"
 ---
 
-在某些应用程序中，您可能希望将旋转捕捉到某些值附近。捕捉使形状在提供的值附近具有“粘性”，其工作原理类似于四舍五入。
+在某些应用中，您可能希望将旋转吸附到某些值附近。吸附会使形状在提供的值附近变得“粘滞”，其工作方式类似于四舍五入。
 
-最常见的捕捉点是 0、45、90、135、180 等度数。捕捉允许更简单地将旋转精确设置为这些值。
+最常见的吸附角度是 0、45、90、135、180 等度数。吸附可以更简单地将旋转设置为这些确切的值。
 
-例如，如果您在 45 度处设有捕捉点，用户将无法将旋转设置为 43 度。它将被四舍五入到 45 度。但是用户仍然可以将旋转设置为 35 度，因为它离 45 度太远，所以不会被捕捉。
+例如，如果您将吸附点设置为 45 度，用户将无法将旋转设置为 43 度。它会被四舍五入为 45 度。但用户仍然可以将旋转设置为 35 度，因为它距离 45 度太远，所以不会被吸附。
 
-**说明：尝试旋转一个形状。查看在 0、90、180 和 270 度处的捕捉效果。**
+**说明：尝试旋转形状。查看在 0、90、180 和 270 度处的吸附效果。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -57,9 +57,10 @@ layer.add(tr);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 50, y: 50 });
   const rectRef = useRef();
   const trRef = useRef();
 
@@ -71,14 +72,16 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={50}
           fill="yellow"
           stroke="black"
           draggable
           ref={rectRef}
+          onDragEnd={(e) => setRectPosition(e.target.position())}
+          onTransformEnd={(e) => setRectPosition(e.target.position())}
         />
         <Transformer
           ref={trRef}
@@ -145,4 +148,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

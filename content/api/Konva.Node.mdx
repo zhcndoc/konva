@@ -2,6 +2,7 @@
 title: Konva.Node
 sidebar_label: Node
 slug: /api/Konva.Node.html
+description: "Node 构造函数。Node 是可以进行变换、分层并绑定事件的实体。stage、layers、groups 和 shapes 都扩展自 Node。"
 
 ---
 
@@ -11,42 +12,42 @@ slug: /api/Konva.Node.html
 new Konva.Node(config)
 ```
 
-Node constructor. Nodes are entities that can be transformed, layered, and have bound events. The stage, layers, groups, and shapes all extend Node.
+Node 构造函数。Node 是可以进行变换、分层并绑定事件的实体。stage、layers、groups 和 shapes 都扩展自 Node。
 
-## Parameters
+## 参数
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | ---- | ---- | ----------- |
 | config | `Object` |  |
-| x (optional) | `Number` |  |
-| y (optional) | `Number` |  |
-| width (optional) | `Number` |  |
-| height (optional) | `Number` |  |
-| visible (optional) | `Boolean` |  |
-| listening (optional) | `Boolean` | whether or not the node is listening for events |
-| id (optional) | `String` | unique id |
-| name (optional) | `String` | non-unique name |
-| opacity (optional) | `Number` | determines node opacity.  Can be any number between 0 and 1 |
-| scale (optional) | `Object` | set scale |
-| scaleX (optional) | `Number` | set scale x |
-| scaleY (optional) | `Number` | set scale y |
-| rotation (optional) | `Number` | rotation in degrees |
-| offset (optional) | `Object` | offset from center point and rotation point |
-| offsetX (optional) | `Number` | set offset x |
-| offsetY (optional) | `Number` | set offset y |
-| draggable (optional) | `Boolean` | makes the node draggable.  When stages are draggable, you can drag and drop  the entire stage by dragging any portion of the stage |
-| dragDistance (optional) | `Number` |  |
-| dragBoundFunc (optional) | `function` |  |
+| x（可选） | `Number` |  |
+| y（可选） | `Number` |  |
+| width（可选） | `Number` |  |
+| height（可选） | `Number` |  |
+| visible（可选） | `Boolean` |  |
+| listening（可选） | `Boolean` | 节点是否监听事件 |
+| id（可选） | `String` | 唯一 id |
+| name（可选） | `String` | 非唯一名称 |
+| opacity（可选） | `Number` | 确定节点不透明度。可以是 0 到 1 之间的任意数字 |
+| scale（可选） | `Object` | 设置缩放 |
+| scaleX（可选） | `Number` | 设置 x 轴缩放 |
+| scaleY（可选） | `Number` | 设置 y 轴缩放 |
+| rotation（可选） | `Number` | 以度为单位的旋转角度 |
+| offset（可选） | `Object` | 相对于中心点和旋转点的偏移 |
+| offsetX（可选） | `Number` | 设置 x 轴偏移 |
+| offsetY（可选） | `Number` | 设置 y 轴偏移 |
+| draggable（可选） | `Boolean` | 使节点可拖动。当 stage 可拖动时，可以通过拖动 stage 的任意部分来拖放整个 stage |
+| dragDistance（可选） | `Number` |  |
+| dragBoundFunc（可选） | `function` |  |
 
-## Own Methods
+## 自有方法
 
 ### clearCache() {#clearCache}
 
-clear cached canvas
+清除缓存的 canvas
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.clearCache();
@@ -54,24 +55,24 @@ node.clearCache();
 
 ### cache(config) {#cache}
 
-cache node to improve drawing performance, apply filters, or create more accurate  hit regions. For all basic shapes size of cache canvas will be automatically detected.  If you need to cache your custom `Konva.Shape` instance you have to pass shape's bounding box  properties. Look at [https://konvajs.org/docs/performance/Shape_Caching.html](https://konvajs.org/docs/performance/Shape_Caching.html) for more information.
+缓存节点以提升绘制性能、应用滤镜或创建更准确的命中区域。对于所有基本图形，缓存 canvas 的大小会自动检测。如果需要缓存自定义的 `Konva.Shape` 实例，则必须传入图形的边界框属性。更多信息请参阅 [https://konvajs.org/docs/performance/Shape_Caching.html](https://konvajs.org/docs/performance/Shape_Caching.html)。
 
-**Parameters:**
+**参数：**
 
-- `config` (Object) (optional)
-- `config.x` (Number) (optional)
-- `config.y` (Number) (optional)
-- `config.width` (Number) (optional)
-- `config.height` (Number) (optional)
-- `config.offset` (Number) (optional): increase canvas size by `offset` pixel in all directions.
-- `config.drawBorder` (Boolean) (optional): when set to true, a red border will be drawn around the cached  region for debugging purposes
-- `config.pixelRatio` (Number) (optional): change quality (or pixel ratio) of cached image. pixelRatio = 2 will produce 2x sized cache.
-- `config.imageSmoothingEnabled` (Boolean) (optional): control imageSmoothingEnabled property of created canvas for cache
-- `config.hitCanvasPixelRatio` (Number) (optional): change quality (or pixel ratio) of cached hit canvas.
+- `config`（Object）（可选）
+- `config.x`（Number）（可选）
+- `config.y`（Number）（可选）
+- `config.width`（Number）（可选）
+- `config.height`（Number）（可选）
+- `config.offset`（Number）（可选）：使 canvas 在所有方向上增加 `offset` 个像素的大小。
+- `config.drawBorder`（Boolean）（可选）：设置为 true 时，将在缓存区域周围绘制红色边框，以便调试
+- `config.pixelRatio`（Number）（可选）：更改缓存图像的质量（或像素比率）。pixelRatio = 2 将生成大小为 2 倍的缓存。
+- `config.imageSmoothingEnabled`（Boolean）（可选）：控制创建的缓存 canvas 的 imageSmoothingEnabled 属性
+- `config.hitCanvasPixelRatio`（Number）（可选）：更改缓存命中 canvas 的质量（或像素比率）。
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // cache a shape with the x,y position of the bounding box at the center and
@@ -101,25 +102,25 @@ node.cache({
 
 ### isCached() {#isCached}
 
-determine if node is currently cached
+确定节点当前是否已缓存
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### getClientRect(config) {#getClientRect}
 
-Return client rectangle \{x, y, width, height\} of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
+返回节点的客户端矩形 \{x, y, width, height\}。此矩形还包括所有样式（描边、阴影等）。此方法的用途类似于 DOM 的 getBoundingClientRect API。
 
-**Parameters:**
+**参数：**
 
-- `config` (Object)
-- `config.skipTransform` (Boolean) (optional): should we apply transform to node for calculating rect?
-- `config.skipShadow` (Boolean) (optional): should we apply shadow to the node for calculating bound box?
-- `config.skipStroke` (Boolean) (optional): should we apply stroke to the node for calculating bound box?
-- `config.relativeTo` (Object) (optional): calculate client rect relative to one of the parents
+- `config`（Object）
+- `config.skipTransform`（Boolean）（可选）：计算矩形时是否应对节点应用变换？
+- `config.skipShadow`（Boolean）（可选）：计算边界框时是否应对节点应用阴影？
+- `config.skipStroke`（Boolean）（可选）：计算边界框时是否应对节点应用描边？
+- `config.relativeTo`（Object）（可选）：计算相对于某个父节点的客户端矩形
 
-**Returns:** `Object` <code>rect with \{x, y, width, height\} properties</code>
+**返回值：** `Object` <code>具有 \{x, y, width, height\} 属性的矩形</code>
 
-**Example:**
+**示例：**
 
 ```javascript
 var rect = new Konva.Rect({
@@ -147,80 +148,17 @@ rect.getClientRect();
 // returns Object {x: -2, y: 46, width: 104, height: 208}
 ```
 
-### on(evtStr, handler) {#on}
-
-bind events to the node. KonvaJS supports mouseover, mousemove,  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,  touchend, tap, dbltap, dragstart, dragmove, and dragend events.  Pass in a string of events delimited by a space to bind multiple events at once  such as 'mousedown mouseup mousemove'. Include a namespace to bind an  event by name such as 'click.foobar'.
-
-**Parameters:**
-
-- `evtStr` (String): e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo'
-- `handler` (function): The handler function. The first argument of that function is event object. Event object has `target` as main target of the event, `currentTarget` as current node listener and `evt` as native browser event.
-
-**Returns:** `Konva.Node` 
-
-**Example:**
-
-```javascript
-// add click listener
-node.on('click', function() {
-  console.log('you clicked me!');
-});
-
-// get the target node
-node.on('click', function(evt) {
-  console.log(evt.target);
-});
-
-// stop event propagation
-node.on('click', function(evt) {
-  evt.cancelBubble = true;
-});
-
-// bind multiple listeners
-node.on('click touchstart', function() {
-  console.log('you clicked/touched me!');
-});
-
-// namespace listener
-node.on('click.foo', function() {
-  console.log('you clicked/touched me!');
-});
-
-// get the event type
-node.on('click tap', function(evt) {
-  var eventType = evt.type;
-});
-
-// get native event object
-node.on('click tap', function(evt) {
-  var nativeEvent = evt.evt;
-});
-
-// for change events, get the old and new val
-node.on('xChange', function(evt) {
-  var oldVal = evt.oldVal;
-  var newVal = evt.newVal;
-});
-
-// get event targets
-// with event delegations
-layer.on('click', 'Group', function(evt) {
-  var shape = evt.target;
-  var group = evt.currentTarget;
-});
-```
-
 ### off(evtStr) {#off}
 
-remove event bindings from the node. Pass in a string of  event types delimmited by a space to remove multiple event  bindings at once such as 'mousedown mouseup mousemove'.  include a namespace to remove an event binding by name  such as 'click.foobar'. If you only give a name like '.foobar',  all events in that namespace will be removed.
+移除节点上的事件绑定。传入以空格分隔的事件类型字符串，可以一次移除多个事件绑定，例如 'mousedown mouseup mousemove'。包含命名空间时，可以按名称移除事件绑定，例如 'click.foobar'。如果只提供类似 '.foobar' 的名称，则会移除该命名空间中的所有事件。
 
-**Parameters:**
+**参数：**
 
-- `evtStr` (String): e.g. 'click', 'mousedown touchstart', '.foobar'
+- `evtStr`（String）：例如 'click'、'mousedown touchstart'、'.foobar'
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // remove listener
@@ -235,11 +173,11 @@ node.off('click.foo');
 
 ### remove() {#remove}
 
-remove a node from parent, but don't destroy. You can reuse the node later.
+从父节点中移除节点，但不销毁节点。之后可以重新使用该节点。
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.remove();
@@ -247,9 +185,9 @@ node.remove();
 
 ### destroy() {#destroy}
 
-remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy(). If the node is a container (Group, Stage or Layer) it will destroy all children too.
+移除并销毁节点。终止节点并永久删除！调用 destroy() 后不应重新使用该节点。如果节点是容器（Group、Stage 或 Layer），也会销毁所有子节点。
 
-**Example:**
+**示例：**
 
 ```javascript
 node.destroy();
@@ -257,15 +195,15 @@ node.destroy();
 
 ### getAttr(attr) {#getAttr}
 
-get attr
+获取属性
 
-**Parameters:**
+**参数：**
 
-- `attr` (String)
+- `attr`（String）
 
-**Returns:** `Integer|String|Object|Array` 
+**返回值：** `Integer|String|Object|Array` 
 
-**Example:**
+**示例：**
 
 ```javascript
 var x = node.getAttr('x');
@@ -273,11 +211,11 @@ var x = node.getAttr('x');
 
 ### getAncestors() {#getAncestors}
 
-get ancestors
+获取祖先节点
 
-**Returns:** `Array` 
+**返回值：** `Array` 
 
-**Example:**
+**示例：**
 
 ```javascript
 shape.getAncestors().forEach(function(node) {
@@ -287,21 +225,21 @@ shape.getAncestors().forEach(function(node) {
 
 ### getAttrs() {#getAttrs}
 
-get attrs object literal
+获取属性对象字面量
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
 ### setAttrs(config) {#setAttrs}
 
-set multiple attrs at once using an object literal
+使用对象字面量一次设置多个属性
 
-**Parameters:**
+**参数：**
 
-- `config` (Object): object containing key value pairs
+- `config`（Object）：包含键值对的对象
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.setAttrs({
@@ -312,47 +250,47 @@ node.setAttrs({
 
 ### isListening() {#isListening}
 
-determine if node is listening for events by taking into account ancestors.  Parent    \| Self      \| isListening listening \| listening \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
+综合考虑祖先节点，确定节点是否监听事件。  父节点    \| 自身      \| isListening listening \| listening \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### isVisible() {#isVisible}
 
-determine if node is visible by taking into account ancestors.  Parent    \| Self      \| isVisible visible   \| visible   \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
+综合考虑祖先节点，确定节点是否可见。  父节点    \| 自身      \| isVisible visible   \| visible   \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### show() {#show}
 
-show node. set visible = true
+显示节点。设置 visible = true
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
 ### hide() {#hide}
 
-hide node.  Hidden nodes are no longer detectable
+隐藏节点。隐藏的节点将不再可检测
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
 ### getAbsoluteZIndex() {#getAbsoluteZIndex}
 
-get absolute z-index which takes into account sibling  and ancestor indices
+获取绝对 z-index，同时考虑兄弟节点和祖先节点的索引
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### getDepth() {#getDepth}
 
-get node depth in node tree.  Returns an integer.  e.g. Stage depth will always be 0.  Layers will always be 1.  Groups and Shapes will always  be >= 2
+获取节点在节点树中的深度。返回一个整数。例如，Stage 的深度始终为 0，Layer 的深度始终为 1，Group 和 Shape 的深度始终大于等于 2
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### getRelativePointerPosition() {#getRelativePointerPosition}
 
-get position of first pointer (like mouse or first touch) relative to local coordinates of current node
+获取第一个指针（如鼠标或第一次触摸）相对于当前节点本地坐标的位置
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // let's think we have a rectangle at position x = 10, y = 10
@@ -363,15 +301,15 @@ rect.getRelativePointerPosition();
 
 ### getAbsolutePosition(Ancestor) {#getAbsolutePosition}
 
-get absolute position of a node. That function can be used to calculate absolute position, but relative to any ancestor
+获取节点的绝对位置。该函数可用于计算绝对位置，但位置可以相对于任意祖先节点
 
-**Parameters:**
+**参数：**
 
-- `Ancestor` (Object): optional ancestor node
+- `Ancestor`（Object）：可选的祖先节点
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // returns absolute position relative to top-left corner of canvas
@@ -384,17 +322,17 @@ node.getAbsolutePosition(stage)
 
 ### move(change) {#move}
 
-move node by an amount relative to its current position
+将节点相对于当前位置移动指定距离
 
-**Parameters:**
+**参数：**
 
-- `change` (Object)
-- `change.x` (Number)
-- `change.y` (Number)
+- `change`（Object）
+- `change.x`（Number）
+- `change.y`（Number）
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // move node in x direction by 1px and y direction by 2px
@@ -406,55 +344,55 @@ node.move({
 
 ### rotate(theta) {#rotate}
 
-rotate node by an amount in degrees relative to its current rotation
+将节点相对于当前旋转角度旋转指定的度数
 
-**Parameters:**
+**参数：**
 
-- `theta` (Number)
+- `theta`（Number）
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
 ### moveToTop() {#moveToTop}
 
-move node to the top of its siblings
+将节点移动到其兄弟节点的最上层
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### moveUp() {#moveUp}
 
-move node up
+向上移动节点
 
-**Returns:** `Boolean` <code>flag is moved or not</code>
+**返回值：** `Boolean` <code>是否移动的标志</code>
 
 ### moveDown() {#moveDown}
 
-move node down
+向下移动节点
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### moveToBottom() {#moveToBottom}
 
-move node to the bottom of its siblings
+将节点移动到其兄弟节点的最底层
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### getAbsoluteOpacity() {#getAbsoluteOpacity}
 
-get absolute opacity
+获取绝对不透明度
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### moveTo(newContainer) {#moveTo}
 
-move node to another container
+将节点移动到另一个容器
 
-**Parameters:**
+**参数：**
 
-- `newContainer` (Container)
+- `newContainer`（Container）
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // move node from current layer into layer2
@@ -463,35 +401,35 @@ node.moveTo(layer2);
 
 ### toObject() {#toObject}
 
-convert Node into an object for serialization.  Returns an object.
+将 Node 转换为用于序列化的对象。返回一个对象。
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
 ### toJSON() {#toJSON}
 
-convert Node into a JSON string.  Returns a JSON string.
+将 Node 转换为 JSON 字符串。返回一个 JSON 字符串。
 
-**Returns:** `String` 
+**返回值：** `String` 
 
 ### getParent() {#getParent}
 
-get parent container
+获取父容器
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
 ### findAncestors(selector, includeSelf, stopNode) {#findAncestors}
 
-get all ancestors (parent then parent of the parent, etc) of the node
+获取节点的所有祖先节点（父节点，然后是父节点的父节点，以此类推）
 
-**Parameters:**
+**参数：**
 
-- `selector` (String): selector for search
-- `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
-- `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
+- `selector`（String）：用于搜索的选择器
+- `includeSelf`（Boolean）（可选）：是否将该节点自身视为祖先节点？
+- `stopNode`（Konva.Node）（可选）：需要停止搜索的可选节点（祖先节点之一）
 
-**Returns:** `Array` <code>[ancestors]</code>
+**返回值：** `Array` <code>[ancestors]</code>
 
-**Example:**
+**示例：**
 
 ```javascript
 // get one of the parent group
@@ -500,17 +438,17 @@ var parentGroups = node.findAncestors('Group');
 
 ### findAncestor(selector, includeSelf, stopNode) {#findAncestor}
 
-get ancestor (parent or parent of the parent, etc) of the node that match passed selector
+获取与传入选择器匹配的节点祖先（父节点、父节点的父节点等）
 
-**Parameters:**
+**参数：**
 
-- `selector` (String): selector for search
-- `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
-- `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
+- `selector`（String）：用于搜索的选择器
+- `includeSelf`（Boolean）（可选）：是否将该节点自身视为祖先节点？
+- `stopNode`（Konva.Node）（可选）：需要停止搜索的可选节点（祖先节点之一）
 
-**Returns:** `Konva.Node` <code>ancestor</code>
+**返回值：** `Konva.Node` <code>ancestor</code>
 
-**Example:**
+**示例：**
 
 ```javascript
 // get one of the parent group
@@ -519,29 +457,29 @@ var group = node.findAncestors('.mygroup');
 
 ### getLayer() {#getLayer}
 
-get layer ancestor
+获取祖先 Layer
 
-**Returns:** `Konva.Layer` 
+**返回值：** `Konva.Layer` 
 
 ### getStage() {#getStage}
 
-get stage ancestor
+获取祖先 Stage
 
-**Returns:** `Konva.Stage` 
+**返回值：** `Konva.Stage` 
 
 ### fire(eventType, evt, bubble) {#fire}
 
-fire event
+触发事件
 
-**Parameters:**
+**参数：**
 
-- `eventType` (String): event type.  can be a regular event, like click, mouseover, or mouseout, or it can be a custom event, like myCustomEvent
-- `evt` (Event) (optional): event object
-- `bubble` (Boolean) (optional): setting the value to false, or leaving it undefined, will result in the event  not bubbling.  Setting the value to true will result in the event bubbling.
+- `eventType`（String）：事件类型。可以是常规事件，如 click、mouseover 或 mouseout，也可以是自定义事件，如 myCustomEvent
+- `evt`（Event）（可选）：事件对象
+- `bubble`（Boolean）（可选）：将值设置为 false 或留空 undefined，将导致事件不冒泡。将值设置为 true 将导致事件冒泡。
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // manually fire click event
@@ -561,17 +499,17 @@ node.fire('click', null, true);
 
 ### getAbsoluteTransform() {#getAbsoluteTransform}
 
-get absolute transform of the node which takes into  account its ancestor transforms
+获取节点的绝对变换，同时考虑其祖先节点的变换
 
-**Returns:** `Konva.Transform` 
+**返回值：** `Konva.Transform` 
 
 ### getAbsoluteScale() {#getAbsoluteScale}
 
-get absolute scale of the node which takes into  account its ancestor scales
+获取节点的绝对缩放，同时考虑其祖先节点的缩放
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get absolute scale x
@@ -580,11 +518,11 @@ var scaleX = node.getAbsoluteScale().x;
 
 ### getAbsoluteRotation() {#getAbsoluteRotation}
 
-get absolute rotation of the node which takes into  account its ancestor rotations
+获取节点的绝对旋转，同时考虑其祖先节点的旋转
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get absolute rotation
@@ -593,21 +531,21 @@ var rotation = node.getAbsoluteRotation();
 
 ### getTransform() {#getTransform}
 
-get transform of the node
+获取节点的变换
 
-**Returns:** `Konva.Transform` 
+**返回值：** `Konva.Transform` 
 
 ### clone(obj) {#clone}
 
-clone node.  Returns a new Node instance with identical attributes.  You can also override  the node properties with an object literal, enabling you to use an existing node as a template  for another node
+克隆节点。返回一个具有相同属性的新 Node 实例。也可以使用对象字面量覆盖节点属性，从而将现有节点用作另一个节点的模板
 
-**Parameters:**
+**参数：**
 
-- `obj` (Object): override attrs
+- `obj`（Object）：覆盖属性
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // simple clone
@@ -621,20 +559,20 @@ var clone = rect.clone({
 
 ### toCanvas(config) {#toCanvas}
 
-converts node into an canvas element.
+将节点转换为 canvas 元素。
 
-**Parameters:**
+**参数：**
 
-- `config` (Object)
-- `config.callback` (function): function executed when the composite has completed
-- `config.x` (Number) (optional): x position of canvas section
-- `config.y` (Number) (optional): y position of canvas section
-- `config.width` (Number) (optional): width of canvas section
-- `config.height` (Number) (optional): height of canvas section
-- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
-- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
+- `config`（Object）
+- `config.callback`（function）：组合完成时执行的函数
+- `config.x`（Number）（可选）：canvas 区域的 x 位置
+- `config.y`（Number）（可选）：canvas 区域的 y 位置
+- `config.width`（Number）（可选）：canvas 区域的宽度
+- `config.height`（Number）（可选）：canvas 区域的高度
+- `config.pixelRatio`（Number）（可选）：输出 canvas 的 pixelRatio。默认值为 1。可以使用此属性提高图像质量，例如用于超高质量导出或在 retina（或类似）显示屏上使用。pixelRatio 将用于乘以导出图像的大小。如果以 pixelRatio = 2 导出 500x500 大小，则生成的图像大小将为 1000x1000。
+- `config.imageSmoothingEnabled`（Boolean）（可选）：如果希望禁用 imageSmoothing，请将其设置为 false
 
-**Example:**
+**示例：**
 
 ```javascript
 var canvas = node.toCanvas();
@@ -642,42 +580,42 @@ var canvas = node.toCanvas();
 
 ### toDataURL(config) {#toDataURL}
 
-Creates a composite data URL (base64 string). If MIME type is not specified, then "image/png" will result. For "image/jpeg", specify a quality level as quality (range 0.0 - 1.0)
+创建组合数据 URL（base64 字符串）。如果未指定 MIME 类型，则会生成 "image/png"。对于 "image/jpeg"，请将质量级别指定为 quality（范围为 0.0 - 1.0）
 
-**Parameters:**
+**参数：**
 
-- `config` (Object)
-- `config.mimeType` (String) (optional): can be "image/png" or "image/jpeg".  "image/png" is the default
-- `config.x` (Number) (optional): x position of canvas section
-- `config.y` (Number) (optional): y position of canvas section
-- `config.width` (Number) (optional): width of canvas section
-- `config.height` (Number) (optional): height of canvas section
-- `config.quality` (Number) (optional): jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality
-- `config.pixelRatio` (Number) (optional): pixelRatio of output image url. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
-- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
+- `config`（Object）
+- `config.mimeType`（String）（可选）：可以是 "image/png" 或 "image/jpeg"。"image/png" 是默认值
+- `config.x`（Number）（可选）：canvas 区域的 x 位置
+- `config.y`（Number）（可选）：canvas 区域的 y 位置
+- `config.width`（Number）（可选）：canvas 区域的宽度
+- `config.height`（Number）（可选）：canvas 区域的高度
+- `config.quality`（Number）（可选）：jpeg 质量。如果使用 "image/jpeg" mimeType，可以指定 0 到 1 之间的质量，其中 0 表示质量非常差，1 表示质量非常高
+- `config.pixelRatio`（Number）（可选）：输出图像 URL 的 pixelRatio。默认值为 1。可以使用此属性提高图像质量，例如用于超高质量导出或在 retina（或类似）显示屏上使用。pixelRatio 将用于乘以导出图像的大小。如果以 pixelRatio = 2 导出 500x500 大小，则生成的图像大小将为 1000x1000。
+- `config.imageSmoothingEnabled`（Boolean）（可选）：如果希望禁用 imageSmoothing，请将其设置为 false
 
-**Returns:** `String` 
+**返回值：** `String` 
 
 ### toImage(config) {#toImage}
 
-converts node into an image.  Since the toImage  method is asynchronous, the resulting image can only be retrieved from the config callback  or the returned Promise.  toImage is most commonly used  to cache complex drawings as an image so that they don't have to constantly be redrawn
+将节点转换为图像。由于 toImage 方法是异步的，因此只能从 config 回调或返回的 Promise 中获取结果图像。toImage 最常用于将复杂绘图缓存为图像，这样就不必不断重新绘制
 
-**Parameters:**
+**参数：**
 
-- `config` (Object)
-- `config.callback` (function) (optional): function executed when the composite has completed
-- `config.mimeType` (String) (optional): can be "image/png" or "image/jpeg".  "image/png" is the default
-- `config.x` (Number) (optional): x position of canvas section
-- `config.y` (Number) (optional): y position of canvas section
-- `config.width` (Number) (optional): width of canvas section
-- `config.height` (Number) (optional): height of canvas section
-- `config.quality` (Number) (optional): jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality
-- `config.pixelRatio` (Number) (optional): pixelRatio of output image. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
-- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
+- `config`（Object）
+- `config.callback`（function）（可选）：组合完成时执行的函数
+- `config.mimeType`（String）（可选）：可以是 "image/png" 或 "image/jpeg"。"image/png" 是默认值
+- `config.x`（Number）（可选）：canvas 区域的 x 位置
+- `config.y`（Number）（可选）：canvas 区域的 y 位置
+- `config.width`（Number）（可选）：canvas 区域的宽度
+- `config.height`（Number）（可选）：canvas 区域的高度
+- `config.quality`（Number）（可选）：jpeg 质量。如果使用 "image/jpeg" mimeType，可以指定 0 到 1 之间的质量，其中 0 表示质量非常差，1 表示质量非常高
+- `config.pixelRatio`（Number）（可选）：输出图像的 pixelRatio。默认值为 1。可以使用此属性提高图像质量，例如用于超高质量导出或在 retina（或类似）显示屏上使用。pixelRatio 将用于乘以导出图像的大小。如果以 pixelRatio = 2 导出 500x500 大小，则生成的图像大小将为 1000x1000。
+- `config.imageSmoothingEnabled`（Boolean）（可选）：如果希望禁用 imageSmoothing，请将其设置为 false
 
-**Returns:** `Promise<Image>` 
+**返回值：** `Promise<Image>` 
 
-**Example:**
+**示例：**
 
 ```javascript
 var image = node.toImage({
@@ -689,22 +627,22 @@ var image = node.toImage({
 
 ### toBlob(config) {#toBlob}
 
-Converts node into a blob.  Since the toBlob method is asynchronous,  the resulting blob can only be retrieved from the config callback  or the returned Promise.
+将节点转换为 blob。由于 toBlob 方法是异步的，因此只能从 config 回调或返回的 Promise 中获取结果 blob。
 
-**Parameters:**
+**参数：**
 
-- `config` (Object)
-- `config.callback` (function) (optional): function executed when the composite has completed
-- `config.x` (Number) (optional): x position of canvas section
-- `config.y` (Number) (optional): y position of canvas section
-- `config.width` (Number) (optional): width of canvas section
-- `config.height` (Number) (optional): height of canvas section
-- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
-- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
+- `config`（Object）
+- `config.callback`（function）（可选）：组合完成时执行的函数
+- `config.x`（Number）（可选）：canvas 区域的 x 位置
+- `config.y`（Number）（可选）：canvas 区域的 y 位置
+- `config.width`（Number）（可选）：canvas 区域的宽度
+- `config.height`（Number）（可选）：canvas 区域的高度
+- `config.pixelRatio`（Number）（可选）：输出 canvas 的 pixelRatio。默认值为 1。可以使用此属性提高图像质量，例如用于超高质量导出或在 retina（或类似）显示屏上使用。pixelRatio 将用于乘以导出图像的大小。如果以 pixelRatio = 2 导出 500x500 大小，则生成的图像大小将为 1000x1000。
+- `config.imageSmoothingEnabled`（Boolean）（可选）：如果希望禁用 imageSmoothing，请将其设置为 false
 
-**Returns:** `Promise<Blob>` 
+**返回值：** `Promise<Blob>` 
 
-**Example:**
+**示例：**
 
 ```javascript
 var blob = await node.toBlob({});
@@ -712,27 +650,27 @@ var blob = await node.toBlob({});
 
 ### getClassName() {#getClassName}
 
-get class name, which may return Stage, Layer, Group, or shape class names like Rect, Circle, Text, etc.
+获取类名，可能返回 Stage、Layer、Group，或 Rect、Circle、Text 等图形类名
 
-**Returns:** `String` 
+**返回值：** `String` 
 
 ### getType() {#getType}
 
-get the node type, which may return Stage, Layer, Group, or Shape
+获取节点类型，可能返回 Stage、Layer、Group 或 Shape
 
-**Returns:** `String` 
+**返回值：** `String` 
 
 ### addName(name) {#addName}
 
-add name to node
+向节点添加名称
 
-**Parameters:**
+**参数：**
 
-- `name` (String)
+- `name`（String）
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.name('red');
@@ -742,15 +680,15 @@ node.name(); // return 'red selected'
 
 ### hasName(name) {#hasName}
 
-check is node has name
+检查节点是否具有名称
 
-**Parameters:**
+**参数：**
 
-- `name` (String)
+- `name`（String）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.name('red');
@@ -761,15 +699,15 @@ node.hasName(''); // return false
 
 ### removeName(name) {#removeName}
 
-remove name from node
+从节点移除名称
 
-**Parameters:**
+**参数：**
 
-- `name` (String)
+- `name`（String）
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.name('red selected');
@@ -780,16 +718,16 @@ node.name(); // return 'red'
 
 ### setAttr(attr, val) {#setAttr}
 
-set attr
+设置属性
 
-**Parameters:**
+**参数：**
 
-- `attr` (String)
-- `val` (*)
+- `attr`（String）
+- `val`（*）
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 node.setAttr('x', 5);
@@ -797,35 +735,35 @@ node.setAttr('x', 5);
 
 ### draw() {#draw}
 
-draw both scene and hit graphs.  If the node being drawn is the stage, all of the layers will be cleared and redrawn
+绘制场景图和命中图。如果正在绘制的节点是 stage，则会清除并重绘所有 layer
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
 ### startDrag() {#startDrag}
 
-initiate drag and drop.
+开始拖放。
 
 ### stopDrag() {#stopDrag}
 
-stop drag and drop
+停止拖放
 
 ### isDragging() {#isDragging}
 
-determine if node is currently in drag and drop mode
+确定节点当前是否处于拖放模式
 
 ### isClientRectOnScreen(margin) {#isClientRectOnScreen}
 
-determine if node (at least partially) is currently in user-visible area
+确定节点（至少部分）当前是否位于用户可见区域内
 
-**Parameters:**
+**参数：**
 
-- `margin` (Number|Object): optional margin in pixels
-- `margin.x` (Number)
-- `margin.y` (Number)
+- `margin`（Number|Object）：以像素为单位的可选边距
+- `margin.x`（Number）
+- `margin.y`（Number）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get index
@@ -837,24 +775,24 @@ var isOnScreen = node.isClientRectOnScreen({ x: stage.width(), y: stage.height()
 
 ### Node.create(json, container) {#Node.create}
 
-create node with JSON string or an Object.  De-serializtion does not generate custom  shape drawing functions, images, or event handlers (this would make the  serialized object huge).  If your app uses custom shapes, images, and  event handlers (it probably does), then you need to select the appropriate  shapes after loading the stage and set these properties via on(), setSceneFunc(),  and setImage() methods
+使用 JSON 字符串或对象创建节点。反序列化不会生成自定义图形绘制函数、图像或事件处理程序（否则会使序列化对象变得非常庞大）。如果应用使用自定义图形、图像和事件处理程序（很可能会使用），则需要在加载 stage 后选择相应的图形，并通过 on()、setSceneFunc() 和 setImage() 方法设置这些属性
 
-**Parameters:**
+**参数：**
 
-- `json` (String|Object): string or object
-- `container` (Element) (optional): optional container dom element used only if you're  creating a stage node
+- `json`（String|Object）：字符串或对象
+- `container`（Element）（可选）：仅在创建 stage 节点时使用的可选容器 dom 元素
 
 ### zIndex(index) {#zIndex}
 
-get/set zIndex relative to the node's siblings who share the same parent. Please remember that zIndex is not absolute (like in CSS). It is relative to parent element only.
+获取或设置相对于共享同一父节点的兄弟节点的 zIndex。请记住，zIndex 并不是绝对值（如 CSS 中那样），它只相对于父元素。
 
-**Parameters:**
+**参数：**
 
-- `index` (Number)
+- `index`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get index
@@ -866,17 +804,17 @@ node.zIndex(2);
 
 ### absolutePosition(pos) {#absolutePosition}
 
-get/set node absolute position
+获取或设置节点的绝对位置
 
-**Parameters:**
+**参数：**
 
-- `pos` (Object)
-- `pos.x` (Number)
-- `pos.y` (Number)
+- `pos`（Object）
+- `pos.x`（Number）
+- `pos.y`（Number）
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get position
@@ -891,17 +829,17 @@ node.absolutePosition({
 
 ### position(pos) {#position}
 
-get/set node position relative to parent
+获取或设置相对于父节点的节点位置
 
-**Parameters:**
+**参数：**
 
-- `pos` (Object)
-- `pos.x` (Number)
-- `pos.y` (Number)
+- `pos`（Object）
+- `pos.x`（Number）
+- `pos.y`（Number）
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get position
@@ -916,15 +854,15 @@ node.position({
 
 ### x(x) {#x}
 
-get/set x position
+获取或设置 x 位置
 
-**Parameters:**
+**参数：**
 
-- `x` (Number)
+- `x`（Number）
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get x
@@ -936,15 +874,15 @@ node.x(5);
 
 ### y(y) {#y}
 
-get/set y position
+获取或设置 y 位置
 
-**Parameters:**
+**参数：**
 
-- `y` (Number)
+- `y`（Number）
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get y
@@ -956,15 +894,15 @@ node.y(5);
 
 ### globalCompositeOperation(type) {#globalCompositeOperation}
 
-get/set globalCompositeOperation of a node. globalCompositeOperation DOESN'T affect hit graph of nodes. So they are still trigger to events as they have default "source-over" globalCompositeOperation.
+获取或设置节点的 globalCompositeOperation。globalCompositeOperation 不会影响节点的命中图。因此，它们仍会触发事件，因为它们使用默认的 "source-over" globalCompositeOperation。
 
-**Parameters:**
+**参数：**
 
-- `type` (String)
+- `type`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get globalCompositeOperation
@@ -976,15 +914,15 @@ shape.globalCompositeOperation('source-in');
 
 ### opacity(opacity) {#opacity}
 
-get/set opacity.  Opacity values range from 0 to 1.  A node with an opacity of 0 is fully transparent, and a node  with an opacity of 1 is fully opaque
+获取或设置不透明度。不透明度值范围为 0 到 1。不透明度为 0 的节点完全透明，不透明度为 1 的节点完全不透明
 
-**Parameters:**
+**参数：**
 
-- `opacity` (Object)
+- `opacity`（Object）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get opacity
@@ -996,15 +934,15 @@ node.opacity(0.5);
 
 ### name(name) {#name}
 
-get/set name.
+获取或设置名称。
 
-**Parameters:**
+**参数：**
 
-- `name` (String)
+- `name`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get name
@@ -1019,15 +957,15 @@ node.name('foo bar');
 
 ### id(id) {#id}
 
-get/set id. Id is global for whole page.
+获取或设置 id。Id 对整个页面是全局唯一的。
 
-**Parameters:**
+**参数：**
 
-- `id` (String)
+- `id`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get id
@@ -1039,15 +977,15 @@ node.id('foo');
 
 ### rotation(rotation) {#rotation}
 
-get/set rotation in degrees
+获取或设置以度为单位的旋转角度
 
-**Parameters:**
+**参数：**
 
-- `rotation` (Number)
+- `rotation`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get rotation in degrees
@@ -1059,17 +997,17 @@ node.rotation(45);
 
 ### scale(scale) {#scale}
 
-get/set scale
+获取或设置缩放
 
-**Parameters:**
+**参数：**
 
-- `scale` (Object)
-- `scale.x` (Number)
-- `scale.y` (Number)
+- `scale`（Object）
+- `scale.x`（Number）
+- `scale.y`（Number）
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get scale
@@ -1084,15 +1022,15 @@ shape.scale({
 
 ### scaleX(x) {#scaleX}
 
-get/set scale x
+获取或设置 x 轴缩放
 
-**Parameters:**
+**参数：**
 
-- `x` (Number)
+- `x`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get scale x
@@ -1104,15 +1042,15 @@ node.scaleX(2);
 
 ### scaleY(y) {#scaleY}
 
-get/set scale y
+获取或设置 y 轴缩放
 
-**Parameters:**
+**参数：**
 
-- `y` (Number)
+- `y`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get scale y
@@ -1124,17 +1062,17 @@ node.scaleY(2);
 
 ### skew(skew) {#skew}
 
-get/set skew
+获取或设置倾斜
 
-**Parameters:**
+**参数：**
 
-- `skew` (Object)
-- `skew.x` (Number)
-- `skew.y` (Number)
+- `skew`（Object）
+- `skew.x`（Number）
+- `skew.y`（Number）
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get skew
@@ -1149,15 +1087,15 @@ node.skew({
 
 ### skewX(x) {#skewX}
 
-get/set skew x
+获取或设置 x 轴倾斜
 
-**Parameters:**
+**参数：**
 
-- `x` (Number)
+- `x`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get skew x
@@ -1169,15 +1107,15 @@ node.skewX(3);
 
 ### skewY(y) {#skewY}
 
-get/set skew y
+获取或设置 y 轴倾斜
 
-**Parameters:**
+**参数：**
 
-- `y` (Number)
+- `y`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get skew y
@@ -1189,15 +1127,15 @@ node.skewY(3);
 
 ### offsetX(x) {#offsetX}
 
-get/set offset x
+获取或设置 x 轴偏移
 
-**Parameters:**
+**参数：**
 
-- `x` (Number)
+- `x`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get offset x
@@ -1209,15 +1147,15 @@ node.offsetX(3);
 
 ### offsetY(y) {#offsetY}
 
-get/set offset y
+获取或设置 y 轴偏移
 
-**Parameters:**
+**参数：**
 
-- `y` (Number)
+- `y`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get offset y
@@ -1229,15 +1167,15 @@ node.offsetY(3);
 
 ### dragDistance(distance) {#dragDistance}
 
-get/set drag distance
+获取或设置拖动距离
 
-**Parameters:**
+**参数：**
 
-- `distance` (Number)
+- `distance`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get drag distance
@@ -1252,15 +1190,15 @@ Konva.dragDistance = 3;
 
 ### width(width) {#width}
 
-get/set width
+获取或设置宽度
 
-**Parameters:**
+**参数：**
 
-- `width` (Number)
+- `width`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get width
@@ -1272,15 +1210,15 @@ node.width(100);
 
 ### height(height) {#height}
 
-get/set height
+获取或设置高度
 
-**Parameters:**
+**参数：**
 
-- `height` (Number)
+- `height`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get height
@@ -1292,15 +1230,15 @@ node.height(100);
 
 ### listening(listening) {#listening}
 
-get/set listening attr.  If you need to determine if a node is listening or not   by taking into account its parents, use the isListening() method   nodes with listening set to false will not be detected in hit graph   so they will be ignored in container.getIntersection() method
+获取或设置 listening 属性。如果需要综合考虑父节点来确定节点是否监听事件，请使用 isListening() 方法。将 listening 设置为 false 的节点不会在命中图中被检测到，因此会在 container.getIntersection() 方法中被忽略
 
-**Parameters:**
+**参数：**
 
-- `listening` (Boolean): Can be true, or false.  The default is true.
+- `listening`（Boolean）：可以是 true 或 false。默认值为 true。
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get listening attr
@@ -1315,15 +1253,15 @@ node.listening(true);
 
 ### preventDefault(preventDefault) {#preventDefault}
 
-get/set preventDefault By default all shapes will prevent default behavior of a browser on a pointer move or tap. that will prevent native scrolling when you are trying to drag&drop a node but sometimes you may need to enable default actions in that case you can set the property to false
+获取或设置 preventDefault。默认情况下，所有图形都会阻止浏览器在指针移动或点击时的默认行为。这会在尝试拖放节点时阻止原生滚动，但有时可能需要启用默认操作，此时可以将该属性设置为 false
 
-**Parameters:**
+**参数：**
 
-- `preventDefault` (Boolean)
+- `preventDefault`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get preventDefault
@@ -1335,15 +1273,15 @@ shape.preventDefault(false);
 
 ### filters(filters) {#filters}
 
-get/set filters. Supports function filters, CSS filter strings, or mixed arrays. CSS filters are applied using native browser performance when possible, function filters use ImageData manipulation. CSS filters automatically fall back to function filters in unsupported browsers.
+获取或设置滤镜。支持函数滤镜、CSS 滤镜字符串或混合数组。CSS 滤镜在可能的情况下使用原生浏览器性能应用，函数滤镜使用 ImageData 操作。CSS 滤镜在不受支持的浏览器中会自动回退到函数滤镜。
 
-**Parameters:**
+**参数：**
 
-- `filters` (Array): array of filter functions and/or CSS filter strings
+- `filters`（Array）：滤镜函数和／或 CSS 滤镜字符串的数组
 
-**Returns:** `Array` 
+**返回值：** `Array` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get filters
@@ -1367,15 +1305,15 @@ node.filters([
 
 ### visible(visible) {#visible}
 
-get/set visible attr.  Can be true, or false.  The default is true.   If you need to determine if a node is visible or not   by taking into account its parents, use the isVisible() method
+获取或设置 visible 属性。可以是 true 或 false。默认值为 true。如果需要综合考虑父节点来确定节点是否可见，请使用 isVisible() 方法
 
-**Parameters:**
+**参数：**
 
-- `visible` (Boolean)
+- `visible`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get visible attr
@@ -1390,15 +1328,15 @@ node.visible(true);
 
 ### transformsEnabled(enabled) {#transformsEnabled}
 
-get/set transforms that are enabled.  Can be "all", "none", or "position".  The default  is "all"
+获取或设置启用的变换。可以是 "all"、"none" 或 "position"。默认值为 "all"
 
-**Parameters:**
+**参数：**
 
-- `enabled` (String)
+- `enabled`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // enable position transform only to improve draw performance
@@ -1410,17 +1348,17 @@ node.transformsEnabled('all');
 
 ### size(size) {#size}
 
-get/set node size
+获取或设置节点大小
 
-**Parameters:**
+**参数：**
 
-- `size` (Object)
-- `size.width` (Number)
-- `size.height` (Number)
+- `size`（Object）
+- `size.width`（Number）
+- `size.height`（Number）
 
-**Returns:** `Object` 
+**返回值：** `Object` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get node size
@@ -1437,15 +1375,15 @@ node.size({
 
 ### dragBoundFunc(dragBoundFunc) {#dragBoundFunc}
 
-get/set drag bound function.  This is used to override the default  drag and drop position.
+获取或设置拖动边界函数。用于覆盖默认的拖放位置。
 
-**Parameters:**
+**参数：**
 
-- `dragBoundFunc` (function)
+- `dragBoundFunc`（function）
 
-**Returns:** `function` 
+**返回值：** `function` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get drag bound function
@@ -1464,15 +1402,15 @@ node.dragBoundFunc(function(pos){
 
 ### draggable(draggable) {#draggable}
 
-get/set draggable flag
+获取或设置可拖动标志
 
-**Parameters:**
+**参数：**
 
-- `draggable` (Boolean)
+- `draggable`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get draggable flag
@@ -1487,13 +1425,13 @@ node.draggable(false);
 
 ### to(params) {#to}
 
-Tween node properties. Shorter usage of [Konva.Tween](/api/Konva.Tween.html) object.
+补间节点属性。[Konva.Tween](/api/Konva.Tween.html) 对象的简写用法。
 
-**Parameters:**
+**参数：**
 
-- `params` (Object) (optional): tween params
+- `params`（Object）（可选）：补间参数
 
-**Example:**
+**示例：**
 
 ```javascript
 circle.to({
@@ -1506,271 +1444,271 @@ circle.to({
 
 ### blurRadius(radius) {#blurRadius}
 
-get/set blur radius. Use with [Konva.Filters.Blur](/api/Konva.Filters.html#Blur) filter
+获取或设置模糊半径。与 [Konva.Filters.Blur](/api/Konva.Filters.html#Blur) 滤镜一起使用
 
-**Parameters:**
+**参数：**
 
-- `radius` (Integer)
+- `radius`（Integer）
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### brightness(brightness) {#brightness}
 
-get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values  brighten the pixels and negative values darken them. Use with [Konva.Filters.Brighten](/api/Konva.Filters.html#Brighten) filter.
+获取或设置滤镜亮度。亮度是 -1 到 1 之间的数字。正值会使像素变亮，负值会使像素变暗。与 [Konva.Filters.Brighten](/api/Konva.Filters.html#Brighten) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `brightness` (Number): value between -1 and 1
+- `brightness`（Number）：-1 到 1 之间的值
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### contrast(contrast) {#contrast}
 
-get/set filter contrast.  The contrast is a number between -100 and 100. Use with [Konva.Filters.Contrast](/api/Konva.Filters.html#Contrast) filter.
+获取或设置滤镜对比度。对比度是 -100 到 100 之间的数字。与 [Konva.Filters.Contrast](/api/Konva.Filters.html#Contrast) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `contrast` (Number): value between -100 and 100
+- `contrast`（Number）：-100 到 100 之间的值
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### embossStrength(level) {#embossStrength}
 
-get/set emboss strength. Use with [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) filter.
+获取或设置浮雕强度。与 [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `level` (Number): between 0 and 1.  Default is 0.5
+- `level`（Number）：介于 0 和 1 之间。默认值为 0.5
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### embossWhiteLevel(embossWhiteLevel) {#embossWhiteLevel}
 
-get/set emboss white level. Use with [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) filter.
+获取或设置浮雕白色级别。与 [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `embossWhiteLevel` (Number): between 0 and 1.  Default is 0.5
+- `embossWhiteLevel`（Number）：介于 0 和 1 之间。默认值为 0.5
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### embossDirection(embossDirection) {#embossDirection}
 
-get/set emboss direction. Use with [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) filter.
+获取或设置浮雕方向。与 [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `embossDirection` (String): can be top-left, top, top-right, right, bottom-right, bottom, bottom-left or left   The default is top-left
+- `embossDirection`（String）：可以是 top-left、top、top-right、right、bottom-right、bottom、bottom-left 或 left。默认值为 top-left
 
-**Returns:** `String` 
+**返回值：** `String` 
 
 ### embossBlend(embossBlend) {#embossBlend}
 
-get/set emboss blend. Use with [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) filter.
+获取或设置浮雕混合。与 [Konva.Filters.Emboss](/api/Konva.Filters.html#Emboss) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `embossBlend` (Boolean)
+- `embossBlend`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### enhance(amount) {#enhance}
 
-get/set enhance. Use with [Konva.Filters.Enhance](/api/Konva.Filters.html#Enhance) filter. -1 to 1 values
+获取或设置增强。与 [Konva.Filters.Enhance](/api/Konva.Filters.html#Enhance) 滤镜一起使用。值范围为 -1 到 1
 
-**Parameters:**
+**参数：**
 
-- `amount` (Float)
+- `amount`（Float）
 
-**Returns:** `Float` 
+**返回值：** `Float` 
 
 ### hue(hue) {#hue}
 
-get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) or [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) filter.
+获取或设置以度为单位的 hsv 色相。与 [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) 或 [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `hue` (Number): value between 0 and 359
+- `hue`（Number）：0 到 359 之间的值
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### saturation(saturation) {#saturation}
 
-get/set hsv saturation. Use with [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) or [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) filter.
+获取或设置 hsv 饱和度。与 [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) 或 [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `saturation` (Number): 0 is no change, -1.0 halves the saturation, 1.0 doubles, etc..
+- `saturation`（Number）：0 表示不变，-1.0 表示饱和度减半，1.0 表示加倍，依此类推..
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### luminance(value) {#luminance}
 
-get/set hsl luminance. Use with [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) filter.
+获取或设置 hsl 亮度。与 [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `value` (Number): from -1 to 1
+- `value`（Number）：范围为 -1 到 1
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### hue(hue) {#hue}
 
-get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) or [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) filter.
+获取或设置以度为单位的 hsv 色相。与 [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) 或 [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `hue` (Number): value between 0 and 359
+- `hue`（Number）：0 到 359 之间的值
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### saturation(saturation) {#saturation}
 
-get/set hsv saturation. Use with [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) or [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) filter.
+获取或设置 hsv 饱和度。与 [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) 或 [Konva.Filters.HSL](/api/Konva.Filters.html#HSL) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `saturation` (Number): 0 is no change, -1.0 halves the saturation, 1.0 doubles, etc..
+- `saturation`（Number）：0 表示不变，-1.0 表示饱和度减半，1.0 表示加倍，依此类推..
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### value(value) {#value}
 
-get/set hsv value. Use with [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) filter.
+获取或设置 hsv 值。与 [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `value` (Number): 0 is no change, -1.0 halves the value, 1.0 doubles, etc..
+- `value`（Number）：0 表示不变，-1.0 表示值减半，1.0 表示加倍，依此类推..
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### kaleidoscopePower(power) {#kaleidoscopePower}
 
-get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html#Kaleidoscope) filter.
+获取或设置万花筒强度。与 [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `power` (Integer): of kaleidoscope
+- `power`（Integer）：万花筒强度
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### kaleidoscopeAngle(degrees) {#kaleidoscopeAngle}
 
-get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html#Kaleidoscope) filter.
+获取或设置万花筒角度。与 [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `degrees` (Integer)
+- `degrees`（Integer）
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### noise(noise) {#noise}
 
-get/set noise amount.  Must be a value between 0 and 1. Use with [Konva.Filters.Noise](/api/Konva.Filters.html#Noise) filter.
+获取或设置噪声量。必须是 0 到 1 之间的值。与 [Konva.Filters.Noise](/api/Konva.Filters.html#Noise) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `noise` (Number)
+- `noise`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
 ### pixelSize(pixelSize) {#pixelSize}
 
-get/set pixel size. Use with [Konva.Filters.Pixelate](/api/Konva.Filters.html#Pixelate) filter.
+获取或设置像素大小。与 [Konva.Filters.Pixelate](/api/Konva.Filters.html#Pixelate) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `pixelSize` (Integer)
+- `pixelSize`（Integer）
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### levels(level) {#levels}
 
-get/set levels.  Must be a number between 0 and 1.  Use with [Konva.Filters.Posterize](/api/Konva.Filters.html#Posterize) filter.
+获取或设置级别。必须是 0 到 1 之间的数字。与 [Konva.Filters.Posterize](/api/Konva.Filters.html#Posterize) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `level` (Number): between 0 and 1
+- `level`（Number）：介于 0 和 1 之间
 
-**Returns:** `Number` 
-
-### red(red) {#red}
-
-get/set filter red value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) filter.
-
-**Parameters:**
-
-- `red` (Integer): value between 0 and 255
-
-**Returns:** `Integer` 
-
-### green(green) {#green}
-
-get/set filter green value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) filter.
-
-**Parameters:**
-
-- `green` (Integer): value between 0 and 255
-
-**Returns:** `Integer` 
-
-### blue(blue) {#blue}
-
-get/set filter blue value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) filter.
-
-**Parameters:**
-
-- `blue` (Integer): value between 0 and 255
-
-**Returns:** `Integer` 
+**返回值：** `Number` 
 
 ### red(red) {#red}
 
-get/set filter red value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
+获取或设置滤镜红色值。与 [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `red` (Integer): value between 0 and 255
+- `red`（Integer）：0 到 255 之间的值
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### green(green) {#green}
 
-get/set filter green value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
+获取或设置滤镜绿色值。与 [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `green` (Integer): value between 0 and 255
+- `green`（Integer）：0 到 255 之间的值
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
 
 ### blue(blue) {#blue}
 
-get/set filter blue value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
+获取或设置滤镜蓝色值。与 [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `blue` (Integer): value between 0 and 255
+- `blue`（Integer）：0 到 255 之间的值
 
-**Returns:** `Integer` 
+**返回值：** `Integer` 
+
+### red(red) {#red}
+
+获取或设置滤镜红色值。与 [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) 滤镜一起使用。
+
+**参数：**
+
+- `red`（Integer）：0 到 255 之间的值
+
+**返回值：** `Integer` 
+
+### green(green) {#green}
+
+获取或设置滤镜绿色值。与 [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) 滤镜一起使用。
+
+**参数：**
+
+- `green`（Integer）：0 到 255 之间的值
+
+**返回值：** `Integer` 
+
+### blue(blue) {#blue}
+
+获取/设置滤镜 blue 值。与 [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) 滤镜一起使用。
+
+**参数：**
+
+- `blue`（Integer）：介于 0 和 255 之间的值
+
+**返回值：** `Integer` 
 
 ### alpha(alpha) {#alpha}
 
-get/set filter alpha value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
+获取/设置滤镜 alpha 值。与 [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `alpha` (Float): value between 0 and 1
+- `alpha`（Float）：介于 0 和 1 之间的值
 
-**Returns:** `Float` 
+**返回值：** `Float` 
 
 ### threshold(threshold) {#threshold}
 
-get/set threshold.  Must be a value between 0 and 1. Use with [Konva.Filters.Threshold](/api/Konva.Filters.html#Threshold) or [Konva.Filters.Mask](/api/Konva.Filters.html#Mask) filter.
+获取/设置 threshold。必须是介于 0 和 1 之间的值。与 [Konva.Filters.Threshold](/api/Konva.Filters.html#Threshold) 或 [Konva.Filters.Mask](/api/Konva.Filters.html#Mask) 滤镜一起使用。
 
-**Parameters:**
+**参数：**
 
-- `threshold` (Number)
+- `threshold`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 

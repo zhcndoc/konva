@@ -10,14 +10,4 @@ description: "学习如何使用 svelte-konva 中的 draggable 属性和绑定�
 
 svelte-konva 会在 `dragend` 事件时自动保持相关属性（如 x，y）与 Konva 节点同步。有关更多详细信息，请参见 [绑定](/docs/svelte/Bindings.html) 文档页面。
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/drag_and_drop?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe loading="lazy" src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/drag_and_drop?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

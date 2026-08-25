@@ -1,26 +1,26 @@
 ---
-title: 如何在画布上调整形状大小而不改变其描边大小？
+title: 如何在不改变形状描边大小的情况下调整画布上的形状大小？
 sidebar_label: 忽略描边
 hide_table_of_contents: true
 slug: Ignore_Stroke_On_Transform.html
-description: "使用 Konva Transformer 的 ignoreStroke 和 strokeScaleEnabled 在形状调整大小时防止描边宽度缩放。"
+description: "使用 Konva Transformer 的 ignoreStroke 和 strokeScaleEnabled，防止调整形状大小时描边宽度缩放"
 ---
 
-请记住，`Konva.Transformer` 会更改节点的 `scaleX` 和 `scaleY` 属性。
-默认情况下，如果您变换一个形状，其描边也会被缩放。在某些情况下，这不是理想的行为。
+请记住，`Konva.Transformer` 会更改节点的 `scaleX` 和 `scaleY` 属性。  
+默认情况下，如果你正在变换一个形状，它的描边也会随之缩放。在某些情况下，这并不是理想的行为。
 
 有两种方法可以防止描边缩放：
 
-1. 重置形状的缩放
-2. 结合使用 `shape.strokeScaleEnabled(false)` 和 `transformer.ignoreStroke(false)`
+1. 重置形状的缩放比例
+2. 使用 `shape.strokeScaleEnabled(false)` 和 `transformer.ignoreStroke(true)`
 
-**说明：有两个矩形可调整大小。绿色矩形将重置其缩放。红色矩形将仅禁用描边缩放。**
+**说明：有两个矩形可以调整大小。绿色矩形会重置其缩放比例。红色矩形只会禁用描边缩放。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="原生" default>
+  <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
@@ -36,7 +36,7 @@ height: height,
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// 第一种方式 - 在变换结束时重置缩放
+// first way - reset scale on transform end
 const rect1 = new Konva.Rect({
 x: 50,
 y: 50,
@@ -55,15 +55,16 @@ nodes: [rect1],
 layer.add(tr1);
 
 rect1.on('transformend', () => {
-// 变换后我们需要重置缩放
+const scaleX = rect1.scaleX();
+const scaleY = rect1.scaleY();
+// apply the scale to the size, then reset it
 rect1.scaleX(1);
 rect1.scaleY(1);
-// 并手动增加宽度和高度
-rect1.width(rect1.width() - rect1.scaleX());
-rect1.height(rect1.height() - rect1.scaleY());
+rect1.width(Math.max(5, rect1.width() * scaleX));
+rect1.height(Math.max(5, rect1.height() * scaleY));
 });
 
-// 第二种方式 - 禁用描边缩放
+// second way - disable stroke scaling
 const rect2 = new Konva.Rect({
 x: 200,
 y: 50,
@@ -91,10 +92,13 @@ import { Stage, Layer, Rect, Transformer } from 'react-konva';
 import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
-  const [rect1Size, setRect1Size] = useState({
+  const [rect1Attrs, setRect1Attrs] = useState({
+    x: 50,
+    y: 50,
     width: 100,
     height: 100,
   });
+  const [rect2Position, setRect2Position] = useState({ x: 200, y: 50 });
 
   const rect1Ref = useRef();
   const rect2Ref = useRef();
@@ -110,30 +114,39 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
-          width={rect1Size.width}
-          height={rect1Size.height}
+          x={rect1Attrs.x}
+          y={rect1Attrs.y}
+          width={rect1Attrs.width}
+          height={rect1Attrs.height}
           fill="#00ff00"
           stroke="black"
           strokeWidth={5}
           draggable
           ref={rect1Ref}
+          onDragEnd={(e) => {
+            setRect1Attrs((attrs) => ({
+              ...attrs,
+              ...e.target.position(),
+            }));
+          }}
           onTransformEnd={(e) => {
             const node = rect1Ref.current;
-            setRect1Size({
+            const nextAttrs = {
+              x: node.x(),
+              y: node.y(),
               width: node.width() * node.scaleX(),
               height: node.height() * node.scaleY(),
-            });
+            };
             node.scaleX(1);
             node.scaleY(1);
+            setRect1Attrs(nextAttrs);
           }}
         />
         <Transformer ref={tr1Ref} />
 
         <Rect
-          x={200}
-          y={50}
+          x={rect2Position.x}
+          y={rect2Position.y}
           width={100}
           height={100}
           fill="#ff0000"
@@ -142,6 +155,8 @@ const App = () => {
           draggable
           strokeScaleEnabled={false}
           ref={rect2Ref}
+          onDragEnd={(e) => setRect2Position(e.target.position())}
+          onTransformEnd={(e) => setRect2Position(e.target.position())}
         />
         <Transformer ref={tr2Ref} ignoreStroke={true} />
       </Layer>
@@ -181,7 +196,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 
 const stageSize = {
   width: window.innerWidth,
@@ -193,7 +208,7 @@ const rect1Size = ref({
   height: 100
 });
 
-const rect1Config = {
+const rect1Config = computed(() => ({
   x: 50,
   y: 50,
   width: rect1Size.value.width,
@@ -202,7 +217,7 @@ const rect1Config = {
   stroke: 'black',
   strokeWidth: 5,
   draggable: true
-};
+}));
 
 const rect2Config = {
   x: 200,
@@ -245,4 +260,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

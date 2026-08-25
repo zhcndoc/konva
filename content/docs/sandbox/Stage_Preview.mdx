@@ -1,6 +1,6 @@
 ---
-title: 如何使用 Konva 在画布上预览大舞台？
-sidebar_label: 舞台预览
+title: Canvas 小地图——大型 Konva 舞台预览
+sidebar_label: 小地图／舞台预览
 hide_table_of_contents: true
 slug: Stage_Preview.html
 description: "使用克隆节点或图像导出生成大型 Konva 画布的小型小地图预览。"
@@ -11,14 +11,14 @@ description: "使用克隆节点或图像导出生成大型 Konva 画布的小�
 生成小预览的方法有很多种。`Konva` 并没有提供任何自动执行此操作的方法。
 但我们可以使用 `Konva` 的方法手动生成预览区域。
 
-我们将展示两种选项 - 克隆和使用图像。在大型应用程序中，从应用的状态生成预览更为合适。
+我们将展示两种选项——克隆和使用图像。在大型应用程序中，从应用的状态生成预览更为合适。
 
 ### 从主舞台克隆节点
 
 我们可以简单地克隆舞台或图层，并从主画布区域的状态更新其内部节点。
 同时，简化预览上的形状也是有意义的。比如隐藏文本，去掉轮廓和阴影等。
 
-说明：尝试拖动圆形，双击以添加新的圆形。预览将在您完成拖动（dragend）或添加新形状后更新。
+说明：尝试拖动圆形并双击以添加新圆形。预览会在拖动过程中或添加形状后更新。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -158,7 +158,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onDblClick={handleDblClick}
-        onTap={handleDblClick}
+        onDblTap={handleDblClick}
       >
         <Layer>
           {shapes.map(shape => (
@@ -211,7 +211,7 @@ export default App;
     <v-stage
       :config="stageConfig"
       @dblclick="handleDblClick"
-      @tap="handleDblClick"
+      @dbltap="handleDblClick"
     >
       <v-layer>
         <v-circle
@@ -408,14 +408,13 @@ const App = () => {
 
   React.useEffect(() => {
     updatePreview();
-  }, [updatePreview]);
+  }, [shapes, updatePreview]);
 
   const handleDragEnd = (e, id) => {
     const { x, y } = e.target.position();
     setShapes(shapes.map(shape => 
       shape.id === id ? { ...shape, x, y } : shape
     ));
-    updatePreview();
   };
 
   const handleDblClick = (e) => {
@@ -429,7 +428,6 @@ const App = () => {
       fill: getRandomColor(),
     };
     setShapes([...shapes, newShape]);
-    updatePreview();
   };
 
   return (
@@ -439,7 +437,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onDblClick={handleDblClick}
-        onTap={handleDblClick}
+        onDblTap={handleDblClick}
       >
         <Layer>
           {shapes.map(shape => (
@@ -478,7 +476,7 @@ export default App;
       ref="stageRef"
       :config="stageConfig"
       @dblclick="handleDblClick"
-      @tap="handleDblClick"
+      @dbltap="handleDblClick"
     >
       <v-layer>
         <v-circle
@@ -501,7 +499,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { nextTick, ref, onMounted } from 'vue';
 
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
@@ -537,15 +535,16 @@ const updatePreview = () => {
   previewUrl.value = url;
 };
 
-const handleDragEnd = (e, id) => {
+const handleDragEnd = async (e, id) => {
   const { x, y } = e.target.position();
   shapes.value = shapes.value.map(shape =>
     shape.id === id ? { ...shape, x, y } : shape
   );
+  await nextTick();
   updatePreview();
 };
 
-const handleDblClick = (e) => {
+const handleDblClick = async (e) => {
   const stage = e.target.getStage();
   const pos = stage.getPointerPosition();
   const newShape = {
@@ -556,6 +555,7 @@ const handleDblClick = (e) => {
     fill: getRandomColor(),
   };
   shapes.value.push(newShape);
+  await nextTick();
   updatePreview();
 };
 

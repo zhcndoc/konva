@@ -8,7 +8,7 @@ description: "演示渲染 20,000 个可拖动圆形，带有工具提示和事�
 
 本实验的目的是通过渲染 20000 个圆形来展示 Konva 能处理的节点数量。每个圆形对鼠标悬停事件敏感，可以被拖动并放置。这个实验还很好地演示了事件委托，其中附加到舞台的单个事件处理器处理的是圆形事件。
 
-**说明:** 将鼠标悬停在节点上以查看更多信息，然后在舞台上拖动和放置它们。
+**说明：** 将鼠标悬停在节点上以查看更多信息，然后在舞台上拖动和放置它们。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -151,11 +151,11 @@ stage.on('mouseup', function (evt) {
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { Stage, Layer, Circle, Label, Tag, Text } from 'react-konva';
 
-const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown, onMouseUp }) => {
-  // 只有在节点数组引用更改时才重新渲染
+const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown, onMouseUp, onDragEnd }) => {
+  // Only re-render when the nodes array reference changes
   return (
     <Layer>
       {nodes.map(node => (
@@ -171,6 +171,7 @@ const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown
           onDragMove={onMouseMove}
           onMouseDown={e => onMouseDown(e, node)}
           onMouseUp={e => onMouseUp(e, node)}
+          onDragEnd={e => onDragEnd(e, node.id)}
           draggable
         />
       ))}
@@ -230,8 +231,8 @@ const App = () => {
     text: ''
   });
   
-  // 节点数据的状态 - 使用 useMemo 确保在重新渲染时不会重新生成
-  const nodes = useMemo(() => {
+  // Keep positions in state, but update only after a drag for this large scene.
+  const [nodes, setNodes] = useState(() => {
     const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
     const data = [];
     
@@ -247,7 +248,7 @@ const App = () => {
     }
     
     return data;
-  }, [width, height]);
+  });
   
   // 事件处理程序 - 包装在 useCallback 中以防止在每次渲染时重新创建函数
   const handleMouseOver = useCallback((e, node) => {
@@ -285,6 +286,13 @@ const App = () => {
   const handleMouseUp = useCallback((e, node) => {
     // 如果需要，处理拖动
   }, []);
+
+  const handleDragEnd = useCallback((e, id) => {
+    const { x, y } = e.target.position();
+    setNodes(current =>
+      current.map(node => (node.id === id ? { ...node, x, y } : node))
+    );
+  }, []);
   
   return (
     <Stage width={width} height={height}>
@@ -296,6 +304,7 @@ const App = () => {
         onMouseOut={handleMouseOut}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onDragEnd={handleDragEnd}
       />
       
       {/* 拖动层 - 如果需要 */}

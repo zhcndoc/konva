@@ -6,11 +6,11 @@ slug: Transform_Events.html
 description: "了解如何使用 Konva.js Transformer 监听 HTML5 Canvas 上的变换和调整大小事件。处理 transformstart、transform 和 transformend。"
 ---
 
-`Konva.Transformer` 对象具有特殊的变换事件，您可以在应用程序中使用这些事件：`transformstart`、`transform` 和 `transformend`。
+`Konva.Transformer` 对象具有可在应用中使用的特殊变换事件：`transformstart`、`transform` 和 `transformend`。
 
-这些事件也会在附加的节点上触发。
+这些事件也会在关联的节点上触发。
 
-**说明：打开控制台，尝试变换，查看日志**
+**说明：打开控制台，尝试进行变换，查看日志**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -77,9 +77,10 @@ console.log('rect transform end');
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 50, y: 50 });
   const rectRef = useRef();
   const trRef = useRef();
 
@@ -91,17 +92,21 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={100}
           fill="yellow"
           stroke="black"
           draggable
           ref={rectRef}
+          onDragEnd={(e) => setRectPosition(e.target.position())}
           onTransformStart={() => console.log('rect transform start')}
           onTransform={() => console.log('rect transforming')}
-          onTransformEnd={() => console.log('rect transform end')}
+          onTransformEnd={(e) => {
+            console.log('rect transform end');
+            setRectPosition(e.target.position());
+          }}
         />
         <Transformer
           ref={trRef}
@@ -172,4 +177,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

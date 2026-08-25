@@ -65,7 +65,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
             y: node.y(),
             // 设定最小值
             width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
+            height: Math.max(5, node.height() * scaleY),
           });
         }}
       />
@@ -147,5 +147,9 @@ const App = () => {
   );
 };
 
-export default App;
+export default App; 
 ```
+
+## Transformer 不会做什么
+
+`Transformer` 绘制控制点并应用缩放。吸附到其他对象、对齐辅助线、多选共享边界框以及每个形状的纵横比规则都需要由你自行构建——请参阅[对象吸附](/docs/sandbox/Objects_Snapping.html)了解一种实现方式。

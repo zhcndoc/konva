@@ -1,41 +1,64 @@
-# Website
+# Konva website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This repository contains the Konva documentation website. Docusaurus builds the site from files in `content/`.
 
-### Installation
+## Set up the project
 
-```
-$ yarn
-```
+Use Node.js 18 or a later version.
 
-### Local Development
-
-```
-$ yarn start
+```bash
+npm install
+npm start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+The development server reloads most changes without a restart.
 
-### Build
+## Run checks
 
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
+```bash
+npm run check
 ```
 
-Not using SSH:
+This command checks the canonical English site. It checks code fences, the demo
+gallery, Sandpack dependencies, controlled React drag handlers, TypeScript, the
+build, first-load performance rules, the sitemap, and generated Markdown pages.
 
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
+Use the separate commands when you must isolate a failure:
+
+```bash
+npm run typecheck
+npm run build:core
+node checksitemap.js
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+`npm run build` builds English and every installed locale for deployment.
+`scripts/generate-llms.js` then writes a Markdown twin of each documentation page.
+
+## Add content
+
+- Add tutorials and reference articles to `content/docs/`.
+- Add complete application guides to `content/docs/`.
+- Do not edit files in `content/api/` by hand.
+- Run `node create-api-docs.js` after an API input change.
+
+Each document must have a title, sidebar label, slug, and description. Internal links must use the full `.html` route.
+
+## Translate content
+
+Chinese is an optional addition. English files are canonical and do not import it.
+Delete `i18n/zh-Hans/` to remove the locale; no English file or build command needs
+another change.
+
+Test the installed translation separately:
+
+```bash
+npm run check:i18n
+```
+
+Run this command after you add translatable interface text:
+
+```bash
+npm run write-translations -- --locale zh-Hans
+```
+
+Translated documents are in `i18n/zh-Hans/docusaurus-plugin-content-docs/current/`.

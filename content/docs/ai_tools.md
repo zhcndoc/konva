@@ -9,7 +9,7 @@ description: "使用 AI 更快地构建 Konva.js 应用。与经过 Konva 文档
 
 ## 使用 Konva 和 AI 进行编码
 
-我们拥有多种 AI 工具，帮助您更快地构建 Konva 应用。所有这些工具均由 [CrawlChat](https://crawlchat.app/) 提供支持。
+我们提供了多种 AI 工具，帮助您更快地构建 Konva 应用。所有这些工具均由 [CrawlChat](https://www.crawlchat.com/) 提供支持。
 
 AI 代理广泛使用 Konva 文档来回答您的问题。请记住它是一个 LLM（大型语言模型），就像任何现代 LLM 一样，它可能会给出错误的答案。
 
@@ -24,8 +24,6 @@ AI 代理广泛使用 Konva 文档来回答您的问题。请记住它是一个 
 MCP 是一种标准协议，用于将 AI 编码工具连接到外部文档。通过 Konva MCP 服务器，Cursor、Claude Desktop 和 Windsurf 等工具在帮助您编写代码时可以直接访问 Konva 文档。
 
 ### Cursor
-
-有关视频说明，请参阅 [此指南](https://guides.crawlchat.app/walkthrough/67db0080600010f091e529b7)。
 
 将以下内容添加到您的 Cursor MCP 设置中：
 
@@ -90,9 +88,8 @@ npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 
 Konva 为 AI 工具提供机器可读的文档文件：
 
-- [`/llms.txt`](/llms.txt) — Konva 的简明摘要，包含关键文档链接（遵循 [llms-txt.org](https://llms-txt.org/) 标准）
-- [`/llms-full.txt`](/llms-full.txt) — 纯文本格式的完整 API 参考，从 Konva 的 API 文档自动生成
-- [`/.well-known/ai-plugin.json`](/.well-known/ai-plugin.json) — 描述 Konva 功能的机器可读身份文件
+- [`/llms.txt`](/llms.txt) — Konva 的简明概述及关键文档链接（遵循 [llmstxt.org](https://llmstxt.org/) 标准）
+- [`<page>.md`](pathname:///docs/overview.md) — 每个文档页面也会在相同路径下以带有 `.md` 扩展名的纯 Markdown 形式提供
 
 这些文件帮助 AI 助手提供有关 Konva 的准确答案。
 
@@ -103,4 +100,4 @@ Konva 为 AI 工具提供机器可读的文档文件：
 - 在提示词中明确提及"Konva"或"react-konva"
 - 引用特定的 Konva 功能（例如"Transformer"、"Layer"、"toDataURL"）
 - 一次询问一个任务，而不是合并多个问题
-- 根据 [Konva 文档](https://konvajs.org/docs/overview.html) 和 [API 参考](https://konvajs.org/api/Konva.html) 验证 AI 生成的代码
+- 根据 [Konva 文档](https://konvajs.org/docs/overview.html) 和 [API 参考](https://konvajs.org/api/Konva.html) 验证 AI 生成的代码。

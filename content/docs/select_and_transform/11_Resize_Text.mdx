@@ -1,14 +1,15 @@
 ---
-title: 如何在画布上调整文本大小？
-sidebar_label: 调整文本
+title: 如何调整画布上的文本大小？
+sidebar_label: 调整文本大小
 hide_table_of_contents: true
 slug: Resize_Text.html
-description: "学习如何使用 Konva.js 在 HTML5 Canvas 上调整文本大小。当使用 Transformer 缩放文本形状时更改字体大小。"
+description: "了解如何使用 Konva.js 在 HTML5 Canvas 上调整文本大小。在使用 Transformer 缩放 Text 图形时更改字体大小。"
 ---
 
-请记住，`Konva.Transformer` 会改变节点的 `scaleX` 和 `scaleY` 属性。如果您想在不改变文本大小的情况下更改文本的宽度，您应该将文本的缩放重置为 1，并相应地调整 `width`。
+请记住，`Konva.Transformer` 会修改节点的 `scaleX` 和 `scaleY` 属性。
+如果你想更改文本的宽度而不改变其大小，则应将文本的缩放比例重置为 1，并相应地调整 `width`。
 
-您可以使用 `transform` 事件根据需要更新文本的属性。
+你可以使用 `transform` 事件根据需要更新文本的属性。
 
 **说明：尝试调整文本大小。**
 
@@ -44,14 +45,14 @@ layer.add(text);
 
 const tr = new Konva.Transformer({
 nodes: [text],
-// 仅启用一个锚点，以便更好地查看正在发生的事情
-// 我们只改变宽度
+// enable only one anchor to see better what is happening
+// we are changing width only
 enabledAnchors: ['middle-left', 'middle-right'],
 });
 layer.add(tr);
 
 text.on('transform', function () {
-// 在变换时重置缩放
+// reset scale on transform
 text.setAttrs({
 width: text.width() * text.scaleX(),
 scaleX: 1,
@@ -66,7 +67,11 @@ import { Stage, Layer, Text, Transformer } from 'react-konva';
 import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
-  const [textWidth, setTextWidth] = useState(200);
+  const [textAttrs, setTextAttrs] = useState({
+    x: 50,
+    y: 50,
+    width: 200,
+  });
   const textRef = useRef();
   const trRef = useRef();
 
@@ -78,17 +83,28 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={50}
-          y={50}
+          x={textAttrs.x}
+          y={textAttrs.y}
           text="Hello from Konva! Try to resize me."
           fontSize={24}
           draggable
-          width={textWidth}
+          width={textAttrs.width}
           ref={textRef}
+          onDragEnd={(e) => {
+            setTextAttrs((attrs) => ({
+              ...attrs,
+              ...e.target.position(),
+            }));
+          }}
           onTransform={() => {
             const node = textRef.current;
-            setTextWidth(node.width() * node.scaleX());
+            const nextWidth = node.width() * node.scaleX();
             node.scaleX(1);
+            setTextAttrs({
+              x: node.x(),
+              y: node.y(),
+              width: nextWidth,
+            });
           }}
         />
         <Transformer
@@ -162,4 +178,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

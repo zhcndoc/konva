@@ -95,30 +95,26 @@ const App = () => {
   const handleDragStart = (e) => {
     // 将拖动的盒子移动到数组的末尾以模拟 moveToTop
     const id = e.target.id();
-    const box = boxes.find(b => b.id === id);
-    const filteredBoxes = boxes.filter(b => b.id !== id);
-    setBoxes([...filteredBoxes, box]);
+    setBoxes(currentBoxes => {
+      const box = currentBoxes.find(b => b.id === id);
+      if (!box) return currentBoxes;
+      return [...currentBoxes.filter(b => b.id !== id), box];
+    });
   };
   
   const handleDragMove = (e) => {
     // 更新盒子的位置
     const id = e.target.id();
-    const newBoxes = boxes.map(box => {
-      if (box.id === id) {
-        return {
-          ...box,
-          x: e.target.x(),
-          y: e.target.y()
-        };
-      }
-      return box;
-    });
-    setBoxes(newBoxes);
+    setBoxes(currentBoxes => currentBoxes.map(box =>
+      box.id === id
+        ? { ...box, x: e.target.x(), y: e.target.y() }
+        : box
+    ));
   };
   
   const handleDoubleClick = (id) => {
-    // 双击时移除盒子
-    setBoxes(boxes.filter(box => box.id !== id));
+    // Remove the box on double click
+    setBoxes(currentBoxes => currentBoxes.filter(box => box.id !== id));
   };
 
   return (

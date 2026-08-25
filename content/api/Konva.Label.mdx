@@ -2,6 +2,7 @@
 title: Konva.Label
 sidebar_label: Label
 slug: /api/Konva.Label.html
+description: "Label 构造函数。Label 是包含 Text 和 Tag 图形的组"
 
 ---
 
@@ -11,40 +12,40 @@ slug: /api/Konva.Label.html
 new Konva.Label(config)
 ```
 
-Label constructor.&nbsp; Labels are groups that contain a Text and Tag shape
+Label 构造函数。&nbsp;Label 是包含 Text 和 Tag 图形的组
 
-## Parameters
+## 参数
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | ---- | ---- | ----------- |
 | config | `Object` |  |
-| x (optional) | `Number` |  |
-| y (optional) | `Number` |  |
-| width (optional) | `Number` |  |
-| height (optional) | `Number` |  |
-| visible (optional) | `Boolean` |  |
-| listening (optional) | `Boolean` | whether or not the node is listening for events |
-| id (optional) | `String` | unique id |
-| name (optional) | `String` | non-unique name |
-| opacity (optional) | `Number` | determines node opacity.  Can be any number between 0 and 1 |
-| scale (optional) | `Object` | set scale |
-| scaleX (optional) | `Number` | set scale x |
-| scaleY (optional) | `Number` | set scale y |
-| rotation (optional) | `Number` | rotation in degrees |
-| offset (optional) | `Object` | offset from center point and rotation point |
-| offsetX (optional) | `Number` | set offset x |
-| offsetY (optional) | `Number` | set offset y |
-| draggable (optional) | `Boolean` | makes the node draggable.  When stages are draggable, you can drag and drop  the entire stage by dragging any portion of the stage |
-| dragDistance (optional) | `Number` |  |
-| dragBoundFunc (optional) | `function` |  |
+| x（可选） | `Number` |  |
+| y（可选） | `Number` |  |
+| width（可选） | `Number` |  |
+| height（可选） | `Number` |  |
+| visible（可选） | `Boolean` |  |
+| listening（可选） | `Boolean` | 节点是否监听事件 |
+| id（可选） | `String` | 唯一 ID |
+| name（可选） | `String` | 非唯一名称 |
+| opacity（可选） | `Number` | 确定节点的不透明度。可以是 0 到 1 之间的任意数字 |
+| scale（可选） | `Object` | 设置缩放 |
+| scaleX（可选） | `Number` | 设置 x 缩放 |
+| scaleY（可选） | `Number` | 设置 y 缩放 |
+| rotation（可选） | `Number` | 以度为单位的旋转 |
+| offset（可选） | `Object` | 相对于中心点和旋转点的偏移 |
+| offsetX（可选） | `Number` | 设置 x 偏移 |
+| offsetY（可选） | `Number` | 设置 y 偏移 |
+| draggable（可选） | `Boolean` | 使节点可拖动。当舞台可拖动时，可以通过拖动舞台的任意部分来拖放整个舞台 |
+| dragDistance（可选） | `Number` |  |
+| dragBoundFunc（可选） | `function` |  |
 
-## Own Methods
+## 自有方法
 
 ### getText() {#getText}
 
-get Text shape for the label.  You need to access the Text shape in order to update the text properties
+获取标签的 Text 图形。需要访问 Text 图形才能更新文本属性
 
-**Example:**
+**示例：**
 
 ```javascript
 label.getText().fill('red')
@@ -52,5 +53,5 @@ label.getText().fill('red')
 
 ### getTag() {#getTag}
 
-get Tag shape for the label.  You need to access the Tag shape in order to update the pointer properties and the corner radius
+获取标签的 Tag 图形。需要访问 Tag 图形才能更新指针属性和圆角半径
 

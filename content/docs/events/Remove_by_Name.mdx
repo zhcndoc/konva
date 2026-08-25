@@ -6,11 +6,17 @@ slug: Remove_by_Name.html
 description: "学习如何在 Konva 中使用 on() 和 off() 方法配合命名事件，通过命名空间移除特定的事件监听器。"
 ---
 
-要使用 Konva 按名称移除事件监听器，我们可以使用 `on()` 方法对事件类型进行命名空间处理，以便随后可以使用 `off()` 方法按相同命名空间移除事件监听器。
+Konva 事件命名空间用于在命令式代码中标识相关的监听器。在事件类型后添加命名空间，例如 `click.menu`。然后将相同的名称传递给 `off()`，以移除该监听器。
 
-**说明：点击圆形可查看两个不同的 onclick 事件绑定触发的两个警报。使用左侧的按钮移除事件监听器，然后再次点击圆形以观察新的 onclick 绑定。**
+**说明：**选择圆形以运行两个监听器。使用每个按钮移除一个监听器。然后再次选择圆形。
 
-注意：vue 和 react 不支持事件命名空间，因此我们没有为它们制作演示。我们也不建议在 Vue 和 React 中使用命名空间。
+`react-konva` 不会通过 React 事件属性公开 Konva 事件命名空间。React 为每种事件类型提供一个属性，例如 `onClick`。在 React 中存储启用状态，并有条件地将一个分发器传递给该属性。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
 
 ```js live vanilla
 import Konva from 'konva';
@@ -65,3 +71,62 @@ button2.onclick = function() {
 };
 document.getElementById('container').appendChild(button2);
 ```
+  </TabItem>
+  <TabItem value="React">
+
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const [firstEnabled, setFirstEnabled] = useState(true);
+  const [secondEnabled, setSecondEnabled] = useState(true);
+  const [message, setMessage] = useState('Select the circle');
+
+  const handleClick =
+    firstEnabled || secondEnabled
+      ? () => {
+          const messages = [];
+
+          if (firstEnabled) {
+            messages.push('first listener');
+          }
+          if (secondEnabled) {
+            messages.push('second listener');
+          }
+
+          setMessage(messages.join(' + '));
+        }
+      : undefined;
+
+  return (
+    <>
+      <button onClick={() => setFirstEnabled(false)}>
+        Remove first listener
+      </button>
+      <button onClick={() => setSecondEnabled(false)}>
+        Remove second listener
+      </button>
+      <Stage width={window.innerWidth} height={360}>
+        <Layer>
+          <Text x={20} y={20} text={message} fontSize={18} />
+          <Circle
+            x={window.innerWidth / 2}
+            y={180}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            onClick={handleClick}
+            onTap={handleClick}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>

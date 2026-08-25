@@ -1,47 +1,78 @@
-async function checkSitemap() {
-  try {
-    // 1. Load the sitemap
-    const response = await fetch('https://konvajs.org/sitemap.xml');
-    const xml = await response.text();
+const fs = require('node:fs');
+const path = require('node:path');
 
-    // 2. Parse URLs using regex
-    const urlRegex = /<loc>(.*?)<\/loc>/g;
-    const urls = [...xml.matchAll(urlRegex)]
-      .map((match) => match[1])
-      // Filter out unwanted URLs
-      .filter((url) => !url.includes('downloads/code'));
+const root = __dirname;
+const buildDirectory = path.resolve(root, 'build');
+const forbiddenPaths = new Set([
+  '/blog/authors',
+  '/blog/authors/lavrton',
+  '/kai',
+  '/markdown-page',
+  '/search',
+]);
 
-    // 3. Process URLs in batches
-    const batchSize = 20;
-    for (let i = 0; i < urls.length; i += batchSize) {
-      const batch = urls.slice(i, i + batchSize);
-      const promises = batch.map(async (url) => {
-        const newUrl = url.replace(
-          'https://konvajs.org',
-          'https://konvajs.org'
-        );
+function outputCandidates(pathname) {
+  const cleanPath = decodeURIComponent(pathname).replace(/^\/+/, '');
 
-        try {
-          const checkResponse = await fetch(newUrl, { method: 'HEAD' });
-          if (checkResponse.ok) {
-            console.log(`✅ Exists: ${newUrl}`);
-          } else {
-            console.log(`❌ Missing (${checkResponse.status}): ${newUrl}`);
-          }
-        } catch (error) {
-          console.log(`❌ Error checking: ${newUrl}`);
-        }
-      });
+  if (!cleanPath) {
+    return [path.join(buildDirectory, 'index.html')];
+  }
 
-      // Run batch in parallel
-      await Promise.all(promises);
+  const outputPath = path.join(buildDirectory, cleanPath);
+  return pathname.endsWith('/')
+    ? [path.join(outputPath, 'index.html')]
+    : [outputPath, path.join(outputPath, 'index.html')];
+}
 
-      // Add a small delay between batches
-      await new Promise((resolve) => setTimeout(resolve, 100));
+function checkSitemap(sitemapPath) {
+  if (!fs.existsSync(sitemapPath)) {
+    console.error(`Sitemap does not exist: ${sitemapPath}`);
+    return false;
+  }
+
+  const xml = fs.readFileSync(sitemapPath, 'utf8');
+  const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(
+    (match) => new URL(match[1])
+  );
+  const failures = [];
+
+  for (const url of urls) {
+    const normalizedPath =
+      url.pathname.length > 1 ? url.pathname.replace(/\/$/, '') : url.pathname;
+    const pathWithoutLocale = normalizedPath.replace(/^\/zh-Hans(?=\/|$)/, '') || '/';
+    if (forbiddenPaths.has(pathWithoutLocale)) {
+      failures.push(`Forbidden sitemap URL: ${url.href}`);
+      continue;
     }
-  } catch (error) {
-    console.error('Error:', error.message);
+
+    if (!outputCandidates(url.pathname).some((file) => fs.existsSync(file))) {
+      failures.push(`No build output for: ${url.href}`);
+    }
+  }
+
+  if (failures.length) {
+    failures.forEach((failure) => console.error(failure));
+    return false;
+  }
+
+  console.log(`Sitemap contains ${urls.length} valid local URLs.`);
+  return true;
+}
+
+function main() {
+  const requested = process.argv[2];
+  const sitemapPaths = requested
+    ? [path.resolve(root, requested)]
+    : [
+        path.join(buildDirectory, 'sitemap.xml'),
+        ...(fs.existsSync(path.join(root, 'i18n', 'zh-Hans'))
+          ? [path.join(buildDirectory, 'zh-Hans', 'sitemap.xml')]
+          : []),
+      ];
+
+  if (!sitemapPaths.every(checkSitemap)) {
+    process.exitCode = 1;
   }
 }
 
-checkSitemap();
+main();

@@ -1,14 +1,14 @@
 ---
-title: Konva API Reference
+title: Konva
 sidebar_label: Konva
 slug: /api/Konva.html
+description: "Konva.js 的 Konva 命名空间参考：用于在 HTML5 Canvas 上使用 Konva 的属性、方法和配置"
 sidebar_position: 1
-description: "Complete API reference for Konva.js — Stage, Layer, Shape, Node, Transformer, and all core classes. Browse methods, properties, and events for the HTML5 Canvas framework."
 ---
 
 # Konva
 
-## Classes
+## 类
 
 - [Transform](/api/Konva.Transform.html)
 - [Context](/api/Konva.Context.html)
@@ -41,21 +41,21 @@ description: "Complete API reference for Konva.js — Stage, Layer, Shape, Node,
 - [Transformer](/api/Konva.Transformer.html)
 - [Wedge](/api/Konva.Wedge.html)
 
-## Namespaces
+## 命名空间
 
 - [Util](/api/Konva.Util.html)
 - [Easings](/api/Konva.Easings.html)
 - [Filters](/api/Konva.Filters.html)
 
-## Properties
+## 属性
 
 ### static autoDrawEnabled
 
-Should Konva automatically update canvas on any changes. Default is true.
+Konva 是否应在发生任何更改时自动更新画布。默认值为 true。
 
-**Default value:** `true`
+**默认值：** `true`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.autoDrawEnabled = true;
@@ -63,11 +63,11 @@ Konva.autoDrawEnabled = true;
 
 ### static hitOnDragEnabled
 
-Should we enable hit detection while dragging? For performance reasons, by default it is false. But on some rare cases you want to see hit graph and check intersections. Just set it to true.
+是否应在拖动时启用命中检测？出于性能原因，默认值为 false。但在某些少见情况下，你可能需要查看命中图并检查交集。只需将其设置为 true。
 
-**Default value:** `false`
+**默认值：** `false`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.hitOnDragEnabled = true;
@@ -75,11 +75,11 @@ Konva.hitOnDragEnabled = true;
 
 ### static capturePointerEventsEnabled
 
-Should we capture touch events and bind them to the touchstart target? That is how it works on DOM elements. The case: we touchstart on div1, then touchmove out of that element into another element div2. DOM will continue trigger touchmove events on div1 (not div2). Because events are "captured" into initial target. By default Konva do not do that and will trigger touchmove on another element, while pointer is moving.
+是否应捕获触摸事件并将其绑定到 touchstart 目标？这就是 DOM 元素的工作方式。具体情况是：我们在 div1 上触发 touchstart，然后从该元素移出到另一个元素 div2。DOM 将继续在 div1（而不是 div2）上触发 touchmove 事件。因为事件被“捕获”到了初始目标上。默认情况下，Konva 不会这样做，而是在指针移动时在另一个元素上触发 touchmove。
 
-**Default value:** `false`
+**默认值：** `false`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.capturePointerEventsEnabled = true;
@@ -87,11 +87,11 @@ Konva.capturePointerEventsEnabled = true;
 
 ### static legacyTextRendering
 
-Use legacy text rendering. with "middle" baseline by default.
+使用旧版文本渲染，默认使用 "middle" 基线。
 
-**Default value:** `false`
+**默认值：** `false`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.legacyTextRendering = true;
@@ -99,11 +99,11 @@ Konva.legacyTextRendering = true;
 
 ### static pixelRatio
 
-Global pixel ratio configuration. KonvaJS automatically detect pixel ratio of current device. But you may override such property, if you want to use your value. Set this value before any components initializations.
+全局像素比配置。KonvaJS 会自动检测当前设备的像素比。但如果你想使用自定义值，也可以覆盖此属性。请在初始化任何组件之前设置此值。
 
-**Default value:** `undefined`
+**默认值：** `undefined`
 
-**Example:**
+**示例：**
 
 ```javascript
 // before any Konva code:
@@ -112,11 +112,11 @@ Konva.pixelRatio = 1;
 
 ### static dragDistance
 
-Drag distance property. If you start to drag a node you may want to wait until pointer is moved to some distance from start point, only then start dragging. Default is 3px.
+拖动距离属性。如果你开始拖动一个节点，可能希望等待指针从起始点移动一定距离后再开始拖动。默认值为 3px。
 
-**Default value:** `3`
+**默认值：** `3`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.dragDistance = 10;
@@ -124,11 +124,11 @@ Konva.dragDistance = 10;
 
 ### static angleDeg
 
-Use degree values for angle properties. You may set this property to false if you want to use radian values.
+对角度属性使用角度值。如果你想使用弧度值，可以将此属性设置为 false。
 
-**Default value:** `true`
+**默认值：** `true`
 
-**Example:**
+**示例：**
 
 ```javascript
 node.rotation(45); // 45 degrees
@@ -138,11 +138,11 @@ node.rotation(Math.PI / 2); // PI/2 radian
 
 ### static showWarnings
 
-Show different warnings about errors or wrong API usage
+显示有关错误或错误 API 使用方式的各种警告
 
-**Default value:** `true`
+**默认值：** `true`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.showWarnings = false;
@@ -150,11 +150,11 @@ Konva.showWarnings = false;
 
 ### static dragButtons
 
-Configure what mouse buttons can be used for drag and drop. Default value is [0, 1] - left and middle mouse buttons.
+配置可用于拖放的鼠标按钮。默认值为 [0, 1]，即鼠标左键和中键。
 
-**Default value:** `[0, 1]`
+**默认值：** `[0, 1]`
 
-**Example:**
+**示例：**
 
 ```javascript
 // enable left and right mouse buttons
@@ -163,23 +163,23 @@ Konva.dragButtons = [0, 2];
 
 ### static releaseCanvasOnDestroy
 
-Should Konva release canvas elements on destroy. Default is true. Useful to avoid memory leak issues in Safari on macOS/iOS.
+Konva 是否应在销毁时释放画布元素。默认值为 true。对于避免 Safari 在 macOS/iOS 上的内存泄漏问题很有用。
 
-**Default value:** `true`
+**默认值：** `true`
 
-**Example:**
+**示例：**
 
 ```javascript
 Konva.releaseCanvasOnDestroy = true;
 ```
 
-## Own Methods
+## 自有方法
 
 ### isDragging() {#isDragging}
 
-returns whether or not drag and drop is currently active
+返回当前是否处于拖放活动状态
 
 ### isDragReady() {#isDragReady}
 
-returns whether or not a drag and drop operation is ready, but may  not necessarily have started
+返回拖放操作是否已准备就绪，但不一定已经开始
 

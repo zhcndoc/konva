@@ -2,6 +2,7 @@
 title: Konva.Transformer
 sidebar_label: Transformer
 slug: /api/Konva.Transformer.html
+description: "Transformer 构造函数。Transformer 是一种特殊类型的组，允许你变换 Konva 基元和形状。变换工具在调整节点大小时不会更改节点的 `width` 和 `height` 属性，而是更改 `scaleX` 和 `scaleY` 属性"
 
 ---
 
@@ -11,49 +12,49 @@ slug: /api/Konva.Transformer.html
 new Konva.Transformer(config)
 ```
 
-Transformer constructor.  Transformer is a special type of group that allow you transform Konva primitives and shapes. Transforming tool is not changing `width` and `height` properties of nodes when you resize them. Instead it changes `scaleX` and `scaleY` properties.
+Transformer 构造函数。Transformer 是一种特殊类型的组，允许你变换 Konva 基元和形状。变换工具在调整节点大小时不会更改节点的 `width` 和 `height` 属性，而是更改 `scaleX` 和 `scaleY` 属性
 
-## Parameters
+## 参数
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | config | `Object` |  |
-| resizeEnabled (optional) | `Boolean` | Default is true |
-| rotateEnabled (optional) | `Boolean` | Default is true |
-| rotateLineVisible (optional) | `Boolean` | Default is true |
-| rotationSnaps (optional) | `Array` | Array of angles for rotation snaps. Default is [] |
-| rotationSnapTolerance (optional) | `Number` | Snapping tolerance. If closer than this it will snap. Default is 5 |
-| rotateAnchorOffset (optional) | `Number` | Default is 50 |
-| rotateAnchorCursor (optional) | `String` | Default is crosshair |
-| padding (optional) | `Number` | Default is 0 |
-| borderEnabled (optional) | `Boolean` | Should we draw border? Default is true |
-| borderStroke (optional) | `String` | Border stroke color |
-| borderStrokeWidth (optional) | `Number` | Border stroke size |
-| borderDash (optional) | `Array` | Array for border dash. |
-| anchorFill (optional) | `String` | Anchor fill color |
-| anchorStroke (optional) | `String` | Anchor stroke color |
-| anchorCornerRadius (optional) | `String` | Anchor corner radius |
-| anchorStrokeWidth (optional) | `Number` | Anchor stroke size |
-| anchorSize (optional) | `Number` | Default is 10 |
-| keepRatio (optional) | `Boolean` | Should we keep ratio when we are moving edges? Default is true |
-| shiftBehavior (optional) | `String` | How does transformer react on shift key press when we are moving edges? Default is 'default' |
-| centeredScaling (optional) | `Boolean` | Should we resize relative to node's center? Default is false |
-| enabledAnchors (optional) | `Array` | Array of names of enabled handles |
-| flipEnabled (optional) | `Boolean` | Can we flip/mirror shape on transform?. True by default |
-| boundBoxFunc (optional) | `function` | Bounding box function |
-| ignoreStroke (optional) | `function` | Should we ignore stroke size? Default is false |
-| useSingleNodeRotation (optional) | `Boolean` | When just one node attached, should we use its rotation for transformer? |
-| shouldOverdrawWholeArea (optional) | `Boolean` | Should we fill whole transformer area with fake transparent shape to enable dragging from empty spaces? |
+| resizeEnabled (optional) | `Boolean` | 默认为 true |
+| rotateEnabled (optional) | `Boolean` | 默认为 true |
+| rotateLineVisible (optional) | `Boolean` | 默认为 true |
+| rotationSnaps (optional) | `Array` | 用于旋转吸附的角度数组。默认为 [] |
+| rotationSnapTolerance (optional) | `Number` | 吸附容差。如果距离小于此值，则会吸附。默认为 5 |
+| rotateAnchorOffset (optional) | `Number` | 默认为 50 |
+| rotateAnchorCursor (optional) | `String` | 默认为 crosshair |
+| padding (optional) | `Number` | 默认为 0 |
+| borderEnabled (optional) | `Boolean` | 是否绘制边框？默认为 true |
+| borderStroke (optional) | `String` | 边框描边颜色 |
+| borderStrokeWidth (optional) | `Number` | 边框描边大小 |
+| borderDash (optional) | `Array` | 边框虚线数组 |
+| anchorFill (optional) | `String` | 锚点填充颜色 |
+| anchorStroke (optional) | `String` | 锚点描边颜色 |
+| anchorCornerRadius (optional) | `String` | 锚点圆角半径 |
+| anchorStrokeWidth (optional) | `Number` | 锚点描边大小 |
+| anchorSize (optional) | `Number` | 默认为 10 |
+| keepRatio (optional) | `Boolean` | 移动边缘时是否保持比例？默认为 true |
+| shiftBehavior (optional) | `String` | 移动边缘时按下 shift 键，Transformer 应如何响应？默认为 'default' |
+| centeredScaling (optional) | `Boolean` | 是否相对于节点中心调整大小？默认为 false |
+| enabledAnchors (optional) | `Array` | 启用的控制柄名称数组 |
+| flipEnabled (optional) | `Boolean` | 变换时是否可以翻转／镜像形状？默认为 true |
+| boundBoxFunc (optional) | `function` | 边界框函数 |
+| ignoreStroke (optional) | `function` | 是否忽略描边大小？默认为 false |
+| useSingleNodeRotation (optional) | `Boolean` | 仅附加一个节点时，是否使用该节点的旋转角度作为 Transformer 的旋转角度？ |
+| shouldOverdrawWholeArea (optional) | `Boolean` | 是否用假的透明形状填充整个 Transformer 区域，以便从空白区域开始拖动？ |
 
-## Own Methods
+## 自有方法
 
 ### attachTo() {#attachTo}
 
-alias to `tr.nodes([shape])`/ This method is deprecated and will be removed soon.
+`tr.nodes([shape])` 的别名／此方法已弃用，很快将被移除
 
-**Returns:** `Konva.Transformer` 
+**返回值：** `Konva.Transformer` 
 
-**Example:**
+**示例：**
 
 ```javascript
 transformer.attachTo(shape);
@@ -61,11 +62,11 @@ transformer.attachTo(shape);
 
 ### getActiveAnchor() {#getActiveAnchor}
 
-return the name of current active anchor
+返回当前活动锚点的名称
 
-**Returns:** `String|Null` 
+**返回值：** `String|Null` 
 
-**Example:**
+**示例：**
 
 ```javascript
 transformer.getActiveAnchor();
@@ -73,11 +74,11 @@ transformer.getActiveAnchor();
 
 ### detach() {#detach}
 
-detach transformer from an attached node
+将 Transformer 从附加的节点上分离
 
-**Returns:** `Konva.Transformer` 
+**返回值：** `Konva.Transformer` 
 
-**Example:**
+**示例：**
 
 ```javascript
 transformer.detach();
@@ -85,16 +86,16 @@ transformer.detach();
 
 ### on(evtStr, handler) {#on}
 
-bind events to the Transformer. You can use events: `transform`, `transformstart`, `transformend`, `dragstart`, `dragmove`, `dragend`
+为 Transformer 绑定事件。你可以使用以下事件：`transform`、`transformstart`、`transformend`、`dragstart`、`dragmove`、`dragend`
 
-**Parameters:**
+**参数：**
 
-- `evtStr` (String): e.g. 'transform'
-- `handler` (function): The handler function. The first argument of that function is event object. Event object has `target` as main target of the event, `currentTarget` as current node listener and `evt` as native browser event.
+- `evtStr`（String）：例如 'transform'
+- `handler`（function）：处理函数。该函数的第一个参数是事件对象。事件对象包含 `target`（事件的主要目标）、`currentTarget`（当前节点监听器）和 `evt`（原生浏览器事件）
 
-**Returns:** `Konva.Transformer` 
+**返回值：** `Konva.Transformer` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // add click listener
@@ -105,31 +106,31 @@ tr.on('transformstart', function() {
 
 ### forceUpdate() {#forceUpdate}
 
-force update of Konva.Transformer. Use it when you updated attached Konva.Group and now you need to reset transformer size
+强制更新 Konva.Transformer。当你更新了附加的 Konva.Group 并需要重置 Transformer 大小时使用
 
 ### isTransforming() {#isTransforming}
 
-determine if transformer is in active transform
+确定 Transformer 是否处于活动变换状态
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### stopTransform() {#stopTransform}
 
-Stop active transform action
+停止活动的变换操作
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### enabledAnchors(array) {#enabledAnchors}
 
-get/set enabled handlers
+获取／设置启用的控制柄
 
-**Parameters:**
+**参数：**
 
-- `array` (Array)
+- `array`（Array）
 
-**Returns:** `Array` 
+**返回值：** `Array` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get list of handlers
@@ -141,15 +142,15 @@ transformer.enabledAnchors(['top-left', 'top-center', 'top-right', 'middle-right
 
 ### flipEnabled(flag) {#flipEnabled}
 
-get/set flip enabled
+获取／设置是否启用翻转
 
-**Parameters:**
+**参数：**
 
-- `flag` (Boolean)
+- `flag`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get flip enabled property
@@ -161,15 +162,15 @@ transformer.flipEnabled(false);
 
 ### resizeEnabled(enabled) {#resizeEnabled}
 
-get/set resize ability. If false it will automatically hide resizing handlers
+获取／设置调整大小功能。如果为 false，将自动隐藏调整大小控制柄
 
-**Parameters:**
+**参数：**
 
-- `enabled` (Boolean)
+- `enabled`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -181,15 +182,15 @@ transformer.resizeEnabled(false);
 
 ### anchorSize(size) {#anchorSize}
 
-get/set anchor size. Default is 10
+获取／设置锚点大小。默认为 10
 
-**Parameters:**
+**参数：**
 
-- `size` (Number)
+- `size`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -201,15 +202,15 @@ transformer.anchorSize(20)
 
 ### rotateEnabled(enabled) {#rotateEnabled}
 
-get/set ability to rotate.
+获取／设置旋转功能
 
-**Parameters:**
+**参数：**
 
-- `enabled` (Boolean)
+- `enabled`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -221,15 +222,15 @@ transformer.rotateEnabled(false);
 
 ### rotateLineVisible(enabled) {#rotateLineVisible}
 
-get/set visibility of a little line that connects transformer and rotate anchor.
+获取／设置连接 Transformer 与旋转锚点的小线条的可见性
 
-**Parameters:**
+**参数：**
 
-- `enabled` (Boolean)
+- `enabled`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -241,15 +242,15 @@ transformer.rotateLineVisible(false);
 
 ### rotationSnaps(array) {#rotationSnaps}
 
-get/set rotation snaps angles.
+获取／设置旋转吸附角度
 
-**Parameters:**
+**参数：**
 
-- `array` (Array)
+- `array`（Array）
 
-**Returns:** `Array` 
+**返回值：** `Array` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -261,15 +262,15 @@ transformer.rotationSnaps([0, 90, 180, 270]);
 
 ### rotateAnchorOffset(offset) {#rotateAnchorOffset}
 
-get/set distance for rotation handler
+获取／设置旋转控制柄的距离
 
-**Parameters:**
+**参数：**
 
-- `offset` (Number)
+- `offset`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -281,15 +282,15 @@ transformer.rotateAnchorOffset(100);
 
 ### rotateAnchorAngle(angle) {#rotateAnchorAngle}
 
-get/set the angle (in degrees) of the rotation anchor position around the bounding box. 0 = top-center (default), 90 = middle-right, 180 = bottom-center, -90 = middle-left
+获取／设置旋转锚点围绕边界框的位置角度（以度为单位）。0 = 顶部中心（默认），90 = 中间右侧，180 = 底部中心，-90 = 中间左侧
 
-**Parameters:**
+**参数：**
 
-- `angle` (Number)
+- `angle`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -304,15 +305,15 @@ transformer.rotateAnchorAngle(180);
 
 ### rotateAnchorCursor(cursorName) {#rotateAnchorCursor}
 
-get/set rotation anchor cursor
+获取／设置旋转锚点光标
 
-**Parameters:**
+**参数：**
 
-- `cursorName` (String)
+- `cursorName`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -324,15 +325,15 @@ transformer.rotateAnchorCursor('grab');
 
 ### rotationSnapTolerance(tolerance) {#rotationSnapTolerance}
 
-get/set distance for rotation tolerance
+获取／设置旋转容差距离
 
-**Parameters:**
+**参数：**
 
-- `tolerance` (Number)
+- `tolerance`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -344,15 +345,15 @@ transformer.rotationSnapTolerance(100);
 
 ### borderEnabled(enabled) {#borderEnabled}
 
-get/set visibility of border
+获取／设置边框可见性
 
-**Parameters:**
+**参数：**
 
-- `enabled` (Boolean)
+- `enabled`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -364,15 +365,15 @@ transformer.borderEnabled(false);
 
 ### anchorStroke(strokeColor) {#anchorStroke}
 
-get/set anchor stroke color
+获取／设置锚点描边颜色
 
-**Parameters:**
+**参数：**
 
-- `strokeColor` (String)
+- `strokeColor`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -384,15 +385,15 @@ transformer.anchorStroke('red');
 
 ### anchorStrokeWidth(anchorStrokeWidth) {#anchorStrokeWidth}
 
-get/set anchor stroke width
+获取／设置锚点描边宽度
 
-**Parameters:**
+**参数：**
 
-- `anchorStrokeWidth` (Number)
+- `anchorStrokeWidth`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -404,15 +405,15 @@ transformer.anchorStrokeWidth(3);
 
 ### anchorFill(anchorFill) {#anchorFill}
 
-get/set anchor fill color
+获取／设置锚点填充颜色
 
-**Parameters:**
+**参数：**
 
-- `anchorFill` (String)
+- `anchorFill`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -424,15 +425,15 @@ transformer.anchorFill('red');
 
 ### anchorCornerRadius(radius) {#anchorCornerRadius}
 
-get/set anchor corner radius
+获取／设置锚点圆角半径
 
-**Parameters:**
+**参数：**
 
-- `radius` (Number)
+- `radius`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -444,15 +445,15 @@ transformer.anchorCornerRadius(3);
 
 ### borderStroke(enabled) {#borderStroke}
 
-get/set border stroke color
+获取／设置边框描边颜色
 
-**Parameters:**
+**参数：**
 
-- `enabled` (Boolean)
+- `enabled`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -464,15 +465,15 @@ transformer.borderStroke('red');
 
 ### borderStrokeWidth(strokeWidth) {#borderStrokeWidth}
 
-get/set border stroke width
+获取／设置边框描边宽度
 
-**Parameters:**
+**参数：**
 
-- `strokeWidth` (Number)
+- `strokeWidth`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -484,15 +485,15 @@ transformer.borderStrokeWidth(3);
 
 ### borderDash(dash) {#borderDash}
 
-get/set border dash array
+获取／设置边框虚线数组
 
-**Parameters:**
+**参数：**
 
-- `dash` (Array): array
+- `dash`（Array）：数组
 
-**Returns:** `Array` 
+**返回值：** `Array` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -504,15 +505,15 @@ transformer.borderDash([2, 2]);
 
 ### keepRatio(keepRatio) {#keepRatio}
 
-get/set should we keep ratio while resize anchors at corners
+获取／设置在调整角落锚点大小时是否保持比例
 
-**Parameters:**
+**参数：**
 
-- `keepRatio` (Boolean)
+- `keepRatio`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -524,15 +525,15 @@ transformer.keepRatio(false);
 
 ### shiftBehavior(shiftBehavior) {#shiftBehavior}
 
-get/set how to react on skift key while resizing anchors at corners
+获取／设置在调整角落锚点大小时如何响应 shift 键
 
-**Parameters:**
+**参数：**
 
-- `shiftBehavior` (String)
+- `shiftBehavior`（String）
 
-**Returns:** `String` 
+**返回值：** `String` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -544,15 +545,15 @@ transformer.shiftBehavior('none');
 
 ### centeredScaling(centeredScaling) {#centeredScaling}
 
-get/set should we resize relative to node's center?
+获取／设置是否相对于节点中心调整大小
 
-**Parameters:**
+**参数：**
 
-- `centeredScaling` (Boolean)
+- `centeredScaling`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -564,15 +565,15 @@ transformer.centeredScaling(true);
 
 ### ignoreStroke(ignoreStroke) {#ignoreStroke}
 
-get/set should we think about stroke while resize? Good to use when a shape has strokeScaleEnabled = false default is false
+获取／设置调整大小时是否考虑描边？当形状的 strokeScaleEnabled = false 时适合使用，默认为 false
 
-**Parameters:**
+**参数：**
 
-- `ignoreStroke` (Boolean)
+- `ignoreStroke`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -584,15 +585,15 @@ transformer.ignoreStroke(true);
 
 ### padding(padding) {#padding}
 
-get/set padding
+获取／设置内边距
 
-**Parameters:**
+**参数：**
 
-- `padding` (Number)
+- `padding`（Number）
 
-**Returns:** `Number` 
+**返回值：** `Number` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -604,11 +605,11 @@ transformer.padding(10);
 
 ### nodes() {#nodes}
 
-get/set attached nodes of the Transformer. Transformer will adapt to their size and listen to their events
+获取／设置 Transformer 附加的节点。Transformer 将根据这些节点的大小进行调整，并监听它们的事件
 
-**Returns:** `Konva.Node` 
+**返回值：** `Konva.Node` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -626,15 +627,15 @@ transformer.nodes(newNodes);
 
 ### boundBoxFunc(func) {#boundBoxFunc}
 
-get/set bounding box function. **IMPORTANT!** boundBondFunc operates in absolute coordinates.
+获取／设置边界框函数。**重要！**boundBondFunc 使用绝对坐标进行操作
 
-**Parameters:**
+**参数：**
 
-- `func` (function)
+- `func`（function）
 
-**Returns:** `function` 
+**返回值：** `function` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -653,15 +654,15 @@ transformer.boundBoxFunc(function(oldBox, newBox) {
 
 ### anchorDragBoundFunc(func) {#anchorDragBoundFunc}
 
-get/set dragging func for transformer anchors
+获取／设置 Transformer 锚点的拖动函数
 
-**Parameters:**
+**参数：**
 
-- `func` (function)
+- `func`（function）
 
-**Returns:** `function` 
+**返回值：** `function` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -678,15 +679,15 @@ transformer.anchorDragBoundFunc(function(oldAbsPos, newAbsPos, event) {
 
 ### anchorStyleFunc(func) {#anchorStyleFunc}
 
-get/set styling function for transformer anchors to overwrite default styles
+获取／设置 Transformer 锚点的样式函数，用于覆盖默认样式
 
-**Parameters:**
+**参数：**
 
-- `func` (function)
+- `func`（function）
 
-**Returns:** `function` 
+**返回值：** `function` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -706,15 +707,15 @@ transformer.anchorStyleFunc(function(anchor) {
 
 ### shouldOverdrawWholeArea(shouldOverdrawWholeArea) {#shouldOverdrawWholeArea}
 
-using this setting you can drag transformer group by dragging empty space between attached nodes shouldOverdrawWholeArea = true may temporary disable all events on attached nodes
+使用此设置，可以通过拖动附加节点之间的空白区域来拖动 Transformer 组。shouldOverdrawWholeArea = true 可能会暂时禁用附加节点上的所有事件
 
-**Parameters:**
+**参数：**
 
-- `shouldOverdrawWholeArea` (Boolean)
+- `shouldOverdrawWholeArea`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // get
@@ -726,15 +727,15 @@ transformer.shouldOverdrawWholeArea(true);
 
 ### useSingleNodeRotation(useSingleNodeRotation) {#useSingleNodeRotation}
 
-If you have just one attached node to Transformer it will set its initial rotation to the rotation of that node. In some cases you may need to set a different rotation.
+如果 Transformer 仅附加了一个节点，它会将自身的初始旋转角度设置为该节点的旋转角度。在某些情况下，你可能需要设置不同的旋转角度
 
-**Parameters:**
+**参数：**
 
-- `useSingleNodeRotation` (Boolean)
+- `useSingleNodeRotation`（Boolean）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
-**Example:**
+**示例：**
 
 ```javascript
 // set flag to false

@@ -4,7 +4,7 @@ title: 开始使用 Konva — HTML5 Canvas 2D 框架
 sidebar_label: 简介
 hide_table_of_contents: true
 slug: index.html
-description: "开始使用 Konva.js，最流行的 2D HTML5 Canvas JavaScript 框架。学习绘制形状、处理事件、拖放和动画 — 支持 React、Vue、Svelte 和 Angular。"
+description: "开始使用 Konva.js，一个 2D HTML5 Canvas JavaScript 框架。学习绘制形状、处理事件、拖放，以及通过框架集成实现动画。"
 ---
 
 ## 什么是 Konva？
@@ -76,20 +76,20 @@ Konva 拥有所有主流框架的官方绑定：
 | **React** | [`react-konva`](https://github.com/konvajs/react-konva) | `npm install react-konva konva` |
 | **Vue** | [`vue-konva`](https://github.com/konvajs/vue-konva) | `npm install vue-konva konva` |
 | **Svelte** | [`svelte-konva`](https://github.com/konvajs/svelte-konva) | `npm install svelte-konva konva` |
-| **Angular** | [`ng2-konva`](https://github.com/nicholasgillespie/ng2-konva) | `npm install ng2-konva konva` |
+| **Angular** | [`ng2-konva`](https://github.com/konvajs/ng2-konva) | `npm install ng2-konva konva` |
 
 开始使用你的框架：[React](/docs/react/index.html) · [Vue](/docs/vue/index.html) · [Svelte](/docs/svelte/index.html) · [Angular](/docs/angular/index.html)
 
 ## 为什么选择 Konva？
 
-- **形状即对象** — 创建矩形、圆形、线条、文本、图像、路径等。每个形状都是一个你可以独立操作的 JavaScript 对象。
-- **完整的事件系统** — `click`、`dblclick`、`mouseover`、`mouseout`、`touchstart`、`dragstart`、`dragend` 等。事件像 DOM 一样从形状冒泡到组和层。
-- **拖放** — 在任何形状上设置 `draggable: true`。添加拖动边界、吸附和掉落事件。
-- **调整大小和旋转** — 内置的 [`Transformer`](/docs/select_and_transform/Basic_demo.html) 组件为任何形状添加调整大小和旋转的控制柄。
-- **多层渲染** — 每个层是一个独立的 `<canvas>` 元素。当交互式形状改变时，静态背景不会重新渲染。
-- **序列化** — 使用 `stage.toJSON()` 保存整个 canvas 状态。使用 `Konva.Node.create(json)` 恢复它。
-- **滤镜和效果** — 模糊、增亮、对比度、灰度、像素化等 — 按形状应用。
-- **高性能** — 处理数千个形状。查看 [性能提示](/docs/performance/All_Performance_Tips.html) 和 [压力测试演示](/docs/sandbox/10000_Shapes_with_Tooltip.html)。
+- **形状即对象** — 创建矩形、圆形、线条、文本、图像、路径等。每个形状都是一个可以独立操作的 JavaScript 对象
+- **完整的事件系统** — `click`、`dblclick`、`mouseover`、`mouseout`、`touchstart`、`dragstart`、`dragend` 等。事件会像 DOM 一样，从形状冒泡经过组和层
+- **拖放** — 在任意形状上设置 `draggable: true`。添加拖动边界、吸附和放置事件
+- **调整大小和旋转** — 内置的 [`Transformer`](/docs/select_and_transform/Basic_demo.html) 组件可为任意形状添加调整大小和旋转控制柄
+- **多层渲染** — 每个 Layer 都是一个独立的 `<canvas>` 元素。交互式形状发生变化时，静态背景不会重新渲染
+- **序列化** — 使用 `stage.toJSON()` 保存节点树及其可序列化属性。使用 `Konva.Node.create(json)` 恢复它们。图像、事件处理器和自定义绘制函数需要单独恢复
+- **滤镜和效果** — 模糊、提亮、对比度、灰度、像素化等 — 可按形状应用
+- **高性能** — 可处理数千个形状。请参阅[性能提示](/docs/performance/All_Performance_Tips.html)和[压力测试演示](/docs/sandbox/10000_Shapes_with_Tooltip.html)
 
 ## 你可以构建什么？
 
@@ -111,4 +111,4 @@ Konva 拥有所有主流框架的官方绑定：
 - [事件](/docs/events/Binding_Events.html) — 处理点击、悬停、触摸等
 - [拖放](/docs/drag_and_drop/Drag_and_Drop.html) — 使形状可拖动
 - [动画](/docs/animations/Create_an_Animation.html) — 动画化形状属性
-- [关于 Konva](/docs/about.html) — 谁在使用 Konva，关键事实和链接
+- [关于 Konva](/docs/about.html) — 谁在使用 Konva，关键事实和链接。

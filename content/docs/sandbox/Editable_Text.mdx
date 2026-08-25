@@ -1,18 +1,18 @@
 ---
-title: 在 HTML5 canvas 中使用 Konva 进行文本编辑
+title: 使用 Konva 在 HTML5 canvas 中编辑文本
 sidebar_label: 可编辑文本
 hide_table_of_contents: true
 slug: Editable_Text.html
-description: "在 HTML5 canvas 上双击文本即可编辑，使用带有 Konva 变换支持的 textarea 覆盖层。"
+description: "使用支持变换的 textarea 覆盖层在 HTML5 canvas 上双击编辑文本。"
 ---
 
-由于 [许多原因](https://www.w3.org/TR/2dcontext/#best-practices)，用户无法直接编辑 `Konva.Text` 内容。事实上，canvas API 并非为此目的而设计。
-可以在 canvas 上模拟文本编辑（通过绘制闪烁光标、模拟选区等）。
-Konva 不支持这种情况。我们建议使用原生 DOM 元素（如 `input` 或 `textarea`）在 canvas 外部编辑用户输入。
+由于[多种原因](https://html.spec.whatwg.org/multipage/canvas.html#best-practices)，用户无法直接编辑 `Konva.Text` 的内容。Canvas API 并不是为文本编辑而设计的。
+可以模拟在 canvas 上编辑文本（通过绘制闪烁的光标、模拟选择等）。
+Konva 不支持这种情况。我们建议使用 `input` 或 `textarea` 等原生 DOM 元素，在 canvas 外部编辑用户输入。
 
-如果你想启用完整的富文本编辑功能，请参阅 [富文本演示](/docs/sandbox/Rich_Text.html)。
+如果你想启用完整的富文本编辑功能，请查看 [Rich Text Demo](/docs/sandbox/Rich_Text.html)。
 
-**说明：双击文本进行编辑。输入内容。按 Enter 键或点击外部保存更改。**
+**说明：双击文本进行编辑。输入一些内容。按 Enter 或点击外部以保存更改。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -43,7 +43,7 @@ const textNode = new Konva.Text({
 layer.add(textNode);
 
 const tr = new Konva.Transformer({
-  node: textNode,
+  nodes: [textNode],
   enabledAnchors: ['middle-left', 'middle-right'],
   boundBoxFunc: function (oldBox, newBox) {
     newBox.width = Math.max(30, newBox.width);
@@ -175,7 +175,7 @@ const TextArea = ({ textNode, onClose, onChange }) => {
       y: textPosition.y,
     };
 
-    // 匹配文本节点的样式
+    // Match styles with the text node
     textarea.value = textNode.text();
     textarea.style.position = "absolute";
     textarea.style.top = `${areaPosition.y}px`;
@@ -217,7 +217,7 @@ const TextArea = ({ textNode, onClose, onChange }) => {
       }
     };
 
-    // 添加事件监听器
+    // Add event listeners
     const handleKeyDown = (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -274,6 +274,7 @@ const EditableText = () => {
   const [text, setText] = useState("Some text here");
   const [isEditing, setIsEditing] = useState(false);
   const [textWidth, setTextWidth] = useState(200);
+  const [position, setPosition] = useState({ x: 50, y: 80 });
   const textRef = useRef();
   const trRef = useRef();
 
@@ -308,11 +309,12 @@ const EditableText = () => {
         <Text
           ref={textRef}
           text={text}
-          x={50}
-          y={80}
+          x={position.x}
+          y={position.y}
           fontSize={20}
           draggable
           width={textWidth}
+          onDragEnd={(e) => setPosition(e.target.position())}
           onDblClick={handleTextDblClick}
           onDblTap={handleTextDblClick}
           onTransform={handleTransform}
@@ -499,3 +501,15 @@ const handleTransform = (e) => {
 ```
   </TabItem>
 </Tabs>
+
+## textarea 覆盖层无法涵盖的内容
+
+当访客一次编辑一个字段时，上述方法效果很好。但只要文本需要表现得像一份文档，它就不再足够：
+
+- **重新排版。** 覆盖层不会在调整框大小时重新换行，因此在变换过程中，编辑视图和绘制视图会出现不一致
+- **字体度量。** 首次绘制后加载的 Web 字体会改变行高，因此缓存的测量值和插入符位置会失效
+- **逐字符样式。** `Konva.Text` 会将一种样式应用于整个节点。在同一段落中混合使用粗体、颜色或字号，需要多个节点以及你自己的布局过程
+- **历史记录。** 每次按键都必须合并到与 canvas 操作相同的撤销栈中，否则撤销时会在两个独立的时间线之间跳转
+- **导出保真度。** 导出的图像由 canvas 绘制，而不是由 textarea 绘制，因此两者之间的任何差异都会出现在输出中
+
+此时，你编写的已经不是编辑器功能，而是一个文本引擎。如果你不想这样做，[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=editable-text) 是一个使用 Konva 构建的商业设计编辑器 SDK，已经解决了这些问题。

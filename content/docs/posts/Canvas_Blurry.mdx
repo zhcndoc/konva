@@ -1,0 +1,151 @@
+---
+title: 为什么你的 HTML5 Canvas 看起来模糊，以及如何修复
+sidebar_label: 模糊的 Canvas
+sidebar_position: 9
+slug: Canvas_Blurry.html
+description: "修复视网膜屏幕和高 DPI 屏幕上的模糊 HTML5 Canvas。了解 devicePixelRatio 的工作原理、Konva 为什么已经处理了它，以及常见的双重缩放修复为什么会让问题变得更糟。"
+---
+
+Canvas 有两种尺寸，而且很容易混淆：
+
+- **显示尺寸** —— 元素在页面上有多大，以 CSS 像素为单位
+- **位图尺寸** —— 浏览器分配多少实际像素用于绘制
+
+当位图小于显示尺寸时，浏览器会拉伸结果，绘图看起来就会变得柔和。在视网膜屏幕上，每个 CSS 像素对应的显示尺寸本来就已经是两到三个设备像素宽，因此默认情况下，一个 CSS 像素对应一个位图像素的 Canvas 会被拉伸。
+
+## Konva 已经处理了这一点
+
+这是大多数建议容易出错的地方，所以有必要明确说明。
+
+`Konva.pixelRatio` 默认为 `window.devicePixelRatio`，Konva 创建的每个 Canvas 都会按照该比例分配位图。**你只需用 CSS 像素向 Konva 提供尺寸，位图尺寸由它负责设置。**
+
+```js
+// This is correct on a retina screen. Nothing else is needed.
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 600,   // CSS pixels
+  height: 400,  // CSS pixels
+});
+```
+
+在 2× 屏幕上，该 stage 会绘制到 1200 × 800 的位图中，并以 600 × 400 的尺寸显示。文本和描边都会很清晰。
+
+## 让问题变得更糟的修复方法
+
+搜索“blurry canvas”，你会找到下面这种模式。它对于原始 `<canvas>` 是正确的，但对于 Konva 是错误的：
+
+```js
+// DO NOT do this in Konva
+const dpr = window.devicePixelRatio;
+stage.width(container.clientWidth * dpr);
+stage.height(container.clientHeight * dpr);
+stage.scale({ x: dpr, y: dpr });
+```
+
+它将设备像素比乘了两次：一次是在这里，另一次是在 Konva 内部。在 2× 屏幕上，stage 最终会**变得两倍于其容器的大小**，并绘制到所需面积四倍的位图中。绘图依然很清晰，所以这个错误很容易被忽略——你注意到的是场景太大，以及内存使用量很高。
+
+这个建议总体上并没有错。对于原始 Canvas 上下文来说，你确实会这样写，因为没有任何东西会替你设置位图尺寸。Konva 并不是原始上下文。
+
+## 真正出现模糊的情况
+
+如果 Konva 场景看起来仍然柔和，通常原因是以下之一。
+
+### 容器通过 CSS 进行了缩放
+
+对容器使用 `transform: scale()`，或者使用了与 stage 尺寸不匹配的百分比 `width`，都会拉伸最终的位图。Konva 无法感知这一点。应当让 stage 尺寸匹配容器——请参阅[响应式 Canvas](/docs/posts/responsive-canvas.html)。
+
+### pixelRatio 被关闭了
+
+`Konva.pixelRatio = 1` 确实是一种性能优化，但会牺牲视网膜屏幕上的清晰度。对于复杂场景来说它值得使用，但对于文本来说并不值得。如果有人进行了全局设置，这就是原因。
+
+```js
+Konva.pixelRatio = 1;  // faster, and soft on retina
+```
+
+### 缓存节点时使用了错误的比例
+
+`node.cache()` 会将节点渲染到它自己的位图中。该位图的尺寸会在缓存时固定，因此在缩放之前缓存的节点之后会被放大。请以实际显示时使用的比例进行缓存，或者在缩放发生变化后重新缓存。
+
+```js
+node.cache({ pixelRatio: 2 });
+```
+
+### 导出的图像很模糊
+
+导出是一个单独的设置。无论屏幕情况如何，`toDataURL()` 的默认 `pixelRatio` 都是 `1`，因此导出的图像看起来会比生成它的 Canvas 更柔和。可以请求更高的比例：
+
+```js
+stage.toDataURL({ pixelRatio: 2 });
+```
+
+[高质量导出](/docs/data_and_serialization/High-Quality-Export.html)中对此有更多说明。
+
+## 细线看起来柔和，而不是模糊
+
+在整数坐标上绘制的一像素描边会跨在两个像素之间，因为线条以路径为中心。它的一半会落在每个像素中，浏览器会将两者混合。这是与设备像素比不同的问题，在任何缩放级别下都会发生。
+
+偏移半个像素，使描边填充一行像素：
+
+```js
+const line = new Konva.Line({
+  points: [10, 20.5, 200, 20.5],  // .5 puts the 1px stroke inside one pixel row
+  stroke: 'black',
+  strokeWidth: 1,
+});
+```
+
+下面的演示会绘制两次相同的水平线。上面的线位于整数坐标上，看起来是灰色的；下面的线偏移了半个像素，看起来是黑色的。
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 140,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// On a whole coordinate: the 1px stroke straddles two pixel rows.
+layer.add(
+  new Konva.Line({
+    points: [20, 40, 380, 40],
+    stroke: 'black',
+    strokeWidth: 1,
+  })
+);
+layer.add(
+  new Konva.Text({ x: 20, y: 48, text: 'y = 40 — blended across two rows', fontSize: 13 })
+);
+
+// Offset by half a pixel: the stroke fills a single row.
+layer.add(
+  new Konva.Line({
+    points: [20, 100.5, 380, 100.5],
+    stroke: 'black',
+    strokeWidth: 1,
+  })
+);
+layer.add(
+  new Konva.Text({ x: 20, y: 108, text: 'y = 100.5 — inside one row', fontSize: 13 })
+);
+```
+
+对于带描边的形状，Konva 可以替你完成这项工作。`strokeScaleEnabled` 和 `perfectDrawEnabled` 控制相关行为；对于清晰的轴对齐描边，偏移半个像素是可靠的解决方案。
+
+## 读取实际数值
+
+当你不确定哪个尺寸有问题时，可以同时输出两者：
+
+```js
+const canvas = stage.container().querySelector('canvas');
+
+console.log('CSS size   ', canvas.clientWidth, canvas.clientHeight);
+console.log('bitmap size', canvas.width, canvas.height);
+console.log('ratio      ', canvas.width / canvas.clientWidth);
+console.log('devicePixelRatio', window.devicePixelRatio);
+```
+
+如果该比例与 `devicePixelRatio` 匹配，说明 Canvas 是正确的，柔和效果来自 CSS、缓存或导出。如果在视网膜屏幕上该比例为 `1`，说明某处关闭了 `pixelRatio`。

@@ -1,17 +1,17 @@
 ---
-title: HTML5 Canvas 图形缩放与变换限制
-sidebar_label: 缩放限制
+title: HTML5 Canvas 形状调整大小和变换限制
+sidebar_label: 调整大小限制
 hide_table_of_contents: true
 slug: Resize_Limits.html
-description: "了解如何使用 Konva.js Transformer 在 HTML5 Canvas 上调整形状大小时设置最小和最大尺寸限制。"
+description: "了解如何在使用 Konva.js Transformer 调整 HTML5 Canvas 上的形状大小时设置最小和最大尺寸限制"
 ---
 
-若要限制或改变缩放及变换的行为，你可以使用 `boundBoxFunc` 属性。
-它的工作方式与 [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds.html) 有些类似。
+要限制或更改调整大小和变换行为，可以使用 `boundBoxFunc` 属性
+它的工作方式与 [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds.html) 有些类似
 
-**使用说明：尝试调整一个图形的大小，你会看到它的宽度被限制在 200 以内。**
+**说明：尝试调整形状的大小。你会看到它的宽度被限制为 200**
 
-此外，你还可以逐个控制每个锚点的移动。请参阅 [调整大小吸附演示](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html)。
+你还可以单独控制每个锚点的移动。请参阅 [Resize Snap Demo](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html)
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -25,45 +25,46 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 
 const stage = new Konva.Stage({
-  container: 'container',
-  width: width,
-  height: height,
+container: 'container',
+width: width,
+height: height,
 });
 
 const layer = new Konva.Layer();
 stage.add(layer);
 
 const rect = new Konva.Rect({
-  x: 50,
-  y: 50,
-  width: 100,
-  height: 100,
-  fill: 'yellow',
-  stroke: 'black',
-  draggable: true,
+x: 50,
+y: 50,
+width: 100,
+height: 100,
+fill: 'yellow',
+stroke: 'black',
+draggable: true,
 });
 layer.add(rect);
 
 const tr = new Konva.Transformer({
-  nodes: [rect],
-  boundBoxFunc: (oldBox, newBox) => {
-    // 限制缩放
-    if (newBox.width > 200) {
-      return oldBox;
-    }
-    return newBox;
-  },
+nodes: [rect],
+boundBoxFunc: (oldBox, newBox) => {
+// limit resize
+if (newBox.width > 200) {
+return oldBox;
+}
+return newBox;
+},
 });
 layer.add(tr);
 
-```
+````
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 50, y: 50 });
   const rectRef = useRef();
   const trRef = useRef();
 
@@ -75,19 +76,21 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={100}
           fill="yellow"
           stroke="black"
           draggable
           ref={rectRef}
+          onDragEnd={(e) => setRectPosition(e.target.position())}
+          onTransformEnd={(e) => setRectPosition(e.target.position())}
         />
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
-            // 限制缩放
+            // limit resize
             if (newBox.width > 200) {
               return oldBox;
             }
@@ -100,7 +103,8 @@ const App = () => {
 };
 
 export default App;
-```
+````
+
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
@@ -139,7 +143,7 @@ const rectConfig = {
 
 const transformerConfig = {
   boundBoxFunc: (oldBox, newBox) => {
-    // 限制缩放
+    // limit resize
     if (newBox.width > 200) {
       return oldBox;
     }
@@ -158,4 +162,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

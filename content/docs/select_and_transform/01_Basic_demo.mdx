@@ -1,22 +1,22 @@
 ---
 title: HTML5 Canvas 形状选择、调整大小和旋转
-sidebar_label: 基础演示
+sidebar_label: 基础示例
 hide_table_of_contents: true
 slug: Basic_demo.html
-description: "学习如何使用 Konva.js Transformer 在 HTML5 Canvas 上选择、调整大小和旋转形状。为调整大小和旋转任何形状添加交互式手柄。"
+description: "了解如何使用 Konva.js Transformer 在 HTML5 Canvas 上选择、调整大小和旋转形状。为任意形状添加用于调整大小和旋转的交互式控制柄。"
 ---
 
-`Transformer` 是一种特殊类型的 `Konva.Group`。它允许您轻松调整大小和旋转任何节点或节点集。
+`Transformer` 是一种特殊的 `Konva.Group`。它可以让你轻松调整任意节点或节点组的大小并进行旋转。
 
-要启用它，您需要：
+要启用它，你需要：
 
 1. 使用 `new Konva.Transformer()` 创建新实例
 2. 将其添加到图层
-3. 使用 `transformer.nodes([shape]);` 附加到节点
+3. 使用 `transformer.nodes([shape]);` 将其附加到节点
 
-_注意:_ 变换工具在调整节点大小时不会更改节点的 `width` 和 `height` 属性。相反，它会更改 `scaleX` 和 `scaleY` 属性。
+_注意：_ 调整大小时，变换工具不会更改节点的 `width` 和 `height` 属性，而是更改 `scaleX` 和 `scaleY` 属性。
 
-**说明：尝试调整形状的大小和旋转。点击空白区域以取消选择。使用 SHIFT 或 CTRL 向选择中添加/移除形状。尝试在画布上选择区域。**
+**说明：尝试调整形状的大小并旋转它们。点击空白区域以取消选择。使用 SHIFT 或 CTRL 将形状添加到选择中或从选择中移除。尝试在画布上选择一个区域。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -38,7 +38,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// 创建矩形
+// create rectangle
 const rect1 = new Konva.Rect({
   x: 60,
   y: 60,
@@ -61,11 +61,11 @@ const rect2 = new Konva.Rect({
 });
 layer.add(rect2);
 
-// 创建变换器
+// create transformer
 const tr = new Konva.Transformer();
 layer.add(tr);
 
-// 添加一个新功能，让我们添加绘制选择矩形的能力
+// add a new feature, lets add ability to draw selection rectangle
 let selectionRectangle = new Konva.Rect({
   fill: 'rgba(0,0,255,0.5)',
   visible: false,
@@ -74,7 +74,7 @@ layer.add(selectionRectangle);
 
 let x1, y1, x2, y2;
 stage.on('mousedown touchstart', (e) => {
-  // 如果我们在任何形状上按下鼠标，则不执行任何操作
+  // do nothing if we mousedown on any shape
   if (e.target !== stage) {
   return;
   }
@@ -93,7 +93,7 @@ stage.on('mousedown touchstart', (e) => {
 });
 
 stage.on('mousemove touchmove', () => {
-  // 如果我们没有开始选择，则不执行任何操作
+  // do nothing if we didn't start selection
   if (!selectionRectangle.visible()) {
   return;
   }
@@ -109,11 +109,11 @@ stage.on('mousemove touchmove', () => {
 });
 
 stage.on('mouseup touchend', () => {
-  // 如果我们没有开始选择，则不执行任何操作
+  // do nothing if we didn't start selection
   if (!selectionRectangle.visible()) {
     return;
   }
-  // 在超时中更新可见性，以便我们可以在点击事件中检查它
+  // update visibility in timeout, so we can check it in click event
   setTimeout(() => {
     selectionRectangle.visible(false);
   });
@@ -126,41 +126,41 @@ stage.on('mouseup touchend', () => {
   tr.nodes(selected);
 });
 
-// 点击应该选择/取消选择形状
+// clicks should select/deselect shapes
 stage.on('click tap', function (e) {
-// 如果我们正在使用矩形选择，则不执行任何操作
+// if we are selecting with rect, do nothing
 if (selectionRectangle.visible() && selectionRectangle.width() > 0 && selectionRectangle.height() > 0) {
   return;
 }
 
-  // 如果点击空白区域 - 移除所有选择
+  // if click on empty area - remove all selections
   if (e.target === stage) {
     tr.nodes([]);
     return;
   }
 
-  // 如果点击的不是我们的矩形，则不执行任何操作
+  // do nothing if clicked NOT on our rectangles
   if (!e.target.hasName('rect')) {
     return;
   }
 
-  // 我们按下了 shift 还是 ctrl？
+  // do we pressed shift or ctrl?
   const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
   const isSelected = tr.nodes().indexOf(e.target) >= 0;
 
   if (!metaPressed && !isSelected) {
-    // 如果没有按下键且节点未被选中
-    // 只选择一个
+    // if no key pressed and the node is not selected
+    // select just one
     tr.nodes([e.target]);
   } else if (metaPressed && isSelected) {
-    // 如果我们按下了键且节点已被选中
-    // 我们需要将其从选择中移除：
-    const nodes = tr.nodes().slice(); // 使用 slice 获取数组的新副本
-    // 从数组中移除节点
+    // if we pressed keys and node was selected
+    // we need to remove it from selection:
+    const nodes = tr.nodes().slice(); // use slice to have new copy of array
+    // remove node from array
     nodes.splice(nodes.indexOf(e.target), 1);
     tr.nodes(nodes);
   } else if (metaPressed && !isSelected) {
-    // 将节点添加到选择中
+    // add the node into selection
     const nodes = tr.nodes().concat([e.target]);
     tr.nodes(nodes);
   }
@@ -196,7 +196,7 @@ const initialRectangles = [
   },
 ];
 
-// 用于计算旋转矩形边界框的辅助函数
+// Helper functions for calculating bounding boxes of rotated rectangles
 const degToRad = (angle) => (angle / 180) * Math.PI;
 
 const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
@@ -244,69 +244,69 @@ const App = () => {
   const transformerRef = useRef();
   const rectRefs = useRef(new Map());
   
-  // 当选择更改时更新变换器
+  // Update transformer when selection changes
   useEffect(() => {
     if (selectedIds.length && transformerRef.current) {
-      // 从 refs Map 获取节点
+      // Get the nodes from the refs Map
       const nodes = selectedIds
         .map(id => rectRefs.current.get(id))
         .filter(node => node);
       
       transformerRef.current.nodes(nodes);
     } else if (transformerRef.current) {
-      // 清除选择
+      // Clear selection
       transformerRef.current.nodes([]);
     }
   }, [selectedIds]);
   
-  // 舞台的点击处理程序
+  // Click handler for stage
   const handleStageClick = (e) => {
-    // 如果我们正在使用矩形选择，则不执行任何操作
-    // 但允许点点击通过（当宽度/高度为 0 时）
+    // If we are selecting with rect, do nothing
+    // But allow point clicks through (when width/height are 0)
     const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
     const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
     if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
       return;
     }
 
-    // 如果点击空白区域 - 移除所有选择
+    // If click on empty area - remove all selections
     if (e.target === e.target.getStage()) {
       setSelectedIds([]);
       return;
     }
 
-    // 如果点击的不是我们的矩形，则不执行任何操作
+    // Do nothing if clicked NOT on our rectangles
     if (!e.target.hasName('rect')) {
       return;
     }
 
     const clickedId = e.target.id();
     
-    // 我们按下了 shift 还是 ctrl？
+    // Do we pressed shift or ctrl?
     const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
     const isSelected = selectedIds.includes(clickedId);
 
     if (!metaPressed && !isSelected) {
-      // 如果没有按下键且节点未被选中
-      // 只选择一个
+      // If no key pressed and the node is not selected
+      // select just one
       setSelectedIds([clickedId]);
     } else if (metaPressed && isSelected) {
-      // 如果我们按下了键且节点已被选中
-      // 我们需要将其从选择中移除
+      // If we pressed keys and node was selected
+      // we need to remove it from selection
       setSelectedIds(selectedIds.filter(id => id !== clickedId));
     } else if (metaPressed && !isSelected) {
-      // 将节点添加到选择中
+      // Add the node into selection
       setSelectedIds([...selectedIds, clickedId]);
     }
   };
   
   const handleMouseDown = (e) => {
-    // 如果我们在任何形状上按下鼠标，则不执行任何操作
+    // Do nothing if we mousedown on any shape
     if (e.target !== e.target.getStage()) {
       return;
     }
     
-    // 开始选择矩形
+    // Start selection rectangle
     isSelecting.current = true;
     const pos = e.target.getStage().getPointerPosition();
     setSelectionRectangle({
@@ -319,7 +319,7 @@ const App = () => {
   };
 
   const handleMouseMove = (e) => {
-    // 如果我们没有开始选择，则不执行任何操作
+    // Do nothing if we didn't start selection
     if (!isSelecting.current) {
       return;
     }
@@ -333,13 +333,13 @@ const App = () => {
   };
 
   const handleMouseUp = () => {
-    // 如果我们没有开始选择，则不执行任何操作
+    // Do nothing if we didn't start selection
     if (!isSelecting.current) {
       return;
     }
     isSelecting.current = false;
     
-    // 在超时中更新可见性，以便我们可以在点击事件中检查它
+    // Update visibility in timeout, so we can check it in click event
     setTimeout(() => {
       setSelectionRectangle({
         ...selectionRectangle,
@@ -354,10 +354,10 @@ const App = () => {
       height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
     };
 
-    // 仅当选择框具有实际大小时才选择形状（不仅仅是点点击）
+    // Only select shapes if selection box has actual size (not just a point click)
     if (selBox.width > 0 && selBox.height > 0) {
       const selected = rectangles.filter(rect => {
-        // 检查矩形是否在选择框内相交
+        // Check if rectangle intersects with selection box
         return Konva.Util.haveIntersection(selBox, getClientRect(rect));
       });
       
@@ -382,31 +382,31 @@ const App = () => {
   };
 
   const handleTransformEnd = (e) => {
-    // 查找哪个矩形被变换了
+    // Find which rectangle(s) were transformed
     const id = e.target.id();
     const node = e.target;
     
     setRectangles(prevRects => {
       const newRects = [...prevRects];
       
-      // 更新每个被变换的节点
+      // Update each transformed node
       const index = newRects.findIndex(r => r.id === id);
       
       if (index !== -1) {
         const scaleX = node.scaleX();
         const scaleY = node.scaleY();
         
-        // 重置缩放
+        // Reset scale
         node.scaleX(1);
         node.scaleY(1);
         
-        // 用新值更新状态
+        // Update the state with new values
         newRects[index] = {
           ...newRects[index],
           x: node.x(),
           y: node.y(),
           width: Math.max(5, node.width() * scaleX),
-          height: Math.max(node.height() * scaleY),
+          height: Math.max(5, node.height() * scaleY),
           rotation: node.rotation(),
         };
       }
@@ -422,10 +422,14 @@ const App = () => {
       onMouseDown={handleMouseDown}
       onMousemove={handleMouseMove}
       onMouseup={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchMove={handleMouseMove}
+      onTouchEnd={handleMouseUp}
       onClick={handleStageClick}
+      onTap={handleStageClick}
     >
       <Layer>
-        {/* 直接渲染矩形 */}
+        {/* Render rectangles directly */}
         {rectangles.map(rect => (
           <Rect
             key={rect.id}
@@ -448,11 +452,11 @@ const App = () => {
           />
         ))}
         
-        {/* 所有选中形状的单个变换器 */}
+        {/* Single transformer for all selected shapes */}
         <Transformer
           ref={transformerRef}
           boundBoxFunc={(oldBox, newBox) => {
-            // 限制调整大小
+            // Limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
             }
@@ -461,7 +465,7 @@ const App = () => {
           
         />
         
-        {/* 选择矩形 */}
+        {/* Selection rectangle */}
         {selectionRectangle.visible && (
           <Rect
             x={Math.min(selectionRectangle.x1, selectionRectangle.x2)}
@@ -487,7 +491,11 @@ export default App;
     @mousedown="handleMouseDown"
     @mousemove="handleMouseMove"
     @mouseup="handleMouseUp"
+    @touchstart="handleMouseDown"
+    @touchmove="handleMouseMove"
+    @touchend="handleMouseUp"
     @click="handleStageClick"
+    @tap="handleStageClick"
     ref="stageRef"
   >
     <v-layer ref="layerRef">
@@ -496,7 +504,7 @@ export default App;
         :key="i"
         :config="{
           ...rect,
-          name: 'rect', // 重要：匹配原生版本的逻辑
+          name: 'rect', // Important to match vanilla version's logic
           draggable: true
         }"
         @dragend="(e) => handleDragEnd(e, i)"
@@ -507,7 +515,7 @@ export default App;
         ref="transformerRef"
         :config="{
           boundBoxFunc: (oldBox, newBox) => {
-            // 限制调整大小
+            // limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
             }
@@ -572,7 +580,7 @@ const selectionRectangle = reactive({
   y2: 0
 });
 
-// 用于计算旋转矩形边界框的辅助函数
+// Helper functions for calculating bounding boxes of rotated rectangles
 const degToRad = (angle) => (angle / 180) * Math.PI;
 
 const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
@@ -605,7 +613,7 @@ const getClientRect = (element) => {
   };
 };
 
-// 当选择更改时更新变换器节点
+// Update transformer nodes when selection changes
 watch(selectedIds, () => {
   if (!transformerRef.value) return;
   
@@ -617,52 +625,52 @@ watch(selectedIds, () => {
 });
 
 const handleStageClick = (e) => {
-  // 如果我们正在使用矩形选择，则不执行任何操作
-  // 但允许点点击通过（当宽度/高度为 0 时）
+  // if we are selecting with rect, do nothing
+  // But allow point clicks through (when width/height are 0)
   const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
   const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
   if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
     return;
   }
 
-  // 如果点击空白区域 - 移除所有选择
+  // if click on empty area - remove all selections
   if (e.target === e.target.getStage()) {
     selectedIds.value = [];
     return;
   }
 
-  // 如果点击的不是我们的矩形，则不执行任何操作
+  // do nothing if clicked NOT on our rectangles
   if (!e.target.hasName('rect')) {
     return;
   }
   
   const clickedId = e.target.attrs.id;
   
-  // 我们按下了 shift 还是 ctrl？
+  // do we pressed shift or ctrl?
   const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
   const isSelected = selectedIds.value.includes(clickedId);
 
   if (!metaPressed && !isSelected) {
-    // 如果没有按下键且节点未被选中
-    // 只选择一个
+    // if no key pressed and the node is not selected
+    // select just one
     selectedIds.value = [clickedId];
   } else if (metaPressed && isSelected) {
-    // 如果我们按下了键且节点已被选中
-    // 我们需要将其从选择中移除：
+    // if we pressed keys and node was selected
+    // we need to remove it from selection:
     selectedIds.value = selectedIds.value.filter(id => id !== clickedId);
   } else if (metaPressed && !isSelected) {
-    // 将节点添加到选择中
+    // add the node into selection
     selectedIds.value = [...selectedIds.value, clickedId];
   }
 };
 
 const handleMouseDown = (e) => {
-  // 如果我们在任何形状上按下鼠标，则不执行任何操作
+  // do nothing if we mousedown on any shape
   if (e.target !== e.target.getStage()) {
     return;
   }
   
-  // 开始选择矩形
+  // start selection rectangle
   isSelecting.value = true;
   const pos = e.target.getStage().getPointerPosition();
   selectionRectangle.visible = true;
@@ -673,7 +681,7 @@ const handleMouseDown = (e) => {
 };
 
 const handleMouseMove = (e) => {
-  // 如果我们没有开始选择，则不执行任何操作
+  // do nothing if we didn't start selection
   if (!isSelecting.value) {
     return;
   }
@@ -684,14 +692,14 @@ const handleMouseMove = (e) => {
 };
 
 const handleMouseUp = () => {
-  // 如果我们没有开始选择，则不执行任何操作
+  // do nothing if we didn't start selection
   if (!isSelecting.value) {
     return;
   }
   
   isSelecting.value = false;
   
-  // 在超时中更新可见性，以便我们可以在点击事件中检查它
+  // update visibility in timeout, so we can check it in click event
   setTimeout(() => {
     selectionRectangle.visible = false;
   });
@@ -703,10 +711,10 @@ const handleMouseUp = () => {
     height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
   };
 
-  // 仅当选择框具有实际大小时才选择形状（不仅仅是点点击）
+  // Only select shapes if selection box has actual size (not just a point click)
   if (selBox.width > 0 && selBox.height > 0) {
     const selected = rectangles.value.filter(rect => {
-      // 检查矩形是否在选择框内相交
+      // Check if rectangle intersects with selection box
       return Konva.Util.haveIntersection(selBox, getClientRect(rect));
     });
     
@@ -738,14 +746,13 @@ const handleTransformEnd = (e, index) => {
     x: node.x(),
     y: node.y(),
     width: Math.max(5, node.width() * scaleX),
-    height: Math.max(node.height() * scaleY),
+    height: Math.max(5, node.height() * scaleY),
     rotation: node.rotation(),
   };
   rectangles.value = rects;
 };
 </script>
 
-````
+```
   </TabItem>
 </Tabs>
-````

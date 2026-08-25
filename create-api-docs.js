@@ -4,6 +4,26 @@ import path from 'path';
 import { existsSync } from 'node:fs';
 import { rm, mkdir } from 'node:fs/promises';
 
+// `onBrokenAnchors: 'throw'` is set in docusaurus.config.ts, so a link must never
+// point to an anchor that the target page does not have. Only own methods and
+// properties get an explicit `{#name}` anchor, so only those are safe targets.
+function hasAnchor(className, anchor) {
+  const target = docs[className];
+  if (!target) return false;
+  return (
+    (target.methods || []).some((m) => m.name === anchor) ||
+    (target.properties || []).some((p) => p.name === anchor)
+  );
+}
+
+// Link to `anchor` on the page of `className`, or to the page itself when the
+// anchor is not documented (for example when the JSDoc block upstream is malformed).
+function createAnchorLink(label, className, anchor) {
+  return hasAnchor(className, anchor)
+    ? `[${label}](/api/${className}.html#${anchor})`
+    : `[${label}](/api/${className}.html)`;
+}
+
 // Add this function near the top of the file, after the imports
 function processDescription(description) {
   // Return empty string if description is undefined or null
@@ -16,12 +36,12 @@ function processDescription(description) {
         // If it's a filter link (contains two dots)
         if (p1.startsWith('Konva.Filters.')) {
           const filterName = p1.split('.')[2];
-          return `[${p1}](/api/Konva.Filters.html#${filterName})`;
+          return createAnchorLink(p1, 'Konva.Filters', filterName);
         }
         // If it contains a hash, we need to place .html before the hash
         if (p1.includes('#')) {
           const [className, method] = p1.split('#');
-          return `[${p1}](/api/${className}.html#${method})`;
+          return createAnchorLink(p1, className, method);
         }
         return `[${p1}](/api/${p1}.html)`;
       })
@@ -37,7 +57,7 @@ function processDescription(description) {
 
 // Add this function after the processDescription function
 function createMethodLink(className, methodName) {
-  return `[${className}#${methodName}](/api/${className}.html#${methodName.toLowerCase()})`;
+  return createAnchorLink(`${className}#${methodName}`, className, methodName);
 }
 
 // Add this function near the top of the file, after the imports
@@ -45,8 +65,7 @@ function createClassLink(className) {
   return `[${className}](/api/${className}.html)`;
 }
 
-const data = await jsdoc.explain({ files: ['konva.js'], cache: true });
-fs.writeFile(`./data.json`, JSON.stringify(data, null, 2));
+const data = await jsdoc.explain({ files: ['node_modules/konva/konva.js'], cache: true });
 
 // Remove ./docs/api if it exists
 if (existsSync('./content/api')) {
@@ -140,12 +159,55 @@ data.forEach((item) => {
 
 fs.writeFile(`./docs.json`, JSON.stringify(docs, null, 2));
 
+
+/**
+ * Build the meta description for an API page.
+ *
+ * processDescription() emits markdown links and escapes, which must not end up
+ * inside a <meta> tag, so this strips to plain text. Many classes only carry
+ * "Rect constructor" as their jsdoc description, which is useless as a snippet,
+ * so anything that short falls back to a generated sentence.
+ */
+function buildApiDescription(docItem) {
+  const raw = (docItem.classdesc || docItem.description || '')
+    .replace(/{@link\s+([^}]+)}/g, '$1')   // jsdoc links -> bare names
+    .replace(/\[([^\]]+)]\([^)]+\)/g, '$1') // markdown links -> labels
+    .replace(/<[^>]+>/g, ' ')               // stray html
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#(?:39|x27);/gi, "'")
+    .replace(/[*_~`]+/g, '')                 // markdown emphasis and code
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const kind = docItem.kind === 'class' ? 'class' : 'namespace';
+  const generated =
+    `${docItem.longname} ${kind} reference for Konva.js: properties, methods ` +
+    `and configuration for working with ${docItem.name} on HTML5 Canvas.`;
+
+  const summary = raw && /[.!?]$/.test(raw) ? raw : `${raw}.`;
+  let text = raw.length > 60 ? summary : `${raw ? summary + ' ' : ''}${generated}`;
+
+  if (text.length > 300) {
+    const cut = text.slice(0, 300);
+    const stop = cut.lastIndexOf('. ');
+    text = stop > 150 ? cut.slice(0, stop + 1) : cut.trimEnd() + '…';
+  }
+
+  // YAML double-quoted scalar: only backslash and double quote need escaping.
+  return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
 // Generate markdown files
 for (const [longname, docItem] of Object.entries(docs)) {
   let markdown = `---
 title: ${docItem.longname}
 sidebar_label: ${docItem.name}
 slug: /api/${docItem.longname}.html
+description: "${buildApiDescription(docItem)}"
 ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
 ---
 
@@ -229,24 +291,62 @@ ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
 
     if (docItem.inheritedMethods && docItem.inheritedMethods.length > 0) {
       markdown += `## Inherited Methods\n\n`;
-      docItem.inheritedMethods.forEach((method) => {
-        const params = method.params
-          ? method.params
-              .filter((p) => !p.name.includes('.'))
-              .map((p) => p.name)
-              .join(', ')
-          : '';
-        markdown += `### ${method.isStatic ? 'static ' : ''}${
-          method.name
-        }(${params})\n\n`;
-        markdown += generateFunctionMarkdown(method);
-      });
+      markdown += `\`${docItem.longname}\` also has all methods of its parent classes. Each link below opens the full documentation of the method on the class that defines it.\n\n`;
+      markdown += renderInheritedMethods(docItem.inheritedMethods);
     }
   }
 
   // Write markdown file
   const filename = path.join('content', 'api', `${longname}.mdx`);
   fs.writeFile(filename, markdown);
+}
+
+// Render inherited methods as a compact list of links, grouped by the class that
+// defines each method. The full body of the method lives on that class page only,
+// so shape pages do not repeat thousands of identical lines.
+function renderInheritedMethods(inheritedMethods) {
+  // Map of defining class name (or '' when unknown) -> Map of method name -> signature
+  const groups = new Map();
+
+  inheritedMethods.forEach((method) => {
+    const [definedIn, definedName] = (method.inherits || '').split('#');
+    const groupKey = definedIn && definedName ? definedIn : '';
+    if (!groups.has(groupKey)) {
+      groups.set(groupKey, new Map());
+    }
+    const group = groups.get(groupKey);
+    // The same method can be documented more than once (overloads); one link is enough.
+    if (group.has(method.name)) return;
+
+    const params = method.params
+      ? method.params
+          .filter((p) => !p.name.includes('.')) // Filter out nested properties
+          .map((p) => p.name)
+          .join(', ')
+      : '';
+    group.set(method.name, { params, definedName });
+  });
+
+  let markdown = '';
+  for (const [definedIn, methods] of groups) {
+    // Plain text heading: a link inside a heading would nest an <a> inside the
+    // table of contents link. Every row below links into the class page anyway.
+    if (docs[definedIn]) {
+      markdown += `### From ${definedIn} {#inherited-from-${definedIn}}\n\n`;
+    } else {
+      markdown += `### From other classes {#inherited-from-other}\n\n`;
+    }
+
+    for (const [name, { params, definedName }] of methods) {
+      const label = `${name}(${params})`;
+      markdown += docs[definedIn]
+        ? `- ${createAnchorLink(label, definedIn, definedName)}\n`
+        : `- ${label}\n`;
+    }
+    markdown += '\n';
+  }
+
+  return markdown;
 }
 
 // Helper function to generate markdown for properties
@@ -319,72 +419,3 @@ function generateFunctionMarkdown(func) {
 
   return markdown;
 }
-
-// ... existing code ...
-
-// import { promises as fs } from "node:fs";
-// import { existsSync } from "node:fs";
-// import jsdoc2md from "jsdoc-to-markdown";
-// import { rm, mkdir } from "node:fs/promises";
-
-// /* input and output paths */
-// const inputFile = "konva.js";
-
-// /* get template data */
-// const templateData = await jsdoc2md.getTemplateData({ files: inputFile });
-
-// const kinds = [];
-// templateData.forEach((i) => {
-//   if (kinds.indexOf(i.kind) === -1) {
-//     kinds.push(i.kind);
-//   }
-// });
-
-// const kindsToRender = ["class", "member", "namespace"];
-
-// // Remove ./docs/api if it exists
-// if (existsSync("./docs/api")) {
-//   await rm("./docs/api", { recursive: true, force: true });
-// }
-
-// fs.writeFile(`./data.json`, JSON.stringify(templateData, null, 2));
-
-// // Create a new ./docs/api folder
-// await mkdir("./docs/api", { recursive: true });
-
-// /* create a documentation file for each class */
-// for (const item of templateData) {
-//   const kind = item.kind;
-//   const name = item.name;
-//   if (kindsToRender.indexOf(kind) === -1) {
-//     continue;
-//   }
-//   let data = [...templateData];
-//   if (name === 'Konva') {
-//     data = templateData.filter((i) => i.kind === 'class' ||i.kind === 'namespace' || i.memberof === 'Konva');
-//   }
-//   const template = `{{#${kind} name="${name}"}}{{>docs}}{{/${kind}}}`;
-//   console.log(`rendering ${name}, template: ${template}`);
-//   const output = await jsdoc2md.render({
-//     data,
-//     template: template,
-//     partial: [
-//       "./partials/scope.hbs",
-//       "./partials/inherit-link.hbs",
-//       "./partials/overrides.hbs",
-//       "./partials/docs.hbs",
-//       "./partials/header.hbs",
-//       "./partials/augments.hbs",
-//       "./partials/link.hbs"
-//     ],
-//     helper: ["./helpers/replace.js"],
-//   });
-//   await fs.writeFile(`./docs/api/Konva.${name}.mdx`, `---
-// title: Konva.${name}
-// sidebar_label: ${name}
-// slug: /docs/api/${name}.html
-// ---
-
-// ${output}
-//   `);
-// }

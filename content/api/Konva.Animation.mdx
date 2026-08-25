@@ -2,6 +2,7 @@
 title: Konva.Animation
 sidebar_label: Animation
 slug: /api/Konva.Animation.html
+description: "Animation 构造函数。Konva.js 的 Konva.Animation 类参考：用于在 HTML5 Canvas 上处理 Animation 的属性、方法和配置"
 
 ---
 
@@ -11,58 +12,58 @@ slug: /api/Konva.Animation.html
 new Konva.Animation(config)
 ```
 
-Animation constructor.
+Animation 构造函数。
 
-## Parameters
+## 参数
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | ---- | ---- | ----------- |
-| func | `AnimationFn` | function executed on each animation frame.  The function is passed a frame object, which contains  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed  since the last animation frame. The time property is the time in milliseconds that elapsed from the moment the animation started  to the current animation frame. The lastTime property is a `time` value from the previous frame.  The frameRate property is the current frame rate in frames / second.  Return false from function, if you don't need to redraw layer/layers on some frames. |
-| layers (optional) | `Konva.Layer\|Array` | layer(s) to be redrawn on each animation frame. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw. |
+| func | `AnimationFn` | 在每个动画帧上执行的函数。该函数会传入一个帧对象，其中包含 timeDiff、lastTime、time 和 frameRate 属性。timeDiff 属性是自上一个动画帧以来经过的毫秒数。time 属性是从动画开始时刻到当前动画帧所经过的毫秒数。lastTime 属性是上一帧的 `time` 值。frameRate 属性是当前帧率，单位为帧／秒。如果某些帧不需要重绘图层，请从函数返回 false |
+| layers (可选) | `Konva.Layer\|Array` | 要在每个动画帧上重绘的图层。可以是一个图层、图层数组或 null。不指定节点将不会进行重绘 |
 
-## Own Methods
+## 自有方法
 
 ### setLayers(layers) {#setLayers}
 
-set layers to be redrawn on each animation frame
+设置要在每个动画帧上重绘的图层
 
-**Parameters:**
+**参数：**
 
-- `layers` (Konva.Layer|Array) (optional): layer(s) to be redrawn. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw.
+- `layers` (Konva.Layer|Array) (可选)：要重绘的图层。可以是一个图层、图层数组或 null。不指定节点将不会进行重绘
 
-**Returns:** `Konva.Animation` <code>this</code>
+**返回：** `Konva.Animation` <code>this</code>
 
 ### getLayers() {#getLayers}
 
-get layers
+获取图层
 
-**Returns:** `Array` <code>Array of Konva.Layer</code>
+**返回：** `Array` <code>Konva.Layer 的 Array</code>
 
 ### addLayer(layer) {#addLayer}
 
-add layer.  Returns true if the layer was added, and false if it was not
+添加图层。如果图层已添加，则返回 true；否则返回 false
 
-**Parameters:**
+**参数：**
 
-- `layer` (Konva.Layer): to add
+- `layer` (Konva.Layer)：要添加的图层
 
-**Returns:** `Bool` <code>true if layer is added to animation, otherwise false</code>
+**返回：** `Bool` <code>如果图层已添加到动画中，则为 true，否则为 false</code>
 
 ### isRunning() {#isRunning}
 
-determine if animation is running or not.  returns true or false
+确定动画是否正在运行。返回 true 或 false
 
-**Returns:** `Bool` <code>is animation running?</code>
+**返回：** `Bool` <code>动画是否正在运行？</code>
 
 ### start() {#start}
 
-start animation
+开始动画
 
-**Returns:** `Konva.Animation` <code>this</code>
+**返回：** `Konva.Animation` <code>this</code>
 
 ### stop() {#stop}
 
-stop animation
+停止动画
 
-**Returns:** `Konva.Animation` <code>this</code>
+**返回：** `Konva.Animation` <code>this</code>
 

@@ -3,16 +3,14 @@ title: 旋转动画教程
 sidebar_label: 旋转
 hide_table_of_contents: true
 slug: Rotation.html
-description: "学习如何使用 Konva.js 在 HTML5 Canvas 上实现形状旋转动画。使用 Konva.Animation 创建平滑的旋转动画。"
+description: "了解如何使用 Konva.js 在 HTML5 Canvas 上制作形状旋转动画。使用 Konva.Animation 创建流畅的旋转动画。"
 ---
 
-要使用 Konva 实现形状旋转动画，我们可以创建一个新的动画
-`Konva.Animation`，并定义一个函数，在每一动画帧中修改形状的旋转。
+要使用 Konva 制作形状的旋转动画，我们可以通过 `Konva.Animation` 创建一个新的动画，并定义一个函数，在每个动画帧中修改形状的旋转角度。
 
-在本教程中，我们将围绕左上角旋转一个蓝色矩形，
-围绕其中心旋转一个黄色矩形，以及围绕外部点旋转一个红色矩形。
+在本教程中，我们将让一个蓝色矩形绕左上角旋转，让一个黄色矩形绕其中心旋转，并让一个红色矩形绕外部的某个点旋转。
 
-有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
+如需查看完整的属性和方法列表，请参阅 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -31,7 +29,7 @@ height: window.innerHeight,
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// 蓝色矩形 - 绕左上角旋转
+// blue rectangle - rotate around top-left corner
 const blueRect = new Konva.Rect({
 x: 50,
 y: 50,
@@ -46,7 +44,7 @@ y: 0,
 },
 });
 
-// 黄色矩形 - 绕中心旋转
+// yellow rectangle - rotate around center
 const yellowRect = new Konva.Rect({
 x: 200,
 y: 50,
@@ -61,7 +59,7 @@ y: 25,
 },
 });
 
-// 红色矩形 - 绕形状外的点旋转
+// red rectangle - rotate around point outside shape
 const redRect = new Konva.Rect({
 x: 350,
 y: 50,
@@ -266,4 +264,3 @@ onUnmounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

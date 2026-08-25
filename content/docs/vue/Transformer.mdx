@@ -96,8 +96,8 @@ const updateTransformer = () => {
   const selected = selectedShapeName.value;
 
   const selectedNode = stage.findOne('.' + selected);
-  // 如果选择的节点已经附加，则什么也不做
-  if (selectedNode === transformerNode.node()) {
+  // do nothing if selected node is already attached
+  if (selectedNode === transformerNode.nodes()[0]) {
     return;
   }
 

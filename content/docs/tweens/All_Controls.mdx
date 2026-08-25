@@ -3,7 +3,7 @@ title: 所有补间控制教程
 sidebar_label: 所有控制
 hide_table_of_contents: true
 slug: All_Controls.html
-description: "学习如何使用 play、pause、reverse、reset、finish 和 seek 方法控制 Konva.js 补间动画。"
+description: "了解如何使用播放、暂停、反向、重置、完成和定位方法控制 Konva.js 补间动画。"
 ---
 
 要使用 Konva 控制补间动画，我们可以使用以下方法：
@@ -15,7 +15,7 @@ description: "学习如何使用 play、pause、reverse、reset、finish 和 see
 - `finish()` - 跳转到最终状态
 - `seek()` - 跳转到特定位置
 
-**说明：使用按钮来控制圆形的补间动画。**
+**说明：使用按钮控制圆形的补间动画。**
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -55,7 +55,7 @@ x: width - 100,
 easing: Konva.Easings.EaseInOut,
 });
 
-// 创建按钮
+// create buttons
 const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
 controls.forEach(control => {
 const button = document.createElement('button');
@@ -66,11 +66,11 @@ tween[control]();
 document.body.appendChild(button);
 });
 
-// 跳转控制
+// seek control
 const seekBtn = document.createElement('button');
 seekBtn.textContent = 'Seek to 50%';
 seekBtn.addEventListener('click', () => {
-tween.seek(1); // 跳转到 1 秒
+tween.seek(1); // seek to 1 second
 });
 document.body.appendChild(seekBtn);
 
@@ -78,6 +78,7 @@ document.body.appendChild(seekBtn);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
 import { useEffect, useRef } from 'react';
 
@@ -88,12 +89,15 @@ const App = () => {
   useEffect(() => {
     if (!circleRef.current) return;
 
-    tweenRef.current = new Konva.Tween({
+    const tween = new Konva.Tween({
       node: circleRef.current,
       duration: 2,
       x: window.innerWidth - 100,
       easing: Konva.Easings.EaseInOut,
     });
+    tweenRef.current = tween;
+
+    return () => tween.destroy();
   }, []);
 
   const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
@@ -103,12 +107,12 @@ const App = () => {
       {controls.map(control => (
         <button
           key={control}
-          onClick={() => tweenRef.current[control]()}
+          onClick={() => tweenRef.current?.[control]()}
         >
           {control}
         </button>
       ))}
-      <button onClick={() => tweenRef.current.seek(1)}>
+      <button onClick={() => tweenRef.current?.seek(1)}>
         Seek to 50%
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>

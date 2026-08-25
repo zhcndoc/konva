@@ -8,7 +8,7 @@ description: "Konva 的 Bunnymark 性能压力测试，在 HTML5 画布上动画
 
 ## 跳跃兔子性能压力测试
 
-本演示展示了同时移动许多 `Konva.Image` 对象的性能。这是基于 [PixiJS 框架](https://www.goodboydigital.com/pixijs/bunnymark/) 的 [Bunnymark 演示](https://www.goodboydigital.com/pixijs/bunnymark/) 进行的改编。
+此演示展示了同时移动许多 `Konva.Image` 对象时的性能。它改编自 [PixiJS 框架](https://pixijs.com/)的 [Bunnymark 演示](https://www.goodboydigital.com/pixijs/bunnymark/)。
 
 注意：您可能会注意到，`Konva` 版本的性能比原始的 `PixiJS` 版本慢。这是因为 PixiJS 对 WebGL 渲染和此类动画进行了高度优化。而 Konva 仍在不断优化其内部实现，请记住此演示并不代表使用 Konva 构建的典型应用的性能。
 
@@ -34,7 +34,7 @@ const stage = new Konva.Stage({
   height: height,
 });
 
-const layer = new Konva.FastLayer();
+const layer = new Konva.Layer({ listening: false });
 stage.add(layer);
 
 // 创建状态显示和计数器
@@ -150,7 +150,7 @@ function update() {
   <TabItem value="React">
 ```js live react
 import { useState, useEffect, useRef } from 'react';
-import { Stage, FastLayer, Image } from 'react-konva';
+import { Stage, Layer, Image } from 'react-konva';
 import { useImage } from 'react-konva-utils';
 
 const BunnyMark = () => {
@@ -289,7 +289,7 @@ const BunnyMark = () => {
         onTouchStart={handleDown}
         onTouchEnd={handleUp}
       >
-        <FastLayer ref={layerRef}>
+        <Layer ref={layerRef} listening={false}>
           {bunniesRef.current.map((bunny, i) => (
             <Image
               key={i}
@@ -301,7 +301,7 @@ const BunnyMark = () => {
               perfectDrawEnabled={false}
             />
           ))}
-        </FastLayer>
+        </Layer>
       </Stage>
       <div 
         style={{
@@ -333,7 +333,7 @@ export default BunnyMark;
       @touchstart="isAdding = true"
       @touchend="isAdding = false"
     >
-      <v-fast-layer ref="layerRef">
+      <v-layer ref="layerRef" :config="{ listening: false }">
         <v-image
           v-for="(bunny, index) in bunnies"
           :key="index"
@@ -346,7 +346,7 @@ export default BunnyMark;
           }"
           :ref="el => storeNodeRef(index, el)"
         />
-      </v-fast-layer>
+      </v-layer>
     </v-stage>
     <div 
       style="position: absolute; top: 50px; background-color: white; font-size: 12px; padding: 5px;"
@@ -492,5 +492,5 @@ onMounted(() => {
 });
 </script>
 ```
-</TabItem>
+  </TabItem>
 </Tabs>

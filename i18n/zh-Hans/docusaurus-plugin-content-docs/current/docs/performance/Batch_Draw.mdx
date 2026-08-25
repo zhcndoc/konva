@@ -1,0 +1,187 @@
+---
+title: 自动重绘——你需要调用 draw() 或 batchDraw() 吗？
+sidebar_label: 自动重绘
+hide_table_of_contents: true
+slug: Batch_Draw.html
+description: "自 Konva 8 起重绘是自动的，因此在修改图形之后不再需要 layer.draw() 和 layer.batchDraw()。本文说明何时仍需手动重绘，以及如何关闭批量绘制。"
+---
+
+**简短回答：不需要。自 Konva 8 起，修改图形之后不需要调用 `draw()` 或 `batchDraw()`。**
+
+```js
+// This is enough. Konva schedules the redraw itself.
+rect.fill('red');
+rect.x(120);
+
+// Both of these are redundant.
+layer.draw();
+layer.batchDraw();
+```
+
+设置任何属性都会把图层标记为需要重绘，Konva 会在下一个动画帧中重绘一次。连续修改十个属性
+仍然只会产生一次重绘，因此你自己调用 `batchDraw()` 不会带来任何收益——批量处理已经发生了。
+
+你仍然会在较旧的教程、2021 年之前写的回答，以及 AI 助手生成的代码中看到 `layer.draw()`，
+因为语料库里到处都是它。它是无害的，只是没有必要。删掉这些调用不会改变屏幕上的显示结果。
+
+## 什么时候仍然需要手动重绘
+
+自动重绘响应的是 *Konva* 的变化。如果变化发生在 Konva 的感知之外，就没有任何东西会把图层
+标记为需要重绘，你必须自己说明。
+
+常见情况是 `Konva.Image` 背后的源会自行变化——`<video>` 元素、动图 GIF，或者由其他库
+绘制的原始 canvas：
+
+```js
+// An external library drew a new GIF frame into our canvas.
+// Konva has no attribute change to notice, so ask for the redraw.
+function onDrawFrame(ctx, frame) {
+  ctx.drawImage(frame.buffer, 0, 0);
+  layer.draw();
+}
+```
+
+对于视频，建议使用 [`Konva.Animation`](/zh-Hans/docs/animations/Create_an_Animation.html)，
+它会为你逐帧重绘。完整示例参见 [Canvas 上的视频](/zh-Hans/docs/sandbox/Video_On_Canvas.html)
+和 [Canvas 上的 GIF](/zh-Hans/docs/sandbox/GIF_On_Canvas.html)。
+
+## 关闭批量绘制
+
+`Konva.autoDrawEnabled = false` 会恢复旧有行为：在你主动请求之前不绘制任何内容。只有当你
+自己驱动渲染循环、并希望精确控制帧的时机时，这样做才值得。关闭之后，`batchDraw()` 才重新
+变得有用：它会把多次调用合并为每帧一次重绘，而不是每次调用都重绘。
+
+下面的示例关闭了自动重绘，好让 `batchDraw()` 有事可做。矩形在 `mousemove` 时旋转，
+而该事件触发的频率可能远高于屏幕刷新率。
+
+**操作说明：**在舞台上移动鼠标以旋转矩形。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Turned off on purpose, so batchDraw has a job to do
+Konva.autoDrawEnabled = false;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rect = new Konva.Rect({
+  x: stage.width() / 2 - 50,
+  y: stage.height() / 2 - 25,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+layer.add(rect);
+
+stage.on('mousemove', () => {
+  // rotate rectangle on mouse move
+  rect.rotate(5);
+  // auto-draw is off, so ask for a batched redraw
+  layer.batchDraw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+import { useRef, useEffect } from 'react';
+
+// Turned off on purpose, so batchDraw has a job to do
+Konva.autoDrawEnabled = false;
+
+const App = () => {
+  const rectRef = useRef(null);
+  const layerRef = useRef(null);
+
+  useEffect(() => {
+    const stage = rectRef.current.getStage();
+    
+    stage.on('mousemove', () => {
+      // rotate rectangle on mouse move
+      rectRef.current.rotate(5);
+      // auto-draw is off, so ask for a batched redraw
+      layerRef.current.getLayer().batchDraw();
+    });
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer ref={layerRef}>
+        <Rect
+          ref={rectRef}
+          x={window.innerWidth / 2 - 50}
+          y={window.innerHeight / 2 - 25}
+          width={100}
+          height={50}
+          fill="green"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize" @mousemove="handleMouseMove">
+    <v-layer ref="layerRef">
+      <v-rect :config="rectConfig" ref="rectRef" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+// Turned off on purpose, so batchDraw has a job to do
+Konva.autoDrawEnabled = false;
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = ref({
+  x: window.innerWidth / 2 - 50,
+  y: window.innerHeight / 2 - 25,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const layerRef = ref(null);
+const rectRef = ref(null);
+
+const handleMouseMove = () => {
+  // rotate rectangle on mouse move
+  rectRef.value.getNode().rotate(5);
+  // auto-draw is off, so ask for a batched redraw
+  layerRef.value.getNode().batchDraw();
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

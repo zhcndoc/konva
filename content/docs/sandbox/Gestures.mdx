@@ -24,11 +24,11 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 <Tabs>
-  <TabItem value="原生" default>
+  <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
 
-// 加载所需脚本
+// Load required scripts
 const loadScript = (src) => {
   return new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) {
@@ -43,16 +43,16 @@ const loadScript = (src) => {
   });
 };
 
-// 加载依赖后初始化演示
+// Initialize the demo after loading dependencies
 async function initDemo() {
   try {
-    await loadScript('https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js');
+    await loadScript('https://cdn.jsdelivr.net/gh/hammerjs/touchemulator@eed95bf676877a1394c4538d849802061156681a/touch-emulator.js');
     await loadScript('https://konvajs.org/js/hammer-konva.js');
 
-    // 在桌面上模拟触摸
+    // emulate touches on desktop
     TouchEmulator();
     Konva.hitOnDragEnabled = true;
-    Konva.captureTouchEventsEnabled = true;
+    Konva.capturePointerEventsEnabled = true;
 
     const stage = new Konva.Stage({
       container: 'container',
@@ -98,15 +98,15 @@ async function initDemo() {
     });
     group.add(text);
 
-    // 附加修改版的 Hammer.js
-    // "domEvents" 属性将允许在组上触发事件
-    // 而不是 "hammertime" 实例
+    // attach modified version of Hammer.js
+    // "domEvents" property will allow triggering events on group
+    // instead of "hammertime" instance
     const hammertime = new Hammer(group, { domEvents: true });
 
-    // 添加旋转手势
+    // add rotate gesture
     hammertime.get('rotate').set({ enable: true });
 
-    // 现在附加所有可能的事件
+    // now attach all possible events
     group.on('swipe', function (ev) {
       text.text('swiping');
       group.to({
@@ -168,7 +168,7 @@ async function initDemo() {
   }
 }
 
-// 启动演示
+// Start the demo
 initDemo();
 ```
   </TabItem>

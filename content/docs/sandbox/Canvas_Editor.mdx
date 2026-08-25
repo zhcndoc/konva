@@ -3,45 +3,342 @@ title: Canvas 编辑器 — 使用 JavaScript 和 HTML5 Canvas 构建设计编�
 sidebar_label: Canvas 编辑器
 hide_table_of_contents: true
 slug: Canvas_Editor.html
-description: "使用 JavaScript 构建功能齐全的 canvas 编辑器。拖放、缩放、旋转、文本、图像、滤镜、撤销/重做——全部基于 HTML5 Canvas。由 Konva.js 和 Polotno SDK 提供支持。"
+description: "使用 Konva 和 React 在 HTML5 Canvas 上构建设计编辑器。选择、调整大小控制柄、撤销和重做，以及 PNG 导出——并诚实审视生产级编辑器仍需具备的功能。"
+keywords: [canvas editor, design editor javascript, html5 canvas editor, react design editor, konva editor]
 ---
 
-canvas 编辑器允许用户直接在浏览器中创建和操作视觉设计——可以把它想象成用于社交媒体图形、演示文稿、营销材料等的 Canva 风格工具。从零开始构建一个这样的编辑器需要处理对象选择、拖放、变换、文本编辑、图像放置、图层管理、撤销/重做以及导出。
+设计编辑器可以让用户在页面上排列文本、图像和形状，并导出结果——Canva、Figma 以及各种社交媒体图片工具背后的模式。Konva 是构建此类编辑器的良好基础：它为 Canvas 提供对象模型、命中检测、事件、拖放和调整大小控制柄。
 
-这个演示展示了一个完整可用的 canvas 编辑器，它使用 [Konva.js](/) 和 [Polotno SDK](https://polotno.com/) 构建。Polotno 负责高层级的编辑器逻辑（工具栏、面板、模板、导出），而 Konva 负责底层的 canvas 渲染。
+本页面将构建一个可运行的编辑器，包含选择、移动、调整大小控制、撤销、重做和 PNG 导出。最后还会诚实说明它与产品级编辑器之间的差距。
 
-### 你可以用 canvas 编辑器做什么
+## 查看一个完成的编辑器
 
-canvas 编辑器通常支持将对象拖放到画布上，使用变换控制点进行缩放和旋转，添加并使用字体和颜色样式化文本，插入和裁剪图像，进行图层管理（置于顶层、置于底层），撤销/重做历史记录，以及导出为 PNG、JPEG 或 PDF。
+[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=canvas-editor) 是一个基于 Konva 构建的商业设计编辑器 SDK。它最清晰地展示了这种模式可以扩展到什么程度，所以在阅读任何代码之前，值得先花一分钟了解它：
 
-在原生 HTML5 Canvas 上构建这一切是一项重大的工程工作。`Konva.js` 提供了基础——在 Canvas 之上的对象模型，内置命中检测、事件、拖放和变换。对于一个完整、可直接集成的编辑器 UI，[Polotno SDK](https://polotno.com/) 在 Konva 之上添加了完整的编辑器体验。
-
-### 在线演示
-
-试试下面的编辑器——添加文本、图像和形状，然后重新排列并导出你的设计。
-
-**为了获得最佳体验， [在新窗口中打开编辑器](https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview)。**
-
-<iframe 
-  src="https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview" 
+<iframe
+  src="https://polotno.com/docs/examples/polotno-demo/index.html?utm_source=konvajs&utm_medium=docs&utm_content=canvas-editor-embed"
+  loading="lazy"
   style={{
     width: "100%",
-    height: "500px",
-    border: 0,
-    borderRadius: "4px",
+    height: "640px",
+    border: "1px solid var(--ifm-color-emphasis-300)",
+    borderRadius: "8px",
     overflow: "hidden"
   }}
+  title="Polotno design editor demo"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 />
 
-### 构建你自己的 canvas 编辑器
+你刚刚使用的所有功能——工具栏、侧边面板、模板、字体和导出——都构建在下文介绍的同一套 Konva 基础功能之上。
 
-如果你需要在 Web 应用程序中使用 canvas 编辑器，你有两条路径：
+## 尝试自己构建一个
 
-**使用 Polotno SDK** 获取现成的解决方案。Polotno 为你提供一个完整的设计编辑器组件，你只需几行代码即可将其集成到任何 React 应用中。它包含工具栏、侧边面板、模板、导出，以及用户期望的所有编辑功能。了解更多请访问 [polotno.com](https://polotno.com/) 或查看 [Polotno 文档](https://polotno.com/docs/overview)。
+**说明：**点击 Canvas 上的对象或对象列表中的对象。拖动它，或使用调整大小控制柄。添加对象、撤销操作，然后导出结果。
 
-**使用 Konva.js 从头构建** 如果你需要对编辑器的每个方面都拥有完全控制权。可以从 [Konva.js 入门指南](/docs/index.html) 开始，使用 [Transformer](/docs/select_and_transform/Basic_demo.html) 进行选择和缩放，并浏览 [沙盒演示](/docs/sandbox.html) 以了解诸如 [自由绘制](/docs/sandbox/Free_Drawing.html)、[图像裁剪](/docs/sandbox/Canvas_Crop_Image.html) 和 [图像导出](/docs/data_and_serialization/Stage_Data_URL.html) 等模式。
+```jsx live react
+import React from 'react';
+import { Stage, Layer, Rect, Circle, Star, Text, Transformer } from 'react-konva';
 
----
+const WIDTH = 760;
+const HEIGHT = 420;
 
-*此演示由 [Polotno SDK](https://polotno.com/) 提供支持——这是一个用于构建 Web 设计编辑器的 JavaScript 框架，建立在 Konva.js 和 React 之上。*
+const initialShapes = [
+  { id: 'card', type: 'rect', x: 60, y: 60, width: 300, height: 300, fill: '#1e3a8a', cornerRadius: 16 },
+  { id: 'accent', type: 'circle', x: 470, y: 150, radius: 74, fill: '#f59e0b' },
+  { id: 'badge', type: 'star', x: 620, y: 300, numPoints: 5, innerRadius: 26, outerRadius: 58, fill: '#ec4899' },
+  { id: 'headline', type: 'text', x: 92, y: 120, text: 'Spring\nSale', fontSize: 58, fontStyle: 'bold', lineHeight: 1.1, fill: '#ffffff' },
+  { id: 'caption', type: 'text', x: 92, y: 268, text: 'up to 40% off', fontSize: 22, fill: '#bfdbfe' },
+];
+
+function useResponsiveWidth(maxWidth) {
+  const containerRef = React.useRef(null);
+  const [width, setWidth] = React.useState(1);
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const update = () =>
+      setWidth(Math.max(1, Math.min(maxWidth, container.clientWidth)));
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [maxWidth]);
+
+  return { containerRef, width, scale: width / maxWidth };
+}
+
+// One renderer per shape type. The document stores plain data, never Konva nodes.
+function EditableShape({ shape, selected, onSelect, onCommit }) {
+  const shapeRef = React.useRef(null);
+  const transformerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (selected && shapeRef.current && transformerRef.current) {
+      transformerRef.current.nodes([shapeRef.current]);
+      transformerRef.current.getLayer().batchDraw();
+    }
+  }, [selected]);
+
+  // The Transformer resizes by changing node scale. Fold that scale back into
+  // the shape's own size properties so the saved document stays readable.
+  const handleTransformEnd = () => {
+    const node = shapeRef.current;
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
+    const average = (scaleX + scaleY) / 2;
+    node.scaleX(1);
+    node.scaleY(1);
+
+    const base = { ...shape, x: node.x(), y: node.y(), rotation: node.rotation() };
+
+    if (shape.type === 'rect') {
+      onCommit({
+        ...base,
+        width: Math.max(20, node.width() * scaleX),
+        height: Math.max(20, node.height() * scaleY),
+      });
+    } else if (shape.type === 'circle') {
+      onCommit({ ...base, radius: Math.max(10, shape.radius * average) });
+    } else if (shape.type === 'star') {
+      onCommit({
+        ...base,
+        innerRadius: Math.max(6, shape.innerRadius * average),
+        outerRadius: Math.max(12, shape.outerRadius * average),
+      });
+    } else {
+      onCommit({ ...base, fontSize: Math.max(8, shape.fontSize * average) });
+    }
+  };
+
+  const common = {
+    ref: shapeRef,
+    draggable: true,
+    onClick: onSelect,
+    onTap: onSelect,
+    onDragEnd: (event) =>
+      onCommit({ ...shape, x: event.target.x(), y: event.target.y() }),
+    onTransformEnd: handleTransformEnd,
+  };
+
+  const { id, type, ...props } = shape;
+
+  return (
+    <>
+      {type === 'rect' && <Rect {...props} {...common} />}
+      {type === 'circle' && <Circle {...props} {...common} />}
+      {type === 'star' && <Star {...props} {...common} />}
+      {type === 'text' && <Text {...props} {...common} />}
+      {selected && (
+        <Transformer
+          ref={transformerRef}
+          rotateAnchorOffset={26}
+          anchorStroke="#2563eb"
+          borderStroke="#2563eb"
+          anchorSize={9}
+          flipEnabled={false}
+          boundBoxFunc={(oldBox, newBox) =>
+            newBox.width < 20 || newBox.height < 20 ? oldBox : newBox
+          }
+        />
+      )}
+    </>
+  );
+}
+
+export default function App() {
+  const stageRef = React.useRef(null);
+  const nextId = React.useRef(1);
+  const { containerRef, width: displayWidth, scale } = useResponsiveWidth(WIDTH);
+  const [selectedId, setSelectedId] = React.useState('headline');
+  const [history, setHistory] = React.useState({
+    past: [],
+    present: initialShapes,
+    future: [],
+  });
+
+  // One history entry per finished action — never one per pointer move.
+  const commit = (nextShapes) =>
+    setHistory((current) => ({
+      past: [...current.past, current.present],
+      present: nextShapes,
+      future: [],
+    }));
+
+  const updateShape = (next) =>
+    commit(history.present.map((s) => (s.id === next.id ? next : s)));
+
+  const addShape = (type) => {
+    const id = `${type}-${nextId.current++}`;
+    const offset = history.present.length * 14;
+    const presets = {
+      rect: { width: 150, height: 100, fill: '#10b981', cornerRadius: 10 },
+      circle: { radius: 52, fill: '#8b5cf6' },
+      text: { text: 'Double-click to retype', fontSize: 24, fill: '#0f172a' },
+    };
+    commit([
+      ...history.present,
+      { id, type, x: 160 + offset, y: 150 + offset, ...presets[type] },
+    ]);
+    setSelectedId(id);
+  };
+
+  const undo = () =>
+    setHistory((c) =>
+      c.past.length === 0
+        ? c
+        : {
+            past: c.past.slice(0, -1),
+            present: c.past[c.past.length - 1],
+            future: [c.present, ...c.future],
+          }
+    );
+
+  const redo = () =>
+    setHistory((c) =>
+      c.future.length === 0
+        ? c
+        : {
+            past: [...c.past, c.present],
+            present: c.future[0],
+            future: c.future.slice(1),
+          }
+    );
+
+  // Hide the selection handles so they never appear in the exported file.
+  const exportPng = () => {
+    const stage = stageRef.current;
+    const transformers = stage.find('Transformer');
+    transformers.forEach((t) => t.hide());
+    let dataUrl;
+    try {
+      dataUrl = stage.toDataURL({ pixelRatio: 2 / scale });
+    } finally {
+      transformers.forEach((t) => t.show());
+      stage.batchDraw();
+    }
+    const link = document.createElement('a');
+    link.download = 'design.png';
+    link.href = dataUrl;
+    link.click();
+  };
+
+  const button = {
+    padding: '6px 12px',
+    border: '1px solid #cbd5e1',
+    borderRadius: 6,
+    background: '#fff',
+    cursor: 'pointer',
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
+        <button style={button} onClick={() => addShape('rect')}>Add rectangle</button>
+        <button style={button} onClick={() => addShape('circle')}>Add circle</button>
+        <button style={button} onClick={() => addShape('text')}>Add text</button>
+        <button style={button} onClick={undo} disabled={history.past.length === 0}>Undo</button>
+        <button style={button} onClick={redo} disabled={history.future.length === 0}>Redo</button>
+        <button style={button} onClick={exportPng}>Export PNG</button>
+      </div>
+
+      <div ref={containerRef} style={{ width: '100%', maxWidth: WIDTH }}>
+        <Stage
+          ref={stageRef}
+          width={displayWidth}
+          height={HEIGHT * scale}
+          scaleX={scale}
+          scaleY={scale}
+          style={{ background: '#f1f5f9', borderRadius: 8 }}
+          onMouseDown={(e) => {
+            if (e.target === e.target.getStage()) setSelectedId(null);
+          }}
+          onTouchStart={(e) => {
+            if (e.target === e.target.getStage()) setSelectedId(null);
+          }}
+        >
+          <Layer>
+            {history.present.map((shape) => (
+              <EditableShape
+                key={shape.id}
+                shape={shape}
+                selected={shape.id === selectedId}
+                onSelect={() => setSelectedId(shape.id)}
+                onCommit={updateShape}
+              />
+            ))}
+          </Layer>
+        </Stage>
+      </div>
+
+      {/* Canvas pixels mean nothing to a screen reader. Mirror the document in HTML. */}
+      <p style={{ marginTop: 12, marginBottom: 6 }}>Objects:</p>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {history.present.map((shape) => (
+          <button
+            key={shape.id}
+            style={{
+              ...button,
+              borderColor: shape.id === selectedId ? '#2563eb' : '#cbd5e1',
+            }}
+            aria-pressed={shape.id === selectedId}
+            onClick={() => setSelectedId(shape.id)}
+          >
+            {shape.id}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+## 将文档数据与 Konva 节点分开
+
+`history.present` 数组就是文档。每个对象都有一个稳定的 ID 和普通的、可序列化的属性。Konva 节点只是交互界面——示例只在拖动或变换*结束*时从节点读取值，而不是在操作过程中读取。
+
+`Transformer` 通过改变节点的**缩放比例**来调整大小。如果保存这个缩放比例，文档中就会充满不断累积的乘数。示例会在提交之前，将缩放比例折算回宽度、高度、半径或字体大小，因此保存的文件仍然易读，并且不依赖 Konva 的内部实现。
+
+正是这种分离，让后续实现历史记录、协作和服务端渲染成为可能。如果一开始就做错，之后的每一项功能都会变得昂贵。
+
+## 定义历史记录边界
+
+每个完成的用户操作保存一条记录，而不是每个指针事件保存一条记录。将一个形状拖过整个 Canvas 应该是*一个*撤销步骤，而不是两百个。
+
+示例会在拖动或变换结束时提交。对于文本，在用户确认编辑时提交；对于颜色控件，在控件关闭时提交。相关示例：[Canvas 上的撤销和重做](/docs/posts/canvas-undo-redo.html)。
+
+## 处理坐标和导出
+
+此编辑器没有摄像机变换，因此文档坐标与 stage 坐标一致。添加平移或缩放后，必须通过 stage 变换的逆变换来转换指针位置——请参阅[相对于指针进行缩放](/docs/sandbox/Zooming_Relative_To_Pointer.html)和[无限 Canvas](/docs/sandbox/Infinite_Canvas.html)。
+
+预览会缩放以适应容器，因此导出时会用 `pixelRatio` 除以该缩放比例，从而无论屏幕大小如何，都能生成稳定的 1520 × 840 图像。它还会先隐藏 Transformer，因此选择控制柄不会出现在文件中。
+
+来自其他源的图像需要正确的 CORS 标头，否则浏览器会污染 Canvas 并阻止导出。请参阅[高质量导出](/docs/data_and_serialization/High-Quality-Export.html)。
+
+## 添加可访问界面
+
+Canvas 是一个单独的元素。辅助技术看不到其中的对象、选择状态和结构。用户可以通过指针完成的所有操作，都需要在 HTML 中提供对应方式。
+
+示例将文档镜像为按钮列表。生产级编辑器还需要键盘移动、合理的焦点顺序，以及在选择发生变化时进行播报。将文本编辑放在真正的 `input` 或 `textarea` 中——原生输入框提供了 Canvas 无法提供的选择、光标移动和输入法支持。请参阅[可编辑文本](/docs/sandbox/Editable_Text.html)。
+
+## 为生产级规模做好规划
+
+当文档包含许多对象后，使用规范化的实体映射，缓存组件，并且只重新渲染发生变化的部分。永远不要将图像数据放入历史记录数组——保存资源引用，并在文档之外管理资源。
+
+示例省略了持久化、复制和粘贴、分组、对齐以及协同编辑。在构建对应 UI 之前，先将每项功能加入文档模型。
+
+## 构建还是集成
+
+上面的示例是一个真正的编辑器，同时也是衡量后续工作量的合理标准。Konva 为你提供渲染、命中测试、事件和 Transformer。产品级设计编辑器还需要：
+
+- 支持重新排版、逐字符样式和 Web 字体度量的文本引擎
+- 字体加载和回退机制，并确保导出时仍然匹配
+- 模板、多页面和资源管理
+- 能够对操作进行分组并在重新加载后保留的历史记录
+- 导出管线，包括超出浏览器 Canvas 限制的尺寸以及适合打印的输出
+
+这通常需要数月的工作，其中大部分工作与 Canvas 无关。
+
+当编辑器*就是*你的产品、当你的文档模型与众不同时，或者当你需要完全控制输出时，可以选择自行构建。当编辑器只是为你实际销售的产品提供支持时，可以选择集成 SDK。Polotno 涵盖了上面的功能列表；它是付费软件，并且对文档模型有自己的设计理念，因此在做出决定之前请先阅读其文档。
+
+如果你读到这里仍然想要构建它，那么上面的示例就是正确的起点。继续学习[transformers](/docs/select_and_transform/Basic_demo.html)、[对象吸附](/docs/sandbox/Objects_Snapping.html)和[自由绘制](/docs/sandbox/Free_Drawing.html)。

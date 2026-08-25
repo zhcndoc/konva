@@ -1,0 +1,105 @@
+---
+title: 使用 React 和 Konva 实现画布撤销和重做
+sidebar_label: 画布撤销和重做
+sidebar_position: 8
+slug: canvas-undo-redo.html
+description: "使用不可变应用状态、历史记录索引、React 和 Konva 为画布编辑器添加撤销和重做功能。"
+---
+
+画布像素不包含应用历史记录。将历史记录存储在生成画布场景的数据模型中。
+
+对于小型编辑器，在每次完整的用户操作后存储一个不可变快照。保留当前历史记录索引。在撤销后进行新编辑时，删除后续快照。
+
+不要在历史记录中存储 Konva 节点实例。存储普通应用数据，例如位置、颜色、文本和稳定标识符。
+
+## React 中的快照历史记录
+
+拖动矩形。每次完成拖动都会添加一个快照。“撤销”和“重做”按钮会更改当前历史记录索引。
+
+```jsx live react
+import { useRef, useState } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+const initialRectangle = {
+  id: 'rectangle-1',
+  x: 80,
+  y: 100,
+  width: 170,
+  height: 110,
+  fill: '#4dabf7',
+};
+
+const App = () => {
+  const history = useRef([initialRectangle]);
+  const historyIndex = useRef(0);
+  const [rectangle, setRectangle] = useState(initialRectangle);
+
+  const commit = (nextRectangle) => {
+    const previousSnapshots = history.current.slice(0, historyIndex.current + 1);
+    history.current = [...previousSnapshots, nextRectangle];
+    historyIndex.current = history.current.length - 1;
+    setRectangle(nextRectangle);
+  };
+
+  const undo = () => {
+    if (historyIndex.current === 0) {
+      return;
+    }
+
+    historyIndex.current -= 1;
+    setRectangle(history.current[historyIndex.current]);
+  };
+
+  const redo = () => {
+    if (historyIndex.current === history.current.length - 1) {
+      return;
+    }
+
+    historyIndex.current += 1;
+    setRectangle(history.current[historyIndex.current]);
+  };
+
+  return (
+    <>
+      <button onClick={undo} disabled={historyIndex.current === 0}>
+        Undo
+      </button>
+      <button
+        onClick={redo}
+        disabled={historyIndex.current === history.current.length - 1}
+      >
+        Redo
+      </button>
+      <Stage width={window.innerWidth} height={380}>
+        <Layer>
+          <Text x={20} y={20} text="Drag the rectangle" fontSize={18} />
+          <Rect
+            {...rectangle}
+            stroke="#1e3a5f"
+            strokeWidth={3}
+            cornerRadius={10}
+            draggable
+            onDragEnd={(event) => {
+              commit({
+                ...rectangle,
+                x: event.target.x(),
+                y: event.target.y(),
+              });
+            }}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+一次用户操作只提交一条历史记录。不要为每次指针移动都添加一条记录。此规则可以让撤销行为更可预测，并限制内存使用。
+
+大型文档可能会使完整快照的开销变得很高。在这种情况下，存储命令或补丁，并提供足够的数据来应用和反转每次更改。此模型更加复杂，因此只有在测量结果表明快照存在限制后才使用它。
+
+为长时间的编辑器会话定义历史记录限制。达到限制后，删除最旧的快照。将已保存的文档版本与本地撤销历史记录分开保存。
+
+请参阅专门的 [React 撤销和重做示例](/docs/react/Undo-Redo.html)，了解更小型的实现。

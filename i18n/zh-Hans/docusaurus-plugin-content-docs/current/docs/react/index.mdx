@@ -1,0 +1,91 @@
+---
+title: React Canvas 库 — react-konva 入门
+sidebar_label: 入门
+hide_table_of_contents: true
+slug: /docs/react/index.html
+description: "react-konva 是一个用于绘制 2D 图形的 React Canvas 库。使用声明式 JSX 创建具有图形、拖放、事件和动画的交互式 Canvas 应用。"
+---
+
+<div style={{ textAlign: "center" }}>
+  <img src="https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png" alt="React Konva 标志 — React Canvas 库"/>
+</div>
+
+`react-konva` 是一个用于绘制复杂 2D 图形的 React Canvas 库。它为 [Konva 框架](https://konvajs.org/)提供声明式绑定。你可以使用熟悉的 React 组件和数据流。
+
+[GitHub 仓库](https://github.com/konvajs/react-konva)
+
+使用 react-konva 时，你可以像编写 React DOM 一样编写 Canvas 图形。你可以使用 JSX 组件、props、状态和 hooks。
+
+每个 Konva 图形都可以作为 React 组件使用。这些图形包括 Rect、Circle、Line、Text、Image 和 Star，并完整支持事件。
+
+**注意：`react-konva` 只能在浏览器中使用，不支持 React Native。** React Native 没有 DOM，也没有 `<canvas>` 元素，因此 Konva 没有可以绘制的目标。如果你在 Web 上已经有一个 Konva 编辑器，把它放进 [WebView](https://github.com/react-native-webview/react-native-webview) 中运行是可行的方案。如果是新的原生应用，请使用 [React Native Skia](https://shopify.github.io/react-native-skia/)。
+
+你可以在 [konvajs.org](https://konvajs.org/) 查看数十个交互式示例。浏览器中的场景图功能可以通过 React 组件或 Konva 节点 ref 使用。请直接使用 Konva 进行 Node.js 渲染。
+
+可以这样理解：`Konva` 与 `react-konva` 的关系，类似于 `DOM` 与 `React` 的关系。
+
+## 安装
+
+`react-konva` 的主版本必须与 React 的主版本匹配。React 19 项目使用当前版本：
+
+```bash
+npm install react-konva konva
+```
+
+React 18 项目必须安装 `react-konva` 18：
+
+```bash
+npm install react-konva@18 konva
+```
+
+下面的基本示例创建一个包含多个图形的简单 Canvas：
+
+```js live react
+import React, { useState } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 20, y: 50 });
+  const [circlePosition, setCirclePosition] = useState({ x: 200, y: 100 });
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text text="Try to drag shapes" fontSize={15} />
+        <Rect
+          x={rectPosition.x}
+          y={rectPosition.y}
+          width={100}
+          height={100}
+          fill="red"
+          shadowBlur={10}
+          draggable
+          onDragEnd={(e) => setRectPosition(e.target.position())}
+        />
+        <Circle
+          x={circlePosition.x}
+          y={circlePosition.y}
+          radius={50}
+          fill="green"
+          draggable
+          onDragEnd={(e) => setCirclePosition(e.target.position())}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+## 人们使用 react-konva 构建什么
+
+大多数生产级 Canvas 应用可以分为几类。下面每个示例都可以运行，其中一些还并排展示了原生 JavaScript 和 Vue 版本：
+
+- [设计编辑器](/docs/sandbox/Canvas_Editor.html) — 选择、调整大小手柄、历史记录和图像导出
+- [无限 Canvas 白板](/docs/sandbox/Infinite_Canvas.html) — 使用稳定坐标平移和缩放
+- [节点编辑器](/docs/sandbox/Connected_Objects.html) — 带有动态连线的可拖动节点
+- [图像标注工具](/docs/sandbox/Image_Labeling.html) — 在图像上绘制结构化区域
+- [平面图](/docs/sandbox/Interactive_Building_Map.html)和[座位预订图](/docs/sandbox/Seats_Reservation.html) — 大规模交互式几何图形
+- [图像编辑器](/docs/sandbox/Canvas_Crop_Image.html) — 变换和高分辨率导出
+- [多人白板](/docs/sandbox/Multiplayer_Whiteboard.html) — 通过 Yjs 共享状态

@@ -1,0 +1,85 @@
+---
+title: 如何将 HTML5 Canvas 导出为图像
+sidebar_label: 导出 Canvas 图像
+sidebar_position: 7
+slug: canvas-export-image.html
+description: "使用 Konva 将 HTML5 Canvas 导出为 PNG 或 JPEG，控制输出分辨率，并避免跨源图像错误。"
+---
+
+浏览器可以将画布编码为数据 URL 或 `Blob`。Konva 在 stage 和 node 上提供
+`toDataURL()` 和 `toBlob()`。
+
+当浏览器支持 `toBlob()` 时，大型导出应使用它。`Blob` 不会创建数据 URL
+所创建的大型编码字符串。
+
+## 从 React 导出 Konva stage
+
+此示例将 stage 导出为 PNG。`pixelRatio` 值会使每个输出尺寸加倍。
+
+```jsx live react
+import { useRef } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const downloadImage = () => {
+    const dataUrl = stageRef.current.toDataURL({ pixelRatio: 2 });
+    const link = document.createElement('a');
+    link.download = 'konva-scene.png';
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  return (
+    <>
+      <button onClick={downloadImage}>Download PNG</button>
+      <Stage ref={stageRef} width={Math.min(window.innerWidth, 760)} height={360}>
+        <Layer>
+          <Rect width={760} height={360} fill="#e7f5ff" />
+          <Text
+            x={30}
+            y={28}
+            text="Export this scene"
+            fontSize={30}
+            fill="#1864ab"
+          />
+          <Circle x={180} y={190} radius={70} fill="#4dabf7" />
+          <Rect
+            x={330}
+            y={120}
+            width={220}
+            height={140}
+            fill="#ffd43b"
+            cornerRadius={16}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+导出内容仅包括画布内容。stage 上方的 HTML 控件不属于图像的一部分。
+
+## 设置文件类型和区域
+
+传入 `mimeType: 'image/jpeg'` 以输出 JPEG。JPEG 不支持透明度，因此请在其他场景内容之前添加背景图形。
+
+传入 `x`、`y`、`width` 和 `height` 以导出 stage 的一部分。传入
+`pixelRatio` 可在不更改场景坐标的情况下提高分辨率。
+
+较高的像素比会使用更多内存。2× 的像素比会生成四倍数量的输出像素。使用满足输出要求的最小像素比。
+
+## 防止画布被污染
+
+Canvas 在绘制未经允许的跨源访问的图像后，浏览器会阻止导出。图像服务器必须返回适当的
+`Access-Control-Allow-Origin` 标头。在设置其 `src` 值之前，先将图像的
+`crossOrigin` 设置好。
+
+阅读[画布被污染指南](/docs/posts/Tainted_Canvas.html)以获取完整的图像加载示例。阅读[高质量导出](/docs/data_and_serialization/High-Quality-Export.html)
+以了解更多分辨率详情。

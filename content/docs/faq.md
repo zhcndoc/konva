@@ -150,7 +150,7 @@ npm install svelte-konva konva
 
 ### 如何在 Angular 中使用 canvas？
 
-使用 [`ng2-konva`](https://github.com/nicholasgillespie/ng2-konva)：
+使用 [`ng2-konva`](https://github.com/konvajs/ng2-konva)：
 
 ```bash
 npm install ng2-konva konva
@@ -162,11 +162,10 @@ npm install ng2-konva konva
 
 两者都是 2D Canvas 框架，但在关键领域有所不同：
 
-- **框架支持**：Konva 拥有官方 React、Vue、Svelte 和 Angular 绑定。Fabric.js 没有官方框架绑定。
-- **架构**：Konva 使用多层方法（每个图层是一个单独的 canvas）以获得更好的渲染性能。Fabric.js 使用单个 canvas。
-- **拖放**：两者都有内置拖放功能。Konva 的事件系统支持事件冒泡和委托。
+- **框架支持**：Konva 有官方的 React、Vue、Svelte 和 Angular 绑定。Fabric.js 没有官方框架绑定。
+- **架构**：Konva 采用多图层方法（每个 Layer 都是一个单独的 canvas），以实现更好的渲染性能。Fabric.js 使用单个 canvas。
+- **拖放**：两者都内置拖放功能。Konva 的事件系统支持事件冒泡和事件委托。
 - **TypeScript**：两者都附带 TypeScript 定义。
-- **npm 下载量**：Konva 在 npm 上的周下载量更多。
 
 选择 Konva 用于交互式应用程序，尤其是配合 React/Vue/Svelte 使用时。如果您需要其特定的图像操作功能，请选择 Fabric.js。
 
@@ -198,9 +197,9 @@ npm install konva
 是的，通过适当的优化。关键技术：
 
 1. **图层管理** — 使用多个图层分离静态和动态内容
-2. **形状缓存** — 使用 `shape.cache()` 缓存复杂形状以将它们渲染为图像
+2. **形状缓存** — 使用 `shape.cache()` 缓存复杂形状，将其作为图像进行渲染
 3. **禁用监听** — 在不需要事件的形状上设置 `listening: false`
-4. **批量绘制** — 对于分组更新，使用 `layer.batchDraw()` 而不是 `layer.draw()`
+4. **让 Konva 负责重绘** — 由于 Konva 8 会自动进行批量重绘，因此更改后的 `layer.draw()` 和 `layer.batchDraw()` 调用[不需要](/docs/performance/Batch_Draw.html)
 5. **禁用完美绘制** — 对于同时具有填充和描边的形状，设置 `perfectDrawEnabled: false`
 
 Konva 有演示渲染 [10,000 个形状](/docs/sandbox/10000_Shapes_with_Tooltip.html) 和 [20,000 个节点](/docs/sandbox/20000_Nodes.html)。
@@ -263,4 +262,4 @@ Konva 支持拖放边界、吸附到网格、放置事件以及图层之间的�
 
 ### Konva 仍在积极维护吗？
 
-是的。Konva 正在积极维护并定期发布。查看 [更新日志](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) 了解最近更新，查看 [GitHub 仓库](https://github.com/konvajs/konva) 了解 ongoing 开发活动。
+是的。Konva 正在积极维护并定期发布。查看 [更新日志](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) 了解最近更新，查看 [GitHub 仓库](https://github.com/konvajs/konva) 了解持续的开发活动。

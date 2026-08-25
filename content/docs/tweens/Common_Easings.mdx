@@ -1,20 +1,20 @@
 ---
 title: 简单缓动教程
-sidebar_label: 常见缓动
+sidebar_label: 常用缓动
 hide_table_of_contents: true
 slug: Common_Easings.html
-description: "学习如何使用常见的缓动函数（如 EaseIn、EaseOut 和 EaseInOut）来实现平滑的 Konva.js 补间动画。"
+description: "了解如何使用 EaseIn、EaseOut 和 EaseInOut 等常见缓动函数，实现流畅的 Konva.js 补间动画。"
 ---
 
-要在 Konva 中创建非线性缓动补间，我们可以将 `easing` 属性设置为缓动函数。除了 `Konva.Easings.Linear` 之外，最常见的缓动还有：
+要使用 Konva 创建非线性缓动补间动画，我们可以将 `easing` 属性设置为缓动函数。除 `Konva.Easings.Linear` 外，其他最常见的缓动函数包括：
 
 - `Konva.Easings.EaseIn`
 - `Konva.Easings.EaseInOut`
 - `Konva.Easings.EaseOut`
 
-查看所有可用缓动，请前往 [缓动文档](/api/Konva.Easings.html)。
+如需查看所有可用的缓动函数，请前往[缓动文档](/api/Konva.Easings.html)。
 
-**说明：将鼠标悬停或触摸启动方块，以不同的缓动函数对其进行补间动画。**
+**说明：对方框执行 mouseover 或 touchstart，以使用不同的缓动函数对它们进行补间动画。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -86,6 +86,7 @@ stage.add(layer);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 import { useRef } from 'react';
 
@@ -93,21 +94,19 @@ const Box = ({ easing, y }) => {
   const boxRef = useRef();
 
   const handleMouseEnter = () => {
-    new Konva.Tween({
-      node: boxRef.current,
+    boxRef.current.to({
       duration: 1,
       x: window.innerWidth - 150,
       easing: Konva.Easings[easing],
-    }).play();
+    });
   };
 
   const handleMouseLeave = () => {
-    new Konva.Tween({
-      node: boxRef.current,
+    boxRef.current.to({
       duration: 1,
       x: 50,
       easing: Konva.Easings[easing],
-    }).play();
+    });
   };
 
   return (

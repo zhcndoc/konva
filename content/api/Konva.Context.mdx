@@ -2,6 +2,7 @@
 title: Konva.Context
 sidebar_label: Context
 slug: /api/Konva.Context.html
+description: "Konva 对原生 2d canvas context 的封装。它的 API 几乎与 2d context 相同，并增加了一些额外函数。使用 Konva 核心图形时，你不需要使用此对象。但如果你想创建[自定义图形](/docs/react/Custom_Shape.html)或[自定义命中区域](/docs/events/Custom_Hit_Region.html)，则会使用它。"
 
 ---
 
@@ -11,193 +12,193 @@ slug: /api/Konva.Context.html
 new Konva.Context(config)
 ```
 
-Konva wrapper around native 2d canvas context. It has almost the same API of 2d context with some additional functions. With core Konva shapes you don't need to use this object. But you will use it if you want to create a [custom shape](/docs/react/Custom_Shape.html) or a [custom hit regions](/docs/events/Custom_Hit_Region.html). For full information about each 2d context API use [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
+Konva 对原生 2d canvas context 的封装。它的 API 几乎与 2d context 相同，并增加了一些额外函数。使用 Konva 核心图形时，你不需要使用此对象。但如果你想创建[自定义图形](/docs/react/Custom_Shape.html)或[自定义命中区域](/docs/events/Custom_Hit_Region.html)，则会使用它。有关每个 2d context API 的完整信息，请参阅 [MDN 文档](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
 
-## Own Methods
+## 自有方法
 
 ### fillShape(shape) {#fillShape}
 
-fill shape
+填充图形
 
-**Parameters:**
+**参数：**
 
 - `shape` (Konva.Shape)
 
 ### strokeShape(shape) {#strokeShape}
 
-stroke shape
+描边图形
 
-**Parameters:**
+**参数：**
 
 - `shape` (Konva.Shape)
 
 ### fillStrokeShape(shape) {#fillStrokeShape}
 
-fill then stroke
+先填充再描边
 
-**Parameters:**
+**参数：**
 
 - `shape` (Konva.Shape)
 
 ### reset() {#reset}
 
-reset canvas context transform
+重置 canvas context 变换
 
 ### getCanvas() {#getCanvas}
 
-get canvas wrapper
+获取 canvas 封装对象
 
-**Returns:** `Konva.Canvas` 
+**返回：** `Konva.Canvas` 
 
 ### clear(bounds) {#clear}
 
-clear canvas
+清除 canvas
 
-**Parameters:**
+**参数：**
 
-- `bounds` (Object) (optional)
-- `bounds.x` (Number) (optional)
-- `bounds.y` (Number) (optional)
-- `bounds.width` (Number) (optional)
-- `bounds.height` (Number) (optional)
+- `bounds` (Object)（可选）
+- `bounds.x` (Number)（可选）
+- `bounds.y` (Number)（可选）
+- `bounds.width` (Number)（可选）
+- `bounds.height` (Number)（可选）
 
 ### arc() {#arc}
 
-arc function.
+arc 函数。
 
 ### arcTo() {#arcTo}
 
-arcTo function.
+arcTo 函数。
 
 ### beginPath() {#beginPath}
 
-beginPath function.
+beginPath 函数。
 
 ### bezierCurveTo() {#bezierCurveTo}
 
-bezierCurveTo function.
+bezierCurveTo 函数。
 
 ### clearRect() {#clearRect}
 
-clearRect function.
+clearRect 函数。
 
 ### closePath() {#closePath}
 
-closePath function.
+closePath 函数。
 
 ### createImageData() {#createImageData}
 
-createImageData function.
+createImageData 函数。
 
 ### createLinearGradient() {#createLinearGradient}
 
-createLinearGradient function.
+createLinearGradient 函数。
 
 ### createPattern() {#createPattern}
 
-createPattern function.
+createPattern 函数。
 
 ### createRadialGradient() {#createRadialGradient}
 
-createRadialGradient function.
+createRadialGradient 函数。
 
 ### drawImage() {#drawImage}
 
-drawImage function.
+drawImage 函数。
 
 ### ellipse() {#ellipse}
 
-ellipse function.
+ellipse 函数。
 
 ### isPointInPath() {#isPointInPath}
 
-isPointInPath function.
+isPointInPath 函数。
 
 ### fillRect() {#fillRect}
 
-fillRect function.
+fillRect 函数。
 
 ### strokeRect() {#strokeRect}
 
-strokeRect function.
+strokeRect 函数。
 
 ### fillText() {#fillText}
 
-fillText function.
+fillText 函数。
 
 ### measureText() {#measureText}
 
-measureText function.
+measureText 函数。
 
 ### getImageData() {#getImageData}
 
-getImageData function.
+getImageData 函数。
 
 ### lineTo() {#lineTo}
 
-lineTo function.
+lineTo 函数。
 
 ### moveTo() {#moveTo}
 
-moveTo function.
+moveTo 函数。
 
 ### rect() {#rect}
 
-rect function.
+rect 函数。
 
 ### roundRect() {#roundRect}
 
-roundRect function.
+roundRect 函数。
 
 ### putImageData() {#putImageData}
 
-putImageData function.
+putImageData 函数。
 
 ### quadraticCurveTo() {#quadraticCurveTo}
 
-quadraticCurveTo function.
+quadraticCurveTo 函数。
 
 ### restore() {#restore}
 
-restore function.
+restore 函数。
 
 ### rotate() {#rotate}
 
-rotate function.
+rotate 函数。
 
 ### save() {#save}
 
-save function.
+save 函数。
 
 ### scale() {#scale}
 
-scale function.
+scale 函数。
 
 ### setLineDash() {#setLineDash}
 
-setLineDash function.
+setLineDash 函数。
 
 ### getLineDash() {#getLineDash}
 
-getLineDash function.
+getLineDash 函数。
 
 ### setTransform() {#setTransform}
 
-setTransform function.
+setTransform 函数。
 
 ### stroke() {#stroke}
 
-stroke function.
+stroke 函数。
 
 ### strokeText() {#strokeText}
 
-strokeText function.
+strokeText 函数。
 
 ### transform() {#transform}
 
-transform function.
+transform 函数。
 
 ### translate() {#translate}
 
-translate function.
+translate 函数。
 

@@ -10,7 +10,9 @@ description: "Konva.js 已弃用的 Brighten 滤镜教程。请使用较新的 B
 
 要将过滤器应用于 `Konva.Image`，我们必须先使用 `cache()` 函数进行缓存。然后使用 `filters()` 函数应用过滤器。
 
-要使用 Konva 使图像变亮或变暗，我们可以使用 `Konva.Filters.Brighten` 过滤器，并通过 `brightness` 属性设置亮度值。
+要使用 Konva 调整图像亮度或使其变暗，我们可以使用 `Konva.Filters.Brighten` 过滤器，并通过 `brightness` 属性设置亮度值。
+`brightness` 属性可以设置为 -1 到 1 之间的任意数值。
+负值会使图像变暗，正值会使图像变亮。
 
 `brightness` 属性可以设置为 -1 到 1 之间的任何整数。
 
@@ -80,11 +82,13 @@ imageObj.crossOrigin = 'anonymous';
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Image } from 'react-konva';
 import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
   const [brightness, setBrightness] = useState(0.3);
   const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
@@ -101,10 +105,13 @@ const App = () => {
         <Layer>
           <Image
             ref={imageRef}
-            x={50}
-            y={50}
+            x={position.x}
+            y={position.y}
             image={image}
             draggable
+            onDragEnd={(e) => {
+              setPosition({ x: e.target.x(), y: e.target.y() });
+            }}
             filters={[Konva.Filters.Brighten]}
             brightness={brightness}
           />

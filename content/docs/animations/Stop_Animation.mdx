@@ -3,15 +3,15 @@ title: HTML5 Canvas Konva 停止动画教程
 sidebar_label: 停止动画
 hide_table_of_contents: true
 slug: Stop_Animation.html
-description: "学习如何使用 Konva.Animation 上的 start() 和 stop() 方法在 Konva 中启动和停止 canvas 动画。"
+description: "了解如何使用 Konva 中 Konva.Animation 的 start() 和 stop() 方法启动和停止画布动画"
 ---
 
-要使用 Konva 停止动画，我们可以使用 `stop()` 方法。
-要重新启动动画，我们可以再次调用 `start()`。
+要使用 Konva 停止动画，我们可以使用 `stop()` 方法  
+要重新启动动画，我们可以再次调用 `start()`
 
-**说明：** 点击 "Start" 启动动画，点击 "Stop" 停止动画。
+**说明：**点击“Start”开始动画，点击“Stop”停止动画
 
-有关属性和方法的完整列表，请查看 [Konva.Animation 文档](/api/Konva.Animation.html)。
+如需查看完整的属性和方法列表，请参阅 [Konva.Animation 文档](/api/Konva.Animation.html)。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -40,7 +40,7 @@ strokeWidth: 4,
 });
 layer.add(circle);
 
-// 添加按钮
+// add buttons
 const container = document.createElement('div');
 document.body.appendChild(container);
 container.style.position = 'absolute';
@@ -209,4 +209,3 @@ onUnmounted(() => {
 ```
   </TabItem>
 </Tabs>
-```

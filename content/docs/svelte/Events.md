@@ -31,7 +31,7 @@ description: "学习如何使用 Svelte 和 Konva 处理画布形状上的点击
 </Stage>
 ```
 
-欲了解完整的事件列表，请参阅 [on() 方法文档](/api/Konva.Node.html#on)。
+如需查看完整的事件列表，请参阅 [on() 方法文档](/api/Konva.Node.html)。
 
 ## 事件冒泡
 
@@ -49,14 +49,4 @@ function handleClick(e) {
 }
 ```
 
-<iframe 
-  src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/events?file=/src/App.svelte" 
-  style={{
-    width: "100%",
-    height: "800px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden"
-  }}
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+<iframe loading="lazy" src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/events?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

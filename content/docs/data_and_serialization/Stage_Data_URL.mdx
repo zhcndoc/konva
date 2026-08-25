@@ -6,10 +6,7 @@ slug: Stage_Data_URL.html
 description: "使用 JavaScript 对你的 HTML5 Canvas 进行截图，并将其导出为 PNG 或 JPEG。使用 Konva.js 的 toDataURL() 捕获画布内容，生成 base64 图像或可下载文件。"
 ---
 
-要对你的画布进行截图并使用 `Konva` 将其导出为图像，请使用 `toDataURL()`
-方法；对于 `Stage`，它需要一个回调函数（对于其他节点则不需要回调）。
-你可以传入诸如 image/jpeg 之类的 mime type，以及范围在 0 到 1 之间的质量值。
-你还可以捕获特定节点的截图，包括图层、组和形状。
+要使用 `Konva` 对画布进行截图并将其导出为图像，请使用 `toDataURL()` 方法。它会直接为每种节点类型返回数据 URL，包括 `Stage`。你可以传入 image/jpeg 等 MIME 类型，以及范围介于 0 和 1 之间的质量值。你还可以捕获特定节点的屏幕截图，包括图层、组和形状。
 
 *注意：`toDataURL()` 方法要求绘制到画布上的任何图像都托管在与执行代码相同域的 web 服务器上。如果未满足此条件，将抛出 SECURITY_ERR 异常。*
 

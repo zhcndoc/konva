@@ -2,18 +2,19 @@
 title: Konva.Util
 sidebar_label: Util
 slug: /api/Konva.Util.html
+description: "Konva.js 的 Konva.Util 命名空间参考：用于在 HTML5 Canvas 上使用 Util 的属性、方法和配置"
 
 ---
 
 # Util
 
-## Own Methods
+## 自有方法
 
 ### getRandomColor() {#getRandomColor}
 
-return random hex color
+返回随机十六进制颜色
 
-**Example:**
+**示例：**
 
 ```javascript
 shape.fill(Konva.Util.getRandomColor());
@@ -21,47 +22,47 @@ shape.fill(Konva.Util.getRandomColor());
 
 ### isCanvasFarblingActive() {#isCanvasFarblingActive}
 
-Check if canvas farbling is active (e.g., Brave browser fingerprinting protection)
+检查 canvas farbling 是否处于活动状态（例如 Brave 浏览器的指纹保护）
 
-**Returns:** `Boolean` 
+**返回值：** `Boolean` 
 
 ### getHitColor() {#getHitColor}
 
-Get a random color for hit detection (normalized if farbling is active)
+获取用于命中检测的随机颜色（如果 canvas farbling 处于活动状态，则进行标准化）
 
-**Returns:** `String` <code>hex color string</code>
+**返回值：** `String` <code>十六进制颜色字符串</code>
 
 ### getHitColorKey(r, g, b) {#getHitColorKey}
 
-Get hit color key from RGB values (normalized if farbling is active)
+根据 RGB 值获取命中颜色键（如果 canvas farbling 处于活动状态，则进行标准化）
 
-**Parameters:**
+**参数：**
 
-- `r` (Number): red component (0-255)
-- `g` (Number): green component (0-255)
-- `b` (Number): blue component (0-255)
+- `r`（Number）：红色分量（0-255）
+- `g`（Number）：绿色分量（0-255）
+- `b`（Number）：蓝色分量（0-255）
 
-**Returns:** `String` <code>hex color key string</code>
+**返回值：** `String` <code>十六进制颜色键字符串</code>
 
 ### getSnappedHexColor(hex) {#getSnappedHexColor}
 
-Snap hex color values to end with 0 (normalize for canvas farbling)
+将十六进制颜色值调整为以 0 结尾（用于 canvas farbling 的标准化）
 
-**Parameters:**
+**参数：**
 
-- `hex` (String): hex color string (e.g., "#ff00ff")
+- `hex`（String）：十六进制颜色字符串（例如 "#ff00ff"）
 
-**Returns:** `String` <code>normalized hex color string</code>
+**返回值：** `String` <code>标准化的十六进制颜色字符串</code>
 
 ### getRGB(color) {#getRGB}
 
-get RGB components of a color
+获取颜色的 RGB 分量
 
-**Parameters:**
+**参数：**
 
-- `color` (String)
+- `color`（String）
 
-**Example:**
+**示例：**
 
 ```javascript
 // each of the following examples return {r:0, g:0, b:255}
@@ -72,14 +73,14 @@ var rgb = Konva.Util.getRGB('rgb(0,0,255)');
 
 ### haveIntersection(r1, r2) {#haveIntersection}
 
-check intersection of two client rectangles
+检查两个客户端矩形是否相交
 
-**Parameters:**
+**参数：**
 
-- `r1` (Object): \{ x, y, width, height \} client rectangle
-- `r2` (Object): \{ x, y, width, height \} client rectangle
+- `r1`（Object）：\{ x, y, width, height \} 客户端矩形
+- `r2`（Object）：\{ x, y, width, height \} 客户端矩形
 
-**Example:**
+**示例：**
 
 ```javascript
 const overlapping = Konva.Util.haveIntersection(shape1.getClientRect(), shape2.getClientRect());

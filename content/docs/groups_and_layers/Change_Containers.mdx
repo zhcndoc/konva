@@ -3,13 +3,13 @@ title: 将形状移动到另一个容器
 sidebar_label: 更改容器
 hide_table_of_contents: true
 slug: Change_Containers.html
-description: "学习如何使用 moveTo() 方法在 Konva 中的组、图层和容器之间移动形状。"
+description: "了解如何使用 moveTo() 方法在 Konva 中的组、图层和容器之间移动形状。"
 ---
 
-要在 Konva 中将形状从一个容器移动到另一个容器，我们可以使用 `moveTo()` 方法，该方法需要一个容器作为参数。
-容器可以是另一个舞台、图层或组。您也可以将组移动到其他组和图层中，或者将形状从组直接移动到其他图层中。
+要使用 Konva 将形状从一个容器移动到另一个容器，我们可以使用 `moveTo()` 方法，该方法需要一个容器作为参数。
+容器可以是另一个舞台、图层或组。你也可以将组移动到其他组和图层中，或将组中的形状直接移动到其他图层中。
 
-**说明：拖放组并观察红色矩形是绑定到黄色组还是蓝色组。使用左侧的按钮将框从一个组移动到另一个组。**
+**说明：拖放这些组，并观察红色矩形绑定到黄色组还是蓝色组。使用左侧的按钮将方框从一个组移动到另一个组。**
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -30,7 +30,7 @@ height: height,
 
 const layer = new Konva.Layer();
 
-// 黄色组
+// yellow group
 const group1 = new Konva.Group({
 x: 50,
 y: 50,
@@ -46,7 +46,7 @@ strokeWidth: 4,
 });
 group1.add(yellow);
 
-// 蓝色组
+// blue group
 const group2 = new Konva.Group({
 x: 200,
 y: 50,
@@ -62,7 +62,7 @@ strokeWidth: 4,
 });
 group2.add(blue);
 
-// 红色方块
+// red box
 const redBox = new Konva.Rect({
 x: 10,
 y: 10,
@@ -76,15 +76,15 @@ layer.add(group1);
 layer.add(group2);
 stage.add(layer);
 
-// 创建按钮
+// create buttons
 const moveToGroup1Btn = document.createElement('button');
-moveToGroup1Btn.textContent = '移动到黄色组';
+moveToGroup1Btn.textContent = 'Move to yellow group';
 moveToGroup1Btn.addEventListener('click', () => {
 redBox.moveTo(group1);
 });
 
 const moveToGroup2Btn = document.createElement('button');
-moveToGroup2Btn.textContent = '移动到蓝色组';
+moveToGroup2Btn.textContent = 'Move to blue group';
 moveToGroup2Btn.addEventListener('click', () => {
 redBox.moveTo(group2);
 });
@@ -101,18 +101,34 @@ import { useState } from 'react';
 
 const App = () => {
   const [redBoxGroup, setRedBoxGroup] = useState('yellow');
+  const [groupPositions, setGroupPositions] = useState({
+    yellow: { x: 50, y: 50 },
+    blue: { x: 200, y: 50 },
+  });
+
+  const handleDragEnd = (group, e) => {
+    setGroupPositions((positions) => ({
+      ...positions,
+      [group]: { x: e.target.x(), y: e.target.y() },
+    }));
+  };
 
   return (
     <>
       <button onClick={() => setRedBoxGroup('yellow')}>
-        移动到黄色组
+        Move to yellow group
       </button>
       <button onClick={() => setRedBoxGroup('blue')}>
-        移动到蓝色组
+        Move to blue group
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Group x={50} y={50} draggable>
+          <Group
+            x={groupPositions.yellow.x}
+            y={groupPositions.yellow.y}
+            draggable
+            onDragEnd={(e) => handleDragEnd('yellow', e)}
+          >
             <Rect
               width={100}
               height={100}
@@ -124,7 +140,12 @@ const App = () => {
               <Rect x={10} y={10} width={30} height={30} fill="red" />
             )}
           </Group>
-          <Group x={200} y={50} draggable>
+          <Group
+            x={groupPositions.blue.x}
+            y={groupPositions.blue.y}
+            draggable
+            onDragEnd={(e) => handleDragEnd('blue', e)}
+          >
             <Rect
               width={100}
               height={100}
@@ -150,8 +171,8 @@ export default App;
 ```js live vue
 <template>
   <div>
-    <button @click="moveToYellow">移动到黄色组</button>
-    <button @click="moveToBlue">移动到蓝色组</button>
+    <button @click="moveToYellow">Move to yellow group</button>
+    <button @click="moveToBlue">Move to blue group</button>
     <v-stage :config="stageSize">
       <v-layer>
         <v-group :config="yellowGroupConfig">
@@ -225,4 +246,3 @@ const moveToBlue = () => {
 ```
   </TabItem>
 </Tabs>
-```

@@ -6,10 +6,10 @@ slug: Save_Load.html
 description: "学习如何通过序列化您的应用状态而不是 Konva 内部内容，在 Svelte 中配合 Konva 保存和加载画布状态。"
 ---
 
-原生 Konva 具有特殊机制，可以使用 `node.toJSON()` 和 `node.create(json)` 函数保存/加载整个画布舞台 [(查看演示)](/docs/data_and_serialization/Simple_Load.html)。
+原生 Konva 可以使用 `node.toJSON()` 序列化节点树及其可序列化属性。可以使用 `Konva.Node.create(json)` [（参见演示）](/docs/data_and_serialization/Simple_Load.html) 恢复它们。图像、事件处理程序和自定义绘制函数需要单独恢复。
 
-在使用 svelte-konva 时，不推荐使用这种方法。在 svelte-konva 中，您应该保存应用程序的状态，这也类似于所需的完整舞台数据。因此不需要保存任何 Konva 内部内容和节点。
+使用 svelte-konva 时，应保存应用状态。状态必须包含 stage 所需的数据。不要保存 Konva 内部内容和节点。
 
-演示将数据作为 JSON 保存和从 localstorage 检索，但您可以自由使用任何您喜欢的保存方式。
+该演示会将 JSON 数据保存到 `localStorage` 并从中读取。您也可以使用其他存储方式。
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/save_load?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe loading="lazy" src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/save_load?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

@@ -10,48 +10,61 @@ description: "react-konva 是一个用于使用 React 组件绘制 2D 图形的 
   <img src="https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png" alt="React Konva 标志 — React 画布库"/>
 </div>
 
-`react-konva` 是最受欢迎的用于绘制复杂 2D 图形的 React 画布库。它为 [Konva Framework](https://konvajs.org/) 提供声明式和响应式绑定，让你能够使用熟悉的 React 组件和数据流构建交互式画布应用程序。
+`react-konva` 是一个用于绘制复杂 2D 图形的 React 画布库。它为 [Konva Framework](https://konvajs.org/) 提供声明式绑定。你可以使用熟悉的 React 组件和数据流。
 
-[Github 仓库](https://github.com/lavrton/react-konva)
+[GitHub repository](https://github.com/konvajs/react-konva)
 
 使用 react-konva，你编写画布图形的方式与编写 React DOM 相同——使用 JSX 组件、props、state 和 hooks。每一种 Konva 图形（Rect、Circle、Line、Text、Image、Star 等）都可以作为 React 组件使用，并完整支持事件。
 
-**注意：`react-konva` 仅在浏览器中工作，不支持 React Native。**
+**注意：`react-konva` 仅在浏览器中运行，不支持 React Native。** React Native 没有 DOM，也没有 `<canvas>` 元素，因此 Konva 没有可供绘制的目标。如果你已经在 Web 上拥有一个 Konva 编辑器，那么将它运行在 [WebView](https://github.com/react-native-webview/react-native-webview) 中是一个实用的选择。对于新的原生应用，请使用 [React Native Skia](https://shopify.github.io/react-native-skia/)。
 
-你可以在 [konvajs.org](https://konvajs.org/) 上找到数十个交互式演示——Konva 能做的一切，react-konva 都能通过 React 实现。可以这样理解：`Konva` 之于 `react-konva`，就像 `DOM` 之于 `React`。
+你可以在 [konvajs.org](https://konvajs.org/) 上找到几十个交互式演示。浏览器场景图功能可以通过 React 组件或 Konva 节点 refs 使用。对于 Node.js 渲染，请直接使用 Konva。可以这样理解：`Konva` 之于 `react-konva`，就像 `DOM` 之于 `React`。
 
 ## 安装
 
+`react-konva` 的主版本必须与 React 的主版本匹配。对于 React 19，请安装当前的软件包：
+
 ```bash
-npm install react-konva konva --save
+npm install react-konva konva
+```
+
+对于 React 18，请安装 `react-konva` 18：
+
+```bash
+npm install react-konva@18 konva
 ```
 
 下面是一个基本示例，展示如何创建一个简单的画布和一些形状：
 
 ```js live react
-import React from 'react';
+import React, { useState } from 'react';
 import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 20, y: 50 });
+  const [circlePosition, setCirclePosition] = useState({ x: 200, y: 100 });
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text text="试着拖动形状" fontSize={15} />
         <Rect
-          x={20}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={100}
           fill="red"
           shadowBlur={10}
           draggable
+          onDragEnd={(e) => setRectPosition(e.target.position())}
         />
         <Circle
-          x={200}
-          y={100}
+          x={circlePosition.x}
+          y={circlePosition.y}
           radius={50}
           fill="green"
           draggable
+          onDragEnd={(e) => setCirclePosition(e.target.position())}
         />
       </Layer>
     </Stage>
@@ -60,3 +73,15 @@ const App = () => {
 
 export default App;
 ```
+
+## 使用 react-konva 构建的应用
+
+大多数生产级画布应用都可以归入几种类型。下面的每个演示都可以运行，其中一些还会并排展示原生版本和 Vue 版本：
+
+- [设计编辑器](/docs/sandbox/Canvas_Editor.html) — 选择、调整大小的控制柄、历史记录和图像导出
+- [无限画布白板](/docs/sandbox/Infinite_Canvas.html) — 使用稳定坐标进行平移和缩放
+- [节点编辑器](/docs/sandbox/Connected_Objects.html) — 带有实时连线的可拖动节点
+- [图像标注工具](/docs/sandbox/Image_Labeling.html) — 在图像上绘制结构化区域
+- [平面图](/docs/sandbox/Interactive_Building_Map.html) 和 [座位预订图](/docs/sandbox/Seats_Reservation.html) — 大规模交互式几何图形
+- [图像编辑器](/docs/sandbox/Canvas_Crop_Image.html) — 变换和高分辨率导出
+- [多人白板](/docs/sandbox/Multiplayer_Whiteboard.html) — 通过 Yjs 共享状态

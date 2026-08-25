@@ -8,10 +8,10 @@ description: "学习如何通过将应用状态序列化到 localStorage 来在 
 
 ## 如何用 Vue 序列化和反序列化 Konva 舞台？
 
-纯 `Konva` 提供了一种特殊机制，可以使用 `node.toJSON()` 和 `Node.create(json)` 函数保存/加载整个画布舞台。
-[查看示例](/docs/data_and_serialization/Simple_Load.html)。
+Pure Konva 可以通过 `node.toJSON()` 序列化节点树及其可序列化属性。它可以通过 `Konva.Node.create(json)` 还原这些内容。请分别还原图像、事件处理器和自定义绘图函数。
+[查看演示](/docs/data_and_serialization/Simple_Load.html)。
 
-然而，对于 `vue-konva`，我们建议在 Vue 组件中定义你的应用状态。状态通过模板映射到节点。要保存/加载整个舞台，你只需保存/加载你的应用状态。**你无需保存 Konva 内部细节和节点信息**。
+使用 `vue-konva`，在 Vue 组件中定义应用状态。状态通过模板映射到节点。保存和加载应用状态，而不是 Konva 内部结构和节点。
 
 操作指南：点击画布创建圆形。重新加载页面后，圆形应当会保持存在。
 
@@ -70,5 +70,5 @@ const save = () => {
 onMounted(() => {
   load();
 });
-</script>
+</script> 
 ```

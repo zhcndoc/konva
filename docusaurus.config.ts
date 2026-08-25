@@ -1,6 +1,11 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import { existsSync } from 'node:fs';
+
+const hasChineseTranslation = existsSync(
+  new URL('./i18n/zh-Hans/', import.meta.url)
+);
 
 const config: Config = {
   title: 'Konva 中文文档 - JavaScript 2D 画布库',
@@ -8,7 +13,6 @@ const config: Config = {
   tagline:
     '您的 Vanilla/React/Vue/Svelte/Angular 应用与画布图形之间的终极桥梁',
   favicon: 'img/favicon.ico',
-  themes: ['./src/theme-live-codeblock'],
 
   // Set the production url of your site here
   url: 'https://konva.zhcndoc.com',
@@ -21,16 +25,23 @@ const config: Config = {
   organizationName: 'konvajs', // Usually your GitHub org/user name.
   projectName: 'konva', // Usually your repo name.
 
-  // TODO: change to 'throw'
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+  onBrokenAnchors: 'throw',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
+  },
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: hasChineseTranslation ? ['en', 'zh-Hans'] : ['en'],
+    localeConfigs: {
+      en: {label: 'English'},
+      ...(hasChineseTranslation
+        ? {'zh-Hans': {label: '简体中文'}}
+        : {}),
+    },
   },
 
   scripts: [
@@ -38,23 +49,29 @@ const config: Config = {
       src: 'https://www.zhcndoc.com/js/common.js',
       async: true,
     },
-    // {
-    //   src: 'https://cdn.convertbox.com/convertbox/js/embed.js',
-    //   id: 'app-convertbox-script',
-    //   async: true,
-    //   'data-uuid': 'db9e320b-6d6c-49c4-ba5c-b29e6d5fc91c',
-    // },
-    // {
-    //   src: 'https://crawlchat.app/embed.js',
-    //   id: 'crawlchat-script',
-    //   'data-id': '67d221efb4b9de65095a2579',
-    //   'data-ask-ai': 'true',
-    //   'data-ask-ai-background-color': 'rgba(5, 132, 206, 1)',
-    //   'data-ask-ai-color': '#ffffff',
-    //   'data-ask-ai-text': 'Ask AI',
-    //   'data-ask-ai-position': 'br',
-    //   'data-ask-ai-radius': '20px',
-    // },
+    {
+      src: '/js/plausible-events.js',
+      defer: true,
+    },
+    {
+      src: '/js/convertbox-loader.js',
+      id: 'convertbox-loader',
+      defer: true,
+      'data-src': 'https://cdn.convertbox.com/convertbox/js/embed.js',
+      'data-uuid': 'db9e320b-6d6c-49c4-ba5c-b29e6d5fc91c',
+    },
+    {
+      src: 'https://crawlchat.app/embed.js',
+      id: 'crawlchat-script',
+      async: true,
+      'data-id': '67d221efb4b9de65095a2579',
+      'data-ask-ai': 'true',
+      'data-ask-ai-background-color': 'rgba(5, 132, 206, 1)',
+      'data-ask-ai-color': '#ffffff',
+      'data-ask-ai-text': '询问 AI',
+      'data-ask-ai-position': 'br',
+      'data-ask-ai-radius': '20px',
+    },
   ],
 
   presets: [
@@ -68,20 +85,16 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: 'https://github.com/zhcndoc/konva/tree/main/',
+          editLocalizedFiles: true,
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/zhcndoc/konva/tree/main/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
+        blog: false,
+        sitemap: {
+          ignorePatterns: [
+            '/search',
+            ...(hasChineseTranslation
+              ? ['/zh-Hans/search', '/zh-Hans/api/**']
+              : []),
+          ],
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -102,7 +115,7 @@ const config: Config = {
         operatingSystem: 'Web Browser, Node.js',
         url: 'https://konvajs.org',
         downloadUrl: 'https://www.npmjs.com/package/konva',
-        license: 'https://opensource.org/licenses/MIT',
+        license: 'https://opensource.org/license/MIT',
         programmingLanguage: ['JavaScript', 'TypeScript'],
         author: {
           '@type': 'Person',
@@ -110,7 +123,7 @@ const config: Config = {
           url: 'https://lavrton.com',
         },
         description:
-          'Konva.js is an HTML5 Canvas JavaScript framework that enables high-performance 2D graphics with an object-oriented API. Supports shapes, animations, events, drag-and-drop, filters, and integrations for React, Vue, Svelte, and Angular.',
+          'Konva.js 是一个 HTML5 Canvas JavaScript 框架，通过面向对象的 API 实现高性能 2D 图形。支持图形、动画、事件、拖放、滤镜，以及 React、Vue、Svelte 和 Angular 集成。',
         offers: {
           '@type': 'Offer',
           price: '0',
@@ -143,7 +156,7 @@ const config: Config = {
       {
         name: 'keywords',
         content:
-          'konva, konvajs, html5 canvas, javascript canvas library, react canvas, vue canvas, svelte canvas, angular canvas, 2d graphics, canvas framework, drag and drop canvas, canvas animation, canvas drawing',
+          'konva, konvajs, html5 canvas, JavaScript Canvas 库, React Canvas, Vue Canvas, Svelte Canvas, Angular Canvas, 2D 图形, Canvas 框架, Canvas 拖放, Canvas 动画, Canvas 绘图',
       },
       { name: 'author', content: 'Anton Lavrenov' },
       { property: 'og:type', content: 'website' },
@@ -252,7 +265,7 @@ const config: Config = {
               to: '/docs/faq.html',
             },
             {
-              label: 'About Konva',
+              label: '关于 Konva',
               to: '/docs/about.html',
             },
           ],
@@ -273,8 +286,12 @@ const config: Config = {
               href: 'https://twitter.com/lavrton',
             },
             {
-              label: 'Changelog',
+              label: '更新日志',
               href: 'https://github.com/konvajs/konva/blob/master/CHANGELOG.md',
+            },
+            {
+              label: '在 GitHub 上为 Konva 点星',
+              href: 'https://github.com/konvajs/konva',
             },
           ],
         },
@@ -283,28 +300,29 @@ const config: Config = {
           items: [
             {
               label: 'React',
-              href: '/docs/react/index.html',
+              to: '/docs/react/index.html',
             },
             {
               label: 'Vue',
-              href: '/docs/vue/index.html',
+              to: '/docs/vue/index.html',
             },
             {
               label: 'Svelte',
-              href: '/docs/svelte/index.html',
+              to: '/docs/svelte/index.html',
             },
             {
               label: 'Angular',
-              href: '/docs/angular/index.html',
+              to: '/docs/angular/index.html',
             },
           ],
         },
         {
-          title: 'Products',
+          title: '产品',
           items: [
             {
-              label: 'Design Editor SDK',
-              href: 'https://polotno.com',
+              label: '设计编辑器 SDK',
+              href:
+                'https://polotno.com/?utm_source=konvajs&utm_medium=footer&utm_content=footer-link',
             },
           ],
         },

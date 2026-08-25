@@ -10,7 +10,7 @@ description: "通过使用 gifler 库解析帧并通过 Konva 渲染，在 HTML5
 
 你不能直接将 GIF 图像插入到画布中。但我们可以使用外部库来解析 GIF，然后将其作为 `Konva.Image` 形状绘制到图层中。
 
-在这个演示中，我们将使用 [gifler](http://themadcreator.github.io/gifler/) 来解析和绘制 GIF。你可以使用任何其他库。
+此演示使用 [gifler](https://themadcreator.github.io/gifler/) 来解析和绘制 GIF。你也可以使用其他库。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -165,4 +165,4 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 
-说明：该演示展示了使用 gifler 库在画布上呈现的动画 GIF。GIF 被解析，并且每一帧都绘制到画布上，然后该画布被用作 Konva.Image 形状的源。
+说明：该演示展示了使用 gifler 库在画布上渲染动画 GIF。GIF 会被解析，并将每一帧绘制到画布上，然后将该画布用作 Konva.Image 图形的源。
